@@ -1,0 +1,1384 @@
+{
+  "name": "FIN - Processar regra faturamento mensal (corrigido anti-loop)",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "849d2955-f0fb-47ab-9cce-58274c4d1225",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -3360,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst input=($json && typeof $json==='object' && !Array.isArray($json)) ? $json : {};\nconst incomingRun=(input.runContext && typeof input.runContext==='object' && !Array.isArray(input.runContext)) ? input.runContext : {};\nconst ruleContext=(input.ruleContext && typeof input.ruleContext==='object' && !Array.isArray(input.ruleContext))\n  ? input.ruleContext\n  : ((input.rule && typeof input.rule==='object' && !Array.isArray(input.rule)) ? input.rule : (input || {}));\nconst incomingTrace=(input.trace && typeof input.trace==='object' && !Array.isArray(input.trace)) ? input.trace : {};\n\nconst METRICS_DEFAULTS={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0};\nconst CFG={\n  invoicePipeId:306859731,\n  invoicePhaseId:341350484,\n  itemPipeId:306859915,\n  itemPhaseId:341351580,\n  activeItemPhaseId:'341306826',\n  ruleLinkFieldId:'id_da_regra_de_faturamento',\n  competenciaFieldId:'data_de_compet_ncia'\n};\n\nconst assertPositiveInt=(value,name)=>{\n  const n=Number(value);\n  if(!Number.isInteger(n) || n<=0){\n    throw new Error('Config hardcoded invalida: '+name);\n  }\n  return n;\n};\nassertPositiveInt(CFG.invoicePipeId,'invoicePipeId');\nassertPositiveInt(CFG.invoicePhaseId,'invoicePhaseId');\nassertPositiveInt(CFG.itemPipeId,'itemPipeId');\nassertPositiveInt(CFG.itemPhaseId,'itemPhaseId');\nif(!String(CFG.activeItemPhaseId||'').trim()){\n  throw new Error('Config hardcoded invalida: activeItemPhaseId');\n}\n\nconst toFiniteNumber=(v,fallback)=>{\n  const n=Number(v);\n  return Number.isFinite(n) ? n : fallback;\n};\nconst cleanToken=(value)=>{\n  if(value===undefined || value===null) return '';\n  return String(value).trim();\n};\nconst isBlankToken=(value)=>{\n  const s=cleanToken(value).toLowerCase();\n  return s==='' || s==='null' || s==='undefined' || s==='nan';\n};\nconst isIsoDate=(value)=>/^\\d{4}-\\d{2}-\\d{2}$/.test(cleanToken(value));\n\nsd.procRuns=(sd.procRuns && typeof sd.procRuns==='object' && !Array.isArray(sd.procRuns)) ? sd.procRuns : {};\nfor(const [key,state] of Object.entries(sd.procRuns)){\n  const startedAt=state?.ruleTmp?.startedAt || state?.createdAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.procRuns[key];\n  }\n}\n\nconst run={...incomingRun};\nrun.metrics=(run.metrics && typeof run.metrics==='object' && !Array.isArray(run.metrics)) ? run.metrics : {};\nfor(const [k,v] of Object.entries(METRICS_DEFAULTS)){\n  run.metrics[k]=toFiniteNumber(run.metrics[k],v);\n}\nrun.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0);\nrun.logs=Array.isArray(run.logs) ? run.logs : [];\nrun.errors=Array.isArray(run.errors) ? run.errors : [];\n\nconst startedAt=new Date().toISOString();\nconst baseLogs=run.logs.slice();\nconst baseErrors=run.errors.slice();\nconst isPrepSummary=input.itemType==='prep_summary' || input.kind==='prep_summary' || input.prepSummary===true;\nconst rawRuleId=isPrepSummary ? '__prep_summary__' : (ruleContext.ruleId ?? ruleContext.id ?? null);\nconst normalizedRuleId=cleanToken(rawRuleId);\nconst procKey=[execId,(normalizedRuleId||'__no_rule__'),String(Date.now()),String(Math.floor(Math.random()*1e9))].join(':');\n\nconst trace={\n  parentExecutionId: incomingTrace.parentExecutionId!=null\n    ? String(incomingTrace.parentExecutionId)\n    : (run.executionId!=null ? String(run.executionId) : null),\n  workflowExecutionId: execId,\n  procKey\n};\n\nconst rt={\n  kind:isPrepSummary ? 'prep_summary' : 'rule_result',\n  isPrepSummary,\n  ruleId:normalizedRuleId,\n  procKey,\n  inputTrace:trace,\n  ruleTitle:String(ruleContext.ruleTitle||ruleContext.title||''),\n  diaGeracao:String(ruleContext.diaGeracao||''),\n  competenciaYMD:String(ruleContext.competenciaYMD||run.competenciaYMD||''),\n  compStart:String(ruleContext.compStart||run.compStart||''),\n  compEnd:String(ruleContext.compEnd||run.compEnd||''),\n  itemTemplateIds:isPrepSummary ? [] : (Array.isArray(ruleContext.itemTemplateIds)?ruleContext.itemTemplateIds.map((x)=>String(x)):[]),\n  ruleFields:ruleContext.ruleFields||{},\n  prefetchDecision:String(ruleContext.prefetchDecision||'new_rule_candidate'),\n  items:[],\n  eligibleItems:[],\n  createdItemIds:[],\n  invoiceId:null,\n  existingInvoiceId:null,\n  totals:{brl:0,usd:0},\n  skipItemCreation:false,\n  hasItemErrors:false,\n  hasCriticalItemErrors:false,\n  hasInvoiceError:false,\n  finalStatus:isPrepSummary ? 'prep_summary' : null,\n  statusReason:isPrepSummary ? 'prep_summary_context_item' : null,\n  validationErrors:[],\n  invoiceCreationCounted:false,\n  prepContext:(input.result && typeof input.result==='object' && !Array.isArray(input.result) && input.result.prepContext && typeof input.result.prepContext==='object')\n    ? input.result.prepContext\n    : ((input.prepContext && typeof input.prepContext==='object' && !Array.isArray(input.prepContext)) ? input.prepContext : null),\n  baseMetrics:{...run.metrics},\n  baseLogs,\n  baseErrors,\n  logStartIndex:run.logs.length,\n  errorStartIndex:run.errors.length,\n  startedAt,\n  config:CFG,\n  createContext:null\n};\n\nrun.logs.push({\n  ts:startedAt,\n  level:'info',\n  event:'rule_start',\n  ruleId:isBlankToken(rt.ruleId)?null:rt.ruleId,\n  kind:rt.kind,\n  itemsPlanned:rt.itemTemplateIds.length,\n  prefetchDecision:rt.prefetchDecision,\n  hasValidationErrors:false,\n  contractVersion:'fin_v2'\n});\n\nif(isPrepSummary){\n  run.logs.push({\n    ts:startedAt,\n    level:'info',\n    event:'prep_summary_received',\n    ruleId:rt.ruleId,\n    prepContext:rt.prepContext\n  });\n  const storedState={run,ruleTmp:rt,createdAt:startedAt};\n  sd.procRuns[procKey]=storedState;\n  sd.procRuns[execId]=storedState;\n  return [{json:{\n    contractVersion:'fin_v2',\n    itemType:'prep_summary',\n    trace,\n    runContext:run,\n    ruleContext:null,\n    result:{status:'processed',reason:'prep_summary_context_item'},\n    rule:ruleContext,\n    procKey,\n    prepSummary:true,\n    invoiceId:null,\n    invoiceCreated:false\n  }}];\n}\n\nconst validationErrors=[];\nif(isBlankToken(rt.ruleId)){\n  validationErrors.push('missing_rule_id');\n}\nif(!isIsoDate(rt.competenciaYMD)){\n  validationErrors.push('invalid_competencia_ymd');\n}\nif(!isIsoDate(rt.compStart)){\n  validationErrors.push('invalid_comp_start');\n}\nif(!isIsoDate(rt.compEnd)){\n  validationErrors.push('invalid_comp_end');\n}\nif(isIsoDate(rt.compStart) && isIsoDate(rt.compEnd) && rt.compStart > rt.compEnd){\n  validationErrors.push('comp_start_after_comp_end');\n}\n\nif(!Array.isArray(ruleContext.itemTemplateIds)){\n  run.logs.push({\n    ts:startedAt,\n    level:'warn',\n    event:'rule_item_template_ids_normalized',\n    ruleId:isBlankToken(rt.ruleId)?null:rt.ruleId,\n    reason:'itemTemplateIds_not_array'\n  });\n}\n\nif(validationErrors.length>0){\n  rt.validationErrors=validationErrors;\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  rt.finalStatus='invoice_error';\n  rt.statusReason='invalid_rule_input';\n  rt.itemTemplateIds=[];\n\n  run.metrics.unexpectedStateErrors += 1;\n  run.errors.push({\n    ts:startedAt,\n    stage:'rule_init_validation',\n    ruleId:isBlankToken(rt.ruleId)?null:rt.ruleId,\n    reason:'invalid_rule_input',\n    trace,\n    details:{\n      validationErrors,\n      rulePreview:{\n        ruleId:rawRuleId ?? null,\n        competenciaYMD:rt.competenciaYMD,\n        compStart:rt.compStart,\n        compEnd:rt.compEnd,\n        itemTemplateIdsCount:Array.isArray(ruleContext.itemTemplateIds)?ruleContext.itemTemplateIds.length:null\n      }\n    }\n  });\n  run.logs.push({\n    ts:startedAt,\n    level:'error',\n    event:'rule_invalid_input',\n    ruleId:isBlankToken(rt.ruleId)?null:rt.ruleId,\n    reasons:validationErrors\n  });\n}\n\nconst storedState={run,ruleTmp:rt,createdAt:startedAt};\nsd.procRuns[procKey]=storedState;\nsd.procRuns[execId]=storedState;\nreturn [{json:{\n  contractVersion:'fin_v2',\n  itemType:'rule_candidate',\n  trace,\n  runContext:run,\n  ruleContext,\n  result:{status:'processed',reason:'ready_for_processing'},\n  rule:ruleContext,\n  procKey,\n  invoiceId:null,\n  invoiceCreated:false\n}}];"
+      },
+      "id": "76321c58-30c2-445b-9284-c5ae38c12f78",
+      "name": "Rule: Init",
+      "position": [
+        -3136,
+        2240
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "9e0b5a1e-6ad9-4e39-a4e8-0f55d7c6ab35",
+              "leftValue": "={{ Array.isArray($json.rule?.itemTemplateIds) && $json.rule.itemTemplateIds.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "26bed350-ee9a-45b5-8841-af386c65ffc3",
+      "name": "Rule: Tem itens?",
+      "position": [
+        -2912,
+        2240
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,skipRule:true,reason:'missing_processing_state',missingProcessingState:true,missingProcessingStateAt:'Rule: Skip (sem itens)',procKey,executionId:execId,nodeName:'Rule: Skip (sem itens)'}}];\n}\nconst rt=state.ruleTmp;\nconst run=state.run;\n\nlet reason='no_item_template_ids';\nif(rt){\n  if(rt.isPrepSummary===true){\n    rt.finalStatus='prep_summary';\n    rt.statusReason='prep_summary_context_item';\n    reason='prep_summary_context_item';\n  }else if(rt.finalStatus==='invoice_error'){\n    reason='blocked_by_validation_or_precheck_error';\n  }else{\n    rt.finalStatus='skipped_no_items';\n    rt.statusReason='rule_has_no_item_templates';\n  }\n}\n\nrun.logs.push({\n  ts:new Date().toISOString(),\n  level:(reason==='blocked_by_validation_or_precheck_error' ? 'warn' : 'info'),\n  event:'rule_skip_no_items',\n  ruleId:rt?rt.ruleId:null,\n  reason,\n  validationErrors:(rt && Array.isArray(rt.validationErrors)) ? rt.validationErrors : []\n});\n\nreturn [{json:$json}];"
+      },
+      "id": "353901b4-048d-4475-8ddc-766801d7bff1",
+      "name": "Rule: Skip (sem itens)",
+      "position": [
+        672,
+        2352
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [];\n}\nconst rt=state.ruleTmp;\nconst run=state.run;\nconst chunkSize=20;\nconst ids=Array.isArray(rt?.itemTemplateIds)?rt.itemTemplateIds:[];\nrt.items=[];\nconst chunks=[];\nfor(let i=0;i<ids.length;i+=chunkSize){\n  chunks.push(ids.slice(i,i+chunkSize));\n}\nrun.logs.push({ts:new Date().toISOString(),level:'info',event:'rule_chunkify',ruleId:rt?rt.ruleId:null,chunks:chunks.length,chunkSize});\nreturn chunks.map((c,idx)=>({json:{procKey,chunkIds:c,chunkIndex:idx+1,chunkTotal:chunks.length}}));"
+      },
+      "id": "1002c03b-67da-4c10-924a-fe572a66730d",
+      "name": "Rule: Chunk IDs",
+      "position": [
+        -2688,
+        2096
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "368c7555-50d8-4bf1-a0c3-acb1f69b7331",
+      "name": "Loop chunks",
+      "position": [
+        -2464,
+        2096
+      ],
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17eaa627-33a8-44f9-8098-87b06167ffc4",
+              "name": "query",
+              "type": "string",
+              "value": "={{ (() => { const ids=$json.chunkIds||[]; if(!Array.isArray(ids) || ids.length===0){ throw new Error('Chunk vazio: chunkIds sem IDs (evita chamada GraphQL)'); } const vars={}; const parts=[]; for(let i=0;i<ids.length;i++){ vars['id'+i]=String(ids[i]); parts.push(`c${i}: card(id: $id${i}) { id title current_phase { id name } fields { field { id label type } value report_value array_value } }`); } const decl=Object.keys(vars).map(k=>`$${k}: ID!`).join(', '); return `query CardsBatch(${decl}) { ${parts.join(' ')} }`; })() }}"
+            },
+            {
+              "id": "98023419-c395-4be1-b058-886d6632115c",
+              "name": "variables",
+              "type": "json",
+              "value": "={{ (() => { const ids=$json.chunkIds||[]; if(!Array.isArray(ids) || ids.length===0){ return {}; } const vars={}; for(let i=0;i<ids.length;i++){ vars['id'+i]=String(ids[i]); } return vars; })() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "68fd5460-55e0-40c7-9048-51248935de86",
+      "name": "Chunk: Build query",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2240,
+        2096
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "={{ $json.query }}",
+        "variables": "={{ $json.variables }}"
+      },
+      "id": "dc1f62ef-6aac-4e9c-8a6d-d97a99adadaf",
+      "maxTries": 5,
+      "name": "FIN-02: Fetch itens (batch)",
+      "position": [
+        -2016,
+        2096
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [];\n}\nconst rt=state.ruleTmp;\nconst run=state.run;\n\nconst gqlErrors=Array.isArray($json.errors) ? $json.errors : [];\nif(gqlErrors.length>0){\n  run.errors.push({\n    ts:new Date().toISOString(),\n    stage:'fetch_items_batch',\n    ruleId:rt?rt.ruleId:null,\n    details:gqlErrors\n  });\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'error',\n    event:'rule_items_batch_error',\n    ruleId:rt?rt.ruleId:null,\n    errorsCount:gqlErrors.length\n  });\n  throw new Error('Fetch itens (batch) retornou GraphQL errors: '+JSON.stringify(gqlErrors));\n}\n\nif(!$json.data || typeof $json.data!=='object' || Array.isArray($json.data)){\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  run.errors.push({\n    ts:new Date().toISOString(),\n    stage:'fetch_items_batch',\n    ruleId:rt?rt.ruleId:null,\n    details:'invalid_batch_shape'\n  });\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'error',\n    event:'rule_items_batch_invalid_shape',\n    ruleId:rt?rt.ruleId:null,\n    payloadKeys:Object.keys($json||{})\n  });\n  throw new Error('Formato invalido no FIN-02: Fetch itens (batch).');\n}\n\nconst data=$json.data;\nconst cards=[];\nlet missingCount=0;\nfor(const k of Object.keys(data)){\n  const v=data[k];\n  if(v && v.id){\n    cards.push(v);\n  }else{\n    missingCount += 1;\n  }\n}\n\nrt.items.push(...cards);\nrun.metrics.itemBatchQueries=Number(run.metrics.itemBatchQueries || 0) + 1;\nrun.metrics.itemsFetched=Number(run.metrics.itemsFetched || 0) + cards.length;\n\nif(missingCount>0){\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'warn',\n    event:'rule_items_batch_partial_missing',\n    ruleId:rt?rt.ruleId:null,\n    missingCount,\n    totalEntries:Object.keys(data).length\n  });\n}\nif(cards.length===0){\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'warn',\n    event:'rule_items_batch_empty',\n    ruleId:rt?rt.ruleId:null\n  });\n}\n\nrun.logs.push({\n  ts:new Date().toISOString(),\n  level:'info',\n  event:'rule_items_batch_fetched',\n  ruleId:rt?rt.ruleId:null,\n  count:cards.length\n});\n\nreturn [{json:{procKey,ok:true,fetchedCount:cards.length,missingCount}}];"
+      },
+      "id": "a701bb35-bbf3-406c-8d31-32442f896a55",
+      "name": "Chunk: Accumulate itens",
+      "position": [
+        -1792,
+        2208
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,skipRule:true,reason:'missing_processing_state',missingProcessingState:true,missingProcessingStateAt:'Rule: Filtrar itens + montar fatura',procKey,executionId:execId,nodeName:'Rule: Filtrar itens + montar fatura'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst compStart=String(rt.compStart || '');\nconst compEnd=String(rt.compEnd || '');\nconst activePhase=String(rt.config.activeItemPhaseId);\nconst items=Array.isArray(rt.items) ? rt.items : [];\nconst eligible=[];\nconst now=()=>new Date().toISOString();\nconst log=(obj)=>run.logs.push({ts:now(),...obj});\nconst pushError=(details)=>run.errors.push({ts:now(),stage:'filter_items',ruleId:rt?rt.ruleId:null,details});\n\nconst baseItemBatchQueries=Number(rt?.baseMetrics?.itemBatchQueries || 0);\nconst currentItemBatchQueries=Number(run?.metrics?.itemBatchQueries || 0);\nconst batchQueriesDelta=Math.max(0,currentItemBatchQueries-baseItemBatchQueries);\nif(Array.isArray(rt.itemTemplateIds) && rt.itemTemplateIds.length>0 && items.length===0 && batchQueriesDelta===0){\n  rt.finalStatus='invoice_error';\n  rt.statusReason='items_not_fetched_before_filter';\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  pushError({reason:'items_not_fetched_before_filter',itemTemplateIdsCount:rt.itemTemplateIds.length,batchQueriesDelta,baseItemBatchQueries,currentItemBatchQueries});\n  log({\n    level:'error',\n    event:'rule_items_fetch_not_executed_before_filter',\n    ruleId:rt.ruleId,\n    itemTemplateIdsCount:rt.itemTemplateIds.length,\n    batchQueriesDelta,\n    baseItemBatchQueries,\n    currentItemBatchQueries,\n    reason:'possible_split_loop_miswire'\n  });\n  return [{json:{procKey,skipRule:true,reason:'items_not_fetched_before_filter'}}];\n}\nconst isIsoDate=(value)=>/^\\d{4}-\\d{2}-\\d{2}$/.test(String(value||'').slice(0,10));\n\nif(!isIsoDate(compStart) || !isIsoDate(compEnd) || compStart>compEnd){\n  const reason=!isIsoDate(compStart) || !isIsoDate(compEnd) ? 'invalid_competencia_window' : 'comp_start_after_comp_end';\n  rt.finalStatus='invoice_error';\n  rt.statusReason=reason;\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  pushError({reason,compStart,compEnd});\n  log({level:'error',event:'rule_invalid_comp_window',ruleId:rt.ruleId,reason,compStart,compEnd});\n  return [{json:{procKey,skipRule:true,reason}}];\n}\n\nconst fieldMap=(fields)=>{const m={};for(const f of (fields||[])){const fid=f&&f.field?f.field.id:null;if(fid)m[fid]=f;}return m;};\nconst scalar=(f)=>{if(!f)return null;const rv=f.report_value;return (rv!==undefined&&rv!==null&&String(rv).trim()!=='')?rv:f.value;};\nconst parseNum=(v)=>{if(v===undefined||v===null)return 0; if(typeof v==='number'&&Number.isFinite(v))return v; let s=String(v).trim(); if(!s)return 0; s=s.replace(/[^0-9,.-]/g,''); if(!s)return 0; if(s.includes(',')&&s.includes('.')){ if(s.lastIndexOf(',')>s.lastIndexOf('.')){ s=s.replace(/\\./g,'').replace(',','.'); } else { s=s.replace(/,/g,''); } } else if(s.includes(',')){ s=s.replace(',','.'); } const n=Number(s); return Number.isFinite(n)?n:0; };\n\nconst skipCounters={\n  invalidItem:0,\n  inactivePhase:0,\n  notStarted:0,\n  ended:0,\n  parceladoDone:0,\n  parceladoInvalidTotal:0\n};\n\nlet totalBrl=0;\nlet totalUsd=0;\nfor(const c of items){\n  if(!c || !c.id){\n    skipCounters.invalidItem += 1;\n    log({level:'warn',event:'item_skip_invalid_shape',ruleId:rt.ruleId});\n    continue;\n  }\n\n  const templateItemId=String(c.id);\n  const phaseId=c.current_phase&&c.current_phase.id?String(c.current_phase.id):'';\n  if(phaseId!==activePhase){\n    skipCounters.inactivePhase += 1;\n    log({level:'info',event:'item_skip_inactive',ruleId:rt.ruleId,templateItemId,phaseId,expectedPhaseId:activePhase,reason:'phase_not_active'});\n    continue;\n  }\n\n  const fm=fieldMap(c.fields);\n  const start=(scalar(fm['data_de_in_cio_do_faturamento'])||'').toString().slice(0,10);\n  const end=(scalar(fm['data_de_fim_do_faturamento'])||'').toString().slice(0,10);\n  if(start && start>compEnd){\n    skipCounters.notStarted += 1;\n    log({level:'info',event:'item_skip_not_started',ruleId:rt.ruleId,templateItemId,start,compEnd,reason:'billing_start_after_comp_end'});\n    continue;\n  }\n  if(end && end<compStart){\n    skipCounters.ended += 1;\n    log({level:'info',event:'item_skip_ended',ruleId:rt.ruleId,templateItemId,end,compStart,reason:'billing_end_before_comp_start'});\n    continue;\n  }\n\n  const periodicidade=String(scalar(fm['periodicidade'])||'').trim();\n  let parcelado=null;\n  if(periodicidade==='Parcelado'){\n    const pagas=parseInt(String(scalar(fm['parcelas_pagas'])||'0').match(/[0-9]+/)?String(scalar(fm['parcelas_pagas'])).match(/[0-9]+/)[0]:'0',10);\n    const total=parseInt(String(scalar(fm['quantidade_de_parcelas_totais'])||'0').match(/[0-9]+/)?String(scalar(fm['quantidade_de_parcelas_totais'])).match(/[0-9]+/)[0]:'0',10);\n    if(!(total>0)){\n      skipCounters.parceladoInvalidTotal += 1;\n      rt.hasItemErrors=true;\n      rt.hasCriticalItemErrors=true;\n      pushError({reason:'parcelado_invalid_total',templateItemId,pagas,total});\n      log({level:'error',event:'item_skip_parcelado_invalid_total',ruleId:rt.ruleId,templateItemId,pagas,total,reason:'invalid_total_parcelas'});\n      continue;\n    }\n    if(pagas>=total){\n      skipCounters.parceladoDone += 1;\n      log({level:'info',event:'item_skip_parcelado_done',ruleId:rt.ruleId,templateItemId,pagas,total,reason:'all_installments_already_billed'});\n      continue;\n    }\n    parcelado={newParcelasPagas:pagas+1};\n  }\n\n  const currency=String(scalar(fm['moeda_da_fatura'])||'').trim();\n  let brl=0;\n  let usd=0;\n  if(currency.startsWith('USD')){\n    usd=parseNum(scalar(fm['valor_total_do_item_com_descontos_usd'])??scalar(fm['subtotal_do_item_usd']));\n  }else if(currency.startsWith('BRL')){\n    brl=parseNum(scalar(fm['valor_total_do_item_com_descontos_brl'])??scalar(fm['subtotal_do_item_brl']));\n  }else{\n    brl=parseNum(scalar(fm['valor_total_do_item_com_descontos_brl'])??scalar(fm['subtotal_do_item_brl']));\n    usd=parseNum(scalar(fm['valor_total_do_item_com_descontos_usd'])??scalar(fm['subtotal_do_item_usd']));\n  }\n\n  totalBrl+=brl;\n  totalUsd+=usd;\n  eligible.push({templateItemId,title:String(c.title||''),fields:c.fields||[],periodicidade,currency,parcelado,totalBrl:brl,totalUsd:usd});\n}\n\nrt.eligibleItems=eligible;\nrt.totals={brl:totalBrl,usd:totalUsd};\nlog({\n  level:'info',\n  event:'rule_items_filtered',\n  ruleId:rt.ruleId,\n  fetched:items.length,\n  eligible:eligible.length,\n  skipCounters\n});\n\nif(eligible.length===0){\n  rt.finalStatus='skipped_no_eligible_items';\n  rt.statusReason='no_eligible_items_after_filters';\n  log({level:'info',event:'rule_skip_no_eligible_items',ruleId:rt.ruleId,reason:'no_eligible_items_after_filters',skipCounters});\n  return [{json:{procKey,skipRule:true,reason:'no_eligible_items'}}];\n}\n\nconst rf=rt.ruleFields||{};\nconst pickScalar=(f)=>{if(!f)return null;const rv=f.report_value;return (rv!==undefined&&rv!==null&&String(rv).trim()!=='')?rv:f.value;};\nconst extractIds=(f)=>{if(!f)return [];const av=f.array_value;const ids=[];const push=(x)=>{if(x===undefined||x===null)return; if(typeof x==='object'){if(x.id!=null)ids.push(String(x.id)); else if(x.value!=null)ids.push(String(x.value)); else if(x.label!=null)ids.push(String(x.label)); else ids.push(JSON.stringify(x));} else ids.push(String(x));}; if(Array.isArray(av)){for(const x of av)push(x);} else {const v=pickScalar(f); if(Array.isArray(v)){for(const x of v)push(x);} else if(typeof v==='string'){const ms=v.match(/[0-9]+/g); if(ms)for(const x of ms)ids.push(String(x)); else if(v.trim()!=='')ids.push(v.trim());} else if(v!=null)push(v);} return Array.from(new Set(ids.filter((s)=>s&&String(s).trim()!==''))).map(String);};\nconst extractList=(f)=>{if(!f)return [];const av=f.array_value;let out=[];if(Array.isArray(av))out=av.map(x=>String(x));else{const v=pickScalar(f);if(Array.isArray(v))out=v.map(x=>String(x));else if(typeof v==='string'){const s=v.trim();if(!s)out=[];else if(s.startsWith('[')){try{const p=JSON.parse(s);if(Array.isArray(p))out=p.map(x=>String(x));else out=[String(p)];}catch(_){out=s.split(',').map(x=>x.trim()).filter(Boolean);}}else out=s.split(',').map(x=>x.trim()).filter(Boolean);}else if(v!=null)out=[String(v)];}return Array.from(new Set(out.filter(Boolean)));};\n\nconst fa=[];\nconst pushField=(fid,val)=>{if(val===undefined||val===null)return; if(Array.isArray(val)&&val.length===0)return; if(typeof val==='string'&&val.trim()==='')return; fa.push({field_id:fid,field_value:val});};\npushField('clientes_na_fatura',extractIds(rf['clientes_na_fatura']));\npushField('rede_na_fatura',extractIds(rf['rede_na_fatura']));\npushField('contatos_que_receber_o_a_fatura',extractIds(rf['contatos_que_receber_o_a_fatura']));\npushField('forma_de_pagamento',extractList(rf['forma_de_pagamento']));\npushField('identificador_fiscal_na_fatura',String(pickScalar(rf['identificador_fiscal_na_fatura'])||''));\npushField('tipo_de_cliente_final',String(pickScalar(rf['tipo_de_cliente_final'])||''));\npushField('moeda_do_teto_de_faturamento',extractList(rf['moeda_do_teto_de_faturamento']));\nconst tetoBrl=parseNum(pickScalar(rf['teto_de_faturamento_brl']));\nconst tetoUsd=parseNum(pickScalar(rf['teto_de_faturamento_usd']));\nif(tetoBrl)pushField('teto_de_faturamento_brl',tetoBrl);\nif(tetoUsd)pushField('teto_de_faturamento_usd',tetoUsd);\npushField('etiquetas',extractList(rf['etiquetas']));\npushField('id_da_regra_de_faturamento',rt.ruleId);\npushField('data_de_compet_ncia',rt.competenciaYMD);\npushField('valor_total_da_fatura_brl',totalBrl);\npushField('valor_total_da_fatura_usd',totalUsd);\n\nconst title=`Fatura ${rt.competenciaYMD.slice(0,7)} - Regra ${rt.ruleId}`;\nconst invoiceInput={pipe_id:Number(rt.config.invoicePipeId),phase_id:Number(rt.config.invoicePhaseId),title,fields_attributes:fa};\nrt.invoiceInput=invoiceInput;\nlog({\n  level:'info',\n  event:'rule_ready',\n  ruleId:rt.ruleId,\n  eligible:eligible.length,\n  totalBrl,\n  totalUsd,\n  prefetchDecision:rt.prefetchDecision,\n  skipCounters\n});\n\nconst recheckLookup={\n  pipeId:Number(rt.config.invoicePipeId),\n  competenciaFieldId:String(rt.config.competenciaFieldId || 'data_de_compet_ncia'),\n  ruleLinkFieldId:String(rt.config.ruleLinkFieldId || 'id_da_regra_de_faturamento'),\n  competenciaYMD:String(rt.competenciaYMD || '').slice(0,10),\n  ruleId:String(rt.ruleId || '')\n};\n\nconst createContext={\n  procKey,\n  ruleId:String(rt.ruleId || ''),\n  competenciaYMD:String(rt.competenciaYMD || '').slice(0,10),\n  invoiceInput,\n  recheckLookup\n};\nrt.createContext=createContext;\n\nreturn [{json:{procKey,skipRule:false,createContext,eligibleCount:eligible.length,totalBrl,totalUsd,skipCounters}}];"
+      },
+      "id": "1c4ce08b-6774-4397-b0b4-e58e43252487",
+      "name": "Rule: Filtrar itens + montar fatura",
+      "position": [
+        -2240,
+        1040
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a3b2c1d0-e9f8-4a7b-8c6d-5e4f3a2b1c0d",
+              "leftValue": "={{ $json.skipRule === false }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "abaf60cc-59bd-45f3-b753-de12ad2a3a06",
+      "name": "Rule: Pode criar fatura?",
+      "position": [
+        -2016,
+        1040
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,skipRule:true,reason:'missing_processing_state',missingProcessingState:true,missingProcessingStateAt:'Rule: Skip (sem elegíveis)',procKey,executionId:execId,nodeName:'Rule: Skip (sem elegíveis)'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nif(rt){\n  rt.finalStatus='skipped_no_eligible_items';\n}\nrun.logs.push({ts:new Date().toISOString(),level:'info',event:'rule_skip_after_filter',ruleId:rt?rt.ruleId:null,reason:$json.reason||'unknown'});\nreturn [{json:$json}];"
+      },
+      "id": "43dbd793-d067-4f66-8c2a-bf23b5bbe72e",
+      "name": "Rule: Skip (sem elegíveis)",
+      "position": [
+        672,
+        1920
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation CreateInvoice($input: CreateCardInput!) { createCard(input: $input) { card { id title url } } }",
+        "variables": "={{ { input: $json.createContext.invoiceInput } }}"
+      },
+      "id": "107a83b8-e869-4eb2-8a3c-39c2407cb752",
+      "maxTries": 5,
+      "name": "FIN-03: Criar fatura",
+      "position": [
+        -1120,
+        1440
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nconst reason='create_invoice_transport_error';\n\nif(!state){\n  return [{json:{\n    ...$json,\n    contractVersion:'fin_v2',\n    itemType:'rule_result',\n    trace:{parentExecutionId:null,workflowExecutionId:execId,procKey},\n    invoiceId:null,\n    invoiceCreated:false,\n    shouldCreateInvoice:false,\n    reason,\n    missingProcessingState:true,\n    missingProcessingStateAt:'Rule: Erro criar fatura',\n    procKey,\n    executionId:execId,\n    nodeName:'Rule: Erro criar fatura'\n  }}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst trace=(rt?.inputTrace && typeof rt.inputTrace==='object') ? rt.inputTrace : {\n  parentExecutionId:(run?.executionId!=null ? String(run.executionId) : null),\n  workflowExecutionId:execId,\n  procKey\n};\nif(rt){\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  rt.finalStatus='invoice_error';\n  rt.statusReason=reason;\n  rt.invoiceId=null;\n}\nrun.errors.push({ts:new Date().toISOString(),stage:'create_invoice',ruleId:rt?rt.ruleId:null,reason,trace,details:$json.error||$json});\nrun.logs.push({ts:new Date().toISOString(),level:'error',event:'rule_create_invoice_error',ruleId:rt?rt.ruleId:null,reason,trace});\nreturn [{json:{...$json,trace,reason,invoiceId:null,invoiceCreated:false,shouldCreateInvoice:false}}];"
+      },
+      "id": "f5789550-151e-41ff-91f4-3747d0219ef5",
+      "name": "Rule: Erro criar fatura",
+      "position": [
+        672,
+        1728
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a3b2c1d0-e9f8-4a7b-8c6d-5e4f3a2b1c0d",
+              "leftValue": "={{ (() => { const hasTransportError=Boolean($json.error); const gqlErrors=Array.isArray($json.errors)?$json.errors:[]; const cardId=$json.data?.createCard?.card?.id; return !hasTransportError && gqlErrors.length===0 && !!cardId; })() }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "632c2a00-cbb4-4143-afd0-6f8713342b50",
+      "name": "Rule: Invoice criada?",
+      "position": [
+        -896,
+        1344
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ba77027-b5db-4b06-aff3-2d88ad9edf2e",
+              "name": "invoiceId",
+              "type": "string",
+              "value": "={{ String($json.data.createCard.card.id) }}"
+            },
+            {
+              "id": "73a90ee6-d79c-4443-96cb-396de299deef",
+              "name": "invoiceCreated",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cf496329-b325-4af6-a217-eb3b0854916c",
+      "name": "Rule: Set invoiceId",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -672,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nconst reason='create_invoice_logical_error';\n\nif(!state){\n  return [{json:{\n    ...$json,\n    contractVersion:'fin_v2',\n    itemType:'rule_result',\n    trace:{parentExecutionId:null,workflowExecutionId:execId,procKey},\n    invoiceId:null,\n    invoiceCreated:false,\n    shouldCreateInvoice:false,\n    reason,\n    missingProcessingState:true,\n    missingProcessingStateAt:'Rule: Invoice logical error',\n    procKey,\n    executionId:execId,\n    nodeName:'Rule: Invoice logical error'\n  }}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst rid=rt?rt.ruleId:null;\nconst trace=(rt?.inputTrace && typeof rt.inputTrace==='object') ? rt.inputTrace : {\n  parentExecutionId:(run?.executionId!=null ? String(run.executionId) : null),\n  workflowExecutionId:execId,\n  procKey\n};\nconst create=$json.data&&$json.data.createCard?$json.data.createCard:{};\nconst userErrors=Array.isArray(create.userErrors)?create.userErrors:(Array.isArray(create.user_errors)?create.user_errors:[]);\nconst gqlErrors=Array.isArray($json.errors)?$json.errors:[];\nconst details=userErrors.length>0?userErrors:(gqlErrors.length>0?gqlErrors:($json.error||$json));\nif(rt){\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  rt.invoiceId=null;\n  rt.finalStatus='invoice_error';\n  rt.statusReason=reason;\n}\nrun.errors.push({ts:new Date().toISOString(),stage:'create_invoice',ruleId:rid,reason,trace,details});\nrun.logs.push({ts:new Date().toISOString(),level:'error',event:'rule_create_invoice_logical_error',ruleId:rid,reason,trace,userErrors,gqlErrorsCount:gqlErrors.length});\nreturn [{json:{...$json,trace,reason,invoiceId:null,invoiceCreated:false,shouldCreateInvoice:false}}];"
+      },
+      "id": "97f4c9c7-ed0b-442c-8ed0-2b0c63a13669",
+      "name": "Rule: Invoice logical error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        1536
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst nowIso=new Date().toISOString();\n\nconst cleanToken=(value)=>{\n  if(value===undefined || value===null) return '';\n  return String(value).trim();\n};\nconst isBlankToken=(value)=>{\n  const s=cleanToken(value).toLowerCase();\n  return s==='' || s==='null' || s==='undefined' || s==='nan';\n};\n\nif(!rt || rt.skipItemCreation===true){\n  const rid=rt?rt.ruleId:null;\n  const reason=rt && rt.skipItemCreation===true ? 'item_creation_blocked' : 'missing_rule_tmp';\n  if(rt && !rt.finalStatus){\n    rt.finalStatus='invoice_error';\n    rt.statusReason=reason;\n  }\n  run.errors.push({\n    ts:nowIso,\n    stage:'emit_items',\n    ruleId:rid,\n    details:{reason}\n  });\n  run.logs.push({\n    ts:nowIso,\n    level:'error',\n    event:'rule_skip_items_emit_blocked',\n    ruleId:rid,\n    reason\n  });\n  return [];\n}\n\nconst comp=String(rt.competenciaYMD);\nconst compYM=comp.slice(0,7);\nrt.createdItemIds=[];\nconst allowed=new Set(['afiliados_que_comp_em_a_cobran_a','base_do_c_lculo_percentual','categorias_do_saas_isentas_ou_com_desconto','data_de_compet_ncia','desconto_no_valor_vari_vel_do_saas_para_a_b','desconto_no_valor_vari_vel_do_saas_para_e_s','desconto_no_valor_vari_vel_do_saas_para_espa_os','desconto_no_valor_vari_vel_do_saas_para_hospedagem','desconto_no_valor_vari_vel_do_saas_para_outros','h_algum_desconto_nesse_item','id_backoffice_do_afiliado','id_da_fatura','id_do_item_usado_como_template_fin_02','modelo_de_cobran_a','moeda_da_fatura','observa_es_sobre_descontos_e_isen_es','percentual_a_ser_aplicado_na_base','percentual_de_desconto_a_ser_aplicado','produto','quantidade','status','tipo_de_desconto_a_b_1','tipo_de_desconto_e_s','tipo_de_desconto_espa_os','tipo_de_desconto_hospedagem','tipo_de_desconto_no_item','tipo_de_desconto_outros','tipo_de_item','unidade_de_cobran_a','valor_base_saas_categoria_a_b_brl','valor_base_saas_categoria_a_b_usd','valor_base_saas_categoria_e_s_brl','valor_base_saas_categoria_e_s_usd','valor_base_saas_categoria_espa_os_brl','valor_base_saas_categoria_espa_os_usd','valor_base_saas_categoria_hospedagem_brl','valor_base_saas_categoria_hospedagem_usd','valor_base_saas_categoria_outros_brl','valor_base_saas_categoria_outros_usd','valor_de_base_brl','valor_de_base_usd','valor_do_imposto_a_ser_isento_a_b','valor_do_imposto_a_ser_isento_e_s','valor_do_imposto_a_ser_isento_espa_os','valor_do_imposto_a_ser_isento_hospedagem','valor_do_imposto_a_ser_isento_outros','valor_nominal_a_ser_descontado_brl','valor_nominal_a_ser_descontado_usd','valor_total_do_item_brl','valor_total_do_item_com_descontos_brl','valor_total_do_item_com_descontos_usd','valor_total_do_item_usd','valor_unit_rio_brl','valor_unit_rio_usd','statement_2c441aae_a317_42eb_81c2_c3a06c8daae7','statement_4a274d3d_6286_453b_9e74_46b058076519','statement_4f0c1eda_5fed_4d79_8cdd_ac05c377995d','statement_7140fc81_0523_47c6_a23b_c31ede660ea4']);\nconst special={tipo_de_desconto_no_item_1:'tipo_de_desconto_no_item',subtotal_do_item_brl:'valor_total_do_item_brl',subtotal_do_item_usd:'valor_total_do_item_usd'};\nconst scalar=(f)=>{if(!f)return null;const rv=f.report_value;return (rv!==undefined&&rv!==null&&String(rv).trim()!=='')?rv:f.value;};\nconst extractIds=(f)=>{if(!f)return [];const av=f.array_value;const ids=[];const push=(x)=>{if(x===undefined||x===null)return; if(typeof x==='object'){if(x.id!=null)ids.push(String(x.id)); else if(x.value!=null)ids.push(String(x.value)); else if(x.label!=null)ids.push(String(x.label)); else ids.push(JSON.stringify(x));} else ids.push(String(x));}; if(Array.isArray(av)){for(const x of av)push(x);} else {const v=scalar(f); if(Array.isArray(v)){for(const x of v)push(x);} else if(typeof v==='string'){const ms=v.match(/[0-9]+/g); if(ms)for(const x of ms)ids.push(String(x)); else if(v.trim()!=='')ids.push(v.trim());} else if(v!=null)push(v);} return Array.from(new Set(ids.filter((s)=>s&&String(s).trim()!==''))).map(String);};\n\nconst out=[];\nlet invalidTemplateIds=0;\nfor(const it of (rt.eligibleItems||[])){\n  const templateItemId=cleanToken(it?.templateItemId);\n  if(isBlankToken(templateItemId)){\n    invalidTemplateIds += 1;\n    rt.hasItemErrors=true;\n    run.errors.push({\n      ts:new Date().toISOString(),\n      stage:'emit_items',\n      ruleId:rt.ruleId,\n      details:{reason:'missing_template_item_id',templateItemIdRaw:it?.templateItemId ?? null}\n    });\n    run.logs.push({\n      ts:new Date().toISOString(),\n      level:'error',\n      event:'rule_item_emit_invalid_template_id',\n      ruleId:rt.ruleId,\n      templateItemIdRaw:it?.templateItemId ?? null\n    });\n    continue;\n  }\n\n  const fa=[];\n  fa.push({field_id:'data_de_compet_ncia',field_value:comp});\n  fa.push({field_id:'id_do_item_usado_como_template_fin_02',field_value:templateItemId});\n  fa.push({field_id:'status',field_value:'Ativo'});\n\n  for(const f of (it.fields||[])){\n    const fid=f&&f.field?f.field.id:null;\n    if(!fid)continue;\n    const target=special[fid]||fid;\n    if(!allowed.has(target))continue;\n    if(target==='data_de_compet_ncia'||target==='id_do_item_usado_como_template_fin_02'||target==='status'||target==='id_da_fatura')continue;\n    const type=f&&f.field?String(f.field.type||''):'';\n    let val=null;\n    if(type==='connector'||type==='checklist_horizontal'||type==='checklist_vertical')val=extractIds(f); else val=scalar(f);\n    if(val===undefined||val===null)continue;\n    if(Array.isArray(val)&&val.length===0)continue;\n    if(typeof val==='string'&&val.trim()==='')continue;\n    fa.push({field_id:target,field_value:val});\n  }\n\n  const title=`Item ${compYM} - ${templateItemId}`;\n  const input={pipe_id:Number(rt.config.itemPipeId),phase_id:Number(rt.config.itemPhaseId),parent_ids:[templateItemId],title,fields_attributes:fa};\n  out.push({json:{procKey,templateItemId,shouldUpdateParcelas:Boolean(it.parcelado),newParcelasPagas:it.parcelado?it.parcelado.newParcelasPagas:null,createItemInput:input}});\n}\n\nconst expectedCount=Array.isArray(rt.eligibleItems) ? rt.eligibleItems.length : 0;\nconst droppedCount=Math.max(0,expectedCount-out.length);\nif(expectedCount>0 && out.length===0){\n  rt.hasItemErrors=true;\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  run.errors.push({\n    ts:new Date().toISOString(),\n    stage:'emit_items',\n    ruleId:rt.ruleId,\n    details:{reason:'eligible_items_not_emitted',expectedCount,invalidTemplateIds}\n  });\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'error',\n    event:'rule_items_emit_unexpected_empty',\n    ruleId:rt.ruleId,\n    expectedCount,\n    invalidTemplateIds\n  });\n}else if(droppedCount>0){\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'warn',\n    event:'rule_items_emit_partial',\n    ruleId:rt.ruleId,\n    expectedCount,\n    emittedCount:out.length,\n    droppedCount,\n    invalidTemplateIds\n  });\n}\n\nrun.logs.push({\n  ts:new Date().toISOString(),\n  level:'info',\n  event:'rule_items_emit',\n  ruleId:rt.ruleId,\n  count:out.length,\n  expectedCount,\n  droppedCount\n});\n\nreturn out;"
+      },
+      "id": "c2899bf3-82ea-4a75-a898-6d011f361158",
+      "name": "Rule: Emit itens p/ criar",
+      "position": [
+        -448,
+        1200
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "3f0b779e-4fa4-4882-8ec1-cd6635584f76",
+      "name": "Loop itens",
+      "position": [
+        -240,
+        656
+      ],
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation CreateItem($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
+        "variables": "={{ { input: $json.createItemInput } }}"
+      },
+      "id": "9b517cf0-205d-4633-bce1-9e0343094075",
+      "maxTries": 5,
+      "name": "FIN-04: Criar item",
+      "position": [
+        0,
+        864
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false,missingProcessingState:true,missingProcessingStateAt:'Item: Erro criar',procKey,executionId:execId,nodeName:'Item: Erro criar'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nif(rt){\n  rt.hasItemErrors=true;\n}\nrun.errors.push({ts:new Date().toISOString(),stage:'create_item',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,details:$json.error||$json});\nrun.logs.push({ts:new Date().toISOString(),level:'error',event:'item_create_error',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId});\nreturn [{json:$json}];"
+      },
+      "id": "e225b429-e447-42bc-849a-e1460ddeda8c",
+      "name": "Item: Erro criar",
+      "position": [
+        224,
+        960
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "d3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a",
+              "leftValue": "={{ (() => { const hasTransportError=Boolean($json.error); const gqlErrors=Array.isArray($json.errors)?$json.errors:[]; const cardId=$json.data?.createCard?.card?.id; return !hasTransportError && gqlErrors.length===0 && !!cardId; })() }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "5bdc37ef-d686-4b2f-b416-2f17effc2885",
+      "name": "Item: Criado com sucesso?",
+      "position": [
+        224,
+        768
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b666442-e5fd-4371-925e-66fb452479f8",
+              "name": "createdItemId",
+              "type": "string",
+              "value": "={{ String($json.data.createCard.card.id) }}"
+            },
+            {
+              "id": "34097422-c993-4306-8762-b9ee5f481aa6",
+              "name": "shouldUpdateParcelas",
+              "type": "boolean",
+              "value": "={{ $json.shouldUpdateParcelas === true }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71c98826-8c9b-49c1-afb3-dc7104a7e1d5",
+      "name": "Item: Set created",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false,missingProcessingState:true,missingProcessingStateAt:'Item: Registrar created',procKey,executionId:execId,nodeName:'Item: Registrar created'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst createdId=$json.createdItemId?String($json.createdItemId):null;\nif(createdId){\n  rt.createdItemIds.push(createdId);\n  run.metrics.createItems=Number(run.metrics.createItems || 0) + 1;\n  run.logs.push({ts:new Date().toISOString(),level:'info',event:'item_created',ruleId:rt.ruleId,templateItemId:$json.templateItemId,itemId:createdId});\n}else{\n  if(rt){\n    rt.hasItemErrors=true;\n  }\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  run.errors.push({\n    ts:new Date().toISOString(),\n    stage:'create_item_parse',\n    ruleId:rt?rt.ruleId:null,\n    templateItemId:$json.templateItemId,\n    details:'missing_createdItemId_on_success_path'\n  });\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'error',\n    event:'item_created_missing_id',\n    ruleId:rt?rt.ruleId:null,\n    templateItemId:$json.templateItemId\n  });\n}\nreturn [{json:$json}];"
+      },
+      "id": "0b66fe26-5f84-4535-a4b1-7f9d0e48eccf",
+      "name": "Item: Registrar created",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        672
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false,missingProcessingState:true,missingProcessingStateAt:'Item: Erro lógico criar',procKey,executionId:execId,nodeName:'Item: Erro lógico criar'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nif(rt){\n  rt.hasItemErrors=true;\n}\nconst create=$json.data&&$json.data.createCard?$json.data.createCard:{};\nconst userErrors=Array.isArray(create.userErrors)?create.userErrors:(Array.isArray(create.user_errors)?create.user_errors:[]);\nconst gqlErrors=Array.isArray($json.errors)?$json.errors:[];\nconst details=userErrors.length>0?userErrors:(gqlErrors.length>0?gqlErrors:($json.error||$json));\nrun.errors.push({ts:new Date().toISOString(),stage:'create_item',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,details});\nrun.logs.push({ts:new Date().toISOString(),level:'error',event:'item_create_logical_error',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,userErrors,gqlErrorsCount:gqlErrors.length});\nreturn [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false}}];"
+      },
+      "id": "64790b78-a43c-47ea-8fc3-77ef536abbbd",
+      "name": "Item: Erro lógico criar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        864
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "d3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a",
+              "leftValue": "={{ $json.shouldUpdateParcelas === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "72934750-7f6b-48d5-8f44-ce96d378ecf8",
+      "name": "Item: Parcelado?",
+      "position": [
+        896,
+        768
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation UpdateParcelas($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \"parcelas_pagas\", value: $value }] }) { success userErrors { field message } } }",
+        "variables": "={{ { cardId: $json.templateItemId, value: [$json.newParcelasPagas] } }}"
+      },
+      "id": "2e63f2d8-b2ef-468f-9012-16acc3e79ac4",
+      "maxTries": 5,
+      "name": "FIN-02: Update parcelas_pagas",
+      "position": [
+        1120,
+        768
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false,missingProcessingState:true,missingProcessingStateAt:'Item: Parcelas OK',procKey,executionId:execId,nodeName:'Item: Parcelas OK'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst upd=$json.data&&$json.data.updateFieldsValues?$json.data.updateFieldsValues:{};\nconst userErrors=Array.isArray(upd.userErrors)?upd.userErrors:[];\nconst success=upd.success===true&&userErrors.length===0;\nif(success){\n  run.metrics.updateParcelasPagas+=1;\n  run.logs.push({ts:new Date().toISOString(),level:'info',event:'item_parcelas_updated',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,newParcelasPagas:$json.newParcelasPagas});\n}else{\n  if(rt){\n    rt.hasItemErrors=true;\n  }\n  run.errors.push({ts:new Date().toISOString(),stage:'update_parcelas',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,details:userErrors.length>0?userErrors:$json});\n  run.logs.push({ts:new Date().toISOString(),level:'error',event:'item_parcelas_logical_error',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,userErrors});\n}\nreturn [{json:$json}];"
+      },
+      "id": "a8bc20aa-8def-4266-98c9-be5adabceabd",
+      "name": "Item: Parcelas OK",
+      "position": [
+        1344,
+        992
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,createdItemId:null,shouldUpdateParcelas:false,missingProcessingState:true,missingProcessingStateAt:'Item: Erro parcelas',procKey,executionId:execId,nodeName:'Item: Erro parcelas'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nif(rt){\n  rt.hasItemErrors=true;\n}\nrun.errors.push({ts:new Date().toISOString(),stage:'update_parcelas',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId,details:$json.error||$json});\nrun.logs.push({ts:new Date().toISOString(),level:'error',event:'item_parcelas_error',ruleId:rt?rt.ruleId:null,templateItemId:$json.templateItemId});\nreturn [{json:$json}];"
+      },
+      "id": "b65f857a-5d5f-4500-92cf-6014399eb11a",
+      "name": "Item: Erro parcelas",
+      "position": [
+        1344,
+        1184
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,shouldCreateInvoice:false,createSkipReason:'missing_processing_state',missingProcessingState:true,missingProcessingStateAt:'Rule: Prep criar fatura com itens',procKey,executionId:execId,nodeName:'Rule: Prep criar fatura com itens'}}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp || null;\nconst nowIso=new Date().toISOString();\n\nconst createdItemIds=Array.isArray(rt?.createdItemIds) ? Array.from(new Set(rt.createdItemIds.map((x)=>String(x).trim()).filter(Boolean))) : [];\nconst eligibleCount=Array.isArray(rt?.eligibleItems) ? rt.eligibleItems.length : 0;\nconst hasItemsToInvoice=createdItemIds.length>0;\n\nif(!hasItemsToInvoice){\n  if(rt){\n    rt.hasInvoiceError=true;\n    rt.skipItemCreation=true;\n    rt.finalStatus='invoice_error';\n    rt.statusReason='no_created_items_for_invoice';\n  }\n  run.errors.push({\n    ts:nowIso,\n    stage:'create_invoice',\n    ruleId:rt?rt.ruleId:null,\n    reason:'no_created_items_for_invoice',\n    details:{eligibleCount,createdCount:createdItemIds.length}\n  });\n  run.logs.push({\n    ts:nowIso,\n    level:(eligibleCount>0?'error':'warn'),\n    event:'rule_skip_invoice_no_created_items',\n    ruleId:rt?rt.ruleId:null,\n    reason:'no_created_items_for_invoice',\n    eligibleCount,\n    createdCount:createdItemIds.length\n  });\n  return [{json:{...$json,procKey,createdItemIds,eligibleCount,shouldCreateInvoice:false,createSkipReason:'no_created_items_for_invoice'}}];\n}\n\nconst createContext=(rt?.createContext && typeof rt.createContext==='object' && !Array.isArray(rt.createContext)) ? rt.createContext : null;\nconst invoiceInput=(createContext?.invoiceInput && typeof createContext.invoiceInput==='object' && !Array.isArray(createContext.invoiceInput)) ? createContext.invoiceInput : null;\nif(!createContext || !invoiceInput){\n  if(rt){\n    rt.hasInvoiceError=true;\n    rt.finalStatus='invoice_error';\n    rt.statusReason='missing_invoice_input_context';\n  }\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  run.errors.push({\n    ts:nowIso,\n    stage:'create_invoice',\n    ruleId:rt?rt.ruleId:null,\n    reason:'missing_invoice_input_context',\n    details:{hasCreateContext:Boolean(createContext),hasInvoiceInput:Boolean(invoiceInput)}\n  });\n  run.logs.push({\n    ts:nowIso,\n    level:'error',\n    event:'rule_missing_invoice_input_context',\n    ruleId:rt?rt.ruleId:null,\n    reason:'missing_invoice_input_context'\n  });\n  return [{json:{...$json,procKey,createdItemIds,eligibleCount,shouldCreateInvoice:false,createSkipReason:'missing_invoice_input_context'}}];\n}\n\nconst fa=Array.isArray(invoiceInput.fields_attributes) ? invoiceInput.fields_attributes.filter((f)=>f && f.field_id!=='itens_da_fatura') : [];\nfa.push({field_id:'itens_da_fatura',field_value:createdItemIds});\ncreateContext.invoiceInput={...invoiceInput,fields_attributes:fa};\nrt.createContext=createContext;\nrt.invoiceInput=createContext.invoiceInput;\n\nrun.logs.push({\n  ts:nowIso,\n  level:'info',\n  event:'rule_invoice_input_ready_with_items',\n  ruleId:rt?rt.ruleId:null,\n  createdCount:createdItemIds.length,\n  eligibleCount\n});\n\nreturn [{json:{...$json,procKey,createdItemIds,eligibleCount,shouldCreateInvoice:true,createSkipReason:null,createContext}}];"
+      },
+      "id": "2076ce07-f0e1-4127-ad29-100815e1f3a8",
+      "name": "Rule: Prep criar fatura com itens",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c9d0e1f2-a3b4-4c5d-8e6f-7a8b9c0d1e2f",
+              "leftValue": "={{ $json.shouldCreateInvoice === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "122f8c74-d29e-444c-b318-f29745652b3c",
+      "name": "Rule: Pode criar fatura com itens?",
+      "position": [
+        224,
+        368
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation LinkInvoiceOnItem($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \"id_da_fatura\", value: $value }] }) { success userErrors { field message } } }",
+        "variables": "={{ { itemId: $json.itemId, value: [$json.invoiceId] } }}"
+      },
+      "id": "3b64c58b-9f37-4052-8966-c79df86b9ac1",
+      "maxTries": 5,
+      "name": "FIN-04: Vincular id_da_fatura no item",
+      "position": [
+        448,
+        288
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,missingProcessingState:true,missingProcessingStateAt:'Item: InvoiceId vinculado',procKey,executionId:execId,nodeName:'Item: InvoiceId vinculado'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst upd=$json.data&&$json.data.updateFieldsValues?$json.data.updateFieldsValues:{};\nconst userErrors=Array.isArray(upd.userErrors)?upd.userErrors:[];\nconst success=upd.success===true&&userErrors.length===0;\nif(success){\n  run.metrics.updateItemInvoiceLinks=Number(run.metrics.updateItemInvoiceLinks || 0) + 1;\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'info',\n    event:'item_invoice_linked',\n    ruleId:rt?rt.ruleId:null,\n    itemId:$json.itemId,\n    invoiceId:$json.invoiceId\n  });\n}else{\n  if(rt){\n    rt.hasItemErrors=true;\n    rt.finalStatus='item_partial_error';\n    rt.statusReason='item_partial_error';\n  }\n  run.errors.push({\n    ts:new Date().toISOString(),\n    stage:'update_item_invoice_link',\n    ruleId:rt?rt.ruleId:null,\n    itemId:$json.itemId,\n    details:userErrors.length>0?userErrors:$json\n  });\n  run.logs.push({\n    ts:new Date().toISOString(),\n    level:'error',\n    event:'item_invoice_link_logical_error',\n    ruleId:rt?rt.ruleId:null,\n    itemId:$json.itemId,\n    invoiceId:$json.invoiceId,\n    userErrors\n  });\n}\nreturn [{json:$json}];"
+      },
+      "id": "fba55238-cd0e-4dd6-a5e3-64278de55497",
+      "name": "Item: InvoiceId vinculado",
+      "position": [
+        672,
+        192
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{...$json,missingProcessingState:true,missingProcessingStateAt:'Item: Erro ao vincular invoiceId',procKey,executionId:execId,nodeName:'Item: Erro ao vincular invoiceId'}}];\n}\nconst run=state.run;\nconst rt=state.ruleTmp;\nif(rt){\n  rt.hasItemErrors=true;\n  rt.finalStatus='item_partial_error';\n  rt.statusReason='item_partial_error';\n}\nrun.errors.push({\n  ts:new Date().toISOString(),\n  stage:'update_item_invoice_link',\n  ruleId:rt?rt.ruleId:null,\n  itemId:$json.itemId,\n  details:$json.error||$json\n});\nrun.logs.push({\n  ts:new Date().toISOString(),\n  level:'error',\n  event:'item_invoice_link_transport_error',\n  ruleId:rt?rt.ruleId:null,\n  itemId:$json.itemId,\n  invoiceId:$json.invoiceId\n});\nreturn [{json:$json}];"
+      },
+      "id": "c37bd16b-cbd4-44bd-af7f-de4de22fe4cc",
+      "name": "Item: Erro ao vincular invoiceId",
+      "position": [
+        672,
+        384
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nconst METRICS_DEFAULTS={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0};\n\nconst emptyResult=(reason)=>({\n  status:'failed',\n  reason,\n  invoiceId:null,\n  existingInvoiceId:null,\n  createdItemIds:[],\n  metricsDelta:{...METRICS_DEFAULTS},\n  errorsDelta:[{ts:new Date().toISOString(),stage:'rule_end',reason,details:'missing_state'}],\n  logsDelta:[{ts:new Date().toISOString(),level:'error',event:'rule_end_missing_state',reason}],\n  timings:{startedAt:null,finishedAt:new Date().toISOString(),durationMs:null},\n  prefetchDecision:null,\n  totals:{brl:0,usd:0}\n});\n\nif(!state){\n  return [{json:{\n    contractVersion:'fin_v2',\n    itemType:'rule_result',\n    trace:{parentExecutionId:null,workflowExecutionId:execId,procKey},\n    runContext:null,\n    ruleContext:{ruleId:null,ruleTitle:null,competenciaYMD:null,compStart:null,compEnd:null,prefetchDecision:null,itemTemplateIds:[]},\n    result:emptyResult('missing_processing_state'),\n    status:'failed',\n    reason:'missing_processing_state'\n  }}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp || {};\nconst finishedAt=new Date().toISOString();\nconst trace=(rt?.inputTrace && typeof rt.inputTrace==='object') ? rt.inputTrace : {\n  parentExecutionId:(run?.executionId!=null ? String(run.executionId) : null),\n  workflowExecutionId:execId,\n  procKey\n};\n\nconst mapStatus=()=>{\n  const finalStatus=String(rt.finalStatus || '');\n  const statusReason=String(rt.statusReason || '').trim();\n\n  if(rt.isPrepSummary===true){\n    return {status:'processed',reason:'prep_summary_context_item'};\n  }\n\n  if(finalStatus==='skipped_existing_invoice'){\n    return {status:'skipped',reason:'existing_invoice_found'};\n  }\n  if(finalStatus==='skipped_no_items'){\n    return {status:'skipped',reason:'rule_has_no_item_templates'};\n  }\n  if(finalStatus==='skipped_no_eligible_items'){\n    return {status:'skipped',reason:'no_eligible_items_after_filters'};\n  }\n\n  if(finalStatus==='invoice_error' || finalStatus==='item_partial_error'){\n    return {status:'failed',reason:statusReason || finalStatus};\n  }\n\n  if(rt.invoiceId && rt.hasItemErrors===true){\n    return {status:'failed',reason:'item_partial_error'};\n  }\n\n  if(rt.hasInvoiceError===true || rt.hasItemErrors===true){\n    return {status:'failed',reason:statusReason || 'processing_failed'};\n  }\n\n  if(rt.skipItemCreation===true && !rt.invoiceId && !rt.existingInvoiceId){\n    return {status:'failed',reason:statusReason || 'no_created_items_for_invoice'};\n  }\n\n  if(!rt.invoiceId && rt.existingInvoiceId){\n    return {status:'skipped',reason:'existing_invoice_found'};\n  }\n\n  if(!rt.invoiceId){\n    return {status:'failed',reason:statusReason || 'missing_invoice_id_at_rule_end'};\n  }\n\n  return {status:'processed',reason:statusReason || 'processed'};\n};\n\nconst mapped=mapStatus();\nrt.finalStatus=mapped.status;\nrt.statusReason=mapped.reason;\n\nrun.logs.push({\n  ts:finishedAt,\n  level:mapped.status==='failed' ? 'error' : 'info',\n  event:'rule_end_v2',\n  ruleId:rt.ruleId ?? null,\n  status:mapped.status,\n  reason:mapped.reason,\n  invoiceId:rt.invoiceId ?? rt.existingInvoiceId ?? null,\n  eligible:Array.isArray(rt.eligibleItems) ? rt.eligibleItems.length : 0,\n  created:Array.isArray(rt.createdItemIds) ? rt.createdItemIds.length : 0,\n  totals:rt.totals ?? {brl:0,usd:0}\n});\n\nconst runMetrics=(run.metrics && typeof run.metrics==='object' && !Array.isArray(run.metrics)) ? run.metrics : {};\nconst baseMetrics=(rt.baseMetrics && typeof rt.baseMetrics==='object' && !Array.isArray(rt.baseMetrics)) ? rt.baseMetrics : {};\nconst metricKeys=Array.from(new Set([...Object.keys(METRICS_DEFAULTS),...Object.keys(baseMetrics),...Object.keys(runMetrics)]));\nconst metricsDelta={};\nfor(const k of metricKeys){\n  const cur=Number(runMetrics[k]);\n  const base=Number(baseMetrics[k]);\n  const delta=(Number.isFinite(cur)?cur:0)-(Number.isFinite(base)?base:0);\n  metricsDelta[k]=Number.isFinite(delta)?delta:0;\n}\n\nconst logStart=Number.isInteger(rt.logStartIndex) ? rt.logStartIndex : 0;\nconst errStart=Number.isInteger(rt.errorStartIndex) ? rt.errorStartIndex : 0;\nconst logsDelta=Array.isArray(run.logs) ? run.logs.slice(logStart) : [];\nconst errorsDelta=Array.isArray(run.errors) ? run.errors.slice(errStart) : [];\n\nconst startedMs=Date.parse(rt.startedAt);\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\n\nconst result={\n  status:mapped.status,\n  reason:mapped.reason,\n  invoiceId:(rt.invoiceId || rt.existingInvoiceId || null),\n  existingInvoiceId:rt.existingInvoiceId || null,\n  createdItemIds:Array.isArray(rt.createdItemIds)?rt.createdItemIds:[],\n  metricsDelta,\n  errorsDelta,\n  logsDelta,\n  timings:{startedAt:rt.startedAt ?? null,finishedAt,durationMs},\n  prefetchDecision:rt.prefetchDecision ?? null,\n  totals:rt.totals ?? {brl:0,usd:0}\n};\n\nconst ruleContext={\n  ruleId:rt.ruleId ?? null,\n  ruleTitle:rt.ruleTitle ?? null,\n  competenciaYMD:rt.competenciaYMD ?? null,\n  compStart:rt.compStart ?? null,\n  compEnd:rt.compEnd ?? null,\n  prefetchDecision:rt.prefetchDecision ?? null,\n  itemTemplateIds:Array.isArray(rt.itemTemplateIds) ? rt.itemTemplateIds : [],\n  eligibleCount:Array.isArray(rt.eligibleItems) ? rt.eligibleItems.length : 0\n};\n\nconst out={\n  contractVersion:'fin_v2',\n  itemType:'rule_result',\n  trace,\n  runContext:run,\n  ruleContext,\n  result,\n  status:result.status,\n  reason:result.reason\n};\n\nconst stateKey=(sd.procRuns && sd.procRuns[procKey]) ? procKey : execId;\ndelete sd.procRuns[stateKey];\nif(procKey!==execId){\n  delete sd.procRuns[procKey];\n  delete sd.procRuns[execId];\n}\nreturn [{json:out}];"
+      },
+      "id": "f8dd6347-cb81-4a1e-901e-9dbde8e3680c",
+      "name": "Rule: End",
+      "position": [
+        896,
+        320
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query FindInvoicesForRuleRecheck($pipeId: ID!, $fieldId: String!, $competencia: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $competencia }) { edges { node { id title fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
+        "variables": "={{ (() => { const cc = ($json.createContext && typeof $json.createContext==='object') ? $json.createContext : {}; const lk = (cc.recheckLookup && typeof cc.recheckLookup==='object') ? cc.recheckLookup : (($json.recheckLookup && typeof $json.recheckLookup==='object') ? $json.recheckLookup : {}); return { pipeId: Number(lk.pipeId || 306859731), fieldId: String(lk.competenciaFieldId || 'data_de_compet_ncia'), competencia: String(lk.competenciaYMD || ''), first: 200 }; })() }}"
+      },
+      "id": "e4d1ce9f-83d7-465c-b377-823391a4a8ca",
+      "maxTries": 5,
+      "name": "FIN-03: Recheck fatura existente",
+      "position": [
+        -1792,
+        944
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst input=($json && typeof $json==='object' && !Array.isArray($json)) ? $json : {};\nconst procKey=String(input.procKey || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\n\nconst safeObj=(v)=>(v && typeof v==='object' && !Array.isArray(v)) ? v : null;\nconst clean=(v)=>String(v ?? '').trim();\nconst sanitizeYmd=(v)=>String(v || '').slice(0,10);\nconst isIsoDate=(v)=>/^\\d{4}-\\d{2}-\\d{2}$/.test(String(v || ''));\nconst pickField=(fields,id)=>{for(const f of (fields||[])){if(f?.field?.id===id)return f;}return null;};\nconst pickValue=(f)=>{if(!f)return null;const rv=f.report_value;return (rv!==undefined&&rv!==null&&String(rv).trim()!=='')?rv:f.value;};\nconst toId=(v)=>{if(v==null)return null;const s=String(v);const m=s.match(/[0-9]+/);return m?m[0]:s.trim();};\n\nif(!state){\n  return [{json:{\n    ...input,\n    contractVersion:'fin_v2',\n    itemType:'rule_result',\n    trace:{parentExecutionId:null,workflowExecutionId:execId,procKey},\n    procKey,\n    precheckFailed:true,\n    precheckReason:'missing_processing_state',\n    shouldCreateInvoice:false,\n    existingInvoiceId:null,\n    reason:'missing_processing_state'\n  }}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp || {};\nconst now=new Date().toISOString();\nconst trace=safeObj(rt.inputTrace) || {\n  parentExecutionId:(run?.executionId!=null ? String(run.executionId) : null),\n  workflowExecutionId:execId,\n  procKey\n};\n\nconst inputCreateContext=safeObj(input.createContext);\nconst stateCreateContext=safeObj(rt.createContext);\nconst fallbackLookup=safeObj(input.recheckLookup) || {};\nconst mergedLookup=safeObj(stateCreateContext?.recheckLookup) || safeObj(inputCreateContext?.recheckLookup) || fallbackLookup;\n\nconst createContext={\n  procKey,\n  ruleId:clean(stateCreateContext?.ruleId || rt.ruleId || mergedLookup?.ruleId || ''),\n  competenciaYMD:sanitizeYmd(stateCreateContext?.competenciaYMD || rt.competenciaYMD || mergedLookup?.competenciaYMD || ''),\n  invoiceInput:safeObj(stateCreateContext?.invoiceInput) || safeObj(rt.invoiceInput) || safeObj(inputCreateContext?.invoiceInput) || null,\n  recheckLookup:{\n    pipeId:Number(mergedLookup?.pipeId || rt?.config?.invoicePipeId || 0),\n    competenciaFieldId:clean(mergedLookup?.competenciaFieldId || rt?.config?.competenciaFieldId || 'data_de_compet_ncia'),\n    ruleLinkFieldId:clean(mergedLookup?.ruleLinkFieldId || rt?.config?.ruleLinkFieldId || 'id_da_regra_de_faturamento'),\n    competenciaYMD:sanitizeYmd(mergedLookup?.competenciaYMD || rt?.competenciaYMD || ''),\n    ruleId:clean(mergedLookup?.ruleId || rt?.ruleId || '')\n  }\n};\nrt.createContext=createContext;\n\nconst precheckRaw={\n  transportError:input.error || null,\n  gqlErrors:Array.isArray(input.errors) ? input.errors : [],\n  edgesCount:Array.isArray(input.data?.findCards?.edges) ? input.data.findCards.edges.length : null,\n  pageInfo:safeObj(input.data?.findCards?.pageInfo) || null\n};\n\nconst markFailure=(reason,details,countAsUnexpected=false)=>{\n  if(countAsUnexpected && run?.metrics){\n    run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  }\n  if(rt){\n    rt.hasInvoiceError=true;\n    rt.finalStatus='invoice_error';\n    rt.statusReason=String(reason || 'precheck_failed');\n    rt.skipItemCreation=true;\n    rt.invoiceId=null;\n  }\n  if(Array.isArray(run?.errors)){\n    run.errors.push({ts:now,stage:'precheck_invoice',ruleId:rt?.ruleId || null,reason,trace,details});\n  }\n  if(Array.isArray(run?.logs)){\n    run.logs.push({ts:now,level:'error',event:'rule_precheck_invoice_error',ruleId:rt?.ruleId || null,reason,trace});\n  }\n  return [{json:{\n    ...input,\n    procKey,\n    trace,\n    createContext,\n    precheckRaw,\n    precheckFailed:true,\n    precheckReason:reason,\n    shouldCreateInvoice:false,\n    existingInvoiceId:null,\n    reason\n  }}];\n};\n\nconst lk=createContext.recheckLookup || {};\nconst missingContext=[];\nif(!clean(lk.ruleLinkFieldId)) missingContext.push('ruleLinkFieldId');\nif(!clean(lk.competenciaFieldId)) missingContext.push('competenciaFieldId');\nif(!clean(createContext.ruleId)) missingContext.push('ruleId');\nif(!isIsoDate(createContext.competenciaYMD)) missingContext.push('competenciaYMD');\nif(!(Number(lk.pipeId) > 0)) missingContext.push('pipeId');\nif(missingContext.length>0){\n  return markFailure('missing_precheck_context',{missingContext,createContext},true);\n}\n\nconst invoiceInput=createContext.invoiceInput;\nconst invoiceInputValid=Boolean(invoiceInput)\n  && Number(invoiceInput.pipe_id) > 0\n  && Number(invoiceInput.phase_id) > 0\n  && clean(invoiceInput.title) !== ''\n  && Array.isArray(invoiceInput.fields_attributes)\n  && invoiceInput.fields_attributes.length > 0;\nif(!invoiceInputValid){\n  return markFailure('missing_invoice_input_context',{\n    hasInvoiceInput:Boolean(invoiceInput),\n    invoiceInputKeys:invoiceInput && typeof invoiceInput==='object' ? Object.keys(invoiceInput) : [],\n    createContext\n  },true);\n}\n\nif(input.error){\n  return markFailure('transport_error',input.error);\n}\nif(precheckRaw.gqlErrors.length>0){\n  return markFailure('graphql_errors',precheckRaw.gqlErrors);\n}\n\nconst edges=input.data?.findCards?.edges;\nif(!Array.isArray(edges)){\n  return markFailure('invalid_precheck_shape',input.data ?? null);\n}\n\nlet existingInvoiceId=null;\nfor(const e of edges){\n  const node=e?.node;\n  if(!node) continue;\n  const rid=toId(pickValue(pickField(node.fields,lk.ruleLinkFieldId)));\n  const comp=sanitizeYmd(pickValue(pickField(node.fields,lk.competenciaFieldId)) || '');\n  if(rid===createContext.ruleId && comp===createContext.competenciaYMD){\n    existingInvoiceId=String(node.id);\n    break;\n  }\n}\n\nif(existingInvoiceId){\n  if(rt){\n    rt.existingInvoiceId=existingInvoiceId;\n    rt.invoiceId=existingInvoiceId;\n    rt.finalStatus='skipped_existing_invoice';\n    rt.statusReason='existing_invoice_found';\n  }\n  if(Array.isArray(run?.logs)){\n    run.logs.push({\n      ts:now,\n      level:'info',\n      event:'rule_precheck_existing_invoice',\n      ruleId:createContext.ruleId || null,\n      invoiceId:existingInvoiceId,\n      trace\n    });\n  }\n  return [{json:{\n    ...input,\n    procKey,\n    trace,\n    createContext,\n    precheckRaw,\n    precheckFailed:false,\n    precheckReason:'existing_invoice_found',\n    shouldCreateInvoice:false,\n    existingInvoiceId,\n    reason:'existing_invoice_found'\n  }}];\n}\n\nif(Array.isArray(run?.logs)){\n  run.logs.push({\n    ts:now,\n    level:'info',\n    event:'rule_precheck_no_existing_invoice',\n    ruleId:createContext.ruleId || null,\n    reason:'not_found',\n    trace\n  });\n}\n\nreturn [{json:{\n  ...input,\n  procKey,\n  trace,\n  createContext,\n  precheckRaw,\n  precheckFailed:false,\n  precheckReason:'not_found',\n  shouldCreateInvoice:true,\n  existingInvoiceId:null,\n  reason:'not_found'\n}}];"
+      },
+      "id": "b13bc8a4-88ce-4318-9257-1593b4e1e13a",
+      "name": "Rule: Parse precheck fatura existente",
+      "position": [
+        -1568,
+        944
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "7dff889a-15ff-4f6c-b2eb-b17fc47dbf8e",
+              "leftValue": "={{ $json.shouldCreateInvoice === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "89a9c599-651f-4df8-8a8d-ff7354b4f074",
+      "name": "Rule: Recheck permite criar?",
+      "position": [
+        -1344,
+        944
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [{json:{\n    ...$json,\n    precheckFailed:true,\n    precheckReason:String($json.precheckReason || 'missing_processing_state'),\n    shouldCreateInvoice:false,\n    existingInvoiceId:$json.existingInvoiceId ?? null\n  }}];\n}\n\nconst run=state.run;\nconst rt=state.ruleTmp;\nconst now=new Date().toISOString();\nconst reason=String($json.precheckReason || 'precheck_failed');\n\nif(!rt){\n  run.metrics.unexpectedStateErrors=Number(run.metrics.unexpectedStateErrors || 0) + 1;\n  run.errors.push({ts:now,stage:'precheck_invoice',ruleId:null,reason:'missing_rule_tmp_on_skip_existing',details:'missing_rule_tmp'});\n  run.logs.push({ts:now,level:'error',event:'rule_skip_existing_missing_state',reason:'missing_rule_tmp'});\n  return [{json:$json}];\n}\n\nif(reason==='existing_invoice_found' || rt.finalStatus==='skipped_existing_invoice'){\n  rt.finalStatus='skipped_existing_invoice';\n  rt.statusReason='existing_invoice_found';\n  run.metrics.rulesSkippedExisting=(Number(run.metrics.rulesSkippedExisting)||0)+1;\n  run.logs.push({ts:now,level:'info',event:'rule_skip_existing_invoice_recheck',ruleId:rt.ruleId,invoiceId:rt.invoiceId,reason:'existing_invoice_found'});\n}else{\n  rt.finalStatus='invoice_error';\n  rt.statusReason=reason;\n  rt.hasInvoiceError=true;\n  rt.skipItemCreation=true;\n  run.errors.push({\n    ts:now,\n    stage:'precheck_invoice',\n    ruleId:rt.ruleId,\n    reason,\n    details:{reason:'skip_branch_after_precheck_failure',precheckReason:reason}\n  });\n  run.logs.push({\n    ts:now,\n    level:'error',\n    event:'rule_skip_due_precheck_failure',\n    ruleId:rt.ruleId,\n    reason,\n    precheckReason:reason\n  });\n}\nreturn [{json:{...$json,reason}}];"
+      },
+      "id": "cc678c6c-f35d-436f-8b02-2706bb6977af",
+      "name": "Rule: Skip (fatura existente)",
+      "position": [
+        672,
+        0
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst procKey=String((($json && typeof $json==='object' && !Array.isArray($json)) ? $json.procKey : '') || execId);\nconst state=sd.procRuns?.[procKey] || sd.procRuns?.[execId];\nif(!state){\n  return [];\n}\nconst run=state.run;\nconst rt=state.ruleTmp || null;\nconst nowIso=new Date().toISOString();\nif(!rt || !rt.invoiceId){\n  if(rt){\n    rt.hasInvoiceError=true;\n    rt.finalStatus='invoice_error';\n    rt.statusReason='missing_invoice_id_after_create';\n  }\n  run.errors.push({ts:nowIso,stage:'emit_item_invoice_links',ruleId:rt?rt.ruleId:null,reason:'missing_invoice_id_after_create'});\n  run.logs.push({ts:nowIso,level:'error',event:'rule_emit_item_invoice_links_missing_invoice',ruleId:rt?rt.ruleId:null});\n  return [];\n}\nif(!rt.invoiceCreationCounted){\n  run.metrics.createInvoices=Number(run.metrics.createInvoices || 0) + 1;\n  rt.invoiceCreationCounted=true;\n}\nconst invoiceId=String(rt.invoiceId);\nconst ids=Array.isArray(rt.createdItemIds) ? Array.from(new Set(rt.createdItemIds.map((x)=>String(x).trim()).filter(Boolean))) : [];\nif(ids.length===0){\n  rt.hasInvoiceError=true;\n  rt.finalStatus='invoice_error';\n  rt.statusReason='no_created_items_for_invoice';\n  run.errors.push({ts:nowIso,stage:'emit_item_invoice_links',ruleId:rt?rt.ruleId:null,reason:'no_created_items_for_invoice'});\n  run.logs.push({ts:nowIso,level:'error',event:'rule_emit_item_invoice_links_empty',ruleId:rt?rt.ruleId:null,invoiceId});\n  return [];\n}\nrun.logs.push({ts:nowIso,level:'info',event:'rule_emit_item_invoice_links',ruleId:rt?rt.ruleId:null,invoiceId,count:ids.length});\nreturn ids.map((itemId)=>({json:{procKey,itemId,invoiceId}}));"
+      },
+      "id": "91ae08d2-ed57-4b6d-84c3-b090f02da751",
+      "name": "Rule: Emit itens p/ vincular invoiceId",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        1504
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "be3e9270-dc65-42f2-bd0e-2514ec3d5638",
+      "name": "Loop vínculos invoiceId",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -256,
+        1504
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Rule: Init",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Init": {
+      "main": [
+        [
+          {
+            "node": "Rule: Tem itens?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Tem itens?": {
+      "main": [
+        [
+          {
+            "node": "Rule: Chunk IDs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Skip (sem itens)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Skip (sem itens)": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Chunk IDs": {
+      "main": [
+        [
+          {
+            "node": "Loop chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop chunks": {
+      "main": [
+        [
+          {
+            "node": "Rule: Filtrar itens + montar fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Chunk: Build query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk: Build query": {
+      "main": [
+        [
+          {
+            "node": "FIN-02: Fetch itens (batch)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-02: Fetch itens (batch)": {
+      "main": [
+        [
+          {
+            "node": "Chunk: Accumulate itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk: Accumulate itens": {
+      "main": [
+        [
+          {
+            "node": "Loop chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Filtrar itens + montar fatura": {
+      "main": [
+        [
+          {
+            "node": "Rule: Pode criar fatura?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Pode criar fatura?": {
+      "main": [
+        [
+          {
+            "node": "FIN-03: Recheck fatura existente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Skip (sem elegíveis)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Skip (sem elegíveis)": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-03: Criar fatura": {
+      "main": [
+        [
+          {
+            "node": "Rule: Invoice criada?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Erro criar fatura",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Erro criar fatura": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Invoice criada?": {
+      "main": [
+        [
+          {
+            "node": "Rule: Set invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Invoice logical error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Set invoiceId": {
+      "main": [
+        [
+          {
+            "node": "Rule: Emit itens p/ vincular invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Invoice logical error": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Emit itens p/ criar": {
+      "main": [
+        [
+          {
+            "node": "Loop itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop itens": {
+      "main": [
+        [
+          {
+            "node": "Rule: Prep criar fatura com itens",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FIN-04: Criar item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-04: Criar item": {
+      "main": [
+        [
+          {
+            "node": "Item: Criado com sucesso?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Item: Erro criar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Erro criar": {
+      "main": [
+        [
+          {
+            "node": "Loop itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Criado com sucesso?": {
+      "main": [
+        [
+          {
+            "node": "Item: Set created",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Item: Erro lógico criar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Set created": {
+      "main": [
+        [
+          {
+            "node": "Item: Registrar created",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Registrar created": {
+      "main": [
+        [
+          {
+            "node": "Item: Parcelado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Erro lógico criar": {
+      "main": [
+        [
+          {
+            "node": "Item: Parcelado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Parcelado?": {
+      "main": [
+        [
+          {
+            "node": "FIN-02: Update parcelas_pagas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-02: Update parcelas_pagas": {
+      "main": [
+        [
+          {
+            "node": "Item: Parcelas OK",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Item: Erro parcelas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Parcelas OK": {
+      "main": [
+        [
+          {
+            "node": "Loop itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Erro parcelas": {
+      "main": [
+        [
+          {
+            "node": "Loop itens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-03: Recheck fatura existente": {
+      "main": [
+        [
+          {
+            "node": "Rule: Parse precheck fatura existente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Parse precheck fatura existente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Parse precheck fatura existente": {
+      "main": [
+        [
+          {
+            "node": "Rule: Recheck permite criar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Recheck permite criar?": {
+      "main": [
+        [
+          {
+            "node": "Rule: Emit itens p/ criar",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: Skip (fatura existente)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Skip (fatura existente)": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Prep criar fatura com itens": {
+      "main": [
+        [
+          {
+            "node": "Rule: Pode criar fatura com itens?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Pode criar fatura com itens?": {
+      "main": [
+        [
+          {
+            "node": "FIN-03: Criar fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-04: Vincular id_da_fatura no item": {
+      "main": [
+        [
+          {
+            "node": "Item: InvoiceId vinculado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Item: Erro ao vincular invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: InvoiceId vinculado": {
+      "main": [
+        [
+          {
+            "node": "Loop vínculos invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item: Erro ao vincular invoiceId": {
+      "main": [
+        [
+          {
+            "node": "Loop vínculos invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rule: Emit itens p/ vincular invoiceId": {
+      "main": [
+        [
+          {
+            "node": "Loop vínculos invoiceId",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop vínculos invoiceId": {
+      "main": [
+        [
+          {
+            "node": "Rule: End",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FIN-04: Vincular id_da_fatura no item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "mry7wCpuNRODMB5e"
+  },
+  "versionId": "890e1608-d81b-4268-8769-18efbb667850",
+  "meta": {
+    "instanceId": "3016816d496aebba57a69fdaf12429733e80c66b51f4f4969ff2808297f74ee9"
+  },
+  "id": "0nUKP2OUpRLgMSxq",
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "updatedAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "updatedAt": "2025-11-10T13:15:58.540Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe"
+    }
+  ]
+}
