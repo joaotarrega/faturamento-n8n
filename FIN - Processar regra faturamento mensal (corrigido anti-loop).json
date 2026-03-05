@@ -178,7 +178,7 @@
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "mutation CreateItem($input: CreateCardInput!) { createCard(input: $input) { card { id url } userErrors { field message } } }",
+        "query": "mutation CreateItem($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
         "variables": "={{ { input: $json.createReq.input } }}"
       },
       "id": "4ab3ab23-346b-46df-a544-3ed0851da685",
@@ -278,7 +278,7 @@
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "mutation UpdateParcelas($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \"parcelas_pagas\", value: $value }] }) { success userErrors { field message } } }",
+        "query": "mutation UpdateParcelas($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \"parcelas_pagas\", value: $value }] }) { success } }",
         "variables": "={{ { cardId: String($json.updateReq.templateItemId), value: [Number($json.updateReq.newParcelasPagas)] } }}"
       },
       "id": "cdc126ac-3c2e-4011-b599-8139e2439dfa",
@@ -419,7 +419,7 @@
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "mutation CreateInvoice($input: CreateCardInput!) { createCard(input: $input) { card { id title url } userErrors { field message } } }",
+        "query": "mutation CreateInvoice($input: CreateCardInput!) { createCard(input: $input) { card { id title url } } }",
         "variables": "={{ { input: $json.invoiceInput } }}"
       },
       "id": "eb4653e8-d1b1-4f7f-82b0-6e65cc3c489d",
@@ -519,7 +519,7 @@
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "mutation LinkInvoiceOnItem($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \"id_da_fatura\", value: $value }] }) { success userErrors { field message } } }",
+        "query": "mutation LinkInvoiceOnItem($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \"id_da_fatura\", value: $value }] }) { success } }",
         "variables": "={{ { itemId: String($json.linkReq.itemId), value: [String($json.linkReq.invoiceId)] } }}"
       },
       "id": "2ad2909b-fa2a-434c-a685-f0bf46210e0e",
