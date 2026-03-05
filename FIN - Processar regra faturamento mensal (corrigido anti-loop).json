@@ -63,19 +63,6 @@
     },
     {
       "parameters": {
-        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst ids = Array.isArray(ctx?.rule?.itemTemplateIds) ? ctx.rule.itemTemplateIds : [];\nreturn ids.map((templateItemId) => ({\n  json: {\n    ctx,\n    templateItemId: String(templateItemId),\n  },\n}));"
-      },
-      "id": "e4b38d6b-904f-4477-820c-372aa80f07bb",
-      "name": "02.1 | Emit template IDs (Code)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -2180,
-        860
-      ]
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
         "query": "query GetTemplateItem($id: ID!) { card(id: $id) { id title current_phase { id name } fields { field { id label type } value report_value array_value } } }",
@@ -163,19 +150,6 @@
     },
     {
       "parameters": {
-        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst reqs = Array.isArray(ctx.createItemRequests) ? ctx.createItemRequests : [];\nreturn reqs.map((createReq) => ({ json: { ctx, createReq } }));"
-      },
-      "id": "7fd272f4-fdae-4dca-aa6a-6257f9e7df7a",
-      "name": "03.1 | Emit create requests (Code)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1080,
-        760
-      ]
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
         "query": "mutation CreateItem($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
@@ -259,19 +233,6 @@
       "position": [
         -200,
         760
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst updates = Array.isArray(ctx.parcelaUpdates) ? ctx.parcelaUpdates : [];\nreturn updates.map((updateReq) => ({ json: { ctx, updateReq } }));"
-      },
-      "id": "0d077015-c354-4153-a902-d862d4f64644",
-      "name": "04.2 | Emit parcela updates (Code)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        20,
-        660
       ]
     },
     {
@@ -504,19 +465,6 @@
     },
     {
       "parameters": {
-        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst updates = Array.isArray(ctx.linkUpdates) ? ctx.linkUpdates : [];\nreturn updates.map((linkReq) => ({ json: { ctx, linkReq } }));"
-      },
-      "id": "4dfaf964-7a76-44ac-b071-989d8d44c9a5",
-      "name": "07.2 | Emit link updates (Code)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1780,
-        660
-      ]
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
         "query": "mutation LinkInvoiceOnItem($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \"id_da_fatura\", value: $value }] }) { success } }",
@@ -701,6 +649,154 @@
       ],
       "id": "603123d0-4ff2-4eae-a57a-6cd2dcdc760c",
       "name": "Nota Fase 08"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "516e08e1-3390-4f2a-a45d-1289ff89464a",
+              "name": "emitTemplatePairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.rule?.itemTemplateIds) ? $json.rule.itemTemplateIds : []).map((templateItemId) => ({ ctx: $json, templateItemId: String(templateItemId) })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "21be89c6-9f14-4e90-b160-1a1beda9963b",
+      "name": "02.1 | Set pares template IDs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2180,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "emitTemplatePairs",
+        "options": {}
+      },
+      "id": "0986cdea-1fde-4194-a775-5ee703078d7c",
+      "name": "02.2 | Split Out template IDs",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -2060,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f22af6ae-8ce3-404a-acde-a55c96503fd3",
+              "name": "emitCreatePairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.createItemRequests) ? $json.createItemRequests : []).map((createReq) => ({ ctx: $json, createReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "256c143b-3d2c-4086-bf61-f8b718a9f36e",
+      "name": "03.1 | Set pares create requests",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1080,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "emitCreatePairs",
+        "options": {}
+      },
+      "id": "2828e003-5a5f-4101-87d9-e960423e8bd2",
+      "name": "03.2 | Split Out create requests",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -970,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "edc12f71-9d17-4dd5-ab19-c22db5fc433c",
+              "name": "emitParcelaPairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.parcelaUpdates) ? $json.parcelaUpdates : []).map((updateReq) => ({ ctx: $json, updateReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3a3da81c-dfa0-4b3b-ad9b-1f5843b724aa",
+      "name": "04.2 | Set pares parcela updates",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "emitParcelaPairs",
+        "options": {}
+      },
+      "id": "25cafbe0-0d0b-4f7c-8e5e-ed861f9f2248",
+      "name": "04.3 | Split Out parcela updates",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        130,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "989f1ba1-07e1-41ae-af52-3f6c40f1519f",
+              "name": "emitLinkPairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.linkUpdates) ? $json.linkUpdates : []).map((linkReq) => ({ ctx: $json, linkReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "98d1f58d-b0c5-4d93-96af-06fd5518c474",
+      "name": "07.2 | Set pares link updates",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1780,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "emitLinkPairs",
+        "options": {}
+      },
+      "id": "f5fe6b2a-63e6-43d7-a7ff-11733a7db261",
+      "name": "07.3 | Split Out link updates",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1890,
+        660
+      ]
     }
   ],
   "pinData": {},
@@ -738,14 +834,14 @@
         ],
         [
           {
-            "node": "02.1 | Emit template IDs (Code)",
+            "node": "02.1 | Set pares template IDs",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "02.1 | Emit template IDs (Code)": {
+    "02.2 | Split Out template IDs": {
       "main": [
         [
           {
@@ -805,14 +901,14 @@
         ],
         [
           {
-            "node": "03.1 | Emit create requests (Code)",
+            "node": "03.1 | Set pares create requests",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "03.1 | Emit create requests (Code)": {
+    "03.2 | Split Out create requests": {
       "main": [
         [
           {
@@ -865,7 +961,7 @@
       "main": [
         [
           {
-            "node": "04.2 | Emit parcela updates (Code)",
+            "node": "04.2 | Set pares parcela updates",
             "type": "main",
             "index": 0
           }
@@ -884,7 +980,7 @@
         ]
       ]
     },
-    "04.2 | Emit parcela updates (Code)": {
+    "04.3 | Split Out parcela updates": {
       "main": [
         [
           {
@@ -1031,7 +1127,7 @@
       "main": [
         [
           {
-            "node": "07.2 | Emit link updates (Code)",
+            "node": "07.2 | Set pares link updates",
             "type": "main",
             "index": 0
           }
@@ -1045,7 +1141,7 @@
         ]
       ]
     },
-    "07.2 | Emit link updates (Code)": {
+    "07.3 | Split Out link updates": {
       "main": [
         [
           {
@@ -1088,6 +1184,50 @@
         [
           {
             "node": "08.1 | Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03.1 | Set pares create requests": {
+      "main": [
+        [
+          {
+            "node": "03.2 | Split Out create requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04.2 | Set pares parcela updates": {
+      "main": [
+        [
+          {
+            "node": "04.3 | Split Out parcela updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07.2 | Set pares link updates": {
+      "main": [
+        [
+          {
+            "node": "07.3 | Split Out link updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02.1 | Set pares template IDs": {
+      "main": [
+        [
+          {
+            "node": "02.2 | Split Out template IDs",
             "type": "main",
             "index": 0
           }
