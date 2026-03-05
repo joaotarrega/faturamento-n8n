@@ -532,7 +532,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 01 — Entrada\nValida payload `rule_input` e encerra cedo se inválido.",
+        "content": "## Fase 01 — Entrada\nEntrada: `rule_input`\nSaída: `ctx` inicial ou terminal antecipado.",
         "height": 140,
         "width": 360
       },
@@ -547,7 +547,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 02 — Templates\nExpande templates, busca no Pipefy e calcula elegibilidade.",
+        "content": "## Fase 02 — Templates\nEntrada: templates da regra\nSaída: elegibilidade + requests de item + base da fatura.",
         "height": 160,
         "width": 540
       },
@@ -562,7 +562,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 03 — Criação de Itens\nMonta requests de criação e consolida respostas.",
+        "content": "## Fase 03 — Criação de Itens\nEntrada: `createItemRequests`\nSaída: `createdItemIds` + `parcelaUpdates`.",
         "height": 150,
         "width": 500
       },
@@ -577,7 +577,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 04 — Parcelas\nQuando aplicável, atualiza `parcelas_pagas` dos templates.",
+        "content": "## Fase 04 — Parcelas\nEntrada: `parcelaUpdates`\nSaída: atualização de parcelas antes do recheck.",
         "height": 150,
         "width": 500
       },
@@ -592,7 +592,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 05 — Recheck / Anti-loop\nRevalida existência de fatura para evitar duplicação.",
+        "content": "## Fase 05 — Recheck / Anti-loop\nEntrada: itens criados + competência\nSaída: encerra com fatura existente ou prepara criação.",
         "height": 150,
         "width": 520
       },
@@ -607,7 +607,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 06 — Criação de Fatura\nDecide criar e interpreta retorno da criação.",
+        "content": "## Fase 06 — Criação de Fatura\nEntrada: `invoiceInput`\nSaída: `invoiceId` e lista para vínculo.",
         "height": 150,
         "width": 500
       },
@@ -622,7 +622,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 07 — Vínculo\nPropaga `id_da_fatura` para os itens criados.",
+        "content": "## Fase 07 — Vínculo\nEntrada: `linkUpdates`\nSaída: itens vinculados via `id_da_fatura`.",
         "height": 150,
         "width": 520
       },
@@ -637,7 +637,7 @@
     },
     {
       "parameters": {
-        "content": "## Fase 08 — Finalização\nEmite `rule_result` com status, reason e métricas.",
+        "content": "## Fase 08 — Finalização\nSaída final: `rule_result` com status/reason/métricas/logs/erros.",
         "height": 140,
         "width": 360
       },
