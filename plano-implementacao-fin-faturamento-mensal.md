@@ -227,80 +227,88 @@ O desenho usa prioritariamente `Cron`, `Manual Trigger`, `Edit Fields`, `If`, `S
 
 ## 10. Especificacao das data tables e colunas
 
+A modelagem abaixo normaliza os tipos para o que faz sentido nas Data Tables do n8n: `string`, `number` e `dateTime`. Campos estruturados como `summary_json`, `details_json`, `variables_json` e `response_json` devem ser persistidos como `string`, com JSON serializado.
+
 ### `fin_billing_run_log`
 
-- `run_id`
-- `workflow_execution_id`
-- `parent_execution_id`
-- `workflow_name`
-- `trigger_type`
-- `competence_date`
-- `started_at`
-- `finished_at`
-- `status`
-- `failure_reason`
-- `graphql_calls_total`
-- `rules_found`
-- `rules_eligible`
-- `rules_processed`
-- `rules_failed`
-- `items_created`
-- `items_updated`
-- `duplicate_items_blocked`
-- `invoices_created`
-- `duplicate_invoices_blocked`
-- `installments_incremented`
-- `parent_items_inactivated`
-- `summary_json`
+| coluna | tipo n8n | descricao |
+|---|---|---|
+| `run_id` | `string` | identificador logico unico da execucao mensal; chave primaria recomendada da linha |
+| `workflow_execution_id` | `string` | ID da execucao corrente no n8n para correlacionar o log com a execution real |
+| `parent_execution_id` | `string` | ID da execucao pai quando o workflow for chamado por `Execute Workflow`; vazio no workflow raiz |
+| `workflow_name` | `string` | nome do workflow que escreveu a linha, no padrao `[FIN] x.y ...` |
+| `trigger_type` | `string` | origem da execucao, por exemplo `cron` ou `manual` |
+| `competence_date` | `dateTime` | competencia do run, sempre no primeiro dia do mes anterior, em horario `00:00:00` |
+| `started_at` | `dateTime` | timestamp de inicio da execucao do workflow |
+| `finished_at` | `dateTime` | timestamp de fim da execucao do workflow |
+| `status` | `string` | status agregado do workflow, por exemplo `success`, `failed`, `partial`, `blocked` |
+| `failure_reason` | `string` | motivo principal da falha ou bloqueio quando `status` nao for sucesso |
+| `graphql_calls_total` | `number` | total acumulado de chamadas GraphQL feitas por este workflow na execucao |
+| `rules_found` | `number` | quantidade de regras FIN-01 encontradas no escopo do run |
+| `rules_eligible` | `number` | quantidade de regras que passaram pela elegibilidade inicial |
+| `rules_processed` | `number` | quantidade de regras efetivamente processadas ate o fim do fluxo |
+| `rules_failed` | `number` | quantidade de regras que terminaram em falha ou bloqueio |
+| `items_created` | `number` | total de itens FIN-04 criados no run |
+| `items_updated` | `number` | total de updates feitos em itens FIN-04, tipicamente `id_da_fatura` |
+| `duplicate_items_blocked` | `number` | total de regras ou itens bloqueados por conflito de FIN-04 preexistente |
+| `invoices_created` | `number` | total de faturas FIN-03 criadas no run |
+| `duplicate_invoices_blocked` | `number` | total de regras bloqueadas por FIN-03 ja existente para a mesma competencia |
+| `installments_incremented` | `number` | total de incrementos aplicados em `parcelas_pagas` no FIN-02 |
+| `parent_items_inactivated` | `number` | total de itens FIN-02 atualizados para `Inativo` por fim do parcelamento |
+| `summary_json` | `string` | JSON serializado com resumo expandido da execucao, contadores auxiliares e amostras de erro |
 
 ### `fin_billing_entity_log`
 
-- `run_id`
-- `workflow_execution_id`
-- `parent_execution_id`
-- `workflow_name`
-- `node_name`
-- `entity_type`
-- `entity_id`
-- `rule_id`
-- `template_item_id`
-- `fin02_parent_item_id`
-- `invoice_id`
-- `fin04_item_id`
-- `competence_date`
-- `action`
-- `status`
-- `failure_reason`
-- `dedupe_key`
-- `graphql_calls_delta`
-- `started_at`
-- `finished_at`
-- `details_json`
+| coluna | tipo n8n | descricao |
+|---|---|---|
+| `run_id` | `string` | identificador logico unico do run para agrupar eventos da mesma execucao mensal |
+| `workflow_execution_id` | `string` | ID da execucao corrente no n8n |
+| `parent_execution_id` | `string` | ID da execucao pai quando houver encadeamento entre workflows |
+| `workflow_name` | `string` | nome do workflow que gerou o evento |
+| `node_name` | `string` | nome do node n8n responsavel pela acao ou pela falha |
+| `entity_type` | `string` | tipo da entidade auditada, por exemplo `rule`, `template_item`, `fin04_item`, `invoice`, `fin02_parent_item` |
+| `entity_id` | `string` | ID principal da entidade auditada naquela linha |
+| `rule_id` | `string` | ID da regra FIN-01 associada ao evento |
+| `template_item_id` | `string` | ID do template FIN-02 usado como origem do item |
+| `fin02_parent_item_id` | `string` | ID do item pai FIN-02 que pode receber update de parcelamento |
+| `invoice_id` | `string` | ID da fatura FIN-03 associada ao evento, quando existir |
+| `fin04_item_id` | `string` | ID do item FIN-04 associado ao evento, quando existir |
+| `competence_date` | `dateTime` | competencia do evento, sempre o primeiro dia do mes anterior, em horario `00:00:00` |
+| `action` | `string` | acao executada, por exemplo `create_item`, `create_invoice`, `update_item_invoice_id`, `increment_installment_counter` |
+| `status` | `string` | resultado da acao, por exemplo `success`, `failed`, `blocked`, `skipped` |
+| `failure_reason` | `string` | motivo da falha ou bloqueio para a entidade daquela linha |
+| `dedupe_key` | `string` | chave logica usada nas guardas de unicidade, por exemplo `rule_id + competence_date` ou `template_id + competence_date` |
+| `graphql_calls_delta` | `number` | quantidade de chamadas GraphQL consumidas especificamente por essa acao |
+| `started_at` | `dateTime` | timestamp de inicio do processamento da entidade |
+| `finished_at` | `dateTime` | timestamp de fim do processamento da entidade |
+| `details_json` | `string` | JSON serializado com payload expandido do evento, entradas relevantes, respostas resumidas e contexto de decisao |
 
 ### `fin_billing_graphql_log`
 
-- `run_id`
-- `workflow_execution_id`
-- `parent_execution_id`
-- `workflow_name`
-- `node_name`
-- `operation_name`
-- `pipe_id`
-- `phase_id`
-- `card_id`
-- `entity_type`
-- `entity_id`
-- `request_fingerprint`
-- `graphql_call_index`
-- `requested_at`
-- `responded_at`
-- `duration_ms`
-- `status`
-- `error_code`
-- `error_message`
-- `query_excerpt`
-- `variables_json`
-- `response_json`
+| coluna | tipo n8n | descricao |
+|---|---|---|
+| `run_id` | `string` | identificador logico unico do run para correlacionar a chamada com os demais logs |
+| `workflow_execution_id` | `string` | ID da execucao corrente no n8n |
+| `parent_execution_id` | `string` | ID da execucao pai, quando houver |
+| `workflow_name` | `string` | nome do workflow que fez a chamada GraphQL |
+| `node_name` | `string` | nome do node n8n que disparou a chamada |
+| `operation_name` | `string` | nome funcional da operacao GraphQL, por exemplo `GraphQL create FIN-03` |
+| `pipe_id` | `string` | ID do pipe alvo da operacao, quando aplicavel |
+| `phase_id` | `string` | ID da fase usada no filtro ou no `create`, quando aplicavel |
+| `card_id` | `string` | ID do card alvo da operacao, quando houver card especifico |
+| `entity_type` | `string` | tipo de entidade associado a chamada, por exemplo `rule`, `invoice`, `fin04_item` |
+| `entity_id` | `string` | ID da entidade de negocio relacionada a chamada |
+| `request_fingerprint` | `string` | hash ou assinatura textual do request para deduplicacao e diagnostico |
+| `graphql_call_index` | `number` | contador sequencial da chamada dentro da execucao do workflow |
+| `requested_at` | `dateTime` | timestamp em que a requisicao foi enviada |
+| `responded_at` | `dateTime` | timestamp em que a resposta foi recebida |
+| `duration_ms` | `number` | duracao total da chamada em milissegundos |
+| `status` | `string` | resultado tecnico da chamada, por exemplo `success`, `error`, `timeout` |
+| `error_code` | `string` | codigo de erro retornado pelo GraphQL/API, quando existir |
+| `error_message` | `string` | mensagem curta de erro retornada pela API ou pelo node |
+| `query_excerpt` | `string` | trecho reduzido da query ou mutation para facilitar auditoria sem gravar tudo em claro |
+| `variables_json` | `string` | JSON serializado com as variables enviadas na chamada |
+| `response_json` | `string` | JSON serializado com a resposta bruta ou resumida da chamada |
 
 ## 11. Mapeamento de campos
 
