@@ -12,22 +12,22 @@
           ]
         }
       },
-      "id": "f09cbabe-bf72-48c1-80ef-30e8decb14ef",
+      "id": "863c2b0f-1757-4616-868e-bb960060eaf1",
       "name": "Cron (dias 1-5 07:00)",
       "position": [
-        -2528,
-        496
+        -2752,
+        688
       ],
       "type": "n8n-nodes-base.cron",
       "typeVersion": 1
     },
     {
       "parameters": {},
-      "id": "5509b079-c780-4c8f-aec5-1b4beb4891a8",
+      "id": "797752ef-8fa5-43b8-8312-e85a976d617a",
       "name": "Manual Trigger",
       "position": [
-        -2528,
-        688
+        -2752,
+        880
       ],
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1
@@ -36,13 +36,13 @@
       "parameters": {
         "jsCode": "const sd=$getWorkflowStaticData('global');\n\nconst executionId=String($execution.id ?? 'manual');\nconst TZ='America/Sao_Paulo';\nconst now=new Date();\nconst nowIso=now.toISOString();\nconst parts=new Intl.DateTimeFormat('en-CA',{\n  timeZone:TZ,\n  year:'numeric',\n  month:'2-digit',\n  day:'2-digit'\n}).formatToParts(now);\nconst m={};\nfor(const p of parts){\n  m[p.type]=p.value;\n}\n\nconst year=Number(m.year);\nconst month=Number(m.month);\nconst day=Number(m.day);\nlet compYear=year;\nlet compMonth=month-1;\nif(compMonth===0){\n  compMonth=12;\n  compYear=year-1;\n}\n\nconst mm=String(compMonth).padStart(2,'0');\nconst competenciaYMD=compYear+'-'+mm+'-01';\nconst daysInCompMonth=new Date(Date.UTC(compYear,compMonth,0)).getUTCDate();\nconst compStart=competenciaYMD;\nconst compEnd=compYear+'-'+mm+'-'+String(daysInCompMonth).padStart(2,'0');\n\nconst metrics={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runContext={\n  executionId,\n  startedAt:nowIso,\n  timezone:TZ,\n  todayDay:day,\n  competenciaYMD,\n  compStart,\n  compEnd,\n  flags:{\n    maxRulesPages:50,\n    maxPrefetchPages:50,\n    rulesPageSize:50,\n    prefetchPageSize:200\n  },\n  metrics,\n  logs:[],\n  errors:[]\n};\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nfor(const [key,state] of Object.entries(sd.finV3Runs)){\n  const startedAt=state?.runInit?.startedAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.finV3Runs[key];\n  }\n}\n\nsd.finV3Runs[executionId]={\n  runInit:{\n    executionId,\n    startedAt:runContext.startedAt,\n    competenciaYMD:runContext.competenciaYMD,\n    metrics:{...runContext.metrics}\n  },\n  acc:{\n    contractVersion:'fin_v3',\n    metrics:{...runContext.metrics},\n    failures:[],\n    results:[],\n    statusCounts:{processed:0,skipped:0,failed:0},\n    skippedReasons:{},\n    prepSummarySeen:false,\n    prepSummaryCount:0,\n    ruleResultsReceived:0,\n    malformedResults:0\n  }\n};\n\nreturn [{json:{runContext}}];"
       },
-      "id": "9e95c877-3966-4b00-95c1-3847c0a0ef54",
+      "id": "ace54298-cb68-4c8b-b1a6-a2d64de86fa4",
       "name": "Init Run",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2080,
-        592
+        -2304,
+        784
       ]
     },
     {
@@ -96,24 +96,24 @@
         },
         "options": {}
       },
-      "id": "e9e58494-4c80-453a-bd85-e332eaab4822",
+      "id": "94733b3f-e854-4ced-8f18-7b2f866a39f3",
       "name": "Preparação: regras elegíveis",
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -1856,
-        592
+        -2080,
+        784
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "2fdb5b40-f05e-4f1b-b1a2-5ff7103ecb7c",
+      "id": "d8a4f162-a1ec-4ab7-bab0-c84279fa6859",
       "name": "Loop regras",
       "position": [
-        -1632,
-        592
+        -1856,
+        784
       ],
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3
@@ -189,39 +189,55 @@
         },
         "options": {}
       },
-      "id": "6c9fbe22-1549-472a-b23f-a95968d75bdc",
+      "id": "ff971ae8-1c98-47b0-8f08-60541d07afbd",
       "name": "Processar regra",
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -1184,
-        496
+        -1408,
+        688
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "dc71062d-7ca4-4731-9b7a-e646cc8b7b96",
+      "name": "Merge retorno processar regra",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1296,
+        688
       ]
     },
     {
       "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nif(!sd.finV3Runs[executionId]){\n  sd.finV3Runs[executionId]={\n    runInit:{executionId,startedAt:new Date().toISOString(),competenciaYMD:null,metrics:{}},\n    acc:{\n      contractVersion:'fin_v3',\n      metrics:{},\n      failures:[],\n      results:[],\n      statusCounts:{processed:0,skipped:0,failed:0},\n      skippedReasons:{},\n      prepSummarySeen:false,\n      prepSummaryCount:0,\n      ruleResultsReceived:0,\n      malformedResults:0\n    }\n  };\n}\n\nconst state=sd.finV3Runs[executionId];\nconst acc=state.acc;\nconst allowedStatus=new Set(['processed','skipped','failed']);\nconst collectIds=(...values)=>{\n  const out=[];\n  const visit=(value)=>{\n    if(value===undefined || value===null) return;\n    if(Array.isArray(value)){\n      for(const item of value) visit(item);\n      return;\n    }\n    const s=String(value).trim();\n    if(s) out.push(s);\n  };\n  for(const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst normalizeFailure=(failure,fallbackReason,...extraIds)=>({\n  node:String(failure?.node || 'Accumulate results'),\n  reason:String(failure?.reason || fallbackReason || 'unexpected_payload_shape'),\n  pipefyCardIds:collectIds(failure?.pipefyCardIds, extraIds)\n});\nconst pushSyntheticFailure=(reason,...ids)=>{\n  acc.failures.push({\n    node:'Accumulate results',\n    reason:String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds:collectIds(...ids)\n  });\n};\n\nfor(const it of $input.all()){\n  const j=(it && it.json && typeof it.json==='object' && !Array.isArray(it.json)) ? it.json : {};\n  const rule=(j.rule && typeof j.rule==='object' && !Array.isArray(j.rule)) ? j.rule : {};\n  const res=(j.result && typeof j.result==='object' && !Array.isArray(j.result)) ? j.result : {};\n  const fallbackIds=collectIds(rule.ruleId ?? null, res.invoiceId ?? null, res.existingInvoiceId ?? null, res.createdItemIds ?? null);\n\n  if(String(j.contractVersion || '')!=='fin_v3'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('invalid_contract_version', fallbackIds);\n    continue;\n  }\n\n  const itemType=String(j.itemType || '');\n  if(itemType==='prep_summary'){\n    acc.prepSummarySeen=true;\n    acc.prepSummaryCount=Number(acc.prepSummaryCount || 0) + 1;\n    const prepMetrics=(res.metrics && typeof res.metrics==='object' && !Array.isArray(res.metrics))\n      ? res.metrics\n      : ((res.prepContext?.metrics && typeof res.prepContext.metrics==='object' && !Array.isArray(res.prepContext.metrics)) ? res.prepContext.metrics : {});\n    for(const [k,v] of Object.entries(prepMetrics)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=n;\n      }\n    }\n    const prepFailures=Array.isArray(res.failures) ? res.failures : [];\n    for(const failure of prepFailures){\n      acc.failures.push(normalizeFailure(failure, 'unexpected_payload_shape', fallbackIds));\n    }\n    continue;\n  }\n\n  if(itemType!=='rule_result'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('unexpected_item_type', fallbackIds);\n    continue;\n  }\n\n  let status=String(res.status || 'failed');\n  let reason=String(res.reason || 'unexpected_payload_shape');\n  if(!allowedStatus.has(status)){\n    status='failed';\n    reason='unexpected_payload_shape';\n    acc.malformedResults += 1;\n  }\n\n  if(res.metricsDelta && typeof res.metricsDelta==='object' && !Array.isArray(res.metricsDelta)){\n    for(const [k,v] of Object.entries(res.metricsDelta)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=(Number(acc.metrics[k]) || 0) + n;\n      }\n    }\n  }\n\n  const normalizedFailures=[];\n  const incomingFailures=Array.isArray(res.failures) ? res.failures : [];\n  for(const failure of incomingFailures){\n    normalizedFailures.push(normalizeFailure(failure, reason, fallbackIds));\n  }\n  if(status==='failed' && normalizedFailures.length===0){\n    normalizedFailures.push({\n      node:'Accumulate results',\n      reason,\n      pipefyCardIds:fallbackIds\n    });\n  }\n  if(normalizedFailures.length>0){\n    acc.failures.push(...normalizedFailures);\n  }\n\n  const createdCount=Array.isArray(res.createdItemIds) ? res.createdItemIds.length : 0;\n\n  acc.ruleResultsReceived += 1;\n  acc.statusCounts[status]=Number(acc.statusCounts[status] || 0) + 1;\n  if(status==='skipped'){\n    acc.skippedReasons[reason]=Number(acc.skippedReasons[reason] || 0) + 1;\n  }\n\n  acc.results.push({\n    ruleId:rule.ruleId ?? null,\n    status,\n    reason,\n    invoiceId:res.invoiceId ?? null,\n    existingInvoiceId:res.existingInvoiceId ?? null,\n    createdCount,\n    timings:res.timings ?? null,\n    prefetchDecision:rule.prefetchDecision ?? null,\n    failureCount:normalizedFailures.length\n  });\n}\n\nreturn $input.all();"
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nif(!sd.finV3Runs[executionId]){\n  sd.finV3Runs[executionId]={\n    runInit:{executionId,startedAt:new Date().toISOString(),competenciaYMD:null,metrics:{}},\n    acc:{\n      contractVersion:'fin_v3',\n      metrics:{},\n      failures:[],\n      results:[],\n      statusCounts:{processed:0,skipped:0,failed:0},\n      skippedReasons:{},\n      prepSummarySeen:false,\n      prepSummaryCount:0,\n      ruleResultsReceived:0,\n      malformedResults:0\n    }\n  };\n}\n\nconst state=sd.finV3Runs[executionId];\nconst acc=state.acc;\nconst allowedStatus=new Set(['processed','skipped','failed']);\nconst collectIds=(...values)=>{\n  const out=[];\n  const visit=(value)=>{\n    if(value===undefined || value===null) return;\n    if(Array.isArray(value)){\n      for(const item of value) visit(item);\n      return;\n    }\n    const s=String(value).trim();\n    if(s) out.push(s);\n  };\n  for(const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst normalizeFailure=(failure,fallbackReason,...extraIds)=>({\n  node:String(failure?.node || 'Accumulate results'),\n  reason:String(failure?.reason || fallbackReason || 'unexpected_payload_shape'),\n  pipefyCardIds:collectIds(failure?.pipefyCardIds, extraIds)\n});\nconst pushSyntheticFailure=(reason,...ids)=>{\n  acc.failures.push({\n    node:'Accumulate results',\n    reason:String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds:collectIds(...ids)\n  });\n};\nconst childWorkflowErrorSentinel='FIN_CREATE_ITEM_REQUIRED_FIELD_ERROR::';\nconst collectErrorStrings=(value,out=[])=>{\n  if(value===undefined || value===null) return out;\n  if(Array.isArray(value)){\n    for(const item of value) collectErrorStrings(item,out);\n    return out;\n  }\n  if(typeof value==='string'){\n    const s=value.trim();\n    if(s) out.push(s);\n    return out;\n  }\n  if(typeof value==='object'){\n    for(const key of ['message','description','hint','details','errorMessage']){\n      if(key in value) collectErrorStrings(value[key],out);\n    }\n    if(out.length===0){\n      for(const nested of Object.values(value)) collectErrorStrings(nested,out);\n    }\n  }\n  return out;\n};\nconst extractChildErrorText=(payload)=>Array.from(new Set([\n  ...collectErrorStrings(payload.error,[]),\n  ...collectErrorStrings(payload.executionError,[]),\n  ...collectErrorStrings(payload.errorMessage,[]),\n  ...collectErrorStrings(payload.message,[]),\n  ...collectErrorStrings(payload.description,[])\n])).join(' | ');\n\nfor(const it of $input.all()){\n  const j=(it && it.json && typeof it.json==='object' && !Array.isArray(it.json)) ? it.json : {};\n  const rule=(j.rule && typeof j.rule==='object' && !Array.isArray(j.rule)) ? j.rule : {};\n  const res=(j.result && typeof j.result==='object' && !Array.isArray(j.result)) ? j.result : {};\n  const fallbackIds=collectIds(rule.ruleId ?? null, res.invoiceId ?? null, res.existingInvoiceId ?? null, res.createdItemIds ?? null);\n  const childErrorText=extractChildErrorText(j);\n\n  if(String(j.contractVersion || '')!=='fin_v3'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('invalid_contract_version', fallbackIds);\n    continue;\n  }\n\n  const itemType=String(j.itemType || '');\n  if(itemType==='prep_summary'){\n    acc.prepSummarySeen=true;\n    acc.prepSummaryCount=Number(acc.prepSummaryCount || 0) + 1;\n    const prepMetrics=(res.metrics && typeof res.metrics==='object' && !Array.isArray(res.metrics))\n      ? res.metrics\n      : ((res.prepContext?.metrics && typeof res.prepContext.metrics==='object' && !Array.isArray(res.prepContext.metrics)) ? res.prepContext.metrics : {});\n    for(const [k,v] of Object.entries(prepMetrics)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=n;\n      }\n    }\n    const prepFailures=Array.isArray(res.failures) ? res.failures : [];\n    for(const failure of prepFailures){\n      acc.failures.push(normalizeFailure(failure, 'unexpected_payload_shape', fallbackIds));\n    }\n    continue;\n  }\n\n  if(itemType==='rule_input' && childErrorText){\n    const reason=childErrorText.includes(childWorkflowErrorSentinel)\n      ? 'create_item_required_field_error'\n      : 'child_workflow_runtime_error';\n    const normalizedFailures=[{\n      node:'Processar regra',\n      reason,\n      pipefyCardIds:fallbackIds\n    }];\n    acc.failures.push(...normalizedFailures);\n    acc.ruleResultsReceived += 1;\n    acc.statusCounts.failed=Number(acc.statusCounts.failed || 0) + 1;\n    acc.results.push({\n      ruleId:rule.ruleId ?? null,\n      status:'failed',\n      reason,\n      invoiceId:null,\n      existingInvoiceId:null,\n      createdCount:0,\n      timings:null,\n      prefetchDecision:rule.prefetchDecision ?? null,\n      failureCount:normalizedFailures.length\n    });\n    continue;\n  }\n\n  if(itemType!=='rule_result'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('unexpected_item_type', fallbackIds);\n    continue;\n  }\n\n  let status=String(res.status || 'failed');\n  let reason=String(res.reason || 'unexpected_payload_shape');\n  if(!allowedStatus.has(status)){\n    status='failed';\n    reason='unexpected_payload_shape';\n    acc.malformedResults += 1;\n  }\n\n  if(res.metricsDelta && typeof res.metricsDelta==='object' && !Array.isArray(res.metricsDelta)){\n    for(const [k,v] of Object.entries(res.metricsDelta)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=(Number(acc.metrics[k]) || 0) + n;\n      }\n    }\n  }\n\n  const normalizedFailures=[];\n  const incomingFailures=Array.isArray(res.failures) ? res.failures : [];\n  for(const failure of incomingFailures){\n    normalizedFailures.push(normalizeFailure(failure, reason, fallbackIds));\n  }\n  if(status==='failed' && normalizedFailures.length===0){\n    normalizedFailures.push({\n      node:'Accumulate results',\n      reason,\n      pipefyCardIds:fallbackIds\n    });\n  }\n  if(normalizedFailures.length>0){\n    acc.failures.push(...normalizedFailures);\n  }\n\n  const createdCount=Array.isArray(res.createdItemIds) ? res.createdItemIds.length : 0;\n\n  acc.ruleResultsReceived += 1;\n  acc.statusCounts[status]=Number(acc.statusCounts[status] || 0) + 1;\n  if(status==='skipped'){\n    acc.skippedReasons[reason]=Number(acc.skippedReasons[reason] || 0) + 1;\n  }\n\n  acc.results.push({\n    ruleId:rule.ruleId ?? null,\n    status,\n    reason,\n    invoiceId:res.invoiceId ?? null,\n    existingInvoiceId:res.existingInvoiceId ?? null,\n    createdCount,\n    timings:res.timings ?? null,\n    prefetchDecision:rule.prefetchDecision ?? null,\n    failureCount:normalizedFailures.length\n  });\n}\n\nreturn $input.all();"
       },
-      "id": "e3930edb-7672-4472-a213-9f783da7ef60",
+      "id": "ec4a42ce-2a8f-4570-b357-f700619abcd2",
       "name": "Accumulate results",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -960,
-        688
+        -1184,
+        880
       ]
     },
     {
       "parameters": {
         "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nconst state=sd.finV3Runs[executionId];\n\nconst defaults={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runInit=(state?.runInit && typeof state.runInit==='object' && !Array.isArray(state.runInit)) ? state.runInit : {executionId,startedAt:null,competenciaYMD:null,metrics:{...defaults}};\nconst acc=(state?.acc && typeof state.acc==='object' && !Array.isArray(state.acc)) ? state.acc : {\n  contractVersion:'fin_v3',\n  metrics:{...defaults},\n  failures:[],\n  results:[],\n  statusCounts:{processed:0,skipped:0,failed:0},\n  skippedReasons:{},\n  prepSummarySeen:false,\n  prepSummaryCount:0,\n  ruleResultsReceived:0,\n  malformedResults:0\n};\n\nconst metrics={...defaults};\nif(runInit.metrics && typeof runInit.metrics==='object' && !Array.isArray(runInit.metrics)){\n  for(const [k,v] of Object.entries(runInit.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\nif(acc.metrics && typeof acc.metrics==='object' && !Array.isArray(acc.metrics)){\n  for(const [k,v] of Object.entries(acc.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\n\nconst sc={processed:0,skipped:0,failed:0,...(acc.statusCounts || {})};\nconst processedRules=Number(sc.processed || 0);\nconst skippedRules=Number(sc.skipped || 0);\nconst failedRules=Number(sc.failed || 0);\nconst failures=Array.isArray(acc.failures) ? acc.failures : [];\nconst ruleResultsReceived=Number(acc.ruleResultsReceived || 0);\nconst malformedResults=Number(acc.malformedResults || 0);\nconst prepSummarySeen=Boolean(acc.prepSummarySeen);\nconst prepSummaryCount=Number(acc.prepSummaryCount || 0);\n\nconst failedNodes={};\nconst failedReasons={};\nconst pipefyCardIds=[];\nconst pipefyCardSet=new Set();\nfor(const failure of failures){\n  const node=String(failure?.node || 'Accumulate results');\n  const reason=String(failure?.reason || 'unexpected_payload_shape');\n  failedNodes[node]=Number(failedNodes[node] || 0) + 1;\n  failedReasons[reason]=Number(failedReasons[reason] || 0) + 1;\n  const ids=Array.isArray(failure?.pipefyCardIds) ? failure.pipefyCardIds : [];\n  for(const rawId of ids){\n    const id=String(rawId || '').trim();\n    if(!id || pipefyCardSet.has(id)) continue;\n    pipefyCardSet.add(id);\n    pipefyCardIds.push(id);\n  }\n}\n\nconst expectedRuleResults=Number(metrics.rulesTotal || 0);\nconst integrityErrors=[];\nif(!prepSummarySeen){\n  integrityErrors.push('prep_summary_missing');\n}\nif(expectedRuleResults>0 && ruleResultsReceived!==expectedRuleResults){\n  integrityErrors.push('rule_results_mismatch_expected');\n}\n\nconst startedAt=runInit.startedAt || null;\nconst finishedAt=new Date().toISOString();\nconst startedMs=Date.parse(startedAt || '');\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\nconst failureCount=failures.length;\n\nconst summary={\n  contractVersion:'fin_v3',\n  executionId,\n  competenciaYMD:runInit.competenciaYMD || null,\n  startedAt,\n  finishedAt,\n  durationMs,\n  processedRules,\n  skippedRules,\n  failedRules,\n  totalRules:processedRules+skippedRules+failedRules,\n  ruleResultsReceived,\n  expectedRuleResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  malformedResults,\n  errorsCount:failureCount,\n  failureCount,\n  skippedReasons:(acc.skippedReasons && typeof acc.skippedReasons==='object' && !Array.isArray(acc.skippedReasons)) ? acc.skippedReasons : {},\n  failedNodes,\n  failedReasons,\n  pipefyCardIds,\n  integrityErrors,\n  metrics\n};\n\nconst ok=(failedRules===0) && (summary.failureCount===0) && (summary.malformedResults===0) && integrityErrors.length===0;\n\nconst run={\n  contractVersion:'fin_v3',\n  metrics,\n  failures,\n  results:Array.isArray(acc.results) ? acc.results : [],\n  statusCounts:sc,\n  skippedReasons:summary.skippedReasons,\n  failedNodes,\n  failedReasons,\n  malformedResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  ruleResultsReceived,\n  failureCount\n};\n\nif(sd.finV3Runs && sd.finV3Runs[executionId]){\n  delete sd.finV3Runs[executionId];\n}\n\nreturn [{json:{summary,run,ok}}];"
       },
-      "id": "6406c89f-80f1-4d44-a4d5-f081a215ff76",
+      "id": "707dc756-ab6d-4e26-a7fe-b0d12cb679c5",
       "name": "Finalize summary",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1408,
-        304
+        -1632,
+        496
       ]
     },
     {
@@ -244,12 +260,7 @@
             "processed_rules": "={{ $json.summary.processedRules }}",
             "errors_count": "={{ $json.summary.failureCount }}",
             "rulesTotal": "={{ $json.summary.totalRules }}",
-            "rulesEligible": "={{ $json.summary.metrics.rulesEligible }}",
-            "skipped_rules": "={{ $json.summary.skippedRules }}",
-            "failed_rules": "={{ $json.summary.failedRules }}",
-            "failed_nodes": "={{ Object.keys($json.summary.failedNodes || {}).join('|') }}",
-            "failed_reasons": "={{ Object.keys($json.summary.failedReasons || {}).join('|') }}",
-            "pipefy_card_ids": "={{ Array.isArray($json.summary.pipefyCardIds) ? $json.summary.pipefyCardIds.join('|') : '' }}"
+            "rulesEligible": "={{ $json.summary.metrics.rulesEligible }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -342,56 +353,6 @@
               "type": "number",
               "readOnly": false,
               "removed": false
-            },
-            {
-              "id": "skipped_rules",
-              "displayName": "skipped_rules",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "failed_rules",
-              "displayName": "failed_rules",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "failed_nodes",
-              "displayName": "failed_nodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "failed_reasons",
-              "displayName": "failed_reasons",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "pipefy_card_ids",
-              "displayName": "pipefy_card_ids",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -402,10 +363,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1,
       "position": [
-        -1184,
-        304
+        -1408,
+        496
       ],
-      "id": "b4a7238a-4479-4de7-97a8-a3dedbd70fbc",
+      "id": "a0160fcf-2114-48ab-a871-335d9fc642c1",
       "name": "Persistir logs (Data Table)",
       "continueOnFail": true
     },
@@ -438,10 +399,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -960,
-        304
+        -1184,
+        496
       ],
-      "id": "a3e475c8-85a0-4b1e-b245-6ffd93caf62f",
+      "id": "487bb55c-3ce9-4093-a406-d234a7d9793e",
       "name": "Restaurar summary (pós-log)"
     },
     {
@@ -469,11 +430,11 @@
         },
         "options": {}
       },
-      "id": "d4f54f3c-9a33-4c52-8b1b-6c447bd776a1",
+      "id": "d04e6104-090b-4a0e-a962-8c829153b81b",
       "name": "Run: tem erros?",
       "position": [
-        -736,
-        304
+        -960,
+        496
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2
@@ -482,13 +443,13 @@
       "parameters": {
         "errorMessage": "={{ 'FIN faturamento (fin_v3): execução com falhas. failureCount=' + String($json.summary?.failureCount || 0) + ', failedRules=' + String($json.summary?.failedRules || 0) + ', malformed=' + String($json.summary?.malformedResults || 0) + ', firstFailure=' + String($json.run?.failures?.[0]?.node || 'n/a') + ':' + String($json.run?.failures?.[0]?.reason || 'n/a') + ', integrity=' + String(Array.isArray($json.summary?.integrityErrors) ? $json.summary.integrityErrors.join('|') : '') + ', competencia=' + String($json.summary?.competenciaYMD || 'n/a') }}"
       },
-      "id": "138a6923-9ea5-4ebb-ac28-3119772b2fe3",
+      "id": "e02f23c2-40ba-4073-844c-a19e99d55abb",
       "name": "Run: Stop and Error",
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -512,
-        208
+        -736,
+        400
       ]
     },
     {
@@ -517,13 +478,13 @@
         },
         "options": {}
       },
-      "id": "e230c703-ba54-4eb8-b890-124e85fb41c4",
+      "id": "1f7e8114-62cc-4e4e-9ab5-ef7db9e049e9",
       "name": "Run: Success output",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -512,
-        400
+        -736,
+        592
       ]
     },
     {
@@ -535,10 +496,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2416,
-        896
+        -2640,
+        1088
       ],
-      "id": "51e38112-7085-4784-b49f-a0138bdb5e26",
+      "id": "8c5814e3-5953-45fc-82ce-d06eb9886ffc",
       "name": "Sticky Note"
     },
     {
@@ -566,13 +527,13 @@
         },
         "options": {}
       },
-      "id": "32be4bbd-50dc-46c6-a298-115764f0ba5d",
+      "id": "1e12b791-0304-41fb-97a8-86de8239a821",
       "name": "Loop: É rule_input?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1408,
-        592
+        -1632,
+        784
       ]
     }
   ],
@@ -644,9 +605,16 @@
       "main": [
         [
           {
-            "node": "Accumulate results",
+            "node": "Merge retorno processar regra",
             "type": "main",
-            "index": 0
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge retorno processar regra",
+            "type": "main",
+            "index": 1
           }
         ]
       ]
@@ -720,8 +688,24 @@
             "node": "Processar regra",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Merge retorno processar regra",
+            "type": "main",
+            "index": 0
           }
         ],
+        [
+          {
+            "node": "Accumulate results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge retorno processar regra": {
+      "main": [
         [
           {
             "node": "Accumulate results",
@@ -739,7 +723,7 @@
     "availableInMCP": false,
     "errorWorkflow": "mry7wCpuNRODMB5e"
   },
-  "versionId": "694593e4-5d5e-437a-a221-1465bb79e9e0",
+  "versionId": "c8aac98a-3c34-4e0e-912f-75947c86502d",
   "meta": {
     "instanceId": "3016816d496aebba57a69fdaf12429733e80c66b51f4f4969ff2808297f74ee9"
   },
