@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "anota_es_da_execu_o_do_plano_de_a_o",
+      "index": 0.0,
+      "internal_id": "418433569",
+      "label": "Anotações da execução do plano de ação",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "170063e2-9f5f-49be-af39-0f02f85c0252"
+    }
+  },
+  "meta": {
+    "field_id": "anota_es_da_execu_o_do_plano_de_a_o",
+    "phase": {
+      "id": "340088247",
+      "name": "Retenção",
+      "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

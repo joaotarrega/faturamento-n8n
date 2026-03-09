@@ -1,0 +1,62 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "325628670",
+          "phaseField": {
+            "id": "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+            "internal_id": "415633356",
+            "label": "Statement-7e47a740-6e57-460d-a0ce-e932a465402a",
+            "uuid": "558fee02-d597-4abb-922c-74f9446426b0"
+          },
+          "phaseFieldId": "415633356",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325628671",
+          "phaseField": {
+            "id": "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+            "internal_id": "415633356",
+            "label": "Statement-7e47a740-6e57-460d-a0ce-e932a465402a",
+            "uuid": "558fee02-d597-4abb-922c-74f9446426b0"
+          },
+          "phaseFieldId": "415633356",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.414591148",
+            "id": "313333062",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "SaaS"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310951312"
+      },
+      "id": "305874010",
+      "name": "Produto != SaaS",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269434/conditionals/305874010"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305874010",
+    "scope": "phase"
+  }
+}

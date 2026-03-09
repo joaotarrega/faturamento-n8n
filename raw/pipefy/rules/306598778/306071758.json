@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325659060",
+          "phaseField": {
+            "id": "indique_o_motivo_de_churn",
+            "internal_id": "418433608",
+            "label": "Indique o motivo de churn",
+            "uuid": "57b057f8-bf91-4936-aa5f-edadd594db51"
+          },
+          "phaseFieldId": "418433608",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418433585",
+            "id": "314029206",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Outro"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311599408"
+      },
+      "id": "306071758",
+      "name": "Motivo de churn != Outro",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/phases/340088247/conditionals/306071758"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "340088247",
+      "name": "Retenção",
+      "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+    },
+    "pipe_id": "306598778",
+    "rule_id": "306071758",
+    "scope": "phase"
+  }
+}

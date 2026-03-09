@@ -1,0 +1,192 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325362423",
+          "phaseField": {
+            "id": "statement_b6f6e66d_4958_4b60_9981_79af1c69cc65",
+            "internal_id": "415745828",
+            "label": "Statement-b6f6e66d-4958-4b60-9981-79af1c69cc65",
+            "uuid": "d0ca0e0f-42a8-43db-beff-3db103bed28e"
+          },
+          "phaseFieldId": "415745828",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362424",
+          "phaseField": {
+            "id": "nome_completo_do_respons_vel_financeiro",
+            "internal_id": "415745852",
+            "label": "Nome completo do responsável financeiro",
+            "uuid": "03370a16-4a80-4315-b442-2b2520f19040"
+          },
+          "phaseFieldId": "415745852",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362425",
+          "phaseField": {
+            "id": "email_do_respons_vel_financeiro",
+            "internal_id": "415745860",
+            "label": "Email do responsável financeiro",
+            "uuid": "bf56c3cf-7eb1-4985-a9ef-1d2dee5a6775"
+          },
+          "phaseFieldId": "415745860",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362426",
+          "phaseField": {
+            "id": "copy_of_email_do_respons_vel_financeiro",
+            "internal_id": "416177866",
+            "label": "Email 2 do responsável financeiro",
+            "uuid": "4e3b8806-b4ea-4f61-83e9-1d1a73e1899f"
+          },
+          "phaseFieldId": "416177866",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362427",
+          "phaseField": {
+            "id": "nome_completo_do_signat_rio_representante",
+            "internal_id": "415745880",
+            "label": "Nome completo do signatário representante",
+            "uuid": "38bf605a-fc41-4db1-8ecd-5f2f0968709d"
+          },
+          "phaseFieldId": "415745880",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362428",
+          "phaseField": {
+            "id": "email_completo_do_signat_rio_representante",
+            "internal_id": "415745898",
+            "label": "Email do signatário representante",
+            "uuid": "b5090a60-94ef-4c51-8313-5cac0dfd79f3"
+          },
+          "phaseFieldId": "415745898",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362429",
+          "phaseField": {
+            "id": "cpf_do_signat_rio_representante",
+            "internal_id": "415745975",
+            "label": "CPF do signatário representante",
+            "uuid": "50eb1e49-f59c-49ef-965c-78b5d53076f7"
+          },
+          "phaseFieldId": "415745975",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362430",
+          "phaseField": {
+            "id": "n_mero_de_identidad_responsable_firma",
+            "internal_id": "416052028",
+            "label": "Número de identidad responsable firma",
+            "uuid": "f3c6dfd0-0cc5-4e02-8ebc-e7e762ee5bd2"
+          },
+          "phaseFieldId": "416052028",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362431",
+          "phaseField": {
+            "id": "nome_completo_da_testemunha",
+            "internal_id": "415746020",
+            "label": "Nome completo da testemunha",
+            "uuid": "00e07c9a-379d-49a7-979c-01d285dd5f42"
+          },
+          "phaseFieldId": "415746020",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362432",
+          "phaseField": {
+            "id": "n_mero_de_identidad_testo",
+            "internal_id": "416052076",
+            "label": "Número de identidad testigo",
+            "uuid": "c6558fe9-9a3c-49df-b252-1157fc7e8771"
+          },
+          "phaseFieldId": "416052076",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362433",
+          "phaseField": {
+            "id": "email_da_testemunha",
+            "internal_id": "415746016",
+            "label": "Email da testemunha",
+            "uuid": "0af83343-9087-44b4-9596-bc77ad70a426"
+          },
+          "phaseFieldId": "415746016",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325362434",
+          "phaseField": {
+            "id": "cpf_da_testemunha",
+            "internal_id": "415746012",
+            "label": "CPF da testemunha",
+            "uuid": "ff6d9dd6-13b3-4974-8b7c-d469b4bab126"
+          },
+          "phaseFieldId": "415746012",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "labels",
+            "id": "313833567",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "316393479"
+          },
+          {
+            "field_address": "labels",
+            "id": "314205040",
+            "operation": "equals",
+            "structure_id": "1",
+            "value": "316591813"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "311417036"
+      },
+      "id": "306008176",
+      "name": "Tag = Nacional Inn ou ",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/phases/339322139/conditionals/306008176"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "rule_id": "306008176",
+    "scope": "phase"
+  }
+}

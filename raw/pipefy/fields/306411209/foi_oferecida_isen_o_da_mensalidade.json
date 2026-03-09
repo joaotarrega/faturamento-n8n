@@ -1,0 +1,35 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "foi_oferecida_isen_o_da_mensalidade",
+      "index": 37.5,
+      "internal_id": "416989278",
+      "label": "Foi oferecida isenção de mensalidade?",
+      "options": [
+        "Sim - Totalmente",
+        "Sim - Parcialmente",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "a825e1c5-8c04-491d-9faf-b3012a741e14"
+    }
+  },
+  "meta": {
+    "field_id": "foi_oferecida_isen_o_da_mensalidade",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

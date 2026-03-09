@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "description": "",
+      "help": "",
+      "id": "respons_vel_no_hotel_por_acompanhar_a_implanta_o",
+      "internal_id": "418552017",
+      "label": "Responsável no hotel por acompanhar a implantação",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "e9d31415-190a-4369-aecc-4005bcfd581e"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel_no_hotel_por_acompanhar_a_implanta_o",
+    "pipe_id": "306500191",
+    "scope": "start_form"
+  }
+}

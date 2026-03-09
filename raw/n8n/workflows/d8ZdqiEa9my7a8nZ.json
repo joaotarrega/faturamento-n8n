@@ -1,0 +1,338 @@
+{
+  "active": true,
+  "connections": {
+    "Contato criado - [DB-04] Contatos": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar informação do contato",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Contato é de rede?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add contato no DB-02 (redes)",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Listar clientes",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Listar clientes": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add contato no DB-01",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar informação do contato": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar rede/clientes associados",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar rede/clientes associados": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Contato é de rede?",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-10T13:34:46.100Z",
+  "id": "d8ZdqiEa9my7a8nZ",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Contato criado",
+  "nodes": [
+    {
+      "id": "2f053230-a6cc-4005-a3fa-f0d0a3e5a4ce",
+      "name": "Listar clientes",
+      "parameters": {
+        "fieldToSplitOut": "clientes",
+        "options": {}
+      },
+      "position": [
+        896,
+        0
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "6a86ddde-a631-4443-b140-bac72c51cb2a",
+      "name": "Contato criado - [DB-04] Contatos",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "f6cec47d-b25d-4789-8bcb-c74190659896"
+      },
+      "position": [
+        0,
+        -96
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "f6cec47d-b25d-4789-8bcb-c74190659896"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "e5af6b09-4131-44e7-99bd-deced7f81527",
+      "maxTries": 5,
+      "name": "Pegar informação do contato",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.body.data.card.id }}\"\n}"
+      },
+      "position": [
+        224,
+        -96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "abe66990-8237-4a57-a45d-b8c4e57694d1",
+      "name": "Pegar rede/clientes associados",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f6c1121-ec50-4bc9-bbc2-343749151c07",
+              "name": "rede",
+              "type": "array",
+              "value": "={{\n(() => {\n  const FIELD_ID = \"rede\"; // change if you match by label: x.field?.label\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === FIELD_ID);\n  if (!f) return [];\n\n  const clean = s => (s ?? \"\").replace(/\\r?\\n/g, \"\").trim();\n\n  // Turn any label-like value into a plain string (no brackets/quotes)\n  const normalizeLabel = (v) => {\n    if (v == null) return \"\";\n    if (Array.isArray(v)) {\n      return v.map(x => normalizeLabel(x)).filter(Boolean).join(\", \");\n    }\n    if (typeof v === \"object\") {\n      const txt = v.label ?? v.name ?? v.value ?? \"\";\n      return normalizeLabel(txt);\n    }\n    let s = String(v);\n\n    // If it looks like JSON (e.g., '[\"Rede A\"]' or '\"Rede A\"'), try to parse first\n    try {\n      const parsed = JSON.parse(s);\n      if (Array.isArray(parsed)) return parsed.map(x => clean(String(x))).filter(Boolean).join(\", \");\n      if (typeof parsed === \"string\") s = parsed;\n    } catch (_) {}\n\n    s = clean(s);\n\n    // Strip wrapping quotes if present: \"Rede A\" -> Rede A\n    s = s.replace(/^\"(.*)\"$/,'$1');\n\n    // Strip a single pair of wrapping brackets if the whole thing is bracketed: [Rede A] -> Rede A\n    if (s.startsWith(\"[\") && s.endsWith(\"]\")) {\n      s = s.slice(1, -1).trim();\n    }\n\n    return s;\n  };\n\n  // ---- IDs from array_value ----\n  const extractIds = (input) => {\n    const out = [];\n    const push = (v) => {\n      if (v == null) return;\n      if (Array.isArray(v)) return v.forEach(push);\n      if (typeof v === \"object\") {\n        if (v.id != null) out.push(String(v.id));\n        else if (typeof v.value === \"string\")\n          clean(v.value).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n        return;\n      }\n      if (typeof v === \"number\") return out.push(String(v));\n      if (typeof v === \"string\")\n        return clean(v).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n    };\n    push(input);\n    return out;\n  };\n\n  const ids = extractIds(f.array_value);\n\n  // ---- Labels: prefer f.value; fallback to labels inside array_value objects ----\n  let labels = [];\n  if (Array.isArray(f.value)) {\n    labels = f.value.map(normalizeLabel).filter(Boolean);\n  } else if (typeof f.value === \"string\") {\n    const s = normalizeLabel(f.value);\n    // If multiple labels were packed in one string, split by commas/pipes\n    labels = s.split(/[,|]+/).map(x => x.trim()).filter(Boolean);\n  } else if (Array.isArray(f.array_value)) {\n    labels = f.array_value.map(v => normalizeLabel(v)).filter(Boolean);\n  }\n\n  // Zip by index\n  const max = Math.max(ids.length, labels.length);\n  const pairs = [];\n  for (let i = 0; i < max; i++) {\n    const id = ids[i] ?? null;\n    const label = (labels[i] ?? null);\n    if (id !== null || (label && label.length)) pairs.push({ id, label });\n  }\n  return pairs;\n})()\n}}"
+            },
+            {
+              "id": "5e121ff7-2fe3-42cd-8402-878be95f298d",
+              "name": "clientes",
+              "type": "array",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"empresa\"); // or match by label\n  const arr = Array.isArray(f?.array_value) ? f.array_value : [];\n  return arr.map(v => (typeof v === 'string' ? v.trim() : String(v))).filter(Boolean);\n})()\n}}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        448,
+        -96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "a1cf0494-dd55-4ed4-8d77-9f64d285c09d",
+      "name": "Contato é de rede?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "54f925ec-3631-4307-abd6-3a581ae07121",
+              "leftValue": "={{ $json.rede }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              },
+              "rightValue": "=\\n"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        672,
+        -96
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "bdec3591-57d7-463b-b297-8097d13b68d3",
+      "maxTries": 5,
+      "name": "Add contato no DB-02 (redes)",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd          # e.g. [\"123456789\"] or multiple IDs\n          operation: ADD         # append without replacing existing connections\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $('Contato é de rede?').item.json.rede[0].id }},\n  \"toAdd\": [{{ $('Pegar informação do contato').item.json.data.card.id }}]\n}\n"
+      },
+      "position": [
+        896,
+        -192
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "958f8b93-9051-4da3-ae6f-f827c75bfd6a",
+      "maxTries": 5,
+      "name": "Add contato no DB-01",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $json.clientes }},\n  \"toAdd\": [ {{ $(\"Pegar informação do contato\").item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        1120,
+        0
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 2
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-10T13:34:46.100Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-11-10T13:34:46.100Z",
+      "workflowId": "d8ZdqiEa9my7a8nZ"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-13T13:40:24.593Z",
+  "versionId": "f9ad323f-eb25-4992-932e-7085d7d0581e"
+}

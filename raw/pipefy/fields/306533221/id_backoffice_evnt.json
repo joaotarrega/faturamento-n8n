@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "[Guia visual para consultar o ID Backoffice](https://evnt.sharepoint.com/:i:/g/IQBJJ3sszHr0RI2kUalBkUeKAVLir06hlOqF2MKekPRK0vA?e=AcX1E4)",
+      "help": "",
+      "id": "id_backoffice_evnt",
+      "internal_id": "416244586",
+      "label": "ID Backoffice EVNT",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "0f250ee9-363a-4235-9edd-092d80a44e2d"
+    }
+  },
+  "meta": {
+    "field_id": "id_backoffice_evnt",
+    "pipe_id": "306533221",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325024129",
+          "phaseField": {
+            "id": "qual_o_evento_ou_cliente_rede_de_origem",
+            "internal_id": "416486282",
+            "label": "Qual a origem do lead?",
+            "uuid": "f3584e2a-2f4e-427a-9e99-933ae570a7d0"
+          },
+          "phaseFieldId": "416486282",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416486275",
+            "id": "313545398",
+            "operation": "equals",
+            "structure_id": "1",
+            "value": "Marketing"
+          },
+          {
+            "field_address": "416486275",
+            "id": "313875841",
+            "operation": "equals",
+            "structure_id": "2",
+            "value": "Prospecção ativa"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "2"
+          ],
+          [
+            "1"
+          ]
+        ],
+        "id": "311159720"
+      },
+      "id": "305931026",
+      "name": "Origem do lead = Prospecção ativa ou Marketing",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/form/conditionals/305931026"
+    }
+  },
+  "meta": {
+    "pipe_id": "306411209",
+    "rule_id": "305931026",
+    "scope": "start_form"
+  }
+}

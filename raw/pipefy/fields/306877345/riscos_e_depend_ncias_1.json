@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "riscos_e_depend_ncias_1",
+      "index": 200.0,
+      "internal_id": "423726427",
+      "label": "Riscos e dependências",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "ccbcb2d7-cd12-4f6b-917b-58d21bb64586"
+    }
+  },
+  "meta": {
+    "field_id": "riscos_e_depend_ncias_1",
+    "phase": {
+      "id": "341458414",
+      "name": "Triagem e definição",
+      "uuid": "682472a7-8b50-4956-ad4c-4aeb6d5d84c7"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

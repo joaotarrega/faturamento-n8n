@@ -1,0 +1,62 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324915357",
+          "phaseField": {
+            "id": "entrou_em_contato_com_o_cliente",
+            "internal_id": "416107256",
+            "label": "Entrou em contato com o cliente?",
+            "uuid": "fd4de23e-ddc3-4a4b-935c-91c37abea09f"
+          },
+          "phaseFieldId": "416107256",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324915601",
+          "phaseField": {
+            "id": "statement_1d31f223_fd19_4ad2_8eb2_b56ba28f6687",
+            "internal_id": "416108107",
+            "label": "Statement-1d31f223-fd19-4ad2-8eb2-b56ba28f6687",
+            "uuid": "c502ec71-46b2-423b-bedc-7c6c6bbd5c37"
+          },
+          "phaseFieldId": "416108107",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416107137",
+            "id": "313454016",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311070435"
+      },
+      "id": "305906884",
+      "name": "Necessário atuação != Sim",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/339432377/conditionals/305906884"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339432377",
+      "name": "Aguardando ficha cadastral",
+      "uuid": "1917735a-061a-406a-bc9f-f8e55a4da97b"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "305906884",
+    "scope": "phase"
+  }
+}

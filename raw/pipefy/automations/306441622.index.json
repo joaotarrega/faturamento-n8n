@@ -1,0 +1,482 @@
+{
+  "ids": [
+    "305291284",
+    "305538715",
+    "305538719",
+    "305882481",
+    "305882678",
+    "305940475"
+  ],
+  "meta": {
+    "kind": "automations",
+    "organization_id": "301997709",
+    "pipe_id": "306441622",
+    "repo_id": "306441622",
+    "supports_pagination": true
+  },
+  "pages": [
+    {
+      "data": {
+        "a4": {
+          "nodes": [
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{415747619.id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414749221",
+                    "field_id": "414749221",
+                    "inputMode": "copy_from",
+                    "value": "%{415754043.414591148}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414343250",
+                    "field_id": "414343250",
+                    "inputMode": "copy_from",
+                    "value": "%{415744692}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414362303",
+                    "field_id": "414362303",
+                    "inputMode": "copy_from",
+                    "value": "%{415745412}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414345675",
+                    "field_id": "414345675",
+                    "inputMode": "copy_from",
+                    "value": "%{415744525}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414357705",
+                    "field_id": "414357705",
+                    "inputMode": "copy_from",
+                    "value": "%{415745554}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414308310",
+                    "field_id": "414308310",
+                    "inputMode": "copy_from",
+                    "value": "%{415745661}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414308314",
+                    "field_id": "414308314",
+                    "inputMode": "copy_from",
+                    "value": "%{415745667}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414357060",
+                    "field_id": "414357060",
+                    "inputMode": "copy_from",
+                    "value": "%{415745673}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414985497",
+                    "field_id": "414985497",
+                    "inputMode": "copy_from",
+                    "value": "%{415745318}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414985731",
+                    "field_id": "414985731",
+                    "inputMode": "copy_from",
+                    "value": "%{415745309}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415637709",
+                    "field_id": "415637709",
+                    "inputMode": "copy_from",
+                    "value": "%{415744775}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414860709",
+                    "field_id": "414860709",
+                    "inputMode": "copy_from",
+                    "value": "%{418380438}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "417445718",
+                    "field_id": "417445718",
+                    "inputMode": "copy_from",
+                    "value": "%{417445698}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "420511832",
+                    "field_id": "420511832",
+                    "inputMode": "copy_from",
+                    "value": "%{415754043.420511917}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "422169531",
+                    "field_id": "422169531",
+                    "inputMode": "copy_from",
+                    "value": "%{416234106.422032976}"
+                  }
+                ],
+                "fields_map_order": [
+                  "414749221",
+                  "414345675",
+                  "414343250",
+                  "415637709",
+                  "414985731",
+                  "414985497",
+                  "414357705",
+                  "414362303",
+                  "414308310",
+                  "414308314",
+                  "414357060",
+                  "417445718",
+                  "414860709",
+                  "420511832",
+                  "420511879",
+                  "422169531"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "labels",
+                    "id": "314387962",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "316687233"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311176335"
+              },
+              "created_at": "2025-07-22 18:33:27 UTC",
+              "event_id": "card_left_phase",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": "339322139",
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305291284",
+              "name": "Atualizar DB-01 com ficha cadastral",
+              "url": "https://app.pipefy.com/pipes/306509228/settings/automations/305291284"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{415763017.id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418114452",
+                    "field_id": "418114452",
+                    "inputMode": "copy_from",
+                    "value": "%{automation_event_execution_datetime}"
+                  }
+                ],
+                "fields_map_order": [
+                  "418114452"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": false,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "last_phase_in",
+                    "id": "313960298",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "339455413"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311535907"
+              },
+              "created_at": "2025-08-26 15:14:35 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339455414",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305538715",
+              "name": "Atualizar data de implantação",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/automations/305538715"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "run_a_formula",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418112719",
+                    "field_id": "418112719",
+                    "inputMode": "copy_from",
+                    "value": "%{418114452}-%{418113274}"
+                  }
+                ],
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": false,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311535914"
+              },
+              "created_at": "2025-08-26 15:17:58 UTC",
+              "event_id": "field_updated",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": [
+                  "418114452"
+                ]
+              },
+              "id": "305538719",
+              "name": "Calcular tempo entre opp ganha e implantação",
+              "url": "https://app.pipefy.com/pipes/306441622/settings/automations/305538719"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309186665",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312047350"
+              },
+              "created_at": "2025-10-20 13:09:01 UTC",
+              "event_id": "sla_based",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": "overdue",
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305882481",
+              "name": "Piloto vencendo",
+              "url": "https://app.pipefy.com/pipes/306441622/settings/automations/305882481"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{415763017.id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "420518902",
+                    "field_id": "420518902",
+                    "inputMode": "copy_from",
+                    "value": "%{420661914}"
+                  }
+                ],
+                "fields_map_order": [
+                  "420518902"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312047640"
+              },
+              "created_at": "2025-10-20 13:23:33 UTC",
+              "event_id": "field_updated",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": [
+                  "420661914"
+                ]
+              },
+              "id": "305882678",
+              "name": "Atualizar admin SaaS no DB-01",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/automations/305882678"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{417644326.id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414751830",
+                    "field_id": "414751830",
+                    "inputMode": "copy_from",
+                    "value": "%{418433585}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414751837",
+                    "field_id": "414751837",
+                    "inputMode": "copy_from",
+                    "value": "%{418433608}"
+                  }
+                ],
+                "fields_map_order": [
+                  "414751830",
+                  "414751837"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312132383"
+              },
+              "created_at": "2025-10-28 19:19:26 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "340088329",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305940475",
+              "name": "Atualizar motivo de churn no DB-01",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940475"
+            }
+          ],
+          "pageInfo": {
+            "endCursor": "WzMwNTk0MDQ3NV0",
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "ids": [
+    "306028825"
+  ],
+  "meta": {
+    "kind": "automations",
+    "organization_id": "301997709",
+    "pipe_id": "306498227",
+    "repo_id": "306498227",
+    "supports_pagination": true
+  },
+  "pages": [
+    {
+      "data": {
+        "a6": {
+          "nodes": [
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "421400514",
+                    "field_id": "421400514",
+                    "inputMode": "copy_from",
+                    "value": "%{416299205}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "421400537",
+                    "field_id": "421400537",
+                    "inputMode": "copy_from",
+                    "value": "%{415480500}"
+                  }
+                ],
+                "fields_map_order": [
+                  "421400514",
+                  "421400537"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312261179"
+              },
+              "created_at": "2025-11-11 21:35:07 UTC",
+              "event_id": "card_created",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "306028825",
+              "name": "Preencher valores iniciais de histórico de cliente/rede",
+              "url": "https://app.pipefy.com/pipes/306498227/settings/automations/306028825"
+            }
+          ],
+          "pageInfo": {
+            "endCursor": "WzMwNjAyODgyNV0",
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ]
+}

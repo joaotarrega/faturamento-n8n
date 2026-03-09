@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h3>Motor de busca</h3>\n<p>Valor mensal adicional fixo: <strong>{{phase339269433.field415597983.field415903228}}</strong> <strong>{{phase339269433.field415597983.field414861630}}</strong><strong>{{phase339269433.field415597983.field415903684}}</strong></p>",
+      "help": null,
+      "id": "copy_of_copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+      "index": -0.78125,
+      "internal_id": "415633467",
+      "label": "Copy of Copy of Statement-45f6a270-21e5-43c1-8c70-dc4246575fa6",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "0243fda5-71f0-4977-9dc6-77b6999912ca"
+    }
+  },
+  "meta": {
+    "field_id": "copy_of_copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

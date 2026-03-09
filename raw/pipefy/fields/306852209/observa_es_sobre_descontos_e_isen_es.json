@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Exemplo:\n\"Por se tratar de hotel do Chile, isentamos o imposto local de IVA.\"",
+      "help": "",
+      "id": "observa_es_sobre_descontos_e_isen_es",
+      "internal_id": "422751353",
+      "label": "Observações sobre descontos e isenções",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "6d6d1dd7-2d0c-4a99-87fe-92d901eaec72"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_sobre_descontos_e_isen_es",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

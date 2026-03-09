@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "telefone",
+      "internal_id": "415480487",
+      "label": "Telefone principal",
+      "options": [],
+      "required": false,
+      "type": "phone",
+      "uuid": "6d8d8189-327c-49c8-ba5f-748f1b6eaacc"
+    }
+  },
+  "meta": {
+    "field_id": "telefone",
+    "pipe_id": "306498227",
+    "scope": "start_form"
+  }
+}

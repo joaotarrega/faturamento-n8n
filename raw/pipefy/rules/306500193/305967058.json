@@ -1,0 +1,60 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325169478",
+          "phaseField": {
+            "id": "statement_c47dc2bc_904c_4235_9d4e_4c8baee7df5f",
+            "internal_id": "416992876",
+            "label": "Statement-c47dc2bc-904c-4235-9d4e-4c8baee7df5f",
+            "uuid": "a626f705-92b6-4160-95fa-0f6759883546"
+          },
+          "phaseFieldId": "416992876",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.416989278",
+            "id": "313658359",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim - Parcialmente"
+          },
+          {
+            "field_address": "415597983.416989278",
+            "id": "313658360",
+            "operation": "not_equals",
+            "structure_id": "1",
+            "value": "Sim - Totalmente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "311275716"
+      },
+      "id": "305967058",
+      "name": "Isenção mensalidade != Sim",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269434/conditionals/305967058"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305967058",
+    "scope": "phase"
+  }
+}

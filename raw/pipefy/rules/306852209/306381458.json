@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327048733",
+          "phaseField": {
+            "id": "desconto_no_valor_vari_vel_do_saas_para_hospedagem",
+            "internal_id": "422751363",
+            "label": "Valor percentual de desconto SaaS - Categoria  Hospedagem",
+            "uuid": "55219424-0008-4fa0-b304-e57acf430442"
+          },
+          "phaseFieldId": "422751363",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422900689",
+            "id": "315062546",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337139"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312578371"
+      },
+      "id": "306381458",
+      "name": "Tipo de desconto Hospedagem != Valor percentual",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381458"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306381458",
+    "scope": "start_form"
+  }
+}

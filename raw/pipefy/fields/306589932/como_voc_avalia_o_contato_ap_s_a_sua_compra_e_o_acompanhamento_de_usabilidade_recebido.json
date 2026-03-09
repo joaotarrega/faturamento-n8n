@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "¿Cómo evalúa el contacto después de su compra y el acompañamiento de usabilidad recibido?",
+      "help": "",
+      "id": "como_voc_avalia_o_contato_ap_s_a_sua_compra_e_o_acompanhamento_de_usabilidade_recebido",
+      "index": 475.0,
+      "internal_id": "417359430",
+      "label": "Como você avalia o contato após a sua compra e o acompanhamento de usabilidade recebido?",
+      "options": [
+        "1 - Muito ruim | Muy malo",
+        "2 - Ruim | Malo",
+        "3 - Razoável | Razonable",
+        "4 - Bom | Bueno",
+        "5 - Muito bom | Muy bueno"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "fb314b64-4111-4312-948a-a67b8cb58fca"
+    }
+  },
+  "meta": {
+    "field_id": "como_voc_avalia_o_contato_ap_s_a_sua_compra_e_o_acompanhamento_de_usabilidade_recebido",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

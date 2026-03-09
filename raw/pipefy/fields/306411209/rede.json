@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533151",
+        "name": "[DB-02] Redes e grupos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533151",
+        "name": "[DB-02] Redes e grupos"
+      },
+      "description": "",
+      "help": "",
+      "id": "rede",
+      "internal_id": "416563742",
+      "label": "Rede",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "37c5e364-ff4c-434e-85b7-52b331b0c399"
+    }
+  },
+  "meta": {
+    "field_id": "rede",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326828058",
+          "phaseField": {
+            "id": "por_qual_motivo_n_o_foi_feita_uma_reuni_o_com_o_cliente",
+            "internal_id": "422182350",
+            "label": "Por qual motivo não foi feita uma reunião com o cliente?",
+            "uuid": "e5d54cc3-49f8-4311-9769-001e575b02ef"
+          },
+          "phaseFieldId": "422182350",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418715162",
+            "id": "314905018",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Não, outro motivo"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312423681"
+      },
+      "id": "306332875",
+      "name": "Motivo de não realização da reunião != Outro",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306332875"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339834129",
+      "name": "Análise",
+      "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+    },
+    "pipe_id": "306598778",
+    "rule_id": "306332875",
+    "scope": "phase"
+  }
+}

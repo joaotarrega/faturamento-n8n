@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "afiliados_que_comp_em_a_cobran_a",
+      "internal_id": "422909763",
+      "label": "Afiliados que compõem a cobrança",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "6de28242-c295-4c7a-9f8f-33a81961994a"
+    }
+  },
+  "meta": {
+    "field_id": "afiliados_que_comp_em_a_cobran_a",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

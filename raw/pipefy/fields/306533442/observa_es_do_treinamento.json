@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "observa_es_do_treinamento",
+      "index": 100.0,
+      "internal_id": "416257780",
+      "label": "Observações do treinamento",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "f960b521-fbd2-4e50-a285-98dc96ad35b4"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_do_treinamento",
+    "phase": {
+      "id": "339460641",
+      "name": "Agendado",
+      "uuid": "0868274a-4d0a-4145-aec6-08c676983033"
+    },
+    "pipe_id": "306533442",
+    "scope": "phase"
+  }
+}

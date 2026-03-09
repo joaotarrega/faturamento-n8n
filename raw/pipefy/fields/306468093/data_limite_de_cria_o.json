@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "data_limite_de_cria_o",
+      "internal_id": "414852562",
+      "label": "Data limite de criação",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "1bb22b1e-b0ff-430d-93d1-706c8fbbf3c8"
+    }
+  },
+  "meta": {
+    "field_id": "data_limite_de_cria_o",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

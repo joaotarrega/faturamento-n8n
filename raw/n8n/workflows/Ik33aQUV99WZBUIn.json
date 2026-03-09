@@ -1,0 +1,434 @@
+{
+  "active": false,
+  "connections": {
+    "Campo atualizado é válido?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Consultar campos do card",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Consultar campos do card": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Rede?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Listar clientes": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add regra no DB-01",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Rede?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add regra no DB-02",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Listar clientes",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Trigger": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Consultar campos do card",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Campo atualizado é válido?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Webhook FIN-01": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Trigger",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-19T12:57:20.118Z",
+  "id": "Ik33aQUV99WZBUIn",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "FIN-01",
+  "nodes": [
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "ff66fd3a-455d-4954-8a8c-a9b01a9983d5",
+      "name": "Webhook FIN-01",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "fin-01-regras-de-faturamento"
+      },
+      "position": [
+        -160,
+        0
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "f6cec47d-b25d-4789-8bcb-c74190659896"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "392a689b-0ec0-409f-9e5f-79d37c6b10df",
+      "maxTries": 5,
+      "name": "Consultar campos do card",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.body.data.card.id }}\"\n}"
+      },
+      "position": [
+        512,
+        0
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "e20998b5-a9ed-4e50-8be7-ba07837feca2",
+      "name": "Rede?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "54f925ec-3631-4307-abd6-3a581ae07121",
+              "leftValue": "={{ $items(\"Consultar campos do card\")[0].json.data.card.fields.find(f => f.field.id === \"tipo_de_cliente_final\")?.value === \"Rede\" }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": "=\\n"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        736,
+        0
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "a2d5019e-e0d3-4c31-88da-ce16476701f3",
+      "maxTries": 5,
+      "name": "Add regra no DB-02",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd          # e.g. [\"123456789\"] or multiple IDs\n          operation: ADD         # append without replacing existing connections\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $items(\"Consultar campos do card\")[0].json.data.card.fields.find(f => f.field.id === \"rede_na_fatura\")?.array_value }},\n  \"toAdd\": [{{ $('Webhook FIN-01').item.json.body.data.card.id }}]\n}"
+      },
+      "position": [
+        1376,
+        -96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "f543785c-bbe4-4949-961c-c7c0029dea09",
+      "maxTries": 5,
+      "name": "Add regra no DB-01",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"regras_de_faturamento\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $json.idCliente }},\n  \"toAdd\": [{{ $('Webhook FIN-01').item.json.body.data.card.id }}]\n}\n"
+      },
+      "position": [
+        1184,
+        96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "a972437e-22de-4dd4-a3c2-e3595795e786",
+      "name": "Trigger",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "510b2eac-1a24-4fe8-9b06-4cbca972be40",
+                    "leftValue": "={{ $json.body.data.action === 'card.create' }}",
+                    "operator": {
+                      "operation": "true",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": "="
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Create",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "9fdbb2d8-8c4a-4fd3-987f-4cdcde750267",
+                    "leftValue": "={{ $json.body.data.action === 'card.field_update' }}",
+                    "operator": {
+                      "operation": "true",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Update",
+              "renameOutput": true
+            }
+          ]
+        }
+      },
+      "position": [
+        64,
+        0
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "id": "923b78e4-6edc-4d7d-afbc-67988ecb7aa5",
+      "name": "Campo atualizado é válido?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "4c1da202-db0d-4153-8b5f-32a34772c9d7",
+              "leftValue": "={{ $json.body.data.action === 'card.field_update' ? String($json.body.data.field.id) : '' }}",
+              "operator": {
+                "name": "filter.operator.equals",
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "=clientes_na_fatura"
+            },
+            {
+              "id": "568c86be-8480-48b0-989f-71d5275a4660",
+              "leftValue": "={{ $json.body.data.action === 'card.field_update' ? String($json.body.data.field.id) : '' }}",
+              "operator": {
+                "name": "filter.operator.equals",
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "rede_na_fatura"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        288,
+        80
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "443e4897-09e0-4491-be3e-f4ef83e9b872",
+      "name": "Listar clientes",
+      "parameters": {
+        "jsCode": "const raw =\n  $items(\"Consultar campos do card\")[0].json.data.card.fields\n    .find(f => f.field.id === \"clientes_na_fatura\")?.array_value ?? [];\n\nconst arr = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nreturn arr.map(id => ({ json: { idCliente: id } }));"
+      },
+      "position": [
+        944,
+        96
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 3
+  },
+  "shared": [
+    {
+      "createdAt": "2026-01-19T12:57:20.118Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-01-19T12:57:20.118Z",
+      "workflowId": "Ik33aQUV99WZBUIn"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-19T18:19:13.165Z",
+  "versionId": "526c0e41-d533-4432-9cb7-155ff9da441f"
+}

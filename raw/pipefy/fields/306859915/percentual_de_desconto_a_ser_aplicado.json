@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de desconto, basta inserir 5.",
+      "help": "",
+      "id": "percentual_de_desconto_a_ser_aplicado",
+      "internal_id": "422909773",
+      "label": "Percentual de desconto a ser aplicado",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "f4df555e-a9eb-4e1f-bcbf-f6bd19c56aa5"
+    }
+  },
+  "meta": {
+    "field_id": "percentual_de_desconto_a_ser_aplicado",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

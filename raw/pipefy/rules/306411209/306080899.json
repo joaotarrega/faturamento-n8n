@@ -1,0 +1,70 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325699897",
+          "phaseField": {
+            "id": "nome_de_quem_ir_receber_a_ficha_cadastral",
+            "internal_id": "415599284",
+            "label": "Nome de quem irá receber a ficha cadastral",
+            "uuid": "b8ad66ed-dcf2-4231-b55d-6ec418acce2c"
+          },
+          "phaseFieldId": "415599284",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325699898",
+          "phaseField": {
+            "id": "e_mail_de_quem_ir_receber_a_ficha_cadastral",
+            "internal_id": "415599286",
+            "label": "E-mail de quem irá receber a ficha cadastral",
+            "uuid": "c495d0ef-c937-47bc-a666-03d67e766825"
+          },
+          "phaseFieldId": "415599286",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415599284",
+            "id": "314057437",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "415599286",
+            "id": "314057438",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311627530"
+      },
+      "id": "306080899",
+      "name": "[Temp] Esconder nome e email de quem irá receber a ficha",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/306080899"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306080899",
+    "scope": "phase"
+  }
+}

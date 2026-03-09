@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "motivo_de_cancelamento",
+      "index": 0.0,
+      "internal_id": "423728753",
+      "label": "Motivo de cancelamento",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "faf7f949-8fa7-4e43-a85f-514fd243b62b"
+    }
+  },
+  "meta": {
+    "field_id": "motivo_de_cancelamento",
+    "phase": {
+      "id": "341458589",
+      "name": "Cancelado",
+      "uuid": "c9cdb997-5dd8-4ab0-aab9-76d141dfdeb6"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

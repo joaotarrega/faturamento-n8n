@@ -1,0 +1,72 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325162563",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325162564",
+          "phaseField": {
+            "id": "statement_3ff9c590_457f_41b0_94d2_796b9050d0ba",
+            "internal_id": "416974787",
+            "label": "Statement-3ff9c590-457f-41b0-94d2-796b9050d0ba",
+            "uuid": "24e273ba-6005-4292-acb4-5980bb5736dd"
+          },
+          "phaseFieldId": "416974787",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325162565",
+          "phaseField": {
+            "id": "statement_3ff9c590_457f_41b0_94d2_796b9050d0ba",
+            "internal_id": "416974787",
+            "label": "Statement-3ff9c590-457f-41b0-94d2-796b9050d0ba",
+            "uuid": "24e273ba-6005-4292-acb4-5980bb5736dd"
+          },
+          "phaseFieldId": "416974787",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416974997",
+            "id": "313653583",
+            "operation": "not_equals",
+            "structure_id": "1",
+            "value": "Não"
+          },
+          {
+            "field_address": "current_phase",
+            "id": "313653581",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": "339334716"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311270515"
+      },
+      "id": "305965323",
+      "name": "Esconder campos do forms inicial no pipe",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/form/conditionals/305965323"
+    }
+  },
+  "meta": {
+    "pipe_id": "306509228",
+    "rule_id": "305965323",
+    "scope": "start_form"
+  }
+}

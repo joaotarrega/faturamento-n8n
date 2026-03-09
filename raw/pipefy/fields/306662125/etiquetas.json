@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "etiquetas",
+      "internal_id": "421670218",
+      "label": "Etiquetas",
+      "options": [],
+      "required": false,
+      "type": "label_select",
+      "uuid": "5d1aa4f4-56a9-46f7-888c-3f587c4a19ee"
+    }
+  },
+  "meta": {
+    "field_id": "etiquetas",
+    "pipe_id": "306662125",
+    "scope": "start_form"
+  }
+}

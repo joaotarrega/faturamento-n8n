@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Como foi a interação com o hotel durante o cliente oculto?",
+      "help": "",
+      "id": "registro_da_intera_o_com_o_hotel",
+      "index": 0.0,
+      "internal_id": "417218667",
+      "label": "Registro da interação com o hotel",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "8f501eb2-bbfc-4bbf-a11f-03df1e90f291"
+    }
+  },
+  "meta": {
+    "field_id": "registro_da_intera_o_com_o_hotel",
+    "phase": {
+      "id": "339743667",
+      "name": "Avaliação",
+      "uuid": "4baf2b52-5337-4297-851b-78d5f6b74bb5"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

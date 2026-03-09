@@ -1,0 +1,499 @@
+{
+  "ids": [
+    "305589068",
+    "305619894",
+    "305619899",
+    "305619900",
+    "305940361",
+    "305940475",
+    "305940494",
+    "306142976",
+    "306142981"
+  ],
+  "meta": {
+    "kind": "automations",
+    "organization_id": "301997709",
+    "pipe_id": "306598778",
+    "repo_id": "306598778",
+    "supports_pagination": true
+  },
+  "pages": [
+    {
+      "data": {
+        "a17": {
+          "nodes": [
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418434057",
+                    "field_id": "418434057",
+                    "inputMode": "copy_from",
+                    "value": "%{418433174}"
+                  }
+                ],
+                "fields_map_order": [
+                  "418434057"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311613802"
+              },
+              "created_at": "2025-09-03 18:23:51 UTC",
+              "event_id": "card_left_phase",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": "339834130",
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305589068",
+              "name": "Atribuir responsável pela análise como responsável pela retenção",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305589068"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418715733",
+                    "field_id": "418715733",
+                    "inputMode": "copy_from",
+                    "value": "%{automation_event_execution_datetime}"
+                  }
+                ],
+                "fields_map_order": [
+                  "418715733"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "418715733",
+                    "id": "314099290",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311659638"
+              },
+              "created_at": "2025-09-09 18:37:07 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "340088329",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305619894",
+              "name": "Preencher data de churn",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305619894"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309103111",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311659645"
+              },
+              "created_at": "2025-09-09 18:37:59 UTC",
+              "event_id": "card_created",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305619899",
+              "name": "Suspender faturamento com nova solicitação",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305619899"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309103112",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311659646"
+              },
+              "created_at": "2025-09-09 18:38:21 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "340088345",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305619900",
+              "name": "Retomar faturamento com reversão",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305619900"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_http_request",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": "",
+                "authenticationType": "oauth2",
+                "body": "{\"query\": \"mutation { updateCardField( input: { card_id: \\\"%{417644326.id}\\\", field_id: \\\"card_de_churn\\\", new_value: \\\"%{id}\\\" } ) { card { id } } }\"}",
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": "POST",
+                "strategy": null,
+                "to_phase_id": null,
+                "url": "https://api.pipefy.com/graphql"
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312132258"
+              },
+              "created_at": "2025-10-28 19:14:33 UTC",
+              "event_id": "card_created",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305940361",
+              "name": "Add churn no campo conectado em DB-01",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940361"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{417644326.id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414751830",
+                    "field_id": "414751830",
+                    "inputMode": "copy_from",
+                    "value": "%{418433585}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "414751837",
+                    "field_id": "414751837",
+                    "inputMode": "copy_from",
+                    "value": "%{418433608}"
+                  }
+                ],
+                "fields_map_order": [
+                  "414751830",
+                  "414751837"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312132383"
+              },
+              "created_at": "2025-10-28 19:19:26 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "340088329",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305940475",
+              "name": "Atualizar motivo de churn no DB-01",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940475"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_http_request",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": "",
+                "authenticationType": "oauth2",
+                "body": "{\"query\": \"mutation { moveCardToPhase( input: { card_id:\\\"%{417644326.id}\\\", destination_phase_id: \\\"339039672\\\" } ) { card { id current_phase { id } } } }\"\n}",
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": "POST",
+                "strategy": null,
+                "to_phase_id": null,
+                "url": "https://api.pipefy.com/graphql"
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312132423"
+              },
+              "created_at": "2025-10-28 19:25:26 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "340088329",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305940494",
+              "name": "Mover card do DB-01 para fase churn",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940494"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "move_single_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": "340088247",
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "422183795",
+                    "id": "314906592",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Outro"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312424560"
+              },
+              "created_at": "2025-12-01 15:11:20 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339834130",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "306142976",
+              "name": "Mover para retenção sem validação",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/306142976"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "update_card_field",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": "%{id}",
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418433458",
+                    "field_id": "418433458",
+                    "inputMode": "fixed_value",
+                    "value": "306094143"
+                  }
+                ],
+                "fields_map_order": [
+                  "418433458"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "422183795",
+                    "id": "314906602",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "Outro"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312424570"
+              },
+              "created_at": "2025-12-01 15:13:22 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339834130",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "306142981",
+              "name": "Atribuir responsável por validação/aprovação do plano",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/automations/306142981"
+            }
+          ],
+          "pageInfo": {
+            "endCursor": "WzMwNjE0Mjk4MV0",
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ]
+}

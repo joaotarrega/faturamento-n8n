@@ -1,0 +1,156 @@
+{
+  "active": false,
+  "connections": {
+    "Get All Table Rows": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Aggregate Data",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Get All Table Rows",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-13T13:16:03.890Z",
+  "id": "H0Xe2lwW38pQ0h1f",
+  "isArchived": true,
+  "meta": null,
+  "name": "Export Data Table to JSON",
+  "nodes": [
+    {
+      "id": "3ba5e48d-56c1-4b9f-8844-ded368474a19",
+      "name": "When clicking 'Test workflow'",
+      "parameters": {},
+      "position": [
+        0,
+        0
+      ],
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1
+    },
+    {
+      "id": "665ac197-178f-42a5-b734-5de33ee73efd",
+      "name": "Get All Table Rows",
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "cachedResultName": "Variables",
+          "cachedResultUrl": "/projects/MxRYCPypQDED18DI/datatables/Nb38tJFUirxY4cRd",
+          "mode": "list",
+          "value": "Nb38tJFUirxY4cRd"
+        },
+        "operation": "get",
+        "returnAll": true
+      },
+      "position": [
+        208,
+        0
+      ],
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1
+    },
+    {
+      "id": "cfc89735-e2f9-475d-b0c6-d429cda0e737",
+      "name": "Aggregate Data",
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "position": [
+        400,
+        0
+      ],
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1
+    },
+    {
+      "id": "57255393-a228-4eb5-a9ed-a7206dd534b1",
+      "name": "Write to File",
+      "parameters": {},
+      "position": [
+        672,
+        -16
+      ],
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-01-13T13:16:03.890Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-01-13T13:16:03.890Z",
+      "workflowId": "H0Xe2lwW38pQ0h1f"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-13T13:18:43.971Z",
+  "versionId": "abf1f5e5-03f5-42fa-9402-3ea29f2f3698"
+}

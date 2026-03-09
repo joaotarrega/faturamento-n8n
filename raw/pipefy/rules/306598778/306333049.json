@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326828852",
+          "phaseField": {
+            "id": "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+            "internal_id": "422183057",
+            "label": "Indique o motivo de não tentar reter o cliente",
+            "uuid": "c96678a4-f551-429b-af5b-06d25aa83720"
+          },
+          "phaseFieldId": "422183057",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422183029",
+            "id": "314905970",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Outro"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312424150"
+      },
+      "id": "306333049",
+      "name": "Motivo de não reter o cliente != Outro",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306333049"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339834129",
+      "name": "Análise",
+      "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+    },
+    "pipe_id": "306598778",
+    "rule_id": "306333049",
+    "scope": "phase"
+  }
+}

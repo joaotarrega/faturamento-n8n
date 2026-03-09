@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "data_limite",
+      "internal_id": "412554635",
+      "label": "Data limite",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "1887149f-45a0-49f4-9467-3c77f344486d"
+    }
+  },
+  "meta": {
+    "field_id": "data_limite",
+    "pipe_id": "306350926",
+    "scope": "start_form"
+  }
+}

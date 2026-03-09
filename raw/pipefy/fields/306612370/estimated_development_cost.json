@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Provide the estimated cost for the development phase.",
+      "help": null,
+      "id": "estimated_development_cost",
+      "index": 1.0,
+      "internal_id": "417812957",
+      "label": "Estimated Development Cost",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "5829157a-69a9-4429-bc91-53fc2b0f4107"
+    }
+  },
+  "meta": {
+    "field_id": "estimated_development_cost",
+    "phase": {
+      "id": "339912154",
+      "name": "Desenvolvimento",
+      "uuid": "00399c6f-f452-4495-b9d9-813aeba7b984"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

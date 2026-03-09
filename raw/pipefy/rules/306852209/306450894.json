@@ -1,0 +1,81 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "327419868",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_usd",
+            "internal_id": "422904775",
+            "label": "Valor total do item com descontos (USD)",
+            "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+          },
+          "phaseFieldId": "422904775",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "327419869",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_brl",
+            "internal_id": "422904778",
+            "label": "Valor total do item com descontos (BRL)",
+            "uuid": "087d66c3-ed71-4cb8-a464-6fd67bfce8f2"
+          },
+          "phaseFieldId": "422904778",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327713070",
+          "phaseField": {
+            "id": "subtotal_do_item_usd",
+            "internal_id": "425112110",
+            "label": "Subtotal do item (USD)",
+            "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+          },
+          "phaseFieldId": "425112110",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327713071",
+          "phaseField": {
+            "id": "subtotal_do_item_brl",
+            "internal_id": "425112111",
+            "label": "Subtotal do item (BRL)",
+            "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+          },
+          "phaseFieldId": "425112111",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422775097",
+            "id": "315296048",
+            "operation": "equals",
+            "structure_id": "1",
+            "value": "Ajustes de fatura"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ]
+        ],
+        "id": "312791311"
+      },
+      "id": "306450894",
+      "name": "Tipo de item = Ajustes de fatura",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306450894"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306450894",
+    "scope": "start_form"
+  }
+}

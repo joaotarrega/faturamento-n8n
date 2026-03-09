@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "description": "",
+      "help": null,
+      "id": "empresa",
+      "internal_id": "414861329",
+      "label": "Cliente",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "5c2f1805-383b-4d9b-af70-95cc5b949b81"
+    }
+  },
+  "meta": {
+    "field_id": "empresa",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

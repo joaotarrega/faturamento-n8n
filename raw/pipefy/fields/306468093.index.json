@@ -1,0 +1,77 @@
+{
+  "fields_by_phase_id": {
+    "339069570": [
+      "ambiente_apar_ncia",
+      "ambiente_imagem_de_fundo_1",
+      "ambiente_logo_em_alta_para_a_proposta_1",
+      "ambiente_logo_em_alta_para_o_ambiente_1",
+      "respons_vel",
+      "verificou_os_dados_do_cliente"
+    ],
+    "339069571": [
+      "ambiente_url_do_ambiente_criado",
+      "respons_vel_1",
+      "statement_9e9cca1e_a3ad_406d_8662_fbee3ed3e9ed"
+    ],
+    "339556245": [
+      "ambiente_logos_adicionados_no_ambiente",
+      "id_backoffice_do_ambiente_criado",
+      "respons_vel_2",
+      "statement_0f8a7cbe_73e9_4394_83cf_6daf01e0393f",
+      "verificou_os_dados_do_cliente_1"
+    ]
+  },
+  "ids": [
+    "ambiente_apar_ncia",
+    "ambiente_cnpj",
+    "ambiente_formato_do_ambiente",
+    "ambiente_identificador_fiscal_fora_do_brasil",
+    "ambiente_imagem_de_fundo_1",
+    "ambiente_logo_em_alta_para_a_proposta_1",
+    "ambiente_logo_em_alta_para_o_ambiente_1",
+    "ambiente_logos_adicionados_no_ambiente",
+    "ambiente_nome_de_exibi_o",
+    "ambiente_pa_s_da_empresa",
+    "ambiente_tipo_de_identificador_fiscal",
+    "ambiente_url_do_ambiente_criado",
+    "c_digo_postal",
+    "cidade",
+    "cliente",
+    "data_limite_de_cria_o",
+    "esconder_todos_os_campos_do_form_inicial",
+    "estado",
+    "id_backoffice_do_ambiente_criado",
+    "logradouro",
+    "observa_es_e_coment_rios",
+    "respons_vel",
+    "respons_vel_1",
+    "respons_vel_2",
+    "statement_0f8a7cbe_73e9_4394_83cf_6daf01e0393f",
+    "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7",
+    "statement_9e9cca1e_a3ad_406d_8662_fbee3ed3e9ed",
+    "verificou_os_dados_do_cliente",
+    "verificou_os_dados_do_cliente_1"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306468093",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "ambiente_cnpj",
+    "ambiente_formato_do_ambiente",
+    "ambiente_identificador_fiscal_fora_do_brasil",
+    "ambiente_nome_de_exibi_o",
+    "ambiente_pa_s_da_empresa",
+    "ambiente_tipo_de_identificador_fiscal",
+    "c_digo_postal",
+    "cidade",
+    "cliente",
+    "data_limite_de_cria_o",
+    "esconder_todos_os_campos_do_form_inicial",
+    "estado",
+    "logradouro",
+    "observa_es_e_coment_rios",
+    "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7"
+  ]
+}

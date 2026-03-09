@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "motiva_o_do_score",
+      "index": 100.0,
+      "internal_id": "414908915",
+      "label": "Motivação do score",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "a9a33bb0-d127-4b84-91e2-e5809529b3f5"
+    }
+  },
+  "meta": {
+    "field_id": "motiva_o_do_score",
+    "phase": {
+      "id": "339039677",
+      "name": "Não é cliente",
+      "uuid": "bd9c0c0a-8311-4e3a-a214-1720e751e1de"
+    },
+    "pipe_id": "306441622",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "motivo_do_treinamento",
+      "internal_id": "416199454",
+      "label": "Motivo",
+      "options": [
+        "Onboarding",
+        "Reciclagem - Novo operador",
+        "Reciclagem - Baixa usabilidade",
+        "Solicitado pelo cliente",
+        "Identificado pelo time proativamente",
+        "Migração para SaaS 2.0",
+        "Suporte ao cliente"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "877e484a-2995-4cec-a836-0165340fcc4e"
+    }
+  },
+  "meta": {
+    "field_id": "motivo_do_treinamento",
+    "pipe_id": "306533442",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "fields_by_phase_id": {
+    "339834129": [
+      "anota_es_reuni_o_com_cliente",
+      "cliente_n_o_retornou_contato",
+      "data_e_hora_da_reuni_o_com_o_cliente",
+      "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+      "observa_es_sobre_o_plano_de_reten_o",
+      "plano_de_a_o_para_reter_o_cliente",
+      "por_qual_motivo_n_o_foi_feita_uma_reuni_o_com_o_cliente",
+      "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+      "qual_o_plano_de_reten_o",
+      "respons_veis_pela_reten_o",
+      "ser_feita_uma_tentativa_de_reten_o"
+    ],
+    "339834130": [
+      "aprovador",
+      "coment_rios_do_aprovador",
+      "parecer"
+    ],
+    "340088247": [
+      "anota_es_da_execu_o_do_plano_de_a_o",
+      "indique_o_motivo_de_churn",
+      "motivo_de_churn",
+      "o_cliente_foi_retido",
+      "respons_veis_pela_reten_o_1"
+    ],
+    "340088329": [
+      "data_de_churn"
+    ]
+  },
+  "ids": [
+    "anexe_o_email_enviado_pelo_cliente",
+    "anota_es_da_execu_o_do_plano_de_a_o",
+    "anota_es_reuni_o_com_cliente",
+    "aprovador",
+    "canal_da_solicita_o",
+    "cliente",
+    "cliente_n_o_retornou_contato",
+    "coment_rios_do_aprovador",
+    "como_foi_a_solicita_o_do_cliente",
+    "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+    "data_de_churn",
+    "data_e_hora_da_reuni_o_com_o_cliente",
+    "indique_o_motivo_de_churn",
+    "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+    "motivo_de_churn",
+    "o_cliente_foi_retido",
+    "observa_es_sobre_o_plano_de_reten_o",
+    "parecer",
+    "plano_de_a_o_para_reter_o_cliente",
+    "por_qual_motivo_n_o_foi_feita_uma_reuni_o_com_o_cliente",
+    "qual_foi_o_canal_de_solicita_o",
+    "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+    "qual_o_plano_de_reten_o",
+    "quem_recebeu_a_solicita_o",
+    "respons_veis_pela_reten_o",
+    "respons_veis_pela_reten_o_1",
+    "ser_feita_uma_tentativa_de_reten_o",
+    "solicitante",
+    "statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306598778",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "anexe_o_email_enviado_pelo_cliente",
+    "canal_da_solicita_o",
+    "cliente",
+    "como_foi_a_solicita_o_do_cliente",
+    "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+    "qual_foi_o_canal_de_solicita_o",
+    "quem_recebeu_a_solicita_o",
+    "solicitante",
+    "statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06"
+  ]
+}

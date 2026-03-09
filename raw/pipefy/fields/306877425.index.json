@@ -1,0 +1,59 @@
+{
+  "fields_by_phase_id": {
+    "341458594": [
+      "crit_rios_de_aceite",
+      "desenvolvimento_t_cnico_com_ia",
+      "flags_adicionais",
+      "instru_es",
+      "plano_de_testes_e_valida_o",
+      "plataforma",
+      "qual_o_tipo_de_entrega",
+      "tipo_de_entrega"
+    ],
+    "341458606": [
+      "testes_valida_o_adicionais"
+    ],
+    "341458614": [
+      "motivo_de_cancelamento"
+    ]
+  },
+  "ids": [
+    "categoria_de_prioridade",
+    "crit_rios_de_aceite",
+    "descri_o_longa",
+    "desenvolvimento_t_cnico_com_ia",
+    "esfor_o_estimado",
+    "flags_adicionais",
+    "id_da_tarefa_principal",
+    "id_do_projeto_associado",
+    "instru_es",
+    "motivo_de_cancelamento",
+    "plano_de_testes_e_valida_o",
+    "plataforma",
+    "prioridade",
+    "projeto_associado",
+    "qual_o_tipo_de_entrega",
+    "quem_deve_ser_notificado",
+    "retorno_estimado",
+    "t_tulo",
+    "testes_valida_o_adicionais",
+    "tipo_de_entrega"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306877425",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "categoria_de_prioridade",
+    "descri_o_longa",
+    "esfor_o_estimado",
+    "id_da_tarefa_principal",
+    "id_do_projeto_associado",
+    "prioridade",
+    "projeto_associado",
+    "quem_deve_ser_notificado",
+    "retorno_estimado",
+    "t_tulo"
+  ]
+}

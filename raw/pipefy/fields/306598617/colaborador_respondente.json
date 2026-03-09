@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "b8KuxVsk",
+        "name": "Colaboradores"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "b8KuxVsk",
+        "name": "Colaboradores"
+      },
+      "description": "",
+      "help": "",
+      "id": "colaborador_respondente",
+      "internal_id": "418490195",
+      "label": "Colaborador respondente",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "3d67f643-1683-4ef5-9a15-03b8e52d20da"
+    }
+  },
+  "meta": {
+    "field_id": "colaborador_respondente",
+    "pipe_id": "306598617",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ids": [],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306852569",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p21": {
+          "id": "306852569",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "341308780",
+              "name": "Caixa de entrada",
+              "uuid": "0ed9e804-3eb7-4d4d-9f85-9aef72d44c0b"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341308782",
+              "name": "Concluído",
+              "uuid": "895204c7-ea78-4537-a5dc-1c60605749b6"
+            }
+          ],
+          "startFormFieldConditions": []
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {},
+  "start_form_rule_ids": []
+}

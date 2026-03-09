@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h3><strong> Usabilidade e esforço</strong></h3>\n<p> </p>",
+      "help": null,
+      "id": "statement_b445f5c2_d967_4cd9_851a_a7ae3fb59db1",
+      "index": 750.0,
+      "internal_id": "418525042",
+      "label": "Statement-b445f5c2-d967-4cd9-851a-a7ae3fb59db1",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "6300733a-0b51-4f34-8ba1-a08f88fe5b9f"
+    }
+  },
+  "meta": {
+    "field_id": "statement_b445f5c2_d967_4cd9_851a_a7ae3fb59db1",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

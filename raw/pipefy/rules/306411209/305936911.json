@@ -1,0 +1,75 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325048019",
+          "phaseField": {
+            "id": "empresa",
+            "internal_id": "414861329",
+            "label": "Cliente",
+            "uuid": "5c2f1805-383b-4d9b-af70-95cc5b949b81"
+          },
+          "phaseFieldId": "414861329",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325416339",
+          "phaseField": {
+            "id": "statement_653da539_0ea7_44f9_becc_f8e6255b6d31",
+            "internal_id": "417631456",
+            "label": "Statement-653da539-0ea7-44f9-becc-f8e6255b6d31",
+            "uuid": "90f9530f-ed6c-4720-b72b-f1dac2d42ddf"
+          },
+          "phaseFieldId": "417631456",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416563640",
+            "id": "313562764",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": "Sim"
+          },
+          {
+            "field_address": "416563640",
+            "id": "313562791",
+            "operation": "equals",
+            "structure_id": "2",
+            "value": "Sim"
+          },
+          {
+            "field_address": "414861329",
+            "id": "313562777",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "2"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311177900"
+      },
+      "id": "305936911",
+      "name": "Lead = Rede",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/form/conditionals/305936911"
+    }
+  },
+  "meta": {
+    "pipe_id": "306411209",
+    "rule_id": "305936911",
+    "scope": "start_form"
+  }
+}

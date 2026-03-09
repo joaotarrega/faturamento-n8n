@@ -1,0 +1,48 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "send_email_template",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": "309089057",
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": false,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312260828"
+      },
+      "created_at": "2025-11-11 20:43:25 UTC",
+      "event_id": "field_updated",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": [
+          "421467931"
+        ]
+      },
+      "id": "306028581",
+      "name": "[Temporário] Enviar pesquisa",
+      "url": "https://app.pipefy.com/pipes/306589932/settings/automations/306028581"
+    }
+  }
+}

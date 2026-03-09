@@ -1,0 +1,74 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327423781",
+          "phaseField": {
+            "id": "instru_es",
+            "internal_id": "423730058",
+            "label": "Instruções técnicas",
+            "uuid": "fec1edbd-421f-4786-8168-a222a3537c58"
+          },
+          "phaseFieldId": "423730058",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327423782",
+          "phaseField": {
+            "id": "crit_rios_de_aceite",
+            "internal_id": "423730059",
+            "label": "Critérios de aceite",
+            "uuid": "923229af-55f6-4c98-af7c-6d60d4c2a78c"
+          },
+          "phaseFieldId": "423730059",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327423783",
+          "phaseField": {
+            "id": "plano_de_testes_e_valida_o",
+            "internal_id": "423730060",
+            "label": "Plano de testes e validação",
+            "uuid": "63268f86-26c9-4426-865b-aaf00886fa35"
+          },
+          "phaseFieldId": "423730060",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "424613695",
+            "id": "315344268",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Detalhes de execução e testes estão nas subtarefas"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312835601"
+      },
+      "id": "306464188",
+      "name": "Flag = Subtarefas",
+      "url": "https://app.pipefy.com/pipes/306877425/settings/phases/341458594/conditionals/306464188"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "341458594",
+      "name": "Triagem e definição",
+      "uuid": "1859086f-fd2b-4985-9bc3-b5be72883c43"
+    },
+    "pipe_id": "306877425",
+    "rule_id": "306464188",
+    "scope": "phase"
+  }
+}

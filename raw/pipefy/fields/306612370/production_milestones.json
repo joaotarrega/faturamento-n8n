@@ -1,0 +1,36 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Key milestones to be achieved during the production phase.",
+      "help": null,
+      "id": "production_milestones",
+      "index": 3.0,
+      "internal_id": "417812964",
+      "label": "Production Milestones",
+      "options": [
+        "Initial Setup",
+        "First Batch Completion",
+        "Quality Check",
+        "Final Production"
+      ],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "cf457664-c932-4024-8939-24dbfb21eacd"
+    }
+  },
+  "meta": {
+    "field_id": "production_milestones",
+    "phase": {
+      "id": "339912155",
+      "name": "Produção",
+      "uuid": "45a89413-a63e-427e-9f27-14547d2d6cc2"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

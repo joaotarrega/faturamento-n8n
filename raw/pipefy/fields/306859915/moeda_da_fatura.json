@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "OBS: Ao selecionar uma moeda, os campos de valores da outra opção serão configurados como 0 automaticamente.",
+      "help": "",
+      "id": "moeda_da_fatura",
+      "internal_id": "422909754",
+      "label": "Moeda",
+      "options": [
+        "BRL - R$",
+        "USD - $"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "38feedae-cabf-45b3-b9f1-dda6c844af43"
+    }
+  },
+  "meta": {
+    "field_id": "moeda_da_fatura",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

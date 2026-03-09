@@ -1,0 +1,675 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": false,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306877425",
+            "name": "[PRO-02] Tarefas"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303061978",
+          "name": "Tarefa associada",
+          "ownFieldMaps": [
+            {
+              "fieldId": "423727481",
+              "field_id": "423727481",
+              "inputMode": "copy_from",
+              "value": "%{423727481}"
+            },
+            {
+              "fieldId": "423727840",
+              "field_id": "423727840",
+              "inputMode": "copy_from",
+              "value": "%{423727840}"
+            },
+            {
+              "fieldId": "424608303",
+              "field_id": "424608303",
+              "inputMode": "copy_from",
+              "value": "%{id}"
+            },
+            {
+              "fieldId": "423727465",
+              "field_id": "423727465",
+              "inputMode": "copy_from",
+              "value": "%{423727465}"
+            },
+            {
+              "fieldId": "423727470",
+              "field_id": "423727470",
+              "inputMode": "copy_from",
+              "value": "%{423727470}"
+            },
+            {
+              "fieldId": "424982289",
+              "field_id": "424982289",
+              "inputMode": "copy_from",
+              "value": "%{424982289}"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306877425",
+            "name": "[PRO-02] Tarefas"
+          }
+        }
+      ],
+      "color": "green",
+      "description": null,
+      "id": "306877425",
+      "labels": [
+        {
+          "color": "#D0021B",
+          "id": "317083820",
+          "name": "Prioridade crítica"
+        },
+        {
+          "color": "#7ED321",
+          "id": "317083821",
+          "name": "Prioridade alta"
+        },
+        {
+          "color": "#F5A623",
+          "id": "317083822",
+          "name": "Prioridade média"
+        },
+        {
+          "color": "#9B9B9B",
+          "id": "317083823",
+          "name": "Prioridade baixa"
+        },
+        {
+          "color": "#4A4A4A",
+          "id": "317083824",
+          "name": "Prioridade muito baixa"
+        },
+        {
+          "color": "#9013FE",
+          "id": "317083825",
+          "name": "Associada a um projeto"
+        },
+        {
+          "color": "#BB7DF9",
+          "id": "317187179",
+          "name": "Subtarefa"
+        }
+      ],
+      "members": [
+        {
+          "role_name": "read_and_comment",
+          "user": {
+            "email": "fsousa@evnt.com.br",
+            "id": "306094143",
+            "name": "Flávio Rodrigues de Sousa Filho"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        }
+      ],
+      "name": "[PRO-02] Tarefas",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": false,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306877425",
+            "name": "[PRO-02] Tarefas"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303061978",
+          "name": "Tarefa associada",
+          "ownFieldMaps": [
+            {
+              "fieldId": "423727481",
+              "field_id": "423727481",
+              "inputMode": "copy_from",
+              "value": "%{423727481}"
+            },
+            {
+              "fieldId": "423727840",
+              "field_id": "423727840",
+              "inputMode": "copy_from",
+              "value": "%{423727840}"
+            },
+            {
+              "fieldId": "424608303",
+              "field_id": "424608303",
+              "inputMode": "copy_from",
+              "value": "%{id}"
+            },
+            {
+              "fieldId": "423727465",
+              "field_id": "423727465",
+              "inputMode": "copy_from",
+              "value": "%{423727465}"
+            },
+            {
+              "fieldId": "423727470",
+              "field_id": "423727470",
+              "inputMode": "copy_from",
+              "value": "%{423727470}"
+            },
+            {
+              "fieldId": "424982289",
+              "field_id": "424982289",
+              "inputMode": "copy_from",
+              "value": "%{424982289}"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306877425",
+            "name": "[PRO-02] Tarefas"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "cards_count": 42,
+          "color": "orange",
+          "description": null,
+          "fields": [],
+          "id": "341596085",
+          "name": "Backlog",
+          "uuid": "2a93b181-ac3b-479d-8568-1321facbef92"
+        },
+        {
+          "cards_count": 22,
+          "color": "indigo",
+          "description": null,
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "plataforma",
+              "index": 0.0,
+              "internal_id": "423267577",
+              "label": "Plataforma",
+              "options": [
+                "Pipefy",
+                "n8n",
+                "Dados/BI",
+                "Outros"
+              ],
+              "required": true,
+              "type": "radio_horizontal",
+              "uuid": "5f15bd24-a0e2-4002-8bb9-47f7ea57f228"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "tipo_de_entrega",
+              "index": 100.0,
+              "internal_id": "423267580",
+              "label": "Tipo de atividade",
+              "options": [
+                "Técnica",
+                "Investigação",
+                "Operação / gestão",
+                "Documentação / comunicação / treinamento",
+                "Outro"
+              ],
+              "required": true,
+              "type": "radio_vertical",
+              "uuid": "00ce50ab-6e09-4cbf-8711-93763b51d0ff"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "desenvolvimento_t_cnico_com_ia",
+              "index": 112.5,
+              "internal_id": "424018645",
+              "label": "Desenvolvimento técnico com IA?",
+              "options": [
+                "Sim",
+                "Não"
+              ],
+              "required": false,
+              "type": "radio_horizontal",
+              "uuid": "953e8567-e2e0-47a2-91a8-2d3566ad84b4"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "flags_adicionais",
+              "index": 118.75,
+              "internal_id": "424613695",
+              "label": "Flags adicionais",
+              "options": [
+                "Desenvolvimento com IA",
+                "Detalhes de execução e testes estão nas subtarefas"
+              ],
+              "required": false,
+              "type": "checklist_vertical",
+              "uuid": "83b2fc87-2f94-4017-9c5a-6c902748d339"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "qual_o_tipo_de_entrega",
+              "index": 125.0,
+              "internal_id": "423726957",
+              "label": "Qual é o tipo de entrega?",
+              "options": [],
+              "required": true,
+              "type": "short_text",
+              "uuid": "4fa340fa-6213-4acb-9e79-7b0a487a5202"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "Detalhes do que deve ser modificado, onde e como",
+              "help": "",
+              "id": "instru_es",
+              "index": 175.0,
+              "internal_id": "423730058",
+              "label": "Instruções técnicas",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "fec1edbd-421f-4786-8168-a222a3537c58"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "crit_rios_de_aceite",
+              "index": 200.0,
+              "internal_id": "423730059",
+              "label": "Critérios de aceite",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "923229af-55f6-4c98-af7c-6d60d4c2a78c"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "plano_de_testes_e_valida_o",
+              "index": 212.5,
+              "internal_id": "423730060",
+              "label": "Plano de testes e validação",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "63268f86-26c9-4426-865b-aaf00886fa35"
+            }
+          ],
+          "id": "341458594",
+          "name": "Triagem e definição",
+          "uuid": "1859086f-fd2b-4985-9bc3-b5be72883c43"
+        },
+        {
+          "cards_count": 0,
+          "color": "lime",
+          "description": null,
+          "fields": [],
+          "id": "341676949",
+          "name": "Fila de execução",
+          "uuid": "70f1dbc1-e225-4d97-8679-e507cce304dd"
+        },
+        {
+          "cards_count": 3,
+          "color": "pink",
+          "description": null,
+          "fields": [],
+          "id": "341458605",
+          "name": "Fazendo",
+          "uuid": "6c717138-3c3d-46f5-b573-f84c55f6c1a1"
+        },
+        {
+          "cards_count": 1,
+          "color": "gray",
+          "description": null,
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "testes_valida_o_adicionais",
+              "index": 0.0,
+              "internal_id": "423729813",
+              "label": "Testes / validação adicionais",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "2cbd6359-e37e-446c-b986-9ba9dab39511"
+            }
+          ],
+          "id": "341458606",
+          "name": "Validação e testes",
+          "uuid": "d067cf79-7ba2-43f7-acca-7bde6b2bb2de"
+        },
+        {
+          "cards_count": 64,
+          "color": "yellow",
+          "description": null,
+          "fields": [],
+          "id": "341458613",
+          "name": "Concluído",
+          "uuid": "3051deef-c8f4-4b0b-8b35-c90dbbf1dab0"
+        },
+        {
+          "cards_count": 9,
+          "color": "sky",
+          "description": null,
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "motivo_de_cancelamento",
+              "index": 0.0,
+              "internal_id": "423728745",
+              "label": "Motivo de cancelamento",
+              "options": [],
+              "required": true,
+              "type": "short_text",
+              "uuid": "714e7cd4-fee7-49ac-b7b2-9dff3d71c4aa"
+            }
+          ],
+          "id": "341458614",
+          "name": "Cancelado",
+          "uuid": "f81f87b9-af62-4ccb-83cf-d2ebf0b9b04f"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": false,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306877345",
+            "name": "[PRO-01] Projetos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306877345",
+            "name": "[PRO-01] Projetos"
+          },
+          "description": "",
+          "help": "",
+          "id": "projeto_associado",
+          "internal_id": "423727840",
+          "label": "Projeto associado",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "edabf595-0982-4ae0-8094-e9825f274f3f"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "id_do_projeto_associado",
+          "internal_id": "423727481",
+          "label": "ID do projeto associado",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "afa283a8-028d-4009-b668-b9b4d38f4f68"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "id_da_tarefa_principal",
+          "internal_id": "424608303",
+          "label": "ID da tarefa principal",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "f9f27419-1b88-4d51-9ed9-a6a607798063"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "t_tulo",
+          "internal_id": "423305242",
+          "label": "Título",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "c58ad602-c5a0-480c-9911-94e748fbd66e"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "descri_o_longa",
+          "internal_id": "423267589",
+          "label": "Descrição",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "8fac9eb4-b37a-4ed7-8b4a-9649627ce136"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Considerando tempo, complexidade e incerteza.",
+          "help": "",
+          "id": "esfor_o_estimado",
+          "internal_id": "423727465",
+          "label": "Esforço estimado",
+          "options": [
+            "Baixo",
+            "Médio",
+            "Alto"
+          ],
+          "required": true,
+          "type": "radio_horizontal",
+          "uuid": "a4dc57e0-f56f-4ca9-8f31-dbcd826d3cc5"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Associado a ganhos diretos para a empresa, colaboradores ou time.",
+          "help": "",
+          "id": "retorno_estimado",
+          "internal_id": "423727470",
+          "label": "Retorno estimado",
+          "options": [
+            "Baixo",
+            "Médio",
+            "Alto"
+          ],
+          "required": true,
+          "type": "radio_horizontal",
+          "uuid": "a5fcccb5-5b0f-4267-b909-f09cf4c64cd2"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "| Esforço \t| Retorno \t| Prioridade \t| Prioridade (tag) \t|\n|:---:\t|:---:\t|:---:\t|:---:\t|\n| Baixo \t| Baixo \t| 40 \t| Média \t|\n| Baixo \t| Médio \t| 70 \t| Alta \t|\n| Baixo \t| Alto \t| 100 \t| Crítica \t|\n| Médio \t| Baixo \t| 25 \t| Baixa \t|\n| Médio \t| Médio \t| 55 \t| Média \t|\n| Médio \t| Alto \t| 85 \t| Alta \t|\n| Alto \t| Baixo \t| 5 \t| Muito baixa \t|\n| Alto \t| Médio \t| 35 \t| Baixa \t|\n| Alto \t| Alto \t| 65 \t| Média \t|",
+          "help": "",
+          "id": "prioridade",
+          "internal_id": "423727731",
+          "label": "Prioridade",
+          "options": [],
+          "required": false,
+          "type": "number",
+          "uuid": "6dcd196b-b7b7-444f-96ab-05fc69775874"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "categoria_de_prioridade",
+          "internal_id": "423727609",
+          "label": "Categoria de prioridade",
+          "options": [],
+          "required": false,
+          "type": "label_select",
+          "uuid": "5703cd8c-bf01-45b9-bfc9-01f0dda074cf"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicTable",
+            "id": "b8KuxVsk",
+            "name": "Colaboradores"
+          },
+          "connected_repo": {
+            "__typename": "Table",
+            "id": "b8KuxVsk",
+            "name": "Colaboradores"
+          },
+          "description": "",
+          "help": "",
+          "id": "quem_deve_ser_notificado",
+          "internal_id": "424982289",
+          "label": "Quem deve ser notificado?",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "91d41355-71cd-4a68-819b-95a816485e5d"
+        }
+      ],
+      "uuid": "a45c5f6f-587f-4ef4-8fe0-c5f0cf7991b3",
+      "webhooks": [
+        {
+          "actions": [
+            "card.field_update",
+            "card.create"
+          ],
+          "email": null,
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300614875",
+          "url": "https://n8n.evnt.com.br/webhook-test/a04a27f8-43c4-4451-99d0-aeaa050238f8"
+        },
+        {
+          "actions": [
+            "card.field_update",
+            "card.create"
+          ],
+          "email": null,
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300614925",
+          "url": "https://n8n.evnt.com.br/webhook/a04a27f8-43c4-4451-99d0-aeaa050238f8"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Arquivo copiado do CRM.",
+      "help": "",
+      "id": "proposta_enviada",
+      "internal_id": "415631082",
+      "label": "Proposta enviada",
+      "options": [],
+      "required": false,
+      "type": "attachment",
+      "uuid": "72390bd8-d15b-4a44-80ce-f7b9594fc041"
+    }
+  },
+  "meta": {
+    "field_id": "proposta_enviada",
+    "pipe_id": "306500193",
+    "scope": "start_form"
+  }
+}

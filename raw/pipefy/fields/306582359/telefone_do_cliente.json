@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "telefone_do_cliente",
+      "index": 150.0,
+      "internal_id": "418415858",
+      "label": "Telefone do cliente",
+      "options": [],
+      "required": true,
+      "type": "phone",
+      "uuid": "b92afcce-caf0-4b5b-99c3-684407b23f46"
+    }
+  },
+  "meta": {
+    "field_id": "telefone_do_cliente",
+    "phase": {
+      "id": "339743665",
+      "name": "Contato",
+      "uuid": "35a16b83-bd9f-4996-936b-e875d8e8b1a6"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

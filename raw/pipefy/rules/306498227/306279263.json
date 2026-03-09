@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326556660",
+          "phaseField": {
+            "id": "ultimas_empresas",
+            "internal_id": "421400537",
+            "label": "Ultimas empresas",
+            "uuid": "d300d662-a940-4737-8513-5986a819f735"
+          },
+          "phaseFieldId": "421400537",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326619156",
+          "phaseField": {
+            "id": "ultima_rede",
+            "internal_id": "421400514",
+            "label": "Ultima rede",
+            "uuid": "3ec488d8-7f54-476d-a811-41e313b6ce94"
+          },
+          "phaseFieldId": "421400514",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312245057"
+      },
+      "id": "306279263",
+      "name": "Escondidos",
+      "url": "https://app.pipefy.com/pipes/306498227/settings/form/conditionals/306279263"
+    }
+  },
+  "meta": {
+    "pipe_id": "306498227",
+    "rule_id": "306279263",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "analista_respons_vel",
+      "index": 50.0,
+      "internal_id": "416198409",
+      "label": "Analista responsável",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "709821cb-d0d7-4924-9cdb-a395b1fe8b49"
+    }
+  },
+  "meta": {
+    "field_id": "analista_respons_vel",
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

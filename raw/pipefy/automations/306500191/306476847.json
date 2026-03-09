@@ -1,0 +1,56 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "update_card_field",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": "%{id}",
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "421412182",
+            "field_id": "421412182",
+            "inputMode": "copy_from",
+            "value": "%{416198409}"
+          }
+        ],
+        "fields_map_order": [
+          "421412182"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312906036"
+      },
+      "created_at": "2026-02-03 20:29:49 UTC",
+      "event_id": "card_moved",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": "339455413",
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "306476847",
+      "name": "Atribuir responsável em treinamento para o mesmo de kickoff",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/automations/306476847"
+    }
+  }
+}

@@ -1,0 +1,604 @@
+{
+  "active": true,
+  "connections": {
+    "Add contato na ficha cadastral [loop]1": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop contatos",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Build payload p/ criar contato": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Criar contato",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Buscar contato por email (loop)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Contato existe? (loop)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Contato existe? (loop)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Set contato existente",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Build payload p/ criar contato",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Criar contato": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Set contato criado",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Dados da ficha": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Preparar contatos",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Ficha cadastral concluida": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar informação da ficha",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop contatos": {
+      "main": [
+        [],
+        [
+          {
+            "index": 0,
+            "node": "Buscar contato por email (loop)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Merge contatoId": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add contato na ficha cadastral [loop]1",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar informação da ficha": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Dados da ficha",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Preparar contatos": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop contatos",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Set contato criado": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Merge contatoId",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Set contato existente": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Merge contatoId",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-07T21:37:32.490Z",
+  "id": "pw5uVJyhGud0Xh4t",
+  "isArchived": false,
+  "meta": null,
+  "name": "Ficha cadastral concluída",
+  "nodes": [
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "edafcc36-ba54-4786-a17b-2f9721b06f1e",
+      "name": "Ficha cadastral concluida",
+      "notesInFlow": true,
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "8a494e1d-fdb4-469c-9d1c-aefb6f7ca23f"
+      },
+      "position": [
+        -1744,
+        400
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "8a494e1d-fdb4-469c-9d1c-aefb6f7ca23f"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "06ce17e1-31e2-49c9-b10b-98e6585cd680",
+      "maxTries": 5,
+      "name": "Pegar informação da ficha",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.body.data.card.id }}\"\n}"
+      },
+      "position": [
+        -1520,
+        400
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "f2823c0d-c303-4961-979f-ed91d1ecf804",
+      "name": "Dados da ficha",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "eaa381a8-c4ea-423f-993a-01cd713075d2",
+              "name": "cliente",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $('Pegar informação da ficha').item.json.data.card.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"cliente\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // single unquoted string\n})()\n}}"
+            },
+            {
+              "id": "92b2fcd1-8479-4ed5-b597-2f2b2f2d3408",
+              "name": "nomeSignatario",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_do_signat_rio_representante\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "f25eb576-21a3-4cd7-8aef-bb6b38713696",
+              "name": "emailSignatario",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_completo_do_signat_rio_representante\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "922b7e67-d0b9-41d7-a48a-3739223e72a5",
+              "name": "nomeTestemunha",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_da_testemunha\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "10e99377-0bdd-4bb3-a863-a4d63d0ca2da",
+              "name": "emailTestemunha",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_da_testemunha\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "c238215d-6028-4265-8739-59e44cf70528",
+              "name": "nomeFinanceiro",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_do_respons_vel_financeiro\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "0289cc13-f0d9-4cc7-a226-e49bb3b9b370",
+              "name": "emailFinanceiro",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_do_respons_vel_financeiro\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "be765496-a002-4eed-9648-ad7091fdd0fe",
+              "name": "nomeImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "cdc5f091-7bc2-4a8e-bd16-47750fb4ba1f",
+              "name": "emailImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "db5910cc-e182-4a57-aae7-80da7a5db87d",
+              "name": "celularImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"celular_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        -1296,
+        400
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "3cece347-aec5-4c25-b314-2ddb51ac8379",
+      "name": "Preparar contatos",
+      "parameters": {
+        "functionCode": "// Monta uma lista de contatos (um item por papel) a partir dos campos já coletados\n// e inclui IDs necessários para as próximas mutações.\nconst d = $json;\nconst fichaCardId = $items('Pegar informação da ficha')[0].json.data.card.id;\nconst clienteRaw = (d.cliente || '').toString();\nconst clienteCardId = clienteRaw.split(',')[0].trim(); // assume um cliente por ficha\n\n// Ajuste os fieldIds abaixo se necessário para os campos de RELACIONAMENTO na ficha\nconst fichaFieldIds = {\n  signatario: 'signat_rio',\n  financeiro: 'contato_financeiro',\n  testemunha: 'testemunha',\n  implantacao: 'contato_de_implanta_o',\n};\n\nconst contacts = [\n  { role: 'signatario',  name: d.nomeSignatario,  email: d.emailSignatario,  phone: null,                   fichaFieldId: fichaFieldIds.signatario },\n  { role: 'financeiro',  name: d.nomeFinanceiro,  email: d.emailFinanceiro,  phone: null,                   fichaFieldId: fichaFieldIds.financeiro },\n  { role: 'testemunha',  name: d.nomeTestemunha,  email: d.emailTestemunha,  phone: null,                   fichaFieldId: fichaFieldIds.testemunha },\n  { role: 'implantacao', name: d.nomeImplementacao, email: d.emailImplementacao, phone: d.celularImplementacao, fichaFieldId: fichaFieldIds.implantacao },\n];\n\nreturn contacts\n  .filter(c => c.email && String(c.email).trim().length > 0)\n  .map(c => ({\n    json: {\n      ...c,\n      clienteCardId,\n      fichaCardId,\n    }\n  }));\n"
+      },
+      "position": [
+        -1072,
+        400
+      ],
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "dee6c2b6-642e-47df-98da-12ea94cb3fca",
+      "maxTries": 5,
+      "name": "Buscar contato por email (loop)",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardsByField($fieldId: String!, $fieldValue: String!, $first: Int = 50) { findCards(pipeId: 306498227, first: $first, search: { fieldId: $fieldId, fieldValue: $fieldValue }) { edges { node { id title } } } }",
+        "variables": "={\n  \"fieldId\": \"e_mail\",\n  \"fieldValue\": \"{{$json.email}}\",\n  \"first\": 1\n}"
+      },
+      "position": [
+        -624,
+        320
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "4ca98b54-7d47-4a38-bbe1-b2ea84269587",
+      "name": "Contato existe? (loop)",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.data.findCards.edges[0].node.id }}",
+              "operator": {
+                "operation": "exists",
+                "singleValue": true,
+                "type": "string"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -400,
+        320
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "5582f877-0935-4a19-a74f-0dce60caeee6",
+      "name": "Set contato existente",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "contatoId",
+              "type": "string",
+              "value": "={{ $json.data.findCards.edges[0].node.id }}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        272,
+        224
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "3a73043d-b0f0-48c2-b8b7-11a316587fe1",
+      "name": "Build payload p/ criar contato",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a0d204a-6ebc-4638-bb36-32132d77c2fd",
+              "name": "contactFields",
+              "type": "json",
+              "value": "={{ (() => {\n  const c = $item(0).$node[\"Loop contatos\"].json;\n  const arr = [];\n  if (c?.email) arr.push({ field_id: 'e_mail', field_value: c.email });\n  if (c?.name)  arr.push({ field_id: 'nome_do_contato',   field_value: c.name });\n  if (c?.phone) arr.push({ field_id: 'telefone', field_value: c.phone });\n  if (c?.clienteCardId) arr.push({ field_id: 'empresa', field_value: c.clienteCardId });\n  arr.push({ field_id: 'esse_contato_de_uma_rede', field_value: \"Não\" });\n  return arr;\n})() }}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        -176,
+        416
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "8e87b865-16ea-4ae7-92d5-f33f88872a9d",
+      "maxTries": 5,
+      "name": "Criar contato",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($pipeId: ID!, $fields: [FieldValueInput!]!) {\n  createCard(input: { pipe_id: $pipeId, fields_attributes: $fields }) {\n    clientMutationId\n    card { id }\n  }\n}",
+        "variables": "={\n  \"pipeId\": 306498227,\n  \"fields\": {{ JSON.stringify($json.contactFields ?? []) }}\n}"
+      },
+      "position": [
+        48,
+        416
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "82620097-c8c6-4459-9878-15503acfd0cb",
+      "name": "Set contato criado",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "contatoId",
+              "type": "string",
+              "value": "={{ $json.data.createCard.card.id }}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        272,
+        416
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "ebd94d33-7921-4302-af65-4e141725f9bd",
+      "name": "Loop contatos",
+      "parameters": {
+        "options": {}
+      },
+      "position": [
+        -848,
+        400
+      ],
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "bf0d9f0f-451a-41ac-a0cd-b82499914a23",
+      "maxTries": 5,
+      "name": "Add contato na ficha cadastral [loop]1",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $fieldId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(input: {\n    nodeId: $cardId\n    values: [{ fieldId: $fieldId, value: $toAdd, operation: ADD }]\n  }) {\n    success\n    userErrors { field message }\n    updatedNode { ... on Card { id } }\n  }\n}",
+        "variables": "={{ ({\n  cardId:  $item(0).$node[\"Loop contatos\"].json.fichaCardId,\n  fieldId: $item(0).$node[\"Loop contatos\"].json.fichaFieldId,\n  toAdd:   [ $item(0).$node[\"Merge contatoId\"].json.contatoId ]\n}) }}"
+      },
+      "position": [
+        720,
+        400
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "0135d337-2b04-4d2b-9aa3-643dc56a8313",
+      "name": "Merge contatoId",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2355ec92-e0ff-4f18-8964-d37cce227545",
+              "name": "contatoId",
+              "type": "string",
+              "value": "={{ $if(\n  $(\"Set contato existente\").isExecuted,\n  $item(0).$node[\"Set contato existente\"].json.contatoId,\n  $item(0).$node[\"Set contato criado\"].json.contatoId\n) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        496,
+        320
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 5
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-07T21:37:32.490Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-11-07T21:37:32.490Z",
+      "workflowId": "pw5uVJyhGud0Xh4t"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-13T13:39:11.769Z",
+  "versionId": "f2d2c194-ed97-4f3d-a56b-b36cd8e2d013"
+}

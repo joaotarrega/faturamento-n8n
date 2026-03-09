@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_backoffice_do_ambiente_criado",
+      "index": 200.0,
+      "internal_id": "416550002",
+      "label": "ID Backoffice do ambiente criado",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "febaa9de-9d16-48d1-982b-2c2c0095e79f"
+    }
+  },
+  "meta": {
+    "field_id": "id_backoffice_do_ambiente_criado",
+    "phase": {
+      "id": "339556245",
+      "name": "Ambiente em configuração",
+      "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

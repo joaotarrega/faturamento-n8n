@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "indique_o_motivo_de_churn",
+      "index": 100.0,
+      "internal_id": "414751837",
+      "label": "Indique o motivo de churn",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "2656b087-9520-4f96-9c49-1821613fd435"
+    }
+  },
+  "meta": {
+    "field_id": "indique_o_motivo_de_churn",
+    "phase": {
+      "id": "339039672",
+      "name": "Churn",
+      "uuid": "d6103dee-7bf1-4993-845e-9cc906e70abc"
+    },
+    "pipe_id": "306441622",
+    "scope": "phase"
+  }
+}

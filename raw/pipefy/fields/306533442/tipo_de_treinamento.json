@@ -1,0 +1,30 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "tipo_de_treinamento",
+      "internal_id": "416259169",
+      "label": "Tipo",
+      "options": [
+        "Dash EVNT",
+        "Gerencial",
+        "SaaS",
+        "Marketplace"
+      ],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "a1c1fa62-4f65-4fb7-978f-44e4a6991860"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_treinamento",
+    "pipe_id": "306533442",
+    "scope": "start_form"
+  }
+}

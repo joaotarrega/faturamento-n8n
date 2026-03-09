@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Informe a data de início do planejamento.",
+      "help": null,
+      "id": "data_de_in_cio_do_planejamento",
+      "index": 1.0,
+      "internal_id": "417812936",
+      "label": "Data de Início do Planejamento",
+      "options": [],
+      "required": true,
+      "type": "date",
+      "uuid": "390fe580-8f6a-43d5-aaf8-2c55c8456050"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_in_cio_do_planejamento",
+    "phase": {
+      "id": "339912152",
+      "name": "Planejamento",
+      "uuid": "fdf776f9-595c-4d42-87c3-de45cd4d3a2c"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

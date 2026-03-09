@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327049434",
+          "phaseField": {
+            "id": "valor_do_imposto_a_ser_isento_outros",
+            "internal_id": "422751368",
+            "label": "Valor percentual do imposto a ser isento - Outros",
+            "uuid": "4c397105-af00-4936-be74-1d950478b064"
+          },
+          "phaseFieldId": "422751368",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422900785",
+            "id": "315062789",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337296"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312578715"
+      },
+      "id": "306381575",
+      "name": "Tipo de desconto Outros != Impostos locais",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381575"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306381575",
+    "scope": "start_form"
+  }
+}

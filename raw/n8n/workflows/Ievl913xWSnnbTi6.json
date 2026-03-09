@@ -1,0 +1,439 @@
+{
+  "active": false,
+  "connections": {
+    "Add Contato no DB-01 (clientes)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add Contato na ficha cadastral",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Buscar contato por email": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Contato signatário existe?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Contato signatário existe?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add Contato no DB-01 (clientes)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Dados da ficha": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Buscar contato por email",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Ficha cadastral concluida": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar informação da ficha",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar informação da ficha": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Dados da ficha",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-07T18:45:54.582Z",
+  "id": "Ievl913xWSnnbTi6",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Ficha cadastral concluída",
+  "nodes": [
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "1a3d67b2-de30-425e-b813-fcb071d4393f",
+      "name": "Ficha cadastral concluida",
+      "notesInFlow": true,
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "8a494e1d-fdb4-469c-9d1c-aefb6f7ca23f"
+      },
+      "position": [
+        -944,
+        384
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "8a494e1d-fdb4-469c-9d1c-aefb6f7ca23f"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "3058fb43-623e-4f0b-890e-d7c2b0dd79d4",
+      "maxTries": 5,
+      "name": "Pegar informação da ficha",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.body.data.card.id }}\"\n}"
+      },
+      "position": [
+        -672,
+        384
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "73800971-36c0-4df8-bcf3-2780bc40f435",
+      "name": "Dados da ficha",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "eaa381a8-c4ea-423f-993a-01cd713075d2",
+              "name": "cliente",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $('Pegar informação da ficha').item.json.data.card.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"cliente\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // single unquoted string\n})()\n}}"
+            },
+            {
+              "id": "92b2fcd1-8479-4ed5-b597-2f2b2f2d3408",
+              "name": "nomeSignatario",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_do_signat_rio_representante\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "f25eb576-21a3-4cd7-8aef-bb6b38713696",
+              "name": "emailSignatario",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_completo_do_signat_rio_representante\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "922b7e67-d0b9-41d7-a48a-3739223e72a5",
+              "name": "nomeTestemunha",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_da_testemunha\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "10e99377-0bdd-4bb3-a863-a4d63d0ca2da",
+              "name": "emailTestemunha",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_da_testemunha\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "c238215d-6028-4265-8739-59e44cf70528",
+              "name": "nomeFinanceiro",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_completo_do_respons_vel_financeiro\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "0289cc13-f0d9-4cc7-a226-e49bb3b9b370",
+              "name": "emailFinanceiro",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_do_respons_vel_financeiro\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "be765496-a002-4eed-9648-ad7091fdd0fe",
+              "name": "nomeImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"nome_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "cdc5f091-7bc2-4a8e-bd16-47750fb4ba1f",
+              "name": "emailImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"email_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            },
+            {
+              "id": "db5910cc-e182-4a57-aae7-80da7a5db87d",
+              "name": "celularImplementacao",
+              "type": "string",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"celular_do_respons_vel_por_acompanhar_a_implanta_o\");\n  const arr = Array.isArray(f?.array_value)\n    ? f.array_value\n    : f?.value != null\n      ? [f.value]\n      : [];\n  return arr\n    .map(v => (typeof v === \"string\" ? v.trim() : String(v)))\n    .filter(Boolean)\n    .join(\", \"); // return as a single string\n})()\n}}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        -448,
+        384
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "65cae1dc-a368-4a05-b228-e77460f051ad",
+      "maxTries": 5,
+      "name": "Buscar contato por email",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardsByField(\n  $fieldId: String!,\n  $fieldValue: String!,\n  $first: Int = 50\n) {\n  findCards(\n    pipeId: 306498227\n    first: $first\n    search: { fieldId: $fieldId, fieldValue: $fieldValue }\n  ) {\n    edges {\n      node {\n        id\n        title\n        fields {\n          field { id label type }\n          value\n          report_value\n          array_value\n        }\n      }\n    }\n  }\n}",
+        "variables": "={\n  \"fieldId\": \"e_mail\",\n  \"fieldValue\": \"{{ $json.emailSignatario }}\",\n  \"first\": 50\n}"
+      },
+      "position": [
+        -224,
+        384
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "a795040a-ff49-4fee-8721-da30c527620b",
+      "name": "Contato signatário existe?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "76a9b112-2ef2-40b7-bf89-40a088cb14bf",
+              "leftValue": "={{ $json.data.findCards.edges[0].node.id }}",
+              "operator": {
+                "operation": "exists",
+                "singleValue": true,
+                "type": "string"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -16,
+        384
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "d648a6f7-1c46-4fd0-ba65-187d35d532b9",
+      "maxTries": 5,
+      "name": "Add Contato no DB-01 (clientes)",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $('Dados da ficha').item.json.cliente }},\n  \"toAdd\": [\"{{ $json.data.findCards.edges[0].node.id }}\"]\n}"
+      },
+      "position": [
+        240,
+        240
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "33a07ea4-4bc9-4277-9ddd-1788dc0072d2",
+      "maxTries": 5,
+      "name": "Add Contato na ficha cadastral",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"signat_rio\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $('Pegar informação da ficha').item.json.data.card.id }},\n  \"toAdd\": [\"{{ $('Contato signatário existe?').item.json.data.findCards.edges[0].node.id }}\"]\n}"
+      },
+      "position": [
+        432,
+        240
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    }
+  ],
+  "pinData": {
+    "Ficha cadastral concluida": [
+      {
+        "json": {
+          "body": {
+            "data": {
+              "action": "card.done",
+              "card": {
+                "id": 1251737168,
+                "pipe_id": "gd19SEqr",
+                "title": "teste n8n"
+              },
+              "done_by": {
+                "avatar_url": "https://app.pipefy.com/storage/v1/signed/avatar/store/user/306441124/avatar/small-ba8e8295694612a530bd18351d610f99.jpg?expires_on=1762543530&signature=gubFq06bvlydqyjdCvziXepN4sIQ0czbfj5oajOjIuU%3D",
+                "email": "jtarrega@evnt.com.br",
+                "id": 306441124,
+                "name": "João Tarrega",
+                "username": "jtarrega"
+              },
+              "on_phase": {
+                "id": 339322140,
+                "name": "Concluído"
+              }
+            }
+          },
+          "executionMode": "test",
+          "headers": {
+            "connection": "upgrade",
+            "content-length": "466",
+            "content-type": "application/json",
+            "host": "n8n.evnt.com.br",
+            "pipefy-webhook-token": "1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW",
+            "x-forwarded-for": "129.153.135.244",
+            "x-forwarded-host": "n8n.evnt.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-real-ip": "129.153.135.244"
+          },
+          "params": {},
+          "query": {},
+          "webhookUrl": "https://n8n.evnt.com.br/webhook-test/8a494e1d-fdb4-469c-9d1c-aefb6f7ca23f"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 2
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-07T18:45:54.582Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-11-07T18:45:54.582Z",
+      "workflowId": "Ievl913xWSnnbTi6"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-10T11:40:37.877Z",
+  "versionId": "538882b1-1600-4f13-833a-df71d25f8b9d"
+}

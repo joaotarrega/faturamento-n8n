@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "incluar_email_2_para_recebimento",
+      "internal_id": "415750569",
+      "label": "Incluir email 2 para recebimento",
+      "options": [],
+      "required": false,
+      "type": "email",
+      "uuid": "5fd0ce05-f256-4d1b-b113-b4b620dc75ba"
+    }
+  },
+  "meta": {
+    "field_id": "incluar_email_2_para_recebimento",
+    "pipe_id": "306509228",
+    "scope": "start_form"
+  }
+}

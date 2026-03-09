@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "En caso de haber sentido falta de algún contenido en el entrenamiento, por favor indíquelo abajo:",
+      "help": "",
+      "id": "caso_tenha_sentido_falta_de_algum_conte_do_no_treinamento_por_favor_indique_abaixo",
+      "index": 700.0,
+      "internal_id": "417359418",
+      "label": "Caso tenha sentido falta de algum conteúdo no treinamento, por favor indique abaixo",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "88e2038c-119d-410c-a347-06424b7ddcee"
+    }
+  },
+  "meta": {
+    "field_id": "caso_tenha_sentido_falta_de_algum_conte_do_no_treinamento_por_favor_indique_abaixo",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

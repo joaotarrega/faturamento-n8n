@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+      "index": 187.5,
+      "internal_id": "422183057",
+      "label": "Indique o motivo de não tentar reter o cliente",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "c96678a4-f551-429b-af5b-06d25aa83720"
+    }
+  },
+  "meta": {
+    "field_id": "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+    "phase": {
+      "id": "339834129",
+      "name": "Análise",
+      "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

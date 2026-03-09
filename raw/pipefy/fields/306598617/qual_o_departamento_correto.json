@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "v-DP0jR8",
+        "name": "Departamentos"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "v-DP0jR8",
+        "name": "Departamentos"
+      },
+      "description": "",
+      "help": "",
+      "id": "qual_o_departamento_correto",
+      "index": 400.0,
+      "internal_id": "418491129",
+      "label": "Qual é o departamento correto?",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "e21a3a8e-a73e-44a1-b706-8dceb1a7a51c"
+    }
+  },
+  "meta": {
+    "field_id": "qual_o_departamento_correto",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

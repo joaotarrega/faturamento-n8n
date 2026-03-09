@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "passagem_de_bast_o_feita_para_o_cs",
+      "index": 200.0,
+      "internal_id": "417007150",
+      "label": "Passagem de bastão feita para o CS?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "6cdcc7df-23c0-458e-8ef1-6e582be4f626"
+    }
+  },
+  "meta": {
+    "field_id": "passagem_de_bast_o_feita_para_o_cs",
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

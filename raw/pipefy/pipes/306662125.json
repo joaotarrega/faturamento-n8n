@@ -1,0 +1,569 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": false,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306859731",
+            "name": "[FIN-03]  Faturas"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303097299",
+          "name": "Faturas associadas",
+          "ownFieldMaps": [
+            {
+              "fieldId": "422905925",
+              "field_id": "422905925",
+              "inputMode": "copy_from",
+              "value": "%{labels}"
+            },
+            {
+              "fieldId": "422905926",
+              "field_id": "422905926",
+              "inputMode": "copy_from",
+              "value": "%{421662483}"
+            },
+            {
+              "fieldId": "422905927",
+              "field_id": "422905927",
+              "inputMode": "copy_from",
+              "value": "%{421856856}"
+            },
+            {
+              "fieldId": "422905928",
+              "field_id": "422905928",
+              "inputMode": "copy_from",
+              "value": "%{421662303}"
+            },
+            {
+              "fieldId": "422905931",
+              "field_id": "422905931",
+              "inputMode": "copy_from",
+              "value": "%{422076542}"
+            },
+            {
+              "fieldId": "422905933",
+              "field_id": "422905933",
+              "inputMode": "copy_from",
+              "value": "%{421662414}"
+            },
+            {
+              "fieldId": "422905934",
+              "field_id": "422905934",
+              "inputMode": "copy_from",
+              "value": "%{421667044}"
+            },
+            {
+              "fieldId": "422905936",
+              "field_id": "422905936",
+              "inputMode": "copy_from",
+              "value": "%{422754544}"
+            },
+            {
+              "fieldId": "422905937",
+              "field_id": "422905937",
+              "inputMode": "copy_from",
+              "value": "%{422754713}"
+            },
+            {
+              "fieldId": "422905938",
+              "field_id": "422905938",
+              "inputMode": "copy_from",
+              "value": "%{421663241}"
+            },
+            {
+              "fieldId": "422906233",
+              "field_id": "422906233",
+              "inputMode": "copy_from",
+              "value": "%{automation_event_execution_datetime}"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          }
+        }
+      ],
+      "color": "cyan",
+      "description": null,
+      "id": "306662125",
+      "labels": [
+        {
+          "color": "#B8E986",
+          "id": "316856394",
+          "name": "Enviar relatório"
+        },
+        {
+          "color": "#D0021B",
+          "id": "316856395",
+          "name": "Risco de churn"
+        }
+      ],
+      "members": [
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        }
+      ],
+      "name": "[FIN-01] Regras de faturamento",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303066337",
+          "name": "Regras de faturamento",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303067820",
+          "name": "Regras de faturamento",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "cards_count": 126,
+          "color": "purple",
+          "description": "",
+          "fields": [
+            {
+              "canConnectExisting": null,
+              "canConnectMultiples": null,
+              "canCreateNewConnected": null,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "<p>Testar colocar aqui os avisos de inconsistencias etc</p>",
+              "help": null,
+              "id": "statement_1b37c4af_b6de_443b_a252_a1e21beb22ab",
+              "index": 0.0,
+              "internal_id": "424602855",
+              "label": "Statement-1b37c4af-b6de-443b-a252-a1e21beb22ab",
+              "options": [],
+              "required": null,
+              "type": "statement",
+              "uuid": "5571d6bc-86d1-4fde-a59c-eda13b1f00f1"
+            }
+          ],
+          "id": "341313813",
+          "name": "Ativo",
+          "uuid": "c796e763-65cb-4d3b-b32a-71c4ce4c3bfb"
+        },
+        {
+          "cards_count": 0,
+          "color": "indigo",
+          "description": "",
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "motivo_de_inativa_o",
+              "index": 0.0,
+              "internal_id": "421670007",
+              "label": "Motivo de inativação",
+              "options": [
+                "Churn",
+                "Junção com outra regra de faturamento",
+                "Outro"
+              ],
+              "required": true,
+              "type": "radio_vertical",
+              "uuid": "bc8026a7-0c52-44e5-82db-e64571bded77"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "indique_o_motivo",
+              "index": 50.0,
+              "internal_id": "421670011",
+              "label": "Indique o motivo",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "de66f1a7-763f-4fe3-9607-d84724b239af"
+            }
+          ],
+          "id": "340203253",
+          "name": "Inativo",
+          "uuid": "b9f8962c-dd20-4414-8412-302fb1be5757"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "etiquetas",
+          "internal_id": "421670218",
+          "label": "Etiquetas",
+          "options": [],
+          "required": false,
+          "type": "label_select",
+          "uuid": "5d1aa4f4-56a9-46f7-888c-3f587c4a19ee"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "CNPJ (e outros identificadores para outros países).",
+          "help": "- Brasil — CNPJ numérico (00.000.000/0000-00 ou 14 dígitos) e também o CNPJ alfanumérico (primeiras 12 posições alfanuméricas + 2 dígitos verificadores), com ou sem máscara.\n\n- Argentina — CUIT/CUIL (11 dígitos) com prefixos 20/23/24/27/30/33/34, com ou sem hífens (##-########-#).\n\n- México — RFC (12 ou 13) no padrão letras + data (YYMMDD) + homoclave (3).\n\n- Chile — RUT (7–8 dígitos + DV), com ou sem pontos e com DV 0-9 ou K.\n\n- Colômbia — NIT com DV (hífen obrigatório na regex), aceitando com/sem separador de milhar.\n\n- Peru — RUC (11 dígitos) começando com 10/15/17/20 (heurística comum).\n\n- Equador — RUC (13 dígitos), província 01–24, 3º dígito compatível (0–5/6/9) e sufixo 001.\n\n- Uruguai — RUT no formato ##-######-###-# (12 dígitos agrupados).\n\n- Guatemala — NIT no formato 3–11 dígitos + hífen + DV (0-9 ou K).\n\n- Paraguai — RUC no formato 3–8 dígitos + hífen + DV.\n\n- Venezuela — RIF letra (V/E/J/G/P/I) + 8 dígitos + DV, com ou sem hífens.",
+          "id": "identificador_fiscal_na_fatura",
+          "internal_id": "421662483",
+          "label": "Identificador fiscal na fatura",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "cae51982-1ee7-4236-ad48-4815e7af5e8d"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "tipo_de_cliente_final",
+          "internal_id": "421856856",
+          "label": "Tipo de cliente faturado",
+          "options": [
+            "Afiliados e independentes",
+            "Rede"
+          ],
+          "required": true,
+          "type": "radio_horizontal",
+          "uuid": "cf1b381e-6deb-4135-9c70-7a8ff3fa9a85"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "description": "",
+          "help": "",
+          "id": "clientes_na_fatura",
+          "internal_id": "421662303",
+          "label": "Clientes na fatura",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "f7fdb849-7388-46b0-8ce4-e8c489fdabc9"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "auto_historico_de_clientes",
+          "internal_id": "424230965",
+          "label": "[Auto] Historico de clientes",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "305b9a9b-2b69-4e14-9a85-00b84d4bd7b2"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "description": "",
+          "help": null,
+          "id": "rede_na_fatura",
+          "internal_id": "422076542",
+          "label": "Rede na fatura",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "ab1c4891-5a45-419a-b769-cf9702dc5540"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "auto_historico_de_redes",
+          "internal_id": "424230967",
+          "label": "[Auto] Historico de redes",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "f4102de1-fcd5-4f62-8450-4a9b2a1e662b"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "description": "Contato que deve receber a fatura por email",
+          "help": "",
+          "id": "contatos_que_receber_o_a_fatura",
+          "internal_id": "421662414",
+          "label": "Contato",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "230315fa-8acb-422f-b835-2e7473e26658"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "forma_de_pagamento",
+          "internal_id": "421667044",
+          "label": "Condições de pagamento",
+          "options": [
+            "PIX",
+            "Boleto",
+            "Cartão de crédito"
+          ],
+          "required": true,
+          "type": "checklist_horizontal",
+          "uuid": "6c7c80e1-9de3-4f2e-915a-c3e556bb21e6"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306852209",
+            "name": "[FIN-02] Itens das regras"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306852209",
+            "name": "[FIN-02] Itens das regras"
+          },
+          "description": "**NUNCA** remova itens do campo conectado. Caso um item não deva ser cobrado nas próximas faturas, altere seu status para inativo.",
+          "help": "",
+          "id": "itens_da_fatura",
+          "internal_id": "422751503",
+          "label": "Itens da fatura",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "6435ff4d-f2c6-431c-ab9a-88e3bbd76e4f"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Indique apenas caso exista um teto",
+          "help": "",
+          "id": "moeda_do_teto_de_faturamento",
+          "internal_id": "422754544",
+          "label": "Moeda do teto de faturamento",
+          "options": [
+            "BRL",
+            "USD"
+          ],
+          "required": true,
+          "type": "checklist_horizontal",
+          "uuid": "36911bdd-ddbb-47bc-85b0-6e485680bc0b"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "teto_de_faturamento_brl",
+          "internal_id": "422754713",
+          "label": "Teto de faturamento (BRL)",
+          "options": [],
+          "required": true,
+          "type": "currency",
+          "uuid": "86c752f2-b23b-4bad-ba16-01a0f6811e70"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "teto_de_faturamento_usd",
+          "internal_id": "421663241",
+          "label": "Teto de faturamento (USD)",
+          "options": [],
+          "required": true,
+          "type": "currency",
+          "uuid": "2114f4f2-4547-40d7-aa91-4f7f7dc336b6"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Define o dia do mês em que a regra será analisada para a criação da fatura.\n\nPor exemplo, se for = 3 -> No 3° dia do mês, a fatura será criada no pipe FIN-02.",
+          "help": "",
+          "id": "dia_de_gera_o_da_fatura",
+          "internal_id": "425784268",
+          "label": "Dia de geração da fatura",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "9"
+          ],
+          "required": true,
+          "type": "radio_horizontal",
+          "uuid": "31f15fd1-7795-4987-9ad3-8650dab49684"
+        }
+      ],
+      "uuid": "a7efad16-da09-4a31-a65d-cf8a64906286",
+      "webhooks": [
+        {
+          "actions": [
+            "card.create",
+            "card.field_update"
+          ],
+          "email": "jtarrega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300620850",
+          "url": "https://n8n.evnt.com.br/webhook-test/sync-campos-conectados"
+        },
+        {
+          "actions": [
+            "card.create",
+            "card.field_update"
+          ],
+          "email": "jtarrega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300620851",
+          "url": "https://n8n.evnt.com.br/webhook/sync-campos-conectados"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "update_card_field",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": "%{id}",
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "416715933",
+            "field_id": "416715933",
+            "inputMode": "copy_from",
+            "value": "%{416563742.416193586}%{414861329}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "422032976",
+            "field_id": "422032976",
+            "inputMode": "fixed_value",
+            "value": "1.0"
+          }
+        ],
+        "fields_map_order": [
+          "416715933",
+          "422032976"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "311261604"
+      },
+      "created_at": "2025-07-30 19:07:34 UTC",
+      "event_id": "card_created",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305350433",
+      "name": "Atualizar título de criação do card",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/automations/305350433"
+    }
+  }
+}

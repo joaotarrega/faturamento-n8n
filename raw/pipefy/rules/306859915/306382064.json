@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051384",
+          "phaseField": {
+            "id": "desconto_no_valor_vari_vel_do_saas_para_outros",
+            "internal_id": "422909790",
+            "label": "Valor percentual de desconto SaaS - Categoria Outros",
+            "uuid": "6a3ee4eb-1041-4f72-82e1-84083e1ae431"
+          },
+          "phaseFieldId": "422909790",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909781",
+            "id": "315064162",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337139"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312580007"
+      },
+      "id": "306382064",
+      "name": "Tipo de desconto Outros != Valor percentual",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382064"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382064",
+    "scope": "start_form"
+  }
+}

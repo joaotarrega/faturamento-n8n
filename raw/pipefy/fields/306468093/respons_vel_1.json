@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "respons_vel_1",
+      "index": -200.0,
+      "internal_id": "416539899",
+      "label": "Responsável pela criação do ambiente",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "637e4b1a-29fa-42a2-ab33-f42098d77400"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel_1",
+    "phase": {
+      "id": "339069571",
+      "name": "Ambiente em criação",
+      "uuid": "c92d6226-13b3-465f-949f-c9ae1ea57f94"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

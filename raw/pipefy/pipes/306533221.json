@@ -1,0 +1,495 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": false,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306500191",
+            "name": "[OPE-03] Onboarding de clientes"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303057140",
+          "name": "Onboarding",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533221",
+            "name": "[DB-03] Ambientes"
+          }
+        }
+      ],
+      "color": "orange",
+      "description": null,
+      "id": "306533221",
+      "labels": [],
+      "members": [
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "tcampion@evnt.com.br",
+            "id": "306611102",
+            "name": "Thomas Campion"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "tgarcia@evnt.com.br",
+            "id": "306801946",
+            "name": "TAYNA CAROLINA GARCIA GOMEZ"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "automacoes_http-301997709@service-account.pipefy.com",
+            "id": "306824351",
+            "name": "Automações HTTP"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "scripts-301997709@service-account.pipefy.com",
+            "id": "306874087",
+            "name": "Scripts"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        },
+        {
+          "role_name": "read_and_comment",
+          "user": {
+            "email": "health-score-calc-301997709@service-account.pipefy.com",
+            "id": "307410389",
+            "name": "Health-Score-Calc"
+          }
+        }
+      ],
+      "name": "[DB-03] Ambientes",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": false,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306533221",
+            "name": "[DB-03] Ambientes"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303057106",
+          "name": "Ambiente",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306500191",
+            "name": "[OPE-03] Onboarding de clientes"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": false,
+          "canConnectMultipleItems": false,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306533221",
+            "name": "[DB-03] Ambientes"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "302888355",
+          "name": "Entidades",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306468093",
+            "name": "[TEC-02] Criação de ambiente"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306533221",
+            "name": "[DB-03] Ambientes"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "302923244",
+          "name": "Ambiente",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "cards_count": 319,
+          "color": "lime",
+          "description": "",
+          "fields": [],
+          "id": "339458972",
+          "name": "Ativo 1.0",
+          "uuid": "eac3f11a-e040-4d2c-a0cc-32050e982057"
+        },
+        {
+          "cards_count": 70,
+          "color": "indigo",
+          "description": "",
+          "fields": [],
+          "id": "341144282",
+          "name": "Ativo 2.0",
+          "uuid": "f75f27c1-20cd-48c8-8524-a1cd2362a98a"
+        },
+        {
+          "cards_count": 25,
+          "color": "red",
+          "description": null,
+          "fields": [],
+          "id": "339484450",
+          "name": "Inativo",
+          "uuid": "89edc5ba-16ea-469a-95fc-406603e2a5f3"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "id_solicita_ao",
+          "internal_id": "421320812",
+          "label": "ID solicitaçao",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "d8e14e5f-cecd-499d-92b3-e1e126c6e048"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "id_do_card_de_onboarding",
+          "internal_id": "423809910",
+          "label": "ID do card de onboarding",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "cb43c376-6ea5-4bc8-adb1-c4d001774a04"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "vers_o_do_saas",
+          "internal_id": "422033228",
+          "label": "Versão do SaaS",
+          "options": [
+            "1.0",
+            "2.0"
+          ],
+          "required": false,
+          "type": "radio_horizontal",
+          "uuid": "1c59508a-b688-44c7-96e7-f1f7e8400044"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "observa_es",
+          "internal_id": "416304383",
+          "label": "Observações",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "df4012d5-5467-4aa4-b412-f3a78204ed66"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "nome_da_entidade_no_sistema",
+          "internal_id": "416194407",
+          "label": "Nome da entidade no sistema",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "8a3b2c44-14ad-45d7-9fea-ba367ea70b11"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Deve iniciar com \"**https://**\" e finalizar com \"**.com**\" ou \"**.com.br**\"",
+          "help": "",
+          "id": "url_ambiente",
+          "internal_id": "416244569",
+          "label": "URL - Ambiente",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "2e77d0aa-7f34-4b21-b1eb-9d05221f221a"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "[Guia visual para consultar o ID Backoffice](https://evnt.sharepoint.com/:i:/g/IQBJJ3sszHr0RI2kUalBkUeKAVLir06hlOqF2MKekPRK0vA?e=AcX1E4)",
+          "help": "",
+          "id": "id_backoffice_evnt",
+          "internal_id": "416244586",
+          "label": "ID Backoffice EVNT",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "0f250ee9-363a-4235-9edd-092d80a44e2d"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "cnpj",
+          "internal_id": "416244617",
+          "label": "CNPJ no sistema",
+          "options": [],
+          "required": false,
+          "type": "cnpj",
+          "uuid": "4c6b74ac-051b-4899-8b09-1978bdcf87c9"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "identificador_fiscal",
+          "internal_id": "416244621",
+          "label": "Identificador fiscal no sistema",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "8ccb6346-719e-4919-9e86-1250be56da7d"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "rede",
+          "internal_id": "416245301",
+          "label": "Rede",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "f0ffeae5-dd06-4e7a-bd79-ef14783a96ae"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "nar_atl_ntica",
+          "internal_id": "418381608",
+          "label": "NAR Atlântica",
+          "options": [
+            "Franquias",
+            "NAR 1",
+            "NAR 2",
+            "NAR 3",
+            "NAR 4"
+          ],
+          "required": false,
+          "type": "select",
+          "uuid": "2fecb1e8-9080-4526-9898-c7778bded684"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "regional_accor",
+          "internal_id": "418381612",
+          "label": "Regional Accor",
+          "options": [
+            "Regional SP 1",
+            "Regional SP 2",
+            "Regional Norte-Nordeste",
+            "Regional Sul",
+            "Regional RJ",
+            "Regional Sul, Interior e Litoral de SP"
+          ],
+          "required": false,
+          "type": "select",
+          "uuid": "54d63315-6eaa-4426-82e0-a34cb9664838"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "porte",
+          "internal_id": "418407768",
+          "label": "Porte",
+          "options": [
+            "Eco",
+            "Midscale",
+            "Premium",
+            "Luxo",
+            "Resort"
+          ],
+          "required": false,
+          "type": "select",
+          "uuid": "dab05257-0d8c-4522-a7ce-49801fcd6c40"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "mostrar_campos_do_form_inicial",
+          "internal_id": "422037133",
+          "label": "Mostrar campos do form inicial",
+          "options": [
+            "Sim"
+          ],
+          "required": false,
+          "type": "radio_vertical",
+          "uuid": "37876ebd-9164-46ed-ac2e-80b40957ce8f"
+        },
+        {
+          "canConnectExisting": null,
+          "canConnectMultiples": null,
+          "canCreateNewConnected": null,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "<h1>Não é possível criar cards diretamente neste pipe</h1>\n<p style=\"line-height: 1.4;\"> </p>\n<p style=\"line-height: 1.4;\">As entidades no sistema são criadas automaticamente quando a solicitação de <a href=\"https://app.pipefy.com/pipes/306468093\">criação de ambiente</a> entra na fase de finalizada.</p>\n<p style=\"line-height: 1.4;\"> </p>\n<p style=\"line-height: 1.4;\">Caso seja necessário criar um card diretamente por aqui, entre em contato com o João ou Thom.</p>",
+          "help": null,
+          "id": "statement_28678533_b730_431f_8cfa_efc0e3330567",
+          "internal_id": "416985424",
+          "label": "Statement-28678533-b730-431f-8cfa-efc0e3330567",
+          "options": [],
+          "required": null,
+          "type": "statement",
+          "uuid": "5715b664-6205-443c-a74d-415c36bfe616"
+        }
+      ],
+      "uuid": "41336870-a28f-4599-9b75-b165a6997f42",
+      "webhooks": [
+        {
+          "actions": [
+            "card.create"
+          ],
+          "email": "jtarega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300591551",
+          "url": "https://n8n.evnt.com.br/webhook/baee363b-5b86-47c0-bd53-962279038c41"
+        },
+        {
+          "actions": [
+            "card.create"
+          ],
+          "email": "jtarega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300591527",
+          "url": "https://n8n.evnt.com.br/webhook-test/baee363b-5b86-47c0-bd53-962279038c41"
+        }
+      ]
+    }
+  }
+}

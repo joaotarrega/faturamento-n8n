@@ -1,0 +1,32 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "regional_accor",
+      "internal_id": "414345195",
+      "label": "Regional - Accor",
+      "options": [
+        "Regional SP 1",
+        "Regional SP 2",
+        "Regional Norte-Nordeste",
+        "Regional Sul",
+        "Regional RJ",
+        "Regional Sul, Interior e Litoral de SP"
+      ],
+      "required": false,
+      "type": "select",
+      "uuid": "06eee4b8-e183-47b8-af21-f4060f90cdcc"
+    }
+  },
+  "meta": {
+    "field_id": "regional_accor",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

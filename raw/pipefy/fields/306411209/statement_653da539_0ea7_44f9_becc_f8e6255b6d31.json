@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Histórico Ploomes:<br /><strong>{{phase338732670.field414861329.field415366156}}</strong></p>\n<p> </p>\n<p>Envolvidos:</p>\n<p><strong>{{phase338732670.field414861329.field415366158}}</strong></p>\n<p> </p>\n<p>Datas:</p>\n<p><strong>{{phase338732670.field414861329.field415366155}}</strong></p>",
+      "help": null,
+      "id": "statement_653da539_0ea7_44f9_becc_f8e6255b6d31",
+      "index": -275.0,
+      "internal_id": "417631456",
+      "label": "Statement-653da539-0ea7-44f9-becc-f8e6255b6d31",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "90f9530f-ed6c-4720-b72b-f1dac2d42ddf"
+    }
+  },
+  "meta": {
+    "field_id": "statement_653da539_0ea7_44f9_becc_f8e6255b6d31",
+    "phase": {
+      "id": "338732672",
+      "name": "Qualificação do lead",
+      "uuid": "c949c799-b7fa-4fc9-922e-05b8ae46be57"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

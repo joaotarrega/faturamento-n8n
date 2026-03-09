@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "health_score",
+      "index": 28.515625,
+      "internal_id": "419484861",
+      "label": "Health Score",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "7752347f-76cf-4cba-b5d8-ec3d34f0e88c"
+    }
+  },
+  "meta": {
+    "field_id": "health_score",
+    "phase": {
+      "id": "339812904",
+      "name": "Calculando o score",
+      "uuid": "2fcde8a6-5a26-4201-a6d9-8582739ee1de"
+    },
+    "pipe_id": "306595015",
+    "scope": "phase"
+  }
+}

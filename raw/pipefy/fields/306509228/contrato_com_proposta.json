@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "contrato_com_proposta",
+      "internal_id": "415752539",
+      "label": "Contrato com proposta",
+      "options": [],
+      "required": false,
+      "type": "attachment",
+      "uuid": "028a7d39-7061-4c87-a32d-d1cf74dd1fe6"
+    }
+  },
+  "meta": {
+    "field_id": "contrato_com_proposta",
+    "pipe_id": "306509228",
+    "scope": "start_form"
+  }
+}

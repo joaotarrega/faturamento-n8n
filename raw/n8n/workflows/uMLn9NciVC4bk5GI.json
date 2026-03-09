@@ -1,0 +1,295 @@
+{
+  "active": false,
+  "connections": {
+    "Ação": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Query - Moeda",
+            "type": "main"
+          }
+        ],
+        []
+      ]
+    },
+    "Fields webhook": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Ação",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Query - Moeda": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar card",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-05T21:10:17.688Z",
+  "id": "uMLn9NciVC4bk5GI",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "FIN-04",
+  "nodes": [
+    {
+      "id": "31595775-daea-4f96-b3a9-fe0117f23792",
+      "name": "Fields webhook",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "65a39fad-9b99-4a88-9101-b3c0593991ba",
+              "name": "webhookAction",
+              "type": "string",
+              "value": "={{ $json.body.data.action }}"
+            },
+            {
+              "id": "8528d31d-a643-410f-af57-7335367cd03c",
+              "name": "cardId",
+              "type": "string",
+              "value": "={{ $json.body.data.card.id }}"
+            },
+            {
+              "id": "f55be913-f7e2-453f-a78d-4093bbbe2a45",
+              "name": "updatedField",
+              "type": "string",
+              "value": "={{ $json.body.data.field.id }}"
+            },
+            {
+              "id": "06f1ee9c-49bd-4abe-b651-8efbc8769ccd",
+              "name": "newFieldValue",
+              "type": "string",
+              "value": "={{ $json.body.data.new_value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        208,
+        0
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "76c5c2eb-9851-4435-a330-c5d2663a5a42",
+      "name": "Query - Moeda",
+      "parameters": {
+        "jsCode": "// n8n - Code node (JavaScript)\n\nfunction pickFirst(...vals) {\n  for (const v of vals) {\n    if (v !== undefined && v !== null && String(v).trim() !== \"\") return v;\n  }\n  return undefined;\n}\n\nconst currency = String($node[\"Ação\"]?.json?.newFieldValue ?? \"\").trim();\n\nconst wh = $node[\"Fields webhook\"]?.json ?? {};\nconst cardId = pickFirst(\n  wh.cardId,\n  wh.card_id,\n  wh.card?.id,\n  wh.data?.card?.id,\n  wh.body?.card?.id,\n  wh.data?.cardId,\n  wh.data?.card_id\n);\n\nif (!cardId) {\n  throw new Error('cardId não encontrado no nó \"Fields webhook\".');\n}\n\nconst BRL_FIELDS = [\n  \"valor_base_saas_categoria_a_b_brl\",\n  \"valor_base_saas_categoria_e_s_brl\",\n  \"valor_base_saas_categoria_espa_os_brl\",\n  \"valor_base_saas_categoria_hospedagem_brl\",\n  \"valor_base_saas_categoria_outros_brl\",\n  \"valor_de_base_brl\",\n  \"valor_nominal_a_ser_descontado_brl\",\n  \"valor_total_do_item_brl\",\n  \"valor_total_do_item_com_descontos_brl\",\n  \"valor_unit_rio_brl\",\n];\n\nconst USD_FIELDS = [\n  \"valor_base_saas_categoria_a_b_usd\",\n  \"valor_base_saas_categoria_e_s_usd\",\n  \"valor_base_saas_categoria_espa_os_usd\",\n  \"valor_base_saas_categoria_hospedagem_usd\",\n  \"valor_base_saas_categoria_outros_usd\",\n  \"valor_de_base_usd\",\n  \"valor_nominal_a_ser_descontado_usd\",\n  \"valor_total_do_item_usd\",\n  \"valor_total_do_item_com_descontos_usd\",\n  \"valor_unit_rio_usd\",\n];\n\n// Regra: se escolheu USD, limpa BRL; se escolheu BRL, limpa USD\nlet fieldsToClear = [];\nif (currency === \"USD - $\") fieldsToClear = BRL_FIELDS;\nelse if (currency === \"BRL - R$\") fieldsToClear = USD_FIELDS;\n\nif (fieldsToClear.length === 0) {\n  return [{ json: { skip: true, reason: `newFieldValue inesperado: ${currency}`, cardId: String(cardId) } }];\n}\n\n// Para campos numéricos/moeda, \"\" costuma falhar; use 0.\n// value no Pipefy é LISTA ([UndefinedInput]) :contentReference[oaicite:1]{index=1}\nconst CLEAR_VALUE = [0];\n\nconst body = `\nmutation UpdateFieldsValues($nodeId: ID!, $values: [NodeFieldValueInput!]!) {\n  updateFieldsValues(input: { nodeId: $nodeId, values: $values }) {\n    success\n    userErrors { message }\n  }\n}\n`.trim();\n\nconst variables = {\n  nodeId: String(cardId),\n  values: fieldsToClear.map((fieldId) => ({\n    fieldId,       // slug do campo :contentReference[oaicite:2]{index=2}\n    value: CLEAR_VALUE,\n    // operation: \"replace\" // opcional (default é replace) :contentReference[oaicite:3]{index=3}\n  })),\n};\n\nreturn [\n  {\n    json: {\n      body,           // STRING da mutation (use isso no GraphQL node)\n      variables,      // objeto variables\n      requestBody: {  // JSON pronto (use isso no HTTP Request)\n        query: body,\n        variables,\n      },\n      debug: { currency, cardId: String(cardId), fieldsToClear, clearValueUsed: CLEAR_VALUE },\n    },\n  },\n];"
+      },
+      "position": [
+        656,
+        -144
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "5aeb0c31-e53a-400b-9753-a0178dd7b3fd",
+      "maxTries": 3,
+      "name": "Atualizar card",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "={{ $json.body }}",
+        "variables": "={{ $json.variables }}"
+      },
+      "position": [
+        848,
+        -144
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "069871c2-e7a0-4707-b9d1-f03b75c364d8",
+      "name": "Ação",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "593c070b-ce03-4e77-b68c-30223567dc61",
+                    "leftValue": "={{ $json.updatedField }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "moeda_da_fatura"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Att moeda",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "e0cb51a4-0c27-414e-b8b5-cc3b4cc00493",
+                    "leftValue": "",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              }
+            }
+          ]
+        }
+      },
+      "position": [
+        416,
+        0
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "6c0d853a-d4d6-4f9a-95e1-98d1a2c84974",
+      "name": "Webhook FIN-04",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+      },
+      "position": [
+        0,
+        0
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-02-05T21:10:17.688Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-02-05T21:10:17.688Z",
+      "workflowId": "uMLn9NciVC4bk5GI"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-02-05T21:19:20.663Z",
+  "versionId": "f4479cc5-6795-4888-8483-0621d01cc572"
+}

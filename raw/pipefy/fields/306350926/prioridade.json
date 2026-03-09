@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "prioridade",
+      "internal_id": "412615107",
+      "label": "Tipo",
+      "options": [],
+      "required": true,
+      "type": "label_select",
+      "uuid": "d400cce8-1899-4ae0-b9ce-c4a951652536"
+    }
+  },
+  "meta": {
+    "field_id": "prioridade",
+    "pipe_id": "306350926",
+    "scope": "start_form"
+  }
+}

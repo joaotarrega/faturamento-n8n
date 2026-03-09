@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "entrou_em_contato_com_o_cliente",
+      "index": 100.0,
+      "internal_id": "416107256",
+      "label": "Entrou em contato com o cliente?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": false,
+      "type": "radio_horizontal",
+      "uuid": "fd4de23e-ddc3-4a4b-935c-91c37abea09f"
+    }
+  },
+  "meta": {
+    "field_id": "entrou_em_contato_com_o_cliente",
+    "phase": {
+      "id": "339432377",
+      "name": "Aguardando ficha cadastral",
+      "uuid": "1917735a-061a-406a-bc9f-f8e55a4da97b"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

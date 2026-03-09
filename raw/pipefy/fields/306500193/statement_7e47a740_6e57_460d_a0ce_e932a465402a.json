@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h3>SaaS - Setup</h3>\n<p>Valor total de setup: <strong>{{phase339269433.field415597983.field415903228}}</strong> <strong>{{phase339269433.field415597983.field415395512}}</strong><strong>{{phase339269433.field415597983.field415903553}}</strong></p>\n<p>Quantidade de parcelas: <strong>{{phase339269433.field415597983.field415395534}}</strong></p>",
+      "help": null,
+      "id": "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+      "index": -6.25,
+      "internal_id": "415633356",
+      "label": "Statement-7e47a740-6e57-460d-a0ce-e932a465402a",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "558fee02-d597-4abb-922c-74f9446426b0"
+    }
+  },
+  "meta": {
+    "field_id": "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

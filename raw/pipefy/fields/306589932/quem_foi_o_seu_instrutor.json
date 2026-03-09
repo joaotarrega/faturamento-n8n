@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "¿Quién fue su instructor?",
+      "help": "",
+      "id": "quem_foi_o_seu_instrutor",
+      "index": 587.5,
+      "internal_id": "418418950",
+      "label": "Quem foi o seu instrutor?",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "e1edaa73-5b57-4170-99aa-b2cddc318de4"
+    }
+  },
+  "meta": {
+    "field_id": "quem_foi_o_seu_instrutor",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

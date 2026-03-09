@@ -1,0 +1,61 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "move_single_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": "339460689",
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "425095747",
+            "id": "315433045",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Mover para a fase \"Realizado\""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312930446"
+      },
+      "created_at": "2026-02-05 17:48:24 UTC",
+      "event_id": "field_updated",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": [
+          "425095747"
+        ]
+      },
+      "id": "306494615",
+      "name": "Mover card para realizado",
+      "url": "https://app.pipefy.com/pipes/306533442/settings/automations/306494615"
+    }
+  }
+}

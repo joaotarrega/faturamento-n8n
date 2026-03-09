@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "valor_unit_rio_usd",
+      "internal_id": "422788842",
+      "label": "Valor unitário (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "f6b3ca87-8ae2-4e61-a3ee-2677fa8c6865"
+    }
+  },
+  "meta": {
+    "field_id": "valor_unit_rio_usd",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

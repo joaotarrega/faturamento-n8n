@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "flags_adicionais",
+      "index": 118.75,
+      "internal_id": "424613695",
+      "label": "Flags adicionais",
+      "options": [
+        "Desenvolvimento com IA",
+        "Detalhes de execução e testes estão nas subtarefas"
+      ],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "83b2fc87-2f94-4017-9c5a-6c902748d339"
+    }
+  },
+  "meta": {
+    "field_id": "flags_adicionais",
+    "phase": {
+      "id": "341458594",
+      "name": "Triagem e definição",
+      "uuid": "1859086f-fd2b-4985-9bc3-b5be72883c43"
+    },
+    "pipe_id": "306877425",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Informe a data em que a avaliação será realizada.",
+      "help": null,
+      "id": "data_de_avalia_o",
+      "index": 1.0,
+      "internal_id": "417812924",
+      "label": "Data de Avaliação",
+      "options": [],
+      "required": true,
+      "type": "date",
+      "uuid": "4f73948d-6273-4360-9ee4-ef55952e51d6"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_avalia_o",
+    "phase": {
+      "id": "339912151",
+      "name": "Avaliação",
+      "uuid": "72250e59-f21f-4919-b04f-c689fa803757"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

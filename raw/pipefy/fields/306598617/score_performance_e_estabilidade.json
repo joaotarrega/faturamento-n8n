@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "| Campo                                                  \t| Cálculo                                                                                                                           \t|\n|--------------------------------------------------------\t|-----------------------------------------------------------------------------------------------------------------------------------\t|\n| O Pipefy carrega rápido o suficiente                   \t| Discorda totalmente: 0 pontos \\| Discorda: 8 pontos \\| Neutro: 16 pontos \\| Concorda: 25 pontos \\| Concorda totalmente: 33 pontos \t|\n| Erros ou lentidão impactam meu trabalho com frequência \t| Discorda totalmente: 33 pontos \\| Discorda: 25 pontos \\| Neutro: 17 pontos \\| Concorda: 8 pontos \\| Concorda totalmente: 0 pontos \t|\n| Não perco alterações por problemas de sincronização    \t| Discorda totalmente: 0 pontos \\| Discorda: 9 pontos \\| Neutro: 17 pontos \\| Concorda: 25 pontos \\| Concorda totalmente: 34 pontos \t|",
+      "help": null,
+      "id": "score_performance_e_estabilidade",
+      "index": -50.0,
+      "internal_id": "418533769",
+      "label": "[Score]  Performance e estabilidade",
+      "options": [],
+      "required": true,
+      "type": "number",
+      "uuid": "71072180-ebde-48fd-b62a-0fe252a53b9d"
+    }
+  },
+  "meta": {
+    "field_id": "score_performance_e_estabilidade",
+    "phase": {
+      "id": "339833261",
+      "name": "Análise",
+      "uuid": "e840dab3-9592-447c-bcb6-10352b5509fc"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

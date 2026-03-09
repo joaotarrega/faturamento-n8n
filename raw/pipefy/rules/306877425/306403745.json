@@ -1,0 +1,69 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327150298",
+          "phaseField": {
+            "id": "categoria_de_prioridade",
+            "internal_id": "423727609",
+            "label": "Categoria de prioridade",
+            "uuid": "5703cd8c-bf01-45b9-bfc9-01f0dda074cf"
+          },
+          "phaseFieldId": "423727609",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327421507",
+          "phaseField": {
+            "id": "id_do_projeto_associado",
+            "internal_id": "423727481",
+            "label": "ID do projeto associado",
+            "uuid": "afa283a8-028d-4009-b668-b9b4d38f4f68"
+          },
+          "phaseFieldId": "423727481",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327421508",
+          "phaseField": {
+            "id": "id_da_tarefa_principal",
+            "internal_id": "424608303",
+            "label": "ID da tarefa principal",
+            "uuid": "f9f27419-1b88-4d51-9ed9-a6a607798063"
+          },
+          "phaseFieldId": "424608303",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "315138420",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312652249"
+      },
+      "id": "306403745",
+      "name": "Esconder campos no form inicial",
+      "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306403745"
+    }
+  },
+  "meta": {
+    "pipe_id": "306877425",
+    "rule_id": "306403745",
+    "scope": "start_form"
+  }
+}

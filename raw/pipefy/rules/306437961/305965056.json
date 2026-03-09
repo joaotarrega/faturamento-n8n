@@ -1,0 +1,72 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325161115",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325161119",
+          "phaseField": {
+            "id": "statement_784d5cb5_bba7_45c7_a9ed_6315b024329a",
+            "internal_id": "416971601",
+            "label": "Statement-784d5cb5-bba7-45c7-a9ed-6315b024329a",
+            "uuid": "8d36237b-a7c2-4daa-a1b0-439e845a4052"
+          },
+          "phaseFieldId": "416971601",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325161120",
+          "phaseField": {
+            "id": "statement_784d5cb5_bba7_45c7_a9ed_6315b024329a",
+            "internal_id": "416971601",
+            "label": "Statement-784d5cb5-bba7-45c7-a9ed-6315b024329a",
+            "uuid": "8d36237b-a7c2-4daa-a1b0-439e845a4052"
+          },
+          "phaseFieldId": "416971601",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416970549",
+            "id": "313652733",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Não"
+          },
+          {
+            "field_address": "current_phase",
+            "id": "313652734",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311269623"
+      },
+      "id": "305965056",
+      "name": "Esconder forms inicial",
+      "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/305965056"
+    }
+  },
+  "meta": {
+    "pipe_id": "306437961",
+    "rule_id": "305965056",
+    "scope": "start_form"
+  }
+}

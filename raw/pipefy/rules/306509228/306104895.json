@@ -1,0 +1,81 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325799281",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325799282",
+          "phaseField": {
+            "id": "statement_3b24fb62_4482_46df_99dd_c5a6dd104a30",
+            "internal_id": "415746835",
+            "label": "Statement-3b24fb62-4482-46df-99dd-c5a6dd104a30",
+            "uuid": "d474dc5e-4ea4-40c3-9ef0-9cceba47c137"
+          },
+          "phaseFieldId": "415746835",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325799283",
+          "phaseField": {
+            "id": "statement_5171c5f7_904b_4212_b863_a5db9230ffff",
+            "internal_id": "418888571",
+            "label": "Statement-5171c5f7-904b-4212-b863-a5db9230ffff",
+            "uuid": "f74eb37a-4371-4f45-bd77-bfc533103eb1"
+          },
+          "phaseFieldId": "418888571",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325799284",
+          "phaseField": {
+            "id": "observa_es_para_a_equipe_evnt",
+            "internal_id": "415746110",
+            "label": "Observações para a equipe EVNT",
+            "uuid": "756f04c9-a488-4ac5-934b-382d76be5abb"
+          },
+          "phaseFieldId": "415746110",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418889097",
+            "id": "314129107",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Clique aqui | Clic aquí"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311698902"
+      },
+      "id": "306104895",
+      "name": "Empresa incorreta",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/phases/339322139/conditionals/306104895"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "rule_id": "306104895",
+    "scope": "phase"
+  }
+}

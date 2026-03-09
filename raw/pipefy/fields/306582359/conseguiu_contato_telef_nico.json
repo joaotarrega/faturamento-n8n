@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "conseguiu_contato_telef_nico",
+      "index": 125.0,
+      "internal_id": "418715851",
+      "label": "Conseguiu contato telefônico?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "b0141330-8bf6-4253-b28d-d81d35ba70ff"
+    }
+  },
+  "meta": {
+    "field_id": "conseguiu_contato_telef_nico",
+    "phase": {
+      "id": "339743665",
+      "name": "Contato",
+      "uuid": "35a16b83-bd9f-4996-936b-e875d8e8b1a6"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

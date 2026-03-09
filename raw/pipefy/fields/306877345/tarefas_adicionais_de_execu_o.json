@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "description": "",
+      "help": "",
+      "id": "tarefas_adicionais_de_execu_o",
+      "index": 0.0,
+      "internal_id": "423997757",
+      "label": "Tarefas adicionais de execução",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "92215668-42e3-42f1-8321-2e1f3686ab0f"
+    }
+  },
+  "meta": {
+    "field_id": "tarefas_adicionais_de_execu_o",
+    "phase": {
+      "id": "341458587",
+      "name": "Em andamento",
+      "uuid": "9cc83b12-dd98-4342-a84a-eaf7d4731293"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

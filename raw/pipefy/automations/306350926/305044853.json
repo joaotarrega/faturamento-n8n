@@ -1,0 +1,96 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "schedule_create_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "412554578",
+            "field_id": "412554578",
+            "inputMode": "copy_from",
+            "value": "Relatórios regionais"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "412554635",
+            "field_id": "412554635",
+            "inputMode": "copy_from",
+            "value": "%{automation_event_execution_datetime|plus:604800}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "412615107",
+            "field_id": "412615107",
+            "inputMode": "fixed_value",
+            "value": "316043421"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414632892",
+            "field_id": "414632892",
+            "inputMode": "fixed_value",
+            "value": "Sim"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "412554561",
+            "field_id": "412554561",
+            "inputMode": "fixed_value",
+            "value": "306611102"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "412554636",
+            "field_id": "412554636",
+            "inputMode": "copy_from",
+            "value": "# Accor\nAté o dia 10\n\n# AHI\nAté o dia 15\n\n# Atrio\nAté o dia 15\n\n# Responsabilidades:\n- Thom: preparo do relatório\n- João: validação\n- Flávio: validação e envio"
+          }
+        ],
+        "fields_map_order": [
+          "412554561",
+          "412554578",
+          "412554635",
+          "412615107",
+          "414632892",
+          "412554636"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": false,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "310798644"
+      },
+      "created_at": "2025-06-04 13:53:30 UTC",
+      "event_id": "scheduler",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305044853",
+      "name": "[Recorrente] Relatórios regionais",
+      "url": "https://app.pipefy.com/pipes/306350926/settings/automations/305044853"
+    }
+  }
+}

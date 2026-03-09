@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "anota_es_da_parametriza_o",
+      "index": 100.0,
+      "internal_id": "416199983",
+      "label": "Anotações da parametrização",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "d12aa7c4-5e0b-42ef-90d4-4ce71cedc22b"
+    }
+  },
+  "meta": {
+    "field_id": "anota_es_da_parametriza_o",
+    "phase": {
+      "id": "339455412",
+      "name": "Parametrização",
+      "uuid": "5c901a51-4b0c-4b81-bb6a-5396c12593d4"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

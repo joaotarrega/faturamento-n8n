@@ -1,0 +1,102 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "create_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415597860",
+            "field_id": "415597860",
+            "inputMode": "fixed_value",
+            "value": "316204224"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415597978",
+            "field_id": "415597978",
+            "inputMode": "copy_from",
+            "value": "%{414861329}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415600097",
+            "field_id": "415600097",
+            "inputMode": "copy_from",
+            "value": "%{id}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415631082",
+            "field_id": "415631082",
+            "inputMode": "copy_from",
+            "value": "%{415631122}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415980458",
+            "field_id": "415980458",
+            "inputMode": "copy_from",
+            "value": "[Contrato] %{414861329}"
+          }
+        ],
+        "fields_map_order": [
+          "415597860",
+          "415597978",
+          "415597983",
+          "415600097",
+          "415631082",
+          "415980458"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "421734180",
+            "id": "314803151",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Esse cliente é da rede Atrio"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310945359"
+      },
+      "created_at": "2025-06-30 21:13:36 UTC",
+      "event_id": "card_moved",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": "339432377",
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305124476",
+      "name": "Criar card em gestão de contratos",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/automations/305124476"
+    }
+  }
+}

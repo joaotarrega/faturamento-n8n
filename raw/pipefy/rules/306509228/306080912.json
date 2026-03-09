@@ -1,0 +1,105 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325699925",
+          "phaseField": {
+            "id": "nome_de_quem_ir_receber_a_ficha",
+            "internal_id": "415750433",
+            "label": "Nome de quem irá receber a ficha",
+            "uuid": "c05f59c4-9d33-4230-9e60-19b4d0b08257"
+          },
+          "phaseFieldId": "415750433",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325699926",
+          "phaseField": {
+            "id": "email_de_quem_ir_receber_a_ficha",
+            "internal_id": "415750556",
+            "label": "Email de quem irá receber a ficha",
+            "uuid": "7be83d0d-5b7b-4d85-8449-71b901b09011"
+          },
+          "phaseFieldId": "415750556",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325699927",
+          "phaseField": {
+            "id": "incluar_email_2_para_recebimento",
+            "internal_id": "415750569",
+            "label": "Incluir email 2 para recebimento",
+            "uuid": "5fd0ce05-f256-4d1b-b113-b4b620dc75ba"
+          },
+          "phaseFieldId": "415750569",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325699928",
+          "phaseField": {
+            "id": "incluar_email_3_para_recebimento",
+            "internal_id": "415750572",
+            "label": "Incluir email 3 para recebimento",
+            "uuid": "0424d913-f1f6-486d-9d4e-40eb6de61f42"
+          },
+          "phaseFieldId": "415750572",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415750433",
+            "id": "314057460",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "415750556",
+            "id": "314057461",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          },
+          {
+            "field_address": "415750569",
+            "id": "314057462",
+            "operation": "blank",
+            "structure_id": "2",
+            "value": ""
+          },
+          {
+            "field_address": "415750572",
+            "id": "314057463",
+            "operation": "blank",
+            "structure_id": "3",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1",
+            "2",
+            "3"
+          ]
+        ],
+        "id": "311627553"
+      },
+      "id": "306080912",
+      "name": "[TEMP] Esconder nome e contato de quem receberá a ficha",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/form/conditionals/306080912"
+    }
+  },
+  "meta": {
+    "pipe_id": "306509228",
+    "rule_id": "306080912",
+    "scope": "start_form"
+  }
+}

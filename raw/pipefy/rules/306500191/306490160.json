@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327547863",
+          "phaseField": {
+            "id": "email_p_s_treinamento_enviado_ao_cliente",
+            "internal_id": "418775689",
+            "label": "Email pós treinamento enviado ao cliente",
+            "uuid": "b5de43c1-dec0-4082-8700-c8cbbe886060"
+          },
+          "phaseFieldId": "418775689",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "425089642",
+            "id": "315432281",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Email"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312929558"
+      },
+      "id": "306490160",
+      "name": "Ações adicionais != Email",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/306490160"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "rule_id": "306490160",
+    "scope": "phase"
+  }
+}

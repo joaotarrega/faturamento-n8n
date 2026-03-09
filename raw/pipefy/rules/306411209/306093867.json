@@ -1,0 +1,58 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325755140",
+          "phaseField": {
+            "id": "observa_es_para_o_time_de_implanta_o",
+            "internal_id": "418757345",
+            "label": "Observações para o time de onboarding",
+            "uuid": "9d34eba8-3a64-4c17-a6e3-96faceccbf70"
+          },
+          "phaseFieldId": "418757345",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418757354",
+            "id": "314096057",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim"
+          },
+          {
+            "field_address": "418757345",
+            "id": "314096058",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311667799"
+      },
+      "id": "306093867",
+      "name": "Observação para onboarding != Sim",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/306093867"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306093867",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Pessoa responsável por submeter a ideia.",
+      "help": null,
+      "id": "respons_vel_pela_submiss_o",
+      "index": 4.0,
+      "internal_id": "417812922",
+      "label": "Responsável pela Submissão",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "501fe5dc-15c2-4b6b-969b-1dff35c8075e"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel_pela_submiss_o",
+    "phase": {
+      "id": "339912150",
+      "name": "Ideia Submetida",
+      "uuid": "1f3d5a2f-0e87-4baf-b7f8-e1eab16f7865"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "empresas_associadas",
+      "internal_id": "415597311",
+      "label": "Empresas associadas",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "f2c69cf7-03d8-4943-922a-5d86bbd883ea"
+    }
+  },
+  "meta": {
+    "field_id": "empresas_associadas",
+    "pipe_id": "306383313",
+    "scope": "start_form"
+  }
+}

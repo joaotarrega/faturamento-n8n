@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Outline the key milestones to be achieved during the development phase.",
+      "help": null,
+      "id": "key_development_milestones",
+      "index": 4.0,
+      "internal_id": "417812960",
+      "label": "Key Development Milestones",
+      "options": [],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "85f3f24f-b304-4995-9dfe-8db916bb5db3"
+    }
+  },
+  "meta": {
+    "field_id": "key_development_milestones",
+    "phase": {
+      "id": "339912154",
+      "name": "Desenvolvimento",
+      "uuid": "00399c6f-f452-4495-b9d9-813aeba7b984"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

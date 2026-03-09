@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306582359",
+        "name": "[OPE-07] Cliente oculto"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306582359",
+        "name": "[OPE-07] Cliente oculto"
+      },
+      "description": "",
+      "help": "",
+      "id": "card_de_cliente_oculto",
+      "internal_id": "417644273",
+      "label": "Card de cliente oculto",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "35a5f4ed-4a7a-4d5a-b39a-bdee6500698c"
+    }
+  },
+  "meta": {
+    "field_id": "card_de_cliente_oculto",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

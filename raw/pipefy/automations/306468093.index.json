@@ -1,0 +1,267 @@
+{
+  "ids": [
+    "305238502",
+    "305250065",
+    "305835907"
+  ],
+  "meta": {
+    "kind": "automations",
+    "organization_id": "301997709",
+    "pipe_id": "306468093",
+    "repo_id": "306468093",
+    "supports_pagination": true
+  },
+  "pages": [
+    {
+      "data": {
+        "a5": {
+          "nodes": [
+            {
+              "__typename": "Automation",
+              "action_id": "create_connected_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416194407",
+                    "field_id": "416194407",
+                    "inputMode": "copy_from",
+                    "value": "%{416178452}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416244569",
+                    "field_id": "416244569",
+                    "inputMode": "copy_from",
+                    "value": "%{416232682}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416244586",
+                    "field_id": "416244586",
+                    "inputMode": "copy_from",
+                    "value": "%{416550002}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416244617",
+                    "field_id": "416244617",
+                    "inputMode": "copy_from",
+                    "value": "%{416178472}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416244621",
+                    "field_id": "416244621",
+                    "inputMode": "copy_from",
+                    "value": "%{416181688}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416304383",
+                    "field_id": "416304383",
+                    "inputMode": "copy_from",
+                    "value": "%{414921473}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "416245301",
+                    "field_id": "416245301",
+                    "inputMode": "copy_from",
+                    "value": "%{414852688.416255009}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418381608",
+                    "field_id": "418381608",
+                    "inputMode": "copy_from",
+                    "value": "%{414852688.414345183}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418381612",
+                    "field_id": "418381612",
+                    "inputMode": "copy_from",
+                    "value": "%{414852688.414345195}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "418407768",
+                    "field_id": "418407768",
+                    "inputMode": "copy_from",
+                    "value": "%{414852688.414344865}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "421320812",
+                    "field_id": "421320812",
+                    "inputMode": "copy_from",
+                    "value": "%{id}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "422033228",
+                    "field_id": "422033228",
+                    "inputMode": "fixed_value",
+                    "value": "1.0"
+                  }
+                ],
+                "fields_map_order": [
+                  "416194407",
+                  "416236598",
+                  "416244569",
+                  "416244586",
+                  "416244617",
+                  "416244621",
+                  "416304383",
+                  "416245301",
+                  "416966965",
+                  "418381608",
+                  "418381612",
+                  "418407768",
+                  "421320812",
+                  "422033228"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311102476"
+              },
+              "created_at": "2025-07-15 14:11:11 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339069572",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305238502",
+              "name": "Criar entidade do sistema na DB-03",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/automations/305238502"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "move_parent_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": "339455412",
+                "url": null
+              },
+              "active": false,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311118395"
+              },
+              "created_at": "2025-07-16 16:29:09 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339069572",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305250065",
+              "name": "Mover card pai de onboarding para parametrização quando ambiente for criado",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/automations/305250065"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "move_parent_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": "339455412",
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "last_phase_in",
+                    "id": "314418627",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "339069571"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311977622"
+              },
+              "created_at": "2025-10-13 12:14:26 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339556245",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305835907",
+              "name": "Mover card de onboarding p/ parametrização",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/automations/305835907"
+            }
+          ],
+          "pageInfo": {
+            "endCursor": "WzMwNTgzNTkwN10",
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ]
+}

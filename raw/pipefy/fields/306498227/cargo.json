@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "cargo",
+      "internal_id": "415480451",
+      "label": "Cargo",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "a707920a-766e-4d6d-b881-aaa269550f9b"
+    }
+  },
+  "meta": {
+    "field_id": "cargo",
+    "pipe_id": "306498227",
+    "scope": "start_form"
+  }
+}

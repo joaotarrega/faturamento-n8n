@@ -1,0 +1,36 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "por_que_motivo_voc_n_o_utiliza_a_documenta_o",
+      "index": 1116.0,
+      "internal_id": "418531285",
+      "label": "Por que motivo você não utiliza a documentação?",
+      "options": [
+        "Não me lembrava do portal",
+        "A documentação está desatualizada",
+        "A documentação não ajudou com minhas dúvidas",
+        "Outro"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "1660c593-dc5c-46ed-91a6-03c929e40d55"
+    }
+  },
+  "meta": {
+    "field_id": "por_que_motivo_voc_n_o_utiliza_a_documenta_o",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

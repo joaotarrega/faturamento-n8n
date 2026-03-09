@@ -1,0 +1,380 @@
+{
+  "active": true,
+  "connections": {
+    "Atualizar título do treinamento para a rede": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add treinamento no DB-02 (redes)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Listar clientes": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add treinamento no DB-01",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar informação do treinamento": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Resposta API",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Resposta API": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Treinamento é de rede?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Treinamento criado - [OPE-06] Treinamentos": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar informação do treinamento",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Treinamento é de rede?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar título do treinamento para a rede",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Listar clientes",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-04T14:30:07.109Z",
+  "id": "DimCvyUk7mhpRK7O",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Treinamento criado",
+  "nodes": [
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "3bc23192-b323-4eb3-b6f2-859f914b98dd",
+      "maxTries": 5,
+      "name": "Add treinamento no DB-01",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_treinamentos\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $json.clientes }},\n  \"toAdd\": [ {{ $(\"Pegar informação do treinamento\").item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        1120,
+        0
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "52ea1aeb-654f-49e5-ad2a-0132ab09a78a",
+      "name": "Listar clientes",
+      "parameters": {
+        "fieldToSplitOut": "clientes",
+        "options": {}
+      },
+      "position": [
+        896,
+        0
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "15a12192-7c87-4d89-b525-8f8cda2ae92f",
+      "maxTries": 5,
+      "name": "Pegar informação do treinamento",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.body.data.card.id }}\"\n}"
+      },
+      "position": [
+        224,
+        -96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "05877920-b036-48c2-9b3a-39ae104b2a4a",
+      "name": "Treinamento é de rede?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "54f925ec-3631-4307-abd6-3a581ae07121",
+              "leftValue": "={{ $json.treinamentoRede }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": "=\\n"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        672,
+        -96
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "a0bd18f8-0f61-4eea-b358-69423d82aaf2",
+      "maxTries": 5,
+      "name": "Add treinamento no DB-02 (redes)",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_treinamentos\"\n          value: $toAdd          # e.g. [\"123456789\"] or multiple IDs\n          operation: ADD         # append without replacing existing connections\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $('Treinamento é de rede?').item.json.rede[0].id }},\n  \"toAdd\": [{{ $('Pegar informação do treinamento').item.json.data.card.id }}]\n}\n"
+      },
+      "position": [
+        1120,
+        -192
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "0f48e488-08c1-4c2d-9a19-029b03ac918f",
+      "maxTries": 5,
+      "name": "Atualizar título do treinamento para a rede",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation ($cardId: ID!, $title: String!) {\n  updateCard(\n    input: {\n      id: $cardId\n      title: $title\n    }\n  ) {\n    card {\n      id\n      title\n    }\n  }\n}\n",
+        "variables": "={\n  \"cardId\": \"{{ $('Pegar informação do treinamento').item.json.data.card.id }}\",\n  \"title\": \"{{ $json.rede[0].label }}\"\n}"
+      },
+      "position": [
+        896,
+        -192
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "82d5d552-4c28-4fee-b21a-e5b904a3e5c4",
+      "name": "Resposta API",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4e35ab98-864e-4668-a9b7-5f269f628e09",
+              "name": "treinamentoRede",
+              "type": "boolean",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields ?? [];\n  const f = fields.find(x => (x.field?.id ?? \"\") === \"p_blico_alvo_do_treinamento\");\n  if (!f) return false;\n\n  const value =\n    (Array.isArray(f.array_value) ? f.array_value : undefined) ??\n    ((f.report_value !== undefined && f.report_value !== null) ? f.report_value : undefined) ??\n    (f.value !== undefined ? f.value : undefined);\n\n  // Normaliza para string (cobre casos em que venha array)\n  const normalized = Array.isArray(value)\n    ? (value[0] ?? \"\")\n    : (value ?? \"\");\n\n  const s = String(normalized).trim();\n\n  if (s === \"Cliente específico\") return false;\n  if (s === \"Rede\") return true;\n\n  // Qualquer outro valor => false (ajuste se quiser outro comportamento)\n  return false;\n})()\n}}"
+            },
+            {
+              "id": "0f6c1121-ec50-4bc9-bbc2-343749151c07",
+              "name": "rede",
+              "type": "array",
+              "value": "={{\n(() => {\n  const FIELD_ID = \"rede\"; // change if you match by label: x.field?.label\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === FIELD_ID);\n  if (!f) return [];\n\n  const clean = s => (s ?? \"\").replace(/\\r?\\n/g, \"\").trim();\n\n  // Turn any label-like value into a plain string (no brackets/quotes)\n  const normalizeLabel = (v) => {\n    if (v == null) return \"\";\n    if (Array.isArray(v)) {\n      return v.map(x => normalizeLabel(x)).filter(Boolean).join(\", \");\n    }\n    if (typeof v === \"object\") {\n      const txt = v.label ?? v.name ?? v.value ?? \"\";\n      return normalizeLabel(txt);\n    }\n    let s = String(v);\n\n    // If it looks like JSON (e.g., '[\"Rede A\"]' or '\"Rede A\"'), try to parse first\n    try {\n      const parsed = JSON.parse(s);\n      if (Array.isArray(parsed)) return parsed.map(x => clean(String(x))).filter(Boolean).join(\", \");\n      if (typeof parsed === \"string\") s = parsed;\n    } catch (_) {}\n\n    s = clean(s);\n\n    // Strip wrapping quotes if present: \"Rede A\" -> Rede A\n    s = s.replace(/^\"(.*)\"$/,'$1');\n\n    // Strip a single pair of wrapping brackets if the whole thing is bracketed: [Rede A] -> Rede A\n    if (s.startsWith(\"[\") && s.endsWith(\"]\")) {\n      s = s.slice(1, -1).trim();\n    }\n\n    return s;\n  };\n\n  // ---- IDs from array_value ----\n  const extractIds = (input) => {\n    const out = [];\n    const push = (v) => {\n      if (v == null) return;\n      if (Array.isArray(v)) return v.forEach(push);\n      if (typeof v === \"object\") {\n        if (v.id != null) out.push(String(v.id));\n        else if (typeof v.value === \"string\")\n          clean(v.value).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n        return;\n      }\n      if (typeof v === \"number\") return out.push(String(v));\n      if (typeof v === \"string\")\n        return clean(v).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n    };\n    push(input);\n    return out;\n  };\n\n  const ids = extractIds(f.array_value);\n\n  // ---- Labels: prefer f.value; fallback to labels inside array_value objects ----\n  let labels = [];\n  if (Array.isArray(f.value)) {\n    labels = f.value.map(normalizeLabel).filter(Boolean);\n  } else if (typeof f.value === \"string\") {\n    const s = normalizeLabel(f.value);\n    // If multiple labels were packed in one string, split by commas/pipes\n    labels = s.split(/[,|]+/).map(x => x.trim()).filter(Boolean);\n  } else if (Array.isArray(f.array_value)) {\n    labels = f.array_value.map(v => normalizeLabel(v)).filter(Boolean);\n  }\n\n  // Zip by index\n  const max = Math.max(ids.length, labels.length);\n  const pairs = [];\n  for (let i = 0; i < max; i++) {\n    const id = ids[i] ?? null;\n    const label = (labels[i] ?? null);\n    if (id !== null || (label && label.length)) pairs.push({ id, label });\n  }\n  return pairs;\n})()\n}}"
+            },
+            {
+              "id": "5e121ff7-2fe3-42cd-8402-878be95f298d",
+              "name": "clientes",
+              "type": "array",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"cliente\"); // or match by label\n  const arr = Array.isArray(f?.array_value) ? f.array_value : [];\n  return arr.map(v => (typeof v === 'string' ? v.trim() : String(v))).filter(Boolean);\n})()\n}}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        448,
+        -96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "f85271c9-00c7-40d1-a4a5-d36bdf3aea05",
+      "name": "Treinamento criado - [OPE-06] Treinamentos",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "b42705c1-57ef-43d0-b5dc-11ca47b944cd"
+      },
+      "position": [
+        0,
+        -96
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "b42705c1-57ef-43d0-b5dc-11ca47b944cd"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 2
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-04T14:30:07.109Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-11-04T14:30:07.109Z",
+      "workflowId": "DimCvyUk7mhpRK7O"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-02-05T17:26:01.401Z",
+  "versionId": "f1061a44-4f7c-4b33-9f59-b91b451370f6"
+}

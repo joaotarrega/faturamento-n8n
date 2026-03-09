@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "nar_atl_ntica",
+      "internal_id": "418381608",
+      "label": "NAR Atlântica",
+      "options": [
+        "Franquias",
+        "NAR 1",
+        "NAR 2",
+        "NAR 3",
+        "NAR 4"
+      ],
+      "required": false,
+      "type": "select",
+      "uuid": "2fecb1e8-9080-4526-9898-c7778bded684"
+    }
+  },
+  "meta": {
+    "field_id": "nar_atl_ntica",
+    "pipe_id": "306533221",
+    "scope": "start_form"
+  }
+}

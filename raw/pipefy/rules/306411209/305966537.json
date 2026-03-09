@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325167452",
+          "phaseField": {
+            "id": "quando_a_cobran_a_de_setup_ser_iniciada",
+            "internal_id": "416990376",
+            "label": "Quando a cobrança de setup será iniciada?",
+            "uuid": "c1730c4a-4d68-4036-8fbb-80ab15536eba"
+          },
+          "phaseFieldId": "416990376",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416989278",
+            "id": "313656810",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim - Parcialmente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311274350"
+      },
+      "id": "305966537",
+      "name": "Isenção de setup != Parcialmente",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/305966537"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "305966537",
+    "scope": "phase"
+  }
+}

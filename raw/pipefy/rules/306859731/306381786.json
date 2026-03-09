@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327050250",
+          "phaseField": {
+            "id": "clientes_na_fatura",
+            "internal_id": "422905928",
+            "label": "Clientes na fatura",
+            "uuid": "fc2f5c81-8d02-4cc3-96e1-c8ede48646be"
+          },
+          "phaseFieldId": "422905928",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422905927",
+            "id": "315063430",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Afiliados e independentes"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312579266"
+      },
+      "id": "306381786",
+      "name": "Tipo de cliente != Afiliado/Independente",
+      "url": "https://app.pipefy.com/pipes/306859731/settings/form/conditionals/306381786"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859731",
+    "rule_id": "306381786",
+    "scope": "start_form"
+  }
+}

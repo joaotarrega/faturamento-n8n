@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_da_rede",
+      "internal_id": "421923620",
+      "label": "ID da rede",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "16cf36c3-35d8-416f-a116-a153c04c9313"
+    }
+  },
+  "meta": {
+    "field_id": "id_da_rede",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

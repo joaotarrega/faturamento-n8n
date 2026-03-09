@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326784475",
+          "phaseField": {
+            "id": "nar_atl_ntica",
+            "internal_id": "418381608",
+            "label": "NAR Atlântica",
+            "uuid": "2fecb1e8-9080-4526-9898-c7778bded684"
+          },
+          "phaseFieldId": "418381608",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416245301",
+            "id": "314871538",
+            "operation": "string_not_contains",
+            "structure_id": "0",
+            "value": "Atlantica"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312391193"
+      },
+      "id": "306322567",
+      "name": "Rede != Atlantica",
+      "url": "https://app.pipefy.com/pipes/306533221/settings/phases/339458972/conditionals/306322567"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339458972",
+      "name": "Ativo 1.0",
+      "uuid": "eac3f11a-e040-4d2c-a0cc-32050e982057"
+    },
+    "pipe_id": "306533221",
+    "rule_id": "306322567",
+    "scope": "phase"
+  }
+}

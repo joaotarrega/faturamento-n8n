@@ -1,0 +1,823 @@
+{
+  "active": false,
+  "connections": {
+    "Add contato no DB-01 (clientes)": {
+      "main": [
+        []
+      ]
+    },
+    "Add contato no DB-02 (redes)": {
+      "main": [
+        []
+      ]
+    },
+    "Calcular diffs": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Rede foi atualizada?",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "Clientes foram atualizados?",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "Novo histórico de cliente?",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "Novo histórico de rede?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Cliente ou rede atualizado?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Pegar informação do contato",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Clientes foram atualizados?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Listar empresas a adicionar",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "v6 • Listar empresas a remover",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Contato atualizado – [DB-04] Contatos": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Variáveis",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Extrair campos": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Calcular diffs",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Listar empresas a adicionar": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add contato no DB-01 (clientes)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Novo histórico de cliente?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar histórico de cliente",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Novo histórico de rede?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar histórico de rede",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Pegar informação do contato": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Extrair campos",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Rede foi atualizada?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Add contato no DB-02 (redes)",
+            "type": "main"
+          },
+          {
+            "index": 0,
+            "node": "Remover contato no DB-02 (rede antiga)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Remover contato no DB-01 (cliente antigo)": {
+      "main": [
+        []
+      ]
+    },
+    "Remover contato no DB-02 (rede antiga)": {
+      "main": [
+        []
+      ]
+    },
+    "Variáveis": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Cliente ou rede atualizado?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "v6 • Listar empresas a remover": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Remover contato no DB-01 (cliente antigo)",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-10T19:13:43.122Z",
+  "id": "czYCp0ZzOvk7nqG6",
+  "isArchived": true,
+  "meta": null,
+  "name": "Contato atualizado v2",
+  "nodes": [
+    {
+      "id": "6ff51c4f-ec25-4f65-99cf-fc6efa17aa4f",
+      "name": "v6 • Listar empresas a remover",
+      "parameters": {
+        "fieldToSplitOut": "toRemoveClientes",
+        "options": {}
+      },
+      "position": [
+        -2032,
+        368
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "f164eddb-46f0-48ab-ac47-1d832693cd29",
+      "name": "Contato atualizado – [DB-04] Contatos",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "fc5a5d1a-72bc-452d-9db0-c1c479b25d80"
+      },
+      "position": [
+        -3600,
+        80
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "fc5a5d1a-72bc-452d-9db0-c1c479b25d80"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "1a71d1bf-5f19-452b-86f3-3e5c160f6e01",
+      "maxTries": 5,
+      "name": "Pegar informação do contato",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value (useful for numbers/selects)\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $('Variáveis').item.json.idContato }}\"\n}"
+      },
+      "position": [
+        -2928,
+        80
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "41b8f604-ee5b-4017-b90d-d5b3034f6ea2",
+      "name": "Variáveis",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b0f3d36-a30d-474c-9dd2-45514a6b887e",
+              "name": "clienteAtualizado",
+              "type": "boolean",
+              "value": "={{\n  $json.body?.data?.action === 'card.field_update'\n  &&\n  (\n    $json.body?.data?.field?.id === 'empresa'\n    || (($json.body?.data?.field?.label || '').toLowerCase() === 'empresa')\n  )\n  &&\n  (\n    Array.isArray($json.body?.data?.new_value)\n      ? $json.body.data.new_value.some(v => String(v ?? '').trim() !== '')\n      : String($json.body?.data?.new_value ?? '').trim() !== ''\n  )\n}}"
+            },
+            {
+              "id": "9684e933-b476-499b-9a63-f9e9b4c09d4c",
+              "name": "redeAtualizado",
+              "type": "boolean",
+              "value": "={{\n  $json.body?.data?.action === 'card.field_update'\n  &&\n  (\n    $json.body?.data?.field?.id === 'rede'\n    || (($json.body?.data?.field?.label || '').toLowerCase() === 'rede')\n  )\n  &&\n  (\n    Array.isArray($json.body?.data?.new_value)\n      ? $json.body.data.new_value.some(v => String(v ?? '').trim() !== '')\n      : String($json.body?.data?.new_value ?? '').trim() !== ''\n  )\n}}"
+            },
+            {
+              "id": "fe74b46f-c817-4bb8-8fbe-b1b42311d27d",
+              "name": "idContato",
+              "type": "string",
+              "value": "={{ $json.body.data.card.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -3376,
+        80
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "c8137307-29ae-4df3-aded-726759e94d35",
+      "name": "Calcular diffs",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e23ff559-f636-4fee-aebd-f7af560f2c7e",
+              "name": "toAddRedeId",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) for (const x of v) (x && typeof x==='object' && x.id!=null) ? push(x.id) : push(x);\n    else if (v && typeof v==='object' && v.id!=null) push(v.id);\n    else if (typeof v==='string') v.split(',').forEach(push);\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.rede);\n  const prev = norm($json.prevRedeId);\n\n  // Baseline rule: if prev is empty and curr has values, treat prev as curr (no diffs)\n  const basePrev = prev.length ? prev : curr;\n\n  const sBase = new Set(basePrev);\n  return curr.filter(id => !sBase.has(id));\n})() }}"
+            },
+            {
+              "id": "d85c7906-860a-4189-a2de-eb4e59318eda",
+              "name": "toRemoveRedeId",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) for (const x of v) (x && typeof x==='object' && x.id!=null) ? push(x.id) : push(x);\n    else if (v && typeof v==='object' && v.id!=null) push(v.id);\n    else if (typeof v==='string') v.split(',').forEach(push);\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.rede);\n  const prev = norm($json.prevRedeId);\n  const basePrev = prev.length ? prev : curr;\n\n  const sCurr = new Set(curr);\n  return basePrev.filter(id => !sCurr.has(id));\n})() }}"
+            },
+            {
+              "id": "7eee2e1c-ad98-45d2-a7ec-5e7b812fd2d4",
+              "name": "toAddClientes",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) for (const x of v) (x && typeof x==='object' && x.id!=null) ? push(x.id) : push(x);\n    else if (v && typeof v==='object' && v.id!=null) push(v.id);\n    else if (typeof v==='string') v.split(',').forEach(push);\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.clientes);\n  const prev = norm($json.prevClientesId);\n  const basePrev = prev.length ? prev : curr;\n\n  const sBase = new Set(basePrev);\n  return curr.filter(id => !sBase.has(id));\n})() }}"
+            },
+            {
+              "id": "7319f8d6-441d-4bf7-8f77-7d955fdbe839",
+              "name": "toRemoveClientes",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) for (const x of v) (x && typeof x==='object' && x.id!=null) ? push(x.id) : push(x);\n    else if (v && typeof v==='object' && v.id!=null) push(v.id);\n    else if (typeof v==='string') v.split(',').forEach(push);\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.clientes);\n  const prev = norm($json.prevClientesId);\n  const basePrev = prev.length ? prev : curr;\n\n  const sCurr = new Set(curr);\n  return basePrev.filter(id => !sCurr.has(id));\n})() }}"
+            },
+            {
+              "id": "28722a2c-7568-48a4-b66b-74651e5c9c0a",
+              "name": "novoHistoricoRede",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) {\n      for (const x of v) (x && typeof x === 'object' && x.id != null) ? push(x.id) : push(x);\n    } else if (v && typeof v === 'object' && v.id != null) {\n      push(v.id);\n    } else if (typeof v === 'string') {\n      v.split(',').forEach(push);\n    }\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.rede);          // ex: [], [\"abc\"], [{id: \"abc\"}]\n  const prev = norm($json.prevRedeId);    // ex: []\n\n  // If prev is empty and curr has values, record the additions in history\n  if (!prev.length && curr.length) {\n    return curr.map(id => `Definiu a rede: ${id}`);\n  }\n\n  // Otherwise, compute diffs normally\n  const sPrev = new Set(prev), sCurr = new Set(curr);\n  const added = curr.filter(id => !sPrev.has(id));\n  const removed = prev.filter(id => !sCurr.has(id));\n\n  if (added.length === 1 && removed.length === 1) {\n    return [`Alterou a rede: ${removed[0]} → ${added[0]}`];\n  }\n\n  const msgs = [];\n  added.forEach(id => msgs.push(`${id}`));\n  removed.forEach(id => msgs.push(`${id}`));\n  return msgs;\n})() }}"
+            },
+            {
+              "id": "8068ae0f-3f26-45c9-9cdb-b2807116a43e",
+              "name": "novoHistoricoCliente",
+              "type": "array",
+              "value": "={{ (() => {\n  const norm = (v) => {\n    const out = [];\n    const push = s => { s = String(s ?? '').trim(); if (s) out.push(s); };\n    if (Array.isArray(v)) {\n      for (const x of v) (x && typeof x === 'object' && x.id != null) ? push(x.id) : push(x);\n    } else if (v && typeof v === 'object' && v.id != null) {\n      push(v.id);\n    } else if (typeof v === 'string') {\n      v.split(',').forEach(push);\n    }\n    return Array.from(new Set(out));\n  };\n\n  const curr = norm($json.clientes);          // ex: [\"1252894470\"]\n  const prev = norm($json.prevClientesId);    // ex: []\n\n  // If prev is empty and curr has values, record the additions in history\n  if (!prev.length && curr.length) {\n    return curr.map(id => `${id}`);\n  }\n\n  // Otherwise, compute diffs normally\n  const sPrev = new Set(prev), sCurr = new Set(curr);\n  const added = curr.filter(id => !sPrev.has(id));\n  const removed = prev.filter(id => !sCurr.has(id));\n\n  const msgs = [];\n  added.forEach(id => msgs.push(`${id}`));\n  removed.forEach(id => msgs.push(`${id}`));\n  return msgs;\n})() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -2480,
+        80
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "97f0d094-7849-4f3c-b1f6-80bb4f008bff",
+      "maxTries": 5,
+      "name": "Add contato no DB-02 (redes)",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd          # e.g. [\"123456789\"] or multiple IDs\n          operation: ADD         # append without replacing existing connections\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $('Calcular diffs').item.json.toAddRedeId }},\n  \"toAdd\": [ {{ $('Pegar informação do contato').item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        -2032,
+        -208
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "41c20c28-9dde-4023-85bc-64c4f7c1c31b",
+      "name": "Listar empresas a adicionar",
+      "parameters": {
+        "fieldToSplitOut": "toAddClientes",
+        "options": {}
+      },
+      "position": [
+        -2032,
+        176
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "id": "a89ca41d-38de-4292-b568-62e4db823770",
+      "name": "Cliente ou rede atualizado?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "f1f3b3da-2939-43fa-ab93-231d4a07ae14",
+              "leftValue": "={{ $json.clienteAtualizado }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            },
+            {
+              "id": "daeab179-ea7b-45ab-90fc-468b46c52ae2",
+              "leftValue": "={{ $json.redeAtualizado }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -3152,
+        80
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "b9319af7-4c6a-4684-b91f-30cfa24a92f1",
+      "name": "Clientes foram atualizados?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "e97af13b-785a-4a2d-9928-c36afaad23be",
+              "leftValue": "={{ $json.toAddClientes }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              }
+            },
+            {
+              "id": "3e6f35af-ff57-4150-b069-a63896704d8d",
+              "leftValue": "={{ $json.toRemoveClientes }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2256,
+        272
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "bcaa122a-ed5d-4c60-86ca-7fbfe39c4a98",
+      "name": "Rede foi atualizada?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "e97af13b-785a-4a2d-9928-c36afaad23be",
+              "leftValue": "={{ $json.toAddRedeId }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              }
+            },
+            {
+              "id": "c2a1f76b-81f4-44fd-acbd-f8aade45222c",
+              "leftValue": "={{ $json.toRemoveRedeId }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2256,
+        -112
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "cfee76fa-62f8-47f7-a056-e173ea519bfd",
+      "name": "Extrair campos",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f6c1121-ec50-4bc9-bbc2-343749151c07",
+              "name": "rede",
+              "type": "array",
+              "value": "={{\n(() => {\n  const FIELD_ID = \"rede\"; // change if you match by label: x.field?.label\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === FIELD_ID);\n  if (!f) return [];\n\n  const clean = s => (s ?? \"\").replace(/\\r?\\n/g, \"\").trim();\n\n  // Turn any label-like value into a plain string (no brackets/quotes)\n  const normalizeLabel = (v) => {\n    if (v == null) return \"\";\n    if (Array.isArray(v)) {\n      return v.map(x => normalizeLabel(x)).filter(Boolean).join(\", \");\n    }\n    if (typeof v === \"object\") {\n      const txt = v.label ?? v.name ?? v.value ?? \"\";\n      return normalizeLabel(txt);\n    }\n    let s = String(v);\n\n    // If it looks like JSON (e.g., '[\"Rede A\"]' or '\"Rede A\"'), try to parse first\n    try {\n      const parsed = JSON.parse(s);\n      if (Array.isArray(parsed)) return parsed.map(x => clean(String(x))).filter(Boolean).join(\", \");\n      if (typeof parsed === \"string\") s = parsed;\n    } catch (_) {}\n\n    s = clean(s);\n\n    // Strip wrapping quotes if present: \"Rede A\" -> Rede A\n    s = s.replace(/^\"(.*)\"$/,'$1');\n\n    // Strip a single pair of wrapping brackets if the whole thing is bracketed: [Rede A] -> Rede A\n    if (s.startsWith(\"[\") && s.endsWith(\"]\")) {\n      s = s.slice(1, -1).trim();\n    }\n\n    return s;\n  };\n\n  // ---- IDs from array_value ----\n  const extractIds = (input) => {\n    const out = [];\n    const push = (v) => {\n      if (v == null) return;\n      if (Array.isArray(v)) return v.forEach(push);\n      if (typeof v === \"object\") {\n        if (v.id != null) out.push(String(v.id));\n        else if (typeof v.value === \"string\")\n          clean(v.value).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n        return;\n      }\n      if (typeof v === \"number\") return out.push(String(v));\n      if (typeof v === \"string\")\n        return clean(v).split(/[\\s,;|]+/).filter(Boolean).forEach(t => out.push(t));\n    };\n    push(input);\n    return out;\n  };\n\n  const ids = extractIds(f.array_value);\n\n  // ---- Labels: prefer f.value; fallback to labels inside array_value objects ----\n  let labels = [];\n  if (Array.isArray(f.value)) {\n    labels = f.value.map(normalizeLabel).filter(Boolean);\n  } else if (typeof f.value === \"string\") {\n    const s = normalizeLabel(f.value);\n    // If multiple labels were packed in one string, split by commas/pipes\n    labels = s.split(/[,|]+/).map(x => x.trim()).filter(Boolean);\n  } else if (Array.isArray(f.array_value)) {\n    labels = f.array_value.map(v => normalizeLabel(v)).filter(Boolean);\n  }\n\n  // Zip by index\n  const max = Math.max(ids.length, labels.length);\n  const pairs = [];\n  for (let i = 0; i < max; i++) {\n    const id = ids[i] ?? null;\n    const label = (labels[i] ?? null);\n    if (id !== null || (label && label.length)) pairs.push({ id, label });\n  }\n  return pairs;\n})()\n}}"
+            },
+            {
+              "id": "5e121ff7-2fe3-42cd-8402-878be95f298d",
+              "name": "clientes",
+              "type": "array",
+              "value": "={{\n(() => {\n  const fields = $json.data?.card?.fields || [];\n  const f = fields.find(x => (x.field?.id || x.indexName || \"\") === \"empresa\"); // or match by label\n  const arr = Array.isArray(f?.array_value) ? f.array_value : [];\n  return arr.map(v => (typeof v === 'string' ? v.trim() : String(v))).filter(Boolean);\n})()\n}}"
+            },
+            {
+              "id": "7cbb82fa-0508-47c5-8ad7-b48156f59d04",
+              "name": "prevRedeId",
+              "type": "array",
+              "value": "={{ (() => {\n  const fields = $('Pegar informação do contato').item.json.data?.card?.fields ?? [];\n  const get = (id) => fields.find(x => (x.field?.id ?? x.indexName ?? '') === id);\n  const clean = s => String(s ?? '').trim();\n  const f = get('ultima_rede');\n  const empty = [];\n\n  if (!f) return empty;\n\n  // If it's already an array, take the first non-empty entry\n  if (Array.isArray(f.array_value) && f.array_value.length) {\n    const v = f.array_value[0];\n    if (v && typeof v === 'object' && v.id != null) return [String(v.id)];\n    if (typeof v === 'string' && clean(v)) return [clean(v)];\n  }\n\n  // Single value cases\n  if (typeof f.value === 'string' && clean(f.value)) return [clean(f.value)];\n  if (f.value && typeof f.value === 'object' && f.value.id != null) return [String(f.value.id)];\n\n  // If nothing valid, return an empty array (not an empty string)\n  return empty;\n})() }}"
+            },
+            {
+              "id": "156f6873-2ccc-4dab-9a19-53a913353ab5",
+              "name": "prevClientesId",
+              "type": "array",
+              "value": "={{ (() => { const fields = $('Pegar informação do contato').item.json.data?.card?.fields || []; const get = (id) => fields.find(x => (x.field?.id || x.indexName || '') === id); const out = []; const push = (v) => { if (v == null) return; if (Array.isArray(v)) return v.forEach(push); if (typeof v === 'object') { if (v.id != null) out.push(String(v.id)); return; } if (typeof v === 'number') return out.push(String(v)); if (typeof v === 'string') return out.push(v.trim()); }; const f = get('ultimas_empresas'); if (f) { push(f.array_value ?? f.value); } return Array.from(new Set(out.filter(Boolean))); })() }}"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": false
+        }
+      },
+      "position": [
+        -2688,
+        80
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "1e2ddcc3-0c11-45d3-a531-fe7dfffc77c5",
+      "maxTries": 5,
+      "name": "Atualizar histórico de rede",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $ultimaRede: [UndefinedInput!], $ultimasEmpresas: [UndefinedInput!]) {\n  updateFieldsValues(input: { nodeId: $cardId, values: [\n    { fieldId: \"ultima_rede\", value: $ultimaRede, operation: REPLACE },\n    { fieldId: \"ultimas_empresas\", value: $ultimasEmpresas, operation: REPLACE }\n  ] }) { success userErrors { field message } }\n}\n",
+        "variables": "={\n  \"cardId\": {{ $('Pegar informação do contato').item.json.data.card.id }},\n  \"ultimaRede\": {{ (Array.isArray($('Normalizar exclusividade (rede vs empresas)').item.json.rede_norm) && $('Normalizar exclusividade (rede vs empresas)').item.json.rede_norm.length) ? [ ($('Normalizar exclusividade (rede vs empresas)').item.json.rede_norm[0].id ?? $('Normalizar exclusividade (rede vs empresas)').item.json.rede_norm[0]) ] : [] }},\n  \"ultimasEmpresas\": {{ Array.isArray($('Normalizar exclusividade (rede vs empresas)').item.json.empresas_norm) ? $('Normalizar exclusividade (rede vs empresas)').item.json.empresas_norm : [] }}\n}\n"
+      },
+      "position": [
+        -2032,
+        -400
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "d782bdb5-733d-474a-b229-dbe77200557f",
+      "maxTries": 5,
+      "name": "Remover contato no DB-02 (rede antiga)",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toRemove: [UndefinedInput!]!) {\n  updateFieldsValues(input: { nodeId: $cardId, values: [ { fieldId: \"cards_de_contatos\", value: $toRemove, operation: REMOVE } ] }) { success userErrors { field message } }\n}\n",
+        "variables": "={\n  \"cardId\": {{ $('Calcular diffs').item.json.toRemoveRedeId }},\n  \"toRemove\": [ {{ $('Pegar informação do contato').item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        -2032,
+        -16
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "d15e22ff-6f89-4809-b52c-9f3f5110d77d",
+      "maxTries": 5,
+      "name": "Add contato no DB-01 (clientes)",
+      "notes": "Caso o uso de API por essa automação seja muito alto, podemos tentar consolidar em um batch único a atualização dos cards.",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toAdd: [UndefinedInput!]!) {\n  updateFieldsValues(\n    input: {\n      nodeId: $cardId\n      values: [\n        {\n          fieldId: \"cards_de_contatos\"\n          value: $toAdd\n          operation: ADD\n        }\n      ]\n    }\n  ) {\n    success\n    userErrors { field message }\n    updatedNode {\n      ... on Card { id }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": {{ $json.toAddEmpresas }},\n  \"toAdd\": [ {{ $('Pegar informação do contato').item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        -1824,
+        176
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "ca4eb892-9fb1-4265-9b50-abe3d7c4d383",
+      "maxTries": 5,
+      "name": "Remover contato no DB-01 (cliente antigo)",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $toRemove: [UndefinedInput!]!) {\n  updateFieldsValues(input: { nodeId: $cardId, values: [ { fieldId: \"cards_de_contatos\", value: $toRemove, operation: REMOVE } ] }) { success userErrors { field message } }\n}\n",
+        "variables": "={\n  \"cardId\": {{ $json.toRemoveEmpresas }},\n  \"toRemove\": [ {{ $('Pegar informação do contato').item.json.data.card.id }} ]\n}\n"
+      },
+      "position": [
+        -1808,
+        368
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "6c389129-58ba-48df-bdb3-cf28b904961a",
+      "maxTries": 5,
+      "name": "Atualizar histórico de cliente",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "=mutation ($cardId: ID!, $ultimaRede: [UndefinedInput!], $ultimasEmpresas: [UndefinedInput!]) {\n  updateFieldsValues(input: { nodeId: $cardId, values: [\n    { fieldId: \"ultima_rede\", value: $ultimaRede, operation: REPLACE },\n    { fieldId: \"ultimas_empresas\", value: $ultimasEmpresas, operation: REPLACE }\n  ] }) { success userErrors { field message } }\n}\n",
+        "variables": "={\n  \"cardId\": {{ $('Pegar informação do contato').item.json.data.card.id }},\n  \"ultimasEmpresas\": {{ $json.novoHistoricoCliente }}\n}\n"
+      },
+      "position": [
+        -2032,
+        560
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "5b9ca759-32d0-49e4-9bd1-aff6c98bb921",
+      "name": "Novo histórico de rede?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "e97af13b-785a-4a2d-9928-c36afaad23be",
+              "leftValue": "={{ $json.novoHistoricoRede }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              }
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2256,
+        -400
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "2ecbdd1e-f469-4046-b01e-4a62d8870365",
+      "name": "Novo histórico de cliente?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "e97af13b-785a-4a2d-9928-c36afaad23be",
+              "leftValue": "={{ $json.novoHistoricoCliente }}",
+              "operator": {
+                "operation": "notEmpty",
+                "singleValue": true,
+                "type": "array"
+              }
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2256,
+        560
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-10T19:13:43.122Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-11-10T19:13:43.122Z",
+      "workflowId": "czYCp0ZzOvk7nqG6"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-11T21:15:24.949Z",
+  "versionId": "d379f857-2142-4945-a50e-76a001654183"
+}

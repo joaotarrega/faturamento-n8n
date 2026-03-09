@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "cliente_enviou_a_proposta",
+      "index": -200.0,
+      "internal_id": "418716135",
+      "label": "Cliente enviou a proposta?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "f43b7b46-b06c-4401-af80-0229b1ac7ef7"
+    }
+  },
+  "meta": {
+    "field_id": "cliente_enviou_a_proposta",
+    "phase": {
+      "id": "339743666",
+      "name": "Cotação",
+      "uuid": "a436e508-43b3-4db7-a740-82c03bdee477"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "quartos",
+      "internal_id": "414356828",
+      "label": "Espaços",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "d54269df-cb4a-457b-b748-a58cbdc1f96b"
+    }
+  },
+  "meta": {
+    "field_id": "quartos",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

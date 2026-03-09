@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306411209",
+        "name": "[COM-01] CRM"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306411209",
+        "name": "[COM-01] CRM"
+      },
+      "description": "",
+      "help": "",
+      "id": "card_no_crm",
+      "internal_id": "416234106",
+      "label": "Card no CRM",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "6b15021d-79a1-4767-be36-1f763f886a4f"
+    }
+  },
+  "meta": {
+    "field_id": "card_no_crm",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

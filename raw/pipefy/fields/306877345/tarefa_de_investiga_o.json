@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "description": "",
+      "help": "",
+      "id": "tarefa_de_investiga_o",
+      "index": -100.0,
+      "internal_id": "423305820",
+      "label": "Tarefa de investigação",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "ad428400-4177-49e3-b93c-dd0847f00225"
+    }
+  },
+  "meta": {
+    "field_id": "tarefa_de_investiga_o",
+    "phase": {
+      "id": "341458414",
+      "name": "Triagem e definição",
+      "uuid": "682472a7-8b50-4956-ad4c-4aeb6d5d84c7"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

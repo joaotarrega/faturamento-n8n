@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "ambiente_nome_de_exibi_o",
+      "internal_id": "416178452",
+      "label": "Nome de exibição",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "595d461b-acb4-432e-9cbd-1df6cb089ca1"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_nome_de_exibi_o",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

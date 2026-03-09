@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Valor padrão: R$ 3500",
+      "help": "",
+      "id": "saas_setup",
+      "index": 84.375,
+      "internal_id": "415395512",
+      "label": "SaaS - Setup (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "9a412ca9-1aea-4e2a-965a-0d159f370d02"
+    }
+  },
+  "meta": {
+    "field_id": "saas_setup",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

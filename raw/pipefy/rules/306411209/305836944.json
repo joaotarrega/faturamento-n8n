@@ -1,0 +1,62 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324583206",
+          "phaseField": {
+            "id": "motor_de_busca_valor_mensal_adicional_fixo",
+            "internal_id": "414861630",
+            "label": "Motor de busca - Valor mensal adicional fixo (BRL)",
+            "uuid": "db609d4c-b24e-4092-8d66-a9529937eaff"
+          },
+          "phaseFieldId": "414861630",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324834240",
+          "phaseField": {
+            "id": "copy_of_motor_de_busca_valor_mensal_adicional_fixo_brl",
+            "internal_id": "415903684",
+            "label": "Motor de busca - Valor mensal adicional fixo (USD)",
+            "uuid": "d6f9fcf3-cc49-4c9b-82ea-ca32904ee8b0"
+          },
+          "phaseFieldId": "415903684",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "414591148",
+            "id": "313228347",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Marketplace - Canal direto"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310864543"
+      },
+      "id": "305836944",
+      "name": "Componentes != Marketplace canal direto",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/305836944"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "305836944",
+    "scope": "phase"
+  }
+}

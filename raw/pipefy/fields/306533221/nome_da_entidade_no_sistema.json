@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "nome_da_entidade_no_sistema",
+      "internal_id": "416194407",
+      "label": "Nome da entidade no sistema",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "8a3b2c44-14ad-45d7-9fea-ba367ea70b11"
+    }
+  },
+  "meta": {
+    "field_id": "nome_da_entidade_no_sistema",
+    "pipe_id": "306533221",
+    "scope": "start_form"
+  }
+}

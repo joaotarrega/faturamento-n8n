@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_do_cliente",
+      "internal_id": "421923606",
+      "label": "ID do cliente",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "fa343ce9-954d-440a-8160-546b399a8897"
+    }
+  },
+  "meta": {
+    "field_id": "id_do_cliente",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

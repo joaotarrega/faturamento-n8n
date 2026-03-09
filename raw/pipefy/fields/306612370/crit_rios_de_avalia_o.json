@@ -1,0 +1,36 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Selecione os critérios que serão utilizados para avaliar a ideia.",
+      "help": null,
+      "id": "crit_rios_de_avalia_o",
+      "index": 0.0,
+      "internal_id": "417812923",
+      "label": "Critérios de Avaliação",
+      "options": [
+        "Viabilidade Técnica",
+        "Viabilidade Financeira",
+        "Impacto no Mercado",
+        "Alinhamento Estratégico"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "9691394e-3cf5-4e6b-97bd-890a0dc2fb80"
+    }
+  },
+  "meta": {
+    "field_id": "crit_rios_de_avalia_o",
+    "phase": {
+      "id": "339912151",
+      "name": "Avaliação",
+      "uuid": "72250e59-f21f-4919-b04f-c689fa803757"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,706 @@
+{
+  "ids": [
+    "306068175",
+    "306071699",
+    "306071749",
+    "306071751",
+    "306071754",
+    "306071758",
+    "306088745",
+    "306088746",
+    "306091219",
+    "306332875",
+    "306333049",
+    "306333237",
+    "306333265",
+    "306333267"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306598778",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p17": {
+          "id": "306598778",
+          "phases": [
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325743737",
+                      "phaseField": {
+                        "id": "data_e_hora_da_reuni_o_com_o_cliente",
+                        "internal_id": "418433182",
+                        "label": "Data e hora da reunião com o cliente",
+                        "uuid": "32286d4b-9d17-42f2-972f-54b35830c95f"
+                      },
+                      "phaseFieldId": "418433182",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "325743738",
+                      "phaseField": {
+                        "id": "anota_es_reuni_o_com_cliente",
+                        "internal_id": "418433179",
+                        "label": "Anotações - Reunião com cliente",
+                        "uuid": "6c42688e-a767-4f33-96ef-f6d037788a64"
+                      },
+                      "phaseFieldId": "418433179",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418715162",
+                        "id": "314088469",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Sim"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311659553"
+                  },
+                  "id": "306091219",
+                  "name": "Reunião com cliente != Sim",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306091219"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326828058",
+                      "phaseField": {
+                        "id": "por_qual_motivo_n_o_foi_feita_uma_reuni_o_com_o_cliente",
+                        "internal_id": "422182350",
+                        "label": "Por qual motivo não foi feita uma reunião com o cliente?",
+                        "uuid": "e5d54cc3-49f8-4311-9769-001e575b02ef"
+                      },
+                      "phaseFieldId": "422182350",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418715162",
+                        "id": "314905018",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Não, outro motivo"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312423681"
+                  },
+                  "id": "306332875",
+                  "name": "Motivo de não realização da reunião != Outro",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306332875"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326828852",
+                      "phaseField": {
+                        "id": "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+                        "internal_id": "422183057",
+                        "label": "Indique o motivo de não tentar reter o cliente",
+                        "uuid": "c96678a4-f551-429b-af5b-06d25aa83720"
+                      },
+                      "phaseFieldId": "422183057",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422183029",
+                        "id": "314905970",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312424150"
+                  },
+                  "id": "306333049",
+                  "name": "Motivo de não reter o cliente != Outro",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306333049"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326829695",
+                      "phaseField": {
+                        "id": "qual_o_plano_de_reten_o",
+                        "internal_id": "422183797",
+                        "label": "Qual é o plano de retenção?",
+                        "uuid": "d01276a0-85f9-45b1-a54c-2dc635416ae4"
+                      },
+                      "phaseFieldId": "422183797",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326829787",
+                      "phaseField": {
+                        "id": "aprovador",
+                        "internal_id": "418433458",
+                        "label": "Responsável pela validação",
+                        "uuid": "ce500f4f-fab9-4a28-b284-847b80a5bb6c"
+                      },
+                      "phaseFieldId": "418433458",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326829788",
+                      "phaseField": {
+                        "id": "parecer",
+                        "internal_id": "418433465",
+                        "label": "Parecer",
+                        "uuid": "7758f4c0-b366-4cc2-a838-0e98e9cb5afb"
+                      },
+                      "phaseFieldId": "418433465",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326829789",
+                      "phaseField": {
+                        "id": "coment_rios_do_aprovador",
+                        "internal_id": "418433467",
+                        "label": "Comentários",
+                        "uuid": "6af91670-3d00-48bc-8a87-f79962d3a99d"
+                      },
+                      "phaseFieldId": "418433467",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422183795",
+                        "id": "314906566",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312424539"
+                  },
+                  "id": "306333237",
+                  "name": "Plano de retenção != Outro",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306333237"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326829854",
+                      "phaseField": {
+                        "id": "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+                        "internal_id": "422183029",
+                        "label": "Qual o motivo de não tentar reter o cliente?",
+                        "uuid": "46541bb8-e855-4980-b1e0-bebdce2f264d"
+                      },
+                      "phaseFieldId": "422183029",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422182696",
+                        "id": "314906628",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Não"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312424599"
+                  },
+                  "id": "306333265",
+                  "name": "Retenção não será feita",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306333265"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326829858",
+                      "phaseField": {
+                        "id": "plano_de_a_o_para_reter_o_cliente",
+                        "internal_id": "422183795",
+                        "label": "Plano de ação para reter o cliente",
+                        "uuid": "0625f77f-cda0-4425-9ef0-b27c60637836"
+                      },
+                      "phaseFieldId": "422183795",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326829859",
+                      "phaseField": {
+                        "id": "observa_es_sobre_o_plano_de_reten_o",
+                        "internal_id": "422183602",
+                        "label": "Observações sobre o plano de retenção",
+                        "uuid": "db424ded-ee78-45a0-bc17-7b95456e87e3"
+                      },
+                      "phaseFieldId": "422183602",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422182696",
+                        "id": "314906630",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Sim"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312424601"
+                  },
+                  "id": "306333267",
+                  "name": "Será feita retenção",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/339834129/conditionals/306333267"
+                }
+              ],
+              "id": "339834129",
+              "name": "Análise",
+              "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339834130",
+              "name": "Validação do plano de ação",
+              "uuid": "58485501-f828-48d9-a880-5c6288373f8d"
+            },
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325658797",
+                      "phaseField": {
+                        "id": "indique_o_motivo_de_churn",
+                        "internal_id": "418433608",
+                        "label": "Indique o motivo de churn",
+                        "uuid": "57b057f8-bf91-4936-aa5f-edadd594db51"
+                      },
+                      "phaseFieldId": "418433608",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418433585",
+                        "id": "314028965",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311599180"
+                  },
+                  "id": "306071699",
+                  "name": "Motivo de churn != Outro",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/340088247/conditionals/306071699"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325659051",
+                      "phaseField": {
+                        "id": "motivo_de_churn",
+                        "internal_id": "418433585",
+                        "label": "Motivo de churn",
+                        "uuid": "4f6643df-e5d5-44a5-ada6-4079e178f74a"
+                      },
+                      "phaseFieldId": "418433585",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418433571",
+                        "id": "314029202",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Não"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311599404"
+                  },
+                  "id": "306071754",
+                  "name": "Churn foi revertido != Não",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/340088247/conditionals/306071754"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325659060",
+                      "phaseField": {
+                        "id": "indique_o_motivo_de_churn",
+                        "internal_id": "418433608",
+                        "label": "Indique o motivo de churn",
+                        "uuid": "57b057f8-bf91-4936-aa5f-edadd594db51"
+                      },
+                      "phaseFieldId": "418433608",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418433585",
+                        "id": "314029206",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311599408"
+                  },
+                  "id": "306071758",
+                  "name": "Motivo de churn != Outro",
+                  "url": "https://app.pipefy.com/pipes/306598778/settings/phases/340088247/conditionals/306071758"
+                }
+              ],
+              "id": "340088247",
+              "name": "Retenção",
+              "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+            },
+            {
+              "fieldConditions": [],
+              "id": "340088329",
+              "name": "Churn",
+              "uuid": "35d13728-ce93-4116-9ca8-8923f9c61f35"
+            },
+            {
+              "fieldConditions": [],
+              "id": "340088345",
+              "name": "Reversão",
+              "uuid": "731c4a56-2e44-42ab-bd25-1db5b6c595d7"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "326085481",
+                  "phaseField": {
+                    "id": "cliente",
+                    "internal_id": "417644326",
+                    "label": "Cliente",
+                    "uuid": "797f3778-be29-4c03-b2d8-cb5de8744389"
+                  },
+                  "phaseFieldId": "417644326",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "314019052",
+                    "operation": "present",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "417644326",
+                    "id": "314019053",
+                    "operation": "present",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311589379"
+              },
+              "id": "306068175",
+              "name": "Esconder cliente após preenchimento",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306068175"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325659043",
+                  "phaseField": {
+                    "id": "anexe_o_email_enviado_pelo_cliente",
+                    "internal_id": "418432898",
+                    "label": "Anexe o email enviado pelo cliente",
+                    "uuid": "b569b4ef-1cdb-457c-86e4-2f5d886bac93"
+                  },
+                  "phaseFieldId": "418432898",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "418432706",
+                    "id": "314029191",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Email"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311599392"
+              },
+              "id": "306071749",
+              "name": "Canal da solicitação != Email",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306071749"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325659046",
+                  "phaseField": {
+                    "id": "qual_foi_o_canal_de_solicita_o",
+                    "internal_id": "418432709",
+                    "label": "Qual foi o canal de solicitação?",
+                    "uuid": "a8077aee-48a9-4e45-8e63-d39c40ea751b"
+                  },
+                  "phaseFieldId": "418432709",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "418432706",
+                    "id": "314029194",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Outro"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311599397"
+              },
+              "id": "306071751",
+              "name": "Canal da solicitação != Outro",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306071751"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "show",
+                  "id": "325743499",
+                  "phaseField": {
+                    "id": "statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+                    "internal_id": "418673712",
+                    "label": "Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+                    "uuid": "583d55c0-ab66-4513-8348-f7c1f6ab6a78"
+                  },
+                  "phaseFieldId": "418673712",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325743500",
+                  "phaseField": {
+                    "id": "statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+                    "internal_id": "418673712",
+                    "label": "Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+                    "uuid": "583d55c0-ab66-4513-8348-f7c1f6ab6a78"
+                  },
+                  "phaseFieldId": "418673712",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "418715054.415480485",
+                    "id": "314080738",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "418715054",
+                    "id": "314088417",
+                    "operation": "present",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311651690"
+              },
+              "id": "306088745",
+              "name": "Contato sem email",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306088745"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325732070",
+                  "phaseField": {
+                    "id": "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+                    "internal_id": "418673713",
+                    "label": "Copy of Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+                    "uuid": "016f74f6-ed9d-4ad6-877e-5806b7815898"
+                  },
+                  "phaseFieldId": "418673713",
+                  "whenEvaluator": false
+                },
+                {
+                  "actionId": "show",
+                  "id": "325743547",
+                  "phaseField": {
+                    "id": "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+                    "internal_id": "418673713",
+                    "label": "Copy of Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+                    "uuid": "016f74f6-ed9d-4ad6-877e-5806b7815898"
+                  },
+                  "phaseFieldId": "418673713",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "418715054.415480487",
+                    "id": "314080740",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "418715054",
+                    "id": "314088442",
+                    "operation": "present",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311651692"
+              },
+              "id": "306088746",
+              "name": "Contato sem telefone",
+              "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306088746"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "339834129": [
+      "306091219",
+      "306332875",
+      "306333049",
+      "306333237",
+      "306333265",
+      "306333267"
+    ],
+    "340088247": [
+      "306071699",
+      "306071754",
+      "306071758"
+    ]
+  },
+  "start_form_rule_ids": [
+    "306068175",
+    "306071749",
+    "306071751",
+    "306088745",
+    "306088746"
+  ]
+}

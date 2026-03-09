@@ -1,0 +1,29 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Status da ideia",
+      "help": "",
+      "id": "status",
+      "internal_id": "417812914",
+      "label": "Status",
+      "options": [
+        "Ativo",
+        "Em Desenvolvimemto",
+        "Evolução"
+      ],
+      "required": true,
+      "type": "select",
+      "uuid": "fbf705f7-0bd3-43d8-99a2-866a551233a1"
+    }
+  },
+  "meta": {
+    "field_id": "status",
+    "pipe_id": "306612370",
+    "scope": "start_form"
+  }
+}

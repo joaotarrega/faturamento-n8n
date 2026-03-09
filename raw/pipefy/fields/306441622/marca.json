@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "marca",
+      "internal_id": "415035446",
+      "label": "Bandeira",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "f31d2a30-98c8-42e7-b51f-52cae17a77ba"
+    }
+  },
+  "meta": {
+    "field_id": "marca",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

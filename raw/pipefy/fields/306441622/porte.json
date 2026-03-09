@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "porte",
+      "internal_id": "414344865",
+      "label": "Porte",
+      "options": [
+        "Eco",
+        "Midscale",
+        "Premium",
+        "Luxo",
+        "Resort"
+      ],
+      "required": false,
+      "type": "select",
+      "uuid": "5fc037c0-0ebb-4f70-8186-36e16c491856"
+    }
+  },
+  "meta": {
+    "field_id": "porte",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

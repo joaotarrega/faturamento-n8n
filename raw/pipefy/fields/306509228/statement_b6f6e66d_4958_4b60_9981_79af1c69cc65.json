@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<h1>Informações para assinatura do contrato</h1>\n<p>Información para la firma del contrato</p>\n<p> </p>",
+      "help": null,
+      "id": "statement_b6f6e66d_4958_4b60_9981_79af1c69cc65",
+      "index": 1500.0,
+      "internal_id": "415745828",
+      "label": "Statement-b6f6e66d-4958-4b60-9981-79af1c69cc65",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "d0ca0e0f-42a8-43db-beff-3db103bed28e"
+    }
+  },
+  "meta": {
+    "field_id": "statement_b6f6e66d_4958_4b60_9981_79af1c69cc65",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

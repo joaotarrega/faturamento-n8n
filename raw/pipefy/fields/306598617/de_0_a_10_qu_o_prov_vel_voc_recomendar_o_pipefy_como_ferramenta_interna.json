@@ -1,0 +1,43 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "de_0_a_10_qu_o_prov_vel_voc_recomendar_o_pipefy_como_ferramenta_interna",
+      "index": 1221.0,
+      "internal_id": "418531357",
+      "label": "De 0 a 10, quão provável é você recomendar o Pipefy como ferramenta interna?",
+      "options": [
+        "0 - Não recomendaria",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10 - Recomendaria"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "9ab86fd1-2a39-4b6d-b083-f8f14d80debe"
+    }
+  },
+  "meta": {
+    "field_id": "de_0_a_10_qu_o_prov_vel_voc_recomendar_o_pipefy_como_ferramenta_interna",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

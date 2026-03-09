@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "respons_vel_2",
+      "index": 0.0,
+      "internal_id": "416540172",
+      "label": "Responsável pela configuração do ambiente",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "23229b66-8e86-40d1-bfb2-3ddbcebd1197"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel_2",
+    "phase": {
+      "id": "339556245",
+      "name": "Ambiente em configuração",
+      "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Nombre del responsable de acompañar la implementación",
+      "help": "",
+      "id": "nome_do_respons_vel_por_acompanhar_a_implanta_o",
+      "index": 2300.0,
+      "internal_id": "415746028",
+      "label": "Nome do responsável por acompanhar a implantação",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "47f280d5-900f-4d88-9b75-2bc56954c1b9"
+    }
+  },
+  "meta": {
+    "field_id": "nome_do_respons_vel_por_acompanhar_a_implanta_o",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

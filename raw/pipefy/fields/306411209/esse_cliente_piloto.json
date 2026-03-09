@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Está testando a plataforma durante um período determinado, mas ainda não fechou de fato a compra.",
+      "help": "",
+      "id": "esse_cliente_piloto",
+      "index": 322.875,
+      "internal_id": "420511917",
+      "label": "Esse cliente é piloto?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "ceec60a0-7878-4165-b5fa-e955330c0613"
+    }
+  },
+  "meta": {
+    "field_id": "esse_cliente_piloto",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

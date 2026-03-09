@@ -1,0 +1,30 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "produtos",
+      "internal_id": "414749221",
+      "label": "Produtos",
+      "options": [
+        "SaaS",
+        "Marketplace",
+        "Marketplace - Canal direto",
+        "Cross-selling"
+      ],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "6c6c1377-6526-4930-8e89-9c87ea2fbad8"
+    }
+  },
+  "meta": {
+    "field_id": "produtos",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

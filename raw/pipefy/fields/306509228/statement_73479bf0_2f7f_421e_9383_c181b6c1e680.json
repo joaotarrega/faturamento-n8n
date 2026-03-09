@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<p> </p>",
+      "help": null,
+      "id": "statement_73479bf0_2f7f_421e_9383_c181b6c1e680",
+      "index": 2600.0,
+      "internal_id": "415746106",
+      "label": "Statement-73479bf0-2f7f-421e-9383-c181b6c1e680",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "074d206d-5625-4351-93b3-0178235deebe"
+    }
+  },
+  "meta": {
+    "field_id": "statement_73479bf0_2f7f_421e_9383_c181b6c1e680",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

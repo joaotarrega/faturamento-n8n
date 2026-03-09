@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Descreva observações relevantes quanto ao cálculo dos scores",
+      "help": "",
+      "id": "anota_es_ia",
+      "index": -3.125,
+      "internal_id": "418534133",
+      "label": "Anotações IA",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "58ea4941-6b7f-4d7f-878a-ced6d77b5964"
+    }
+  },
+  "meta": {
+    "field_id": "anota_es_ia",
+    "phase": {
+      "id": "339833261",
+      "name": "Análise",
+      "uuid": "e840dab3-9592-447c-bcb6-10352b5509fc"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

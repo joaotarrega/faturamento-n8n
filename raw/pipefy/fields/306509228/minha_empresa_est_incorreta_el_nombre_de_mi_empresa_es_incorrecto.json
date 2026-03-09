@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "minha_empresa_est_incorreta_el_nombre_de_mi_empresa_es_incorrecto",
+      "index": -25.0,
+      "internal_id": "418889097",
+      "label": "Minha empresa está incorreta | el nombre de mi empresa es incorrecto",
+      "options": [
+        "Clique aqui | Clic aquí"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "911cef63-2c4b-4852-91e6-b9f09e7df295"
+    }
+  },
+  "meta": {
+    "field_id": "minha_empresa_est_incorreta_el_nombre_de_mi_empresa_es_incorrecto",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

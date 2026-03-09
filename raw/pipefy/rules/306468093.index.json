@@ -1,0 +1,242 @@
+{
+  "ids": [
+    "305935105",
+    "305966217",
+    "305966221",
+    "306193284"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306468093",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p5": {
+          "id": "306468093",
+          "phases": [
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326184111",
+                      "phaseField": {
+                        "id": "verificou_os_dados_do_cliente",
+                        "internal_id": "418462754",
+                        "label": "Verificou os dados do cliente?",
+                        "uuid": "da495811-18d7-4d96-806c-45ee031b10e2"
+                      },
+                      "phaseFieldId": "418462754",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [],
+                    "expressions_structure": [],
+                    "id": "311977563"
+                  },
+                  "id": "306193284",
+                  "name": "[Campo descontinuado]",
+                  "url": "https://app.pipefy.com/pipes/306468093/settings/phases/339069570/conditionals/306193284"
+                }
+              ],
+              "id": "339069570",
+              "name": "Preparação",
+              "uuid": "52fb420f-b70d-44c7-9ea1-51f35eaa4d39"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339069571",
+              "name": "Ambiente em criação",
+              "uuid": "c92d6226-13b3-465f-949f-c9ae1ea57f94"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339556245",
+              "name": "Ambiente em configuração",
+              "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339069572",
+              "name": "Solicitação finalizada",
+              "uuid": "4a9ae4d9-65fb-4e14-b7f0-a4036bdcbdb6"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339469090",
+              "name": "Solicitação cancelada / arquivada",
+              "uuid": "7dae126d-1690-4b92-86c2-7c77f3e103f0"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325044079",
+                  "phaseField": {
+                    "id": "ambiente_cnpj",
+                    "internal_id": "416178472",
+                    "label": "CNPJ",
+                    "uuid": "cdfda42f-8341-4fa8-a02f-29a428d807e0"
+                  },
+                  "phaseFieldId": "416178472",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325044080",
+                  "phaseField": {
+                    "id": "ambiente_identificador_fiscal_fora_do_brasil",
+                    "internal_id": "416181688",
+                    "label": "Identificador fiscal fora do Brasil",
+                    "uuid": "fe128235-9997-43c2-bbd2-156ef60b006c"
+                  },
+                  "phaseFieldId": "416181688",
+                  "whenEvaluator": false
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325044081",
+                  "phaseField": {
+                    "id": "ambiente_tipo_de_identificador_fiscal",
+                    "internal_id": "416181665",
+                    "label": "Tipo de identificador fiscal",
+                    "uuid": "1fd15d9d-eefd-4b4f-a858-82707b39a85c"
+                  },
+                  "phaseFieldId": "416181665",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "416178464",
+                    "id": "313557658",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Brasil"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311172275"
+              },
+              "id": "305935105",
+              "name": "País != Brasil",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/form/conditionals/305935105"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325166236",
+                  "phaseField": {
+                    "id": "esconder_todos_os_campos_do_form_inicial",
+                    "internal_id": "416985756",
+                    "label": "Esconder todos os campos do form inicial?",
+                    "uuid": "2c8e6f1f-3d85-4623-85eb-511020608c1b"
+                  },
+                  "phaseFieldId": "416985756",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311273314"
+              },
+              "id": "305966217",
+              "name": "Campos escondidos",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/form/conditionals/305966217"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325166244",
+                  "phaseField": null,
+                  "phaseFieldId": null,
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "325166245",
+                  "phaseField": {
+                    "id": "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7",
+                    "internal_id": "416986198",
+                    "label": "Statement-5cb2f8a5-9bd8-4cf5-8ac6-7ebe4e5459b7",
+                    "uuid": "59964ee9-b84a-4a5b-8968-4153f7e6ae16"
+                  },
+                  "phaseFieldId": "416986198",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325166246",
+                  "phaseField": {
+                    "id": "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7",
+                    "internal_id": "416986198",
+                    "label": "Statement-5cb2f8a5-9bd8-4cf5-8ac6-7ebe4e5459b7",
+                    "uuid": "59964ee9-b84a-4a5b-8968-4153f7e6ae16"
+                  },
+                  "phaseFieldId": "416986198",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "313655882",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "416985756",
+                    "id": "313655883",
+                    "operation": "not_equals",
+                    "structure_id": "1",
+                    "value": "Não"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311273324"
+              },
+              "id": "305966221",
+              "name": "Esconder campos do forms inicial na criação direta pelo pipe",
+              "url": "https://app.pipefy.com/pipes/306468093/settings/form/conditionals/305966221"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "339069570": [
+      "306193284"
+    ]
+  },
+  "start_form_rule_ids": [
+    "305935105",
+    "305966217",
+    "305966221"
+  ]
+}

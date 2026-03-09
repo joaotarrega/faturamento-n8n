@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "m_trica_1_score",
+      "index": -78.125,
+      "internal_id": "419305646",
+      "label": "Métrica 1 - Score",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "27f91eb8-d871-4265-a518-99450325f96a"
+    }
+  },
+  "meta": {
+    "field_id": "m_trica_1_score",
+    "phase": {
+      "id": "339812904",
+      "name": "Calculando o score",
+      "uuid": "2fcde8a6-5a26-4201-a6d9-8582739ee1de"
+    },
+    "pipe_id": "306595015",
+    "scope": "phase"
+  }
+}

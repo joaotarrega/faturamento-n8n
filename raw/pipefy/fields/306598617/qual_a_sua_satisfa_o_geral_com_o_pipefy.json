@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_a_sua_satisfa_o_geral_com_o_pipefy",
+      "index": 1120.0,
+      "internal_id": "418531358",
+      "label": "Qual a sua satisfação geral com o Pipefy?",
+      "options": [
+        "1 - Muito insatisfeito",
+        "2 - Insatisfeito",
+        "3 - Neutro",
+        "4 - Satisfeito",
+        "5 - Muito satisfeito"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "27a98f02-2256-47ab-8df2-0fbde525c255"
+    }
+  },
+  "meta": {
+    "field_id": "qual_a_sua_satisfa_o_geral_com_o_pipefy",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

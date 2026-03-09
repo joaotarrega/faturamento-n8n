@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "subtotal_do_item_usd",
+      "internal_id": "425112110",
+      "label": "Subtotal do item (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+    }
+  },
+  "meta": {
+    "field_id": "subtotal_do_item_usd",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

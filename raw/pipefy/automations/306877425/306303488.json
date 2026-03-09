@@ -1,0 +1,83 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "schedule_create_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "423305242",
+            "field_id": "423305242",
+            "inputMode": "copy_from",
+            "value": "Atualizar dados da weekly do time"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "423267589",
+            "field_id": "423267589",
+            "inputMode": "copy_from",
+            "value": "- Atualizar quadro de status (slide 1)\n- Atualizar clientes aguardado ficha (slide 2)\n- Atualizar ganhos e perdas do crm (slide 3)"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "423727465",
+            "field_id": "423727465",
+            "inputMode": "fixed_value",
+            "value": "Baixo"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "423727470",
+            "field_id": "423727470",
+            "inputMode": "fixed_value",
+            "value": "Baixo"
+          }
+        ],
+        "fields_map_order": [
+          "423305242",
+          "423267589",
+          "423305526",
+          "423727465",
+          "423727470",
+          "423730379",
+          "423727609"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": false,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312655542"
+      },
+      "created_at": "2026-01-07 14:05:50 UTC",
+      "event_id": "scheduler",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "306303488",
+      "name": "[Semanal] Atualizar dados da weekly do time",
+      "url": "https://app.pipefy.com/pipes/306877425/settings/automations/306303488"
+    }
+  }
+}

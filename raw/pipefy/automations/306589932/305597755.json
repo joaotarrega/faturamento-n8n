@@ -1,0 +1,46 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "send_email_template",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": "309089057",
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "311626966"
+      },
+      "created_at": "2025-09-04 19:30:23 UTC",
+      "event_id": "sla_based",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": "expired",
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305597755",
+      "name": "Reenviar pesquisa com card expirado",
+      "url": "https://app.pipefy.com/pipes/306589932/settings/automations/305597755"
+    }
+  }
+}

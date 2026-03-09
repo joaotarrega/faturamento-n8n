@@ -1,0 +1,98 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327035066",
+          "phaseField": {
+            "id": "email_completo_do_signat_rio_representante",
+            "internal_id": "415745898",
+            "label": "Email do signatário representante",
+            "uuid": "b5090a60-94ef-4c51-8313-5cac0dfd79f3"
+          },
+          "phaseFieldId": "415745898",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327035067",
+          "phaseField": {
+            "id": "email_da_testemunha",
+            "internal_id": "415746016",
+            "label": "Email da testemunha",
+            "uuid": "0af83343-9087-44b4-9596-bc77ad70a426"
+          },
+          "phaseFieldId": "415746016",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327035068",
+          "phaseField": {
+            "id": "email_do_respons_vel_por_acompanhar_a_implanta_o",
+            "internal_id": "415746075",
+            "label": "Email do responsável por acompanhar a implantação",
+            "uuid": "ee82b6f1-1af0-403c-abb2-51c5e6d207a0"
+          },
+          "phaseFieldId": "415746075",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327035069",
+          "phaseField": {
+            "id": "celular_do_respons_vel_por_acompanhar_a_implanta_o",
+            "internal_id": "415746083",
+            "label": "Celular do responsável por acompanhar a implantação",
+            "uuid": "84c4858d-e479-413c-986a-1c0a41550bac"
+          },
+          "phaseFieldId": "415746083",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327035070",
+          "phaseField": {
+            "id": "nome_do_respons_vel_por_acompanhar_a_implanta_o",
+            "internal_id": "415746028",
+            "label": "Nome do responsável por acompanhar a implantação",
+            "uuid": "47f280d5-900f-4d88-9b75-2bc56954c1b9"
+          },
+          "phaseFieldId": "415746028",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "labels",
+            "id": "315053379",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "316985219"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312569541"
+      },
+      "id": "306378512",
+      "name": "Tag = Preenchimento simplificado",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/phases/339322139/conditionals/306378512"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "rule_id": "306378512",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306500191",
+        "name": "[OPE-03] Onboarding de clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306500191",
+        "name": "[OPE-03] Onboarding de clientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "card_de_onboarding",
+      "index": -100.0,
+      "internal_id": "416208146",
+      "label": "Card de onboarding",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "a0928384-e06d-4692-a728-e5b4cd7501b8"
+    }
+  },
+  "meta": {
+    "field_id": "card_de_onboarding",
+    "phase": {
+      "id": "339039661",
+      "name": "Treinamento",
+      "uuid": "9c4e396f-96f6-4136-8322-dc80b3e7a8e5"
+    },
+    "pipe_id": "306441622",
+    "scope": "phase"
+  }
+}

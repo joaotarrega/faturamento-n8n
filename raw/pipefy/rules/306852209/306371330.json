@@ -1,0 +1,81 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327014476",
+          "phaseField": {
+            "id": "valor_unit_rio_brl",
+            "internal_id": "422788854",
+            "label": "Valor unitário (BRL)",
+            "uuid": "ce7d7629-d034-4d62-ba44-4ebe21c8d5cb"
+          },
+          "phaseFieldId": "422788854",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327037067",
+          "phaseField": {
+            "id": "valor_nominal_a_ser_descontado_brl",
+            "internal_id": "422869959",
+            "label": "Valor nominal a ser descontado (BRL)",
+            "uuid": "ed987259-5f01-4467-ad17-1e65d1b06deb"
+          },
+          "phaseFieldId": "422869959",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052184",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_brl",
+            "internal_id": "422904778",
+            "label": "Valor total do item com descontos (BRL)",
+            "uuid": "087d66c3-ed71-4cb8-a464-6fd67bfce8f2"
+          },
+          "phaseFieldId": "422904778",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327555755",
+          "phaseField": {
+            "id": "subtotal_do_item_brl",
+            "internal_id": "425112111",
+            "label": "Subtotal do item (BRL)",
+            "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+          },
+          "phaseFieldId": "425112111",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422751341",
+            "id": "315025544",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "BRL - R$"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312544639"
+      },
+      "id": "306371330",
+      "name": "Moeda != BRL",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306371330"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306371330",
+    "scope": "start_form"
+  }
+}

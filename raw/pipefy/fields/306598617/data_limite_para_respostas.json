@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "data_limite_para_respostas",
+      "internal_id": "418533305",
+      "label": "Data limite para respostas",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "3cca6ca7-eab3-47cc-9ab2-ccbab5330e93"
+    }
+  },
+  "meta": {
+    "field_id": "data_limite_para_respostas",
+    "pipe_id": "306598617",
+    "scope": "start_form"
+  }
+}

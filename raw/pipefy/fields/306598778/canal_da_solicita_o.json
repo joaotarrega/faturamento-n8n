@@ -1,0 +1,30 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "canal_da_solicita_o",
+      "internal_id": "418432706",
+      "label": "Canal da solicitação",
+      "options": [
+        "Email",
+        "Whatsapp",
+        "Pessoalmente",
+        "Outro"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "2e1d6da1-7479-4404-a3ec-0e66538d696d"
+    }
+  },
+  "meta": {
+    "field_id": "canal_da_solicita_o",
+    "pipe_id": "306598778",
+    "scope": "start_form"
+  }
+}

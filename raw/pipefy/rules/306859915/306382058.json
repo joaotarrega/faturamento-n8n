@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051378",
+          "phaseField": {
+            "id": "desconto_no_valor_vari_vel_do_saas_para_e_s",
+            "internal_id": "422909784",
+            "label": "Valor percentual de desconto SaaS - Categoria E&S",
+            "uuid": "6e4abdec-1107-468a-be2d-e60ca23b798d"
+          },
+          "phaseFieldId": "422909784",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909778",
+            "id": "315064156",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337139"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312580001"
+      },
+      "id": "306382058",
+      "name": "Tipo de desconto E&S != Valor percentual",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382058"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382058",
+    "scope": "start_form"
+  }
+}

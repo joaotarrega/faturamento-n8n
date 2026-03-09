@@ -1,0 +1,165 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327565969",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_a_b_usd",
+            "internal_id": "422911863",
+            "label": "Valor base SaaS - Categoria A&B (USD)",
+            "uuid": "77a8829f-a064-4706-814e-cc0454d3e153"
+          },
+          "phaseFieldId": "422911863",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565970",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_a_b_brl",
+            "internal_id": "422912000",
+            "label": "Valor base SaaS - Categoria A&B (BRL)",
+            "uuid": "c2f871c2-5b6f-411e-8c5c-a8d7bf16cf23"
+          },
+          "phaseFieldId": "422912000",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565971",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_e_s_usd",
+            "internal_id": "422911867",
+            "label": "Valor base SaaS - Categoria E&S (USD)",
+            "uuid": "0419cfc0-7dbc-44b3-8f20-f50e9082aaa3"
+          },
+          "phaseFieldId": "422911867",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565972",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_e_s_brl",
+            "internal_id": "422912003",
+            "label": "Valor base SaaS - Categoria E&S (BRL)",
+            "uuid": "e15eb889-ffb1-41c3-81b5-1ec94ae4b6ef"
+          },
+          "phaseFieldId": "422912003",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565973",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_espa_os_usd",
+            "internal_id": "422911870",
+            "label": "Valor base SaaS - Categoria Espaços (USD)",
+            "uuid": "7dd4c12e-e02c-40dc-9ca6-ade4f14ac4d4"
+          },
+          "phaseFieldId": "422911870",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565974",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_espa_os_brl",
+            "internal_id": "422912130",
+            "label": "Valor base SaaS - Categoria Espaços (BRL)",
+            "uuid": "9e07f8e0-14d9-4154-8c20-f2effc346eab"
+          },
+          "phaseFieldId": "422912130",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565975",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_hospedagem_usd",
+            "internal_id": "422911876",
+            "label": "Valor base SaaS - Categoria Hospedagem (USD)",
+            "uuid": "5b7858cd-887f-48a2-97a7-e7361f612035"
+          },
+          "phaseFieldId": "422911876",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565976",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_hospedagem_brl",
+            "internal_id": "422912185",
+            "label": "Valor base SaaS - Categoria Hospedagem (BRL)",
+            "uuid": "f124a2c4-dcb7-4b59-b2d7-49f545e75a1f"
+          },
+          "phaseFieldId": "422912185",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565977",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_outros_usd",
+            "internal_id": "422911880",
+            "label": "Valor base SaaS - Categoria Outros (USD)",
+            "uuid": "ff4dec4e-8a96-4e4c-9ff6-59d7f6217796"
+          },
+          "phaseFieldId": "422911880",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327565978",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_outros_brl",
+            "internal_id": "422912203",
+            "label": "Valor base SaaS - Categoria Outros (BRL)",
+            "uuid": "4a8faef2-d029-43f7-b996-a04131892f15"
+          },
+          "phaseFieldId": "422912203",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327797612",
+          "phaseField": {
+            "id": "id_backoffice_do_afiliado",
+            "internal_id": "425777996",
+            "label": "ID Backoffice do afiliado",
+            "uuid": "ba42a6d8-c907-4ea0-96e1-b22a59146b71"
+          },
+          "phaseFieldId": "425777996",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909758",
+            "id": "315064762",
+            "operation": "not_equals",
+            "structure_id": "1",
+            "value": "1268890278"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ]
+        ],
+        "id": "312580540"
+      },
+      "id": "306382237",
+      "name": "Base de cálculo != Percentual sobre base",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382237"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382237",
+    "scope": "start_form"
+  }
+}

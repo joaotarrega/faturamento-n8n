@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<table style=\"border-collapse: collapse; width: 99.4924%; margin-left: auto; margin-right: auto;\" border=\"1\">\n<tbody>\n<tr>\n<th style=\"width: 15.6304%; text-align: center; vertical-align: middle;\"><strong>Usabilidade e esforço</strong></th>\n<th style=\"width: 17.5678%; text-align: center; vertical-align: middle;\"><strong>Performance e estabilidade</strong></th>\n<th style=\"width: 19.7156%; text-align: center; vertical-align: middle;\"><strong>Recursos e funcionalidades</strong></th>\n<th style=\"width: 12.807%; text-align: center; vertical-align: middle;\"><strong>Suporte</strong></th>\n</tr>\n<tr>\n<td style=\"width: 15.6304%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533766}}</strong></td>\n<td style=\"width: 17.5678%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533769}}</strong></td>\n<td style=\"width: 19.7156%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533793}}</strong></td>\n<td style=\"width: 12.807%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533797}}</strong></td>\n</tr>\n</tbody>\n</table>\n<p> </p>\n<table style=\"border-collapse: collapse; width: 99.4924%; margin-left: auto; margin-right: auto;\" border=\"1\">\n<tbody>\n<tr>\n<th style=\"width: 46.3569%; text-align: center; vertical-align: middle;\"><strong>CSAT</strong></th>\n<th style=\"width: 46.3569%; text-align: center; vertical-align: middle;\"><strong>NPS</strong></th>\n</tr>\n<tr>\n<td style=\"width: 46.3569%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533994}}</strong></td>\n<td style=\"width: 46.3569%; text-align: center; vertical-align: middle;\"><strong>{{phase339833261.field418533984}}</strong> (<strong>{{phase339833260.field418531357}}</strong>)</td>\n</tr>\n</tbody>\n</table>\n<hr />\n<p>Dados incorretos:<br /><strong>{{phase339833260.field418491124}}</strong></p>\n<p><strong>{{phase339833260.field418491131}}</strong></p>\n<p><strong>{{phase339833260.field418491129}}</strong></p>\n<p><strong>{{phase339833260.field418491136}}</strong></p>\n<hr />\n<p>Gostaria de ampliar uso de automações: <strong>{{phase339833260.field418530853}}</strong><br />Automações sugeridas: <strong>{{phase339833260.field418530855}}</strong></p>\n<hr />\n<p>Gostaria de se aprofundar em: <strong>{{phase339833260.field418531282}}</strong></p>\n<p><strong>{{phase339833260.field418531283}}</strong></p>\n<hr />\n<p>Motivo de não utilizar documentação: <strong>{{phase339833260.field418531285}}</strong></p>\n<p><strong>{{phase339833260.field418531287}}</strong></p>\n<hr />\n<p>Pipefy é essencial para o meu trabalho diário: <strong>{{phase339833260.field418531359}}</strong></p>\n<hr />\n<p>Comentários adicionais: <strong>{{phase339833260.field418532866}}</strong></p>\n<p> </p>",
+      "help": "",
+      "id": "statement_ba84c367_5ef6_494d_aed6_b284da579973",
+      "index": 98.4375,
+      "internal_id": "418546134",
+      "label": "Statement-ba84c367-5ef6-494d-aed6-b284da579973",
+      "options": [],
+      "required": false,
+      "type": "statement",
+      "uuid": "dcd353d5-62b0-4f3e-87d3-72bfa839eb0c"
+    }
+  },
+  "meta": {
+    "field_id": "statement_ba84c367_5ef6_494d_aed6_b284da579973",
+    "phase": {
+      "id": "339833261",
+      "name": "Análise",
+      "uuid": "e840dab3-9592-447c-bcb6-10352b5509fc"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

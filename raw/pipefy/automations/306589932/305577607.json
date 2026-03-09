@@ -1,0 +1,59 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "send_email_template",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": "309089057",
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "417358630",
+            "id": "314026568",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311596745"
+      },
+      "created_at": "2025-09-02 18:04:01 UTC",
+      "event_id": "card_created",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305577607",
+      "name": "Enviar pesquisa de satisfação",
+      "url": "https://app.pipefy.com/pipes/306589932/settings/automations/305577607"
+    }
+  }
+}

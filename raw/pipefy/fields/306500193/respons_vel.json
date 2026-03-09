@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "respons_vel",
+      "index": -200.0,
+      "internal_id": "415622501",
+      "label": "Responsável operacional pelo contrato",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "aeb5b2c1-0fa6-4f35-a2fa-c4ff96731c36"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

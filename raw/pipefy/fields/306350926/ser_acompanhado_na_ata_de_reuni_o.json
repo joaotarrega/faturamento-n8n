@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "ser_acompanhado_na_ata_de_reuni_o",
+      "internal_id": "414632892",
+      "label": "Será acompanhado na ata de reunião?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "334712b9-b8b1-4bba-9126-fae3de68f9ad"
+    }
+  },
+  "meta": {
+    "field_id": "ser_acompanhado_na_ata_de_reuni_o",
+    "pipe_id": "306350926",
+    "scope": "start_form"
+  }
+}

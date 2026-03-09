@@ -1,0 +1,53 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325644326",
+          "phaseField": {
+            "id": "cliente",
+            "internal_id": "415763017",
+            "label": "Cliente",
+            "uuid": "88b24a04-19b5-4414-9638-d203999f8fef"
+          },
+          "phaseFieldId": "415763017",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "314018922",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "415763017",
+            "id": "314018923",
+            "operation": "present",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311589252"
+      },
+      "id": "306068155",
+      "name": "Esconder cliente após criação do card",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306068155"
+    }
+  },
+  "meta": {
+    "pipe_id": "306500191",
+    "rule_id": "306068155",
+    "scope": "start_form"
+  }
+}

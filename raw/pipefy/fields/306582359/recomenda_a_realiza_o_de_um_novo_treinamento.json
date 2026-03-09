@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "recomenda_a_realiza_o_de_um_novo_treinamento",
+      "index": 200.0,
+      "internal_id": "417218747",
+      "label": "Recomenda a realização de um novo treinamento?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "cc0d01d2-1b82-4f63-ae10-63f0915a0a57"
+    }
+  },
+  "meta": {
+    "field_id": "recomenda_a_realiza_o_de_um_novo_treinamento",
+    "phase": {
+      "id": "339743667",
+      "name": "Avaliação",
+      "uuid": "4baf2b52-5337-4297-851b-78d5f6b74bb5"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

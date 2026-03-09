@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "analista_respons_vel",
+      "index": 0.0,
+      "internal_id": "416201329",
+      "label": "Analista responsável",
+      "options": [],
+      "required": false,
+      "type": "assignee_select",
+      "uuid": "61404f1b-5afd-4a53-9a04-ff190ecf198d"
+    }
+  },
+  "meta": {
+    "field_id": "analista_respons_vel",
+    "phase": {
+      "id": "339460333",
+      "name": "Em agendamento",
+      "uuid": "1cf038ab-fb75-46ee-b214-54de628150d3"
+    },
+    "pipe_id": "306533442",
+    "scope": "phase"
+  }
+}

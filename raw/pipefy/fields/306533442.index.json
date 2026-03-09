@@ -1,0 +1,65 @@
+{
+  "fields_by_phase_id": {
+    "339460333": [
+      "analista_respons_vel",
+      "data_e_hora_da_reuni_o",
+      "modalidade"
+    ],
+    "339460641": [
+      "data_e_hora_do_treinamento_reagendado",
+      "dura_o_do_treinamento_minutos",
+      "o_treinamento_foi_reagendado",
+      "observa_es_do_treinamento",
+      "participantes_1"
+    ]
+  },
+  "ids": [
+    "a_es_do_card_1_1",
+    "analista_respons_vel",
+    "analista_respons_vel_1",
+    "cliente",
+    "clique_aqui_para_treinamentos_feitos_a_redes",
+    "copy_of_a_es_do_card_1",
+    "data_e_hora_agendada",
+    "data_e_hora_da_reuni_o",
+    "data_e_hora_do_treinamento_reagendado",
+    "dura_o_do_treinamento_minutos",
+    "dura_o_do_treinamento_minutos_1",
+    "modalidade",
+    "modalidade_de_treinamento",
+    "motivo_do_treinamento",
+    "o_treinamento_foi_reagendado",
+    "observa_es",
+    "observa_es_do_treinamento",
+    "p_blico_alvo_do_treinamento",
+    "participantes_1",
+    "participantes_do_treinamento",
+    "rede",
+    "statement_c053e1fd_6755_4c3f_8c6e_898e67f296fc",
+    "tipo_de_treinamento",
+    "vers_o_do_saas"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306533442",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "a_es_do_card_1_1",
+    "analista_respons_vel_1",
+    "cliente",
+    "clique_aqui_para_treinamentos_feitos_a_redes",
+    "copy_of_a_es_do_card_1",
+    "data_e_hora_agendada",
+    "dura_o_do_treinamento_minutos_1",
+    "modalidade_de_treinamento",
+    "motivo_do_treinamento",
+    "observa_es",
+    "p_blico_alvo_do_treinamento",
+    "participantes_do_treinamento",
+    "rede",
+    "statement_c053e1fd_6755_4c3f_8c6e_898e67f296fc",
+    "tipo_de_treinamento",
+    "vers_o_do_saas"
+  ]
+}

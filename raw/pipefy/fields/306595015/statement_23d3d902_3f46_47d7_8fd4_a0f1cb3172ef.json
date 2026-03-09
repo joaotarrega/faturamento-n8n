@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Add flags de métricas </p>",
+      "help": null,
+      "id": "statement_23d3d902_3f46_47d7_8fd4_a0f1cb3172ef",
+      "index": 150.0,
+      "internal_id": "419353266",
+      "label": "Statement-23d3d902-3f46-47d7-8fd4-a0f1cb3172ef",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "0de482fd-fc61-4df8-93b6-7ff5efeee96a"
+    }
+  },
+  "meta": {
+    "field_id": "statement_23d3d902_3f46_47d7_8fd4_a0f1cb3172ef",
+    "phase": {
+      "id": "339812904",
+      "name": "Calculando o score",
+      "uuid": "2fcde8a6-5a26-4201-a6d9-8582739ee1de"
+    },
+    "pipe_id": "306595015",
+    "scope": "phase"
+  }
+}

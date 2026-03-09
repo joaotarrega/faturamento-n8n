@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de cobrança, basta inserir 5.",
+      "help": "",
+      "id": "valor_do_imposto_a_ser_isento_hospedagem",
+      "internal_id": "422751364",
+      "label": "Valor percentual do imposto a ser isento - Hospedagem",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "ccd7f0f3-7461-44d9-af27-b06e5d2386d8"
+    }
+  },
+  "meta": {
+    "field_id": "valor_do_imposto_a_ser_isento_hospedagem",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

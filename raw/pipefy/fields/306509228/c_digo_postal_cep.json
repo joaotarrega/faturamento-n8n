@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "c_digo_postal_cep",
+      "index": 1000.0,
+      "internal_id": "415745412",
+      "label": "Código postal (CEP/ZIP)",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "49c6a728-3cdb-4590-8a82-e8df27de4ae5"
+    }
+  },
+  "meta": {
+    "field_id": "c_digo_postal_cep",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "¿Qué tan satisfecho(a) quedó con este entrenamiento?",
+      "help": "",
+      "id": "qu_o_satisfeito_a_voc_ficou_com_este_treinamento",
+      "index": 650.0,
+      "internal_id": "417360314",
+      "label": "Quão satisfeito(a) você ficou com este treinamento?",
+      "options": [
+        "1 - Muito insatisfeito | Muy insatisfecho",
+        "2 - Insatisfeito | insatisfecho",
+        "3 - Neutro",
+        "4 - Satisfeito | Satisfecho",
+        "5 - Muito satisfeito | Muy satisfecho"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "898c168f-2e52-4549-8211-2a31c94010f4"
+    }
+  },
+  "meta": {
+    "field_id": "qu_o_satisfeito_a_voc_ficou_com_este_treinamento",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

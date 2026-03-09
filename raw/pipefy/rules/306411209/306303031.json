@@ -1,0 +1,141 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326700525",
+          "phaseField": {
+            "id": "atividades",
+            "internal_id": "414241189",
+            "label": "Atividades",
+            "uuid": "a2b3fc2a-be3a-48cb-aecb-df9a33d1442b"
+          },
+          "phaseFieldId": "414241189",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700527",
+          "phaseField": {
+            "id": "respons_vel",
+            "internal_id": "413744800",
+            "label": "Responsável",
+            "uuid": "446c8911-5ca0-478a-9a7a-c96271e64836"
+          },
+          "phaseFieldId": "413744800",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700528",
+          "phaseField": {
+            "id": "concorrente",
+            "internal_id": "416076234",
+            "label": "Concorrente",
+            "uuid": "6c285c31-5a37-47ea-a935-f5006e27c1f7"
+          },
+          "phaseFieldId": "416076234",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700529",
+          "phaseField": {
+            "id": "pms",
+            "internal_id": "416076236",
+            "label": "PMS",
+            "uuid": "275e4b75-dd58-4008-b756-694d902fbbb3"
+          },
+          "phaseFieldId": "416076236",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700530",
+          "phaseField": {
+            "id": "contatos_no_lead",
+            "internal_id": "415486050",
+            "label": "Contatos no lead",
+            "uuid": "18e67ead-6794-4131-a659-d60aa1b01ab9"
+          },
+          "phaseFieldId": "415486050",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700531",
+          "phaseField": {
+            "id": "reuni_o_de_descoberta_realizada",
+            "internal_id": "414304199",
+            "label": "Reunião de descoberta realizada?",
+            "uuid": "a79b1a91-6c0c-4663-8b83-ceaac162be73"
+          },
+          "phaseFieldId": "414304199",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700532",
+          "phaseField": {
+            "id": "o_cliente_demonstrou_interesse",
+            "internal_id": "414304221",
+            "label": "O cliente demonstrou interesse?",
+            "uuid": "039a94ca-9445-40d4-8b15-ea5aeb25b47e"
+          },
+          "phaseFieldId": "414304221",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700533",
+          "phaseField": {
+            "id": "notas_da_reuni_o",
+            "internal_id": "414304339",
+            "label": "Anotações da reunião e próximos passos",
+            "uuid": "6266313b-c280-4d14-a151-3505f781d261"
+          },
+          "phaseFieldId": "414304339",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326700749",
+          "phaseField": {
+            "id": "proposta_enviada_ao_cliente",
+            "internal_id": "415631122",
+            "label": "Proposta enviada ao cliente",
+            "uuid": "fc4d9cf4-4452-4279-bf4b-22a3d244b941"
+          },
+          "phaseFieldId": "415631122",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "421734180",
+            "id": "314802819",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Esse cliente é da rede Atrio"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312322272"
+      },
+      "id": "306303031",
+      "name": "Fluxo rápido = Atrio",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/form/conditionals/306303031"
+    }
+  },
+  "meta": {
+    "pipe_id": "306411209",
+    "rule_id": "306303031",
+    "scope": "start_form"
+  }
+}

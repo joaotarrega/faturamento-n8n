@@ -1,0 +1,29 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Impacto estratégico",
+      "help": null,
+      "id": "impacto_estrat_gico",
+      "internal_id": "417812915",
+      "label": "Impacto Estratégico",
+      "options": [
+        "Alto",
+        "Médio",
+        "Baixo"
+      ],
+      "required": true,
+      "type": "select",
+      "uuid": "7d13b6c7-7857-4ae1-82d0-adc7115d97c9"
+    }
+  },
+  "meta": {
+    "field_id": "impacto_estrat_gico",
+    "pipe_id": "306612370",
+    "scope": "start_form"
+  }
+}

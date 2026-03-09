@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Padrão: 3",
+      "help": "",
+      "id": "saas_parcelas_de_setup",
+      "index": 85.9375,
+      "internal_id": "415395534",
+      "label": "SaaS - Parcelas de setup",
+      "options": [],
+      "required": true,
+      "type": "number",
+      "uuid": "0799c54e-c24a-4718-919c-5cb53fd2e2a8"
+    }
+  },
+  "meta": {
+    "field_id": "saas_parcelas_de_setup",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

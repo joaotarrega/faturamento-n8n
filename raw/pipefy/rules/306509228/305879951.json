@@ -1,0 +1,96 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324793995",
+          "phaseField": {
+            "id": "tipo_de_identificador_fiscal",
+            "internal_id": "415745309",
+            "label": "Tipo de identificador fiscal",
+            "uuid": "0b24acd0-d988-42c8-98a9-81073d504a30"
+          },
+          "phaseFieldId": "415745309",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324793996",
+          "phaseField": {
+            "id": "identificador_fiscal_fora_do_brasil",
+            "internal_id": "415745318",
+            "label": "Identificador fiscal",
+            "uuid": "79dfa50a-c08a-4335-80ad-d4135fec7faa"
+          },
+          "phaseFieldId": "415745318",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324899926",
+          "phaseField": {
+            "id": "n_mero_de_identidad_testo",
+            "internal_id": "416052076",
+            "label": "Número de identidad testigo",
+            "uuid": "c6558fe9-9a3c-49df-b252-1157fc7e8771"
+          },
+          "phaseFieldId": "416052076",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324899927",
+          "phaseField": {
+            "id": "n_mero_de_identidad_responsable_firma",
+            "internal_id": "416052028",
+            "label": "Número de identidad responsable firma",
+            "uuid": "f3c6dfd0-0cc5-4e02-8ebc-e7e762ee5bd2"
+          },
+          "phaseFieldId": "416052028",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415744525",
+            "id": "313354526",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Brasil"
+          },
+          {
+            "field_address": "415744525",
+            "id": "313354527",
+            "operation": "blank",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "310977148"
+      },
+      "id": "305879951",
+      "name": "País = Brasil | Em branco",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/phases/339322139/conditionals/305879951"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "rule_id": "305879951",
+    "scope": "phase"
+  }
+}

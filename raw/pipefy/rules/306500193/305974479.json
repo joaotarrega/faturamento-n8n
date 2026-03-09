@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325202214",
+          "phaseField": {
+            "id": "contrato_preechido_com_os_dados_do_cliente",
+            "internal_id": "415630846",
+            "label": "Contrato preechido com os dados do cliente (.docx)",
+            "uuid": "afd80c3c-ab01-4e97-bce6-447a2eb6a76d"
+          },
+          "phaseFieldId": "415630846",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "417120153",
+            "id": "313684107",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Selecione essa opção caso o cliente já tenha enviado o documento assinado"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311304455"
+      },
+      "id": "305974479",
+      "name": "Cliente já enviou documento assinado",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269435/conditionals/305974479"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269435",
+      "name": "Elaboração",
+      "uuid": "e2408ae0-d2a8-417c-a8a9-a76d609fb784"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305974479",
+    "scope": "phase"
+  }
+}

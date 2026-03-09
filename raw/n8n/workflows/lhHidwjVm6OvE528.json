@@ -1,0 +1,928 @@
+{
+  "active": false,
+  "connections": {
+    "Busca Cliente CA": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Verificar CA",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Erro: consulta CA",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Consultar regra FIN-01": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Criar Cliente",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Erro: consulta regra falhou",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Criar Cliente": {
+      "main": [
+        [],
+        [
+          {
+            "index": 0,
+            "node": "Erro: criação falhou",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Dados estão diferentes?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "PATCH Cliente - Todos os dados",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "No Operation, do nothing",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Origem": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Criar Cliente",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Consultar regra FIN-01",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Origem2": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Dados estão diferentes?",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Valor Mudou?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "PATCH Cliente - Todos os dados": {
+      "main": [
+        [],
+        [
+          {
+            "index": 0,
+            "node": "Erro: patch CA falhou",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "PATCH Cliente - Variáveis alteradas": {
+      "main": [
+        [],
+        [
+          {
+            "index": 0,
+            "node": "Erro: patch CA falhou",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Valor Mudou?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "PATCH Cliente - Variáveis alteradas",
+            "type": "main"
+          }
+        ],
+        []
+      ]
+    },
+    "Variáveis": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Busca Cliente CA",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Verificar CA": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Origem",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Origem2",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Erro: multiplos resultados",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Variáveis",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-18T21:03:09.961Z",
+  "id": "lhHidwjVm6OvE528",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Validação \"Cliente\" Conta Azul",
+  "nodes": [
+    {
+      "id": "c88c6899-17c5-4461-a973-50003e536bf8",
+      "name": "Variáveis",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fe74b46f-c817-4bb8-8fbe-b1b42311d27d",
+              "name": "idRegra",
+              "type": "string",
+              "value": "={{ $json.body.data.card.id }}{{ $json.idRegra }}"
+            },
+            {
+              "id": "1a657222-bd4c-4603-a6b5-d3e43cea3d8b",
+              "name": "campo_alterado_id",
+              "type": "string",
+              "value": "={{ $json.body.data.field.id }}"
+            },
+            {
+              "id": "896332f8-2fe3-4f91-9ff9-48b5abe28a44",
+              "name": "campo_alterado_label",
+              "type": "string",
+              "value": "={{ $json.body.data.field.label }}"
+            },
+            {
+              "id": "3b0f3d36-a30d-474c-9dd2-45514a6b887e",
+              "name": "novo_valor",
+              "type": "string",
+              "value": "={{ $json.body.data.new_value }}"
+            },
+            {
+              "id": "d7710c77-62c8-459d-95cb-b1de710b86ea",
+              "name": "nova_fase",
+              "type": "string",
+              "value": "={{ $json.body.data.to?.name }}"
+            },
+            {
+              "id": "81eb1810-d0ee-4480-9f22-4dcc91f08e1c",
+              "name": "fase_anterior",
+              "type": "string",
+              "value": "={{ $json.body.data.from?.name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -2288,
+        -576
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "oEUC1Ap6WtxXEuUt",
+          "name": "Conta Azul"
+        }
+      },
+      "id": "0e0fb00d-c6dd-49ba-b9bd-78eb0e1e5986",
+      "name": "Criar Cliente",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "body": "={\n  \"codigo\": \"{{ String($('Variáveis').item.json.idRegra) }}\",\n  \"tipo_pessoa\": \"Jurídica\",\n  \"perfis\": [{ \"tipo_perfil\": \"Cliente\" }],\n  \"nome\": \"{{ $('When Executed by Another Workflow').item.json.nome }}\",\n  \"cnpj\": \"{{ $('When Executed by Another Workflow').item.json.cnpjFaturamento }}\",\n  \"email\": \"{{ $('When Executed by Another Workflow').item.json.email }}\"\n}",
+        "contentType": "raw",
+        "genericAuthType": "oAuth2Api",
+        "method": "POST",
+        "options": {},
+        "rawContentType": "application/json",
+        "sendBody": true,
+        "url": "https://api-v2.contaazul.com/v1/pessoas"
+      },
+      "position": [
+        -1168,
+        -1184
+      ],
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2
+    },
+    {
+      "id": "48c539ce-b440-464c-a617-5b1a03e0ec1f",
+      "name": "Valor Mudou?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "diff_check",
+              "leftValue": "={{ \n  $('Variáveis').item.json.campo_alterado_id\n    ? String($('Variáveis').item.json.novo_valor ?? '')\n    : (\n        ['Ativo','Inativo'].includes($('Variáveis').item.json.nova_fase)\n          ? String($('Variáveis').item.json.nova_fase === 'Ativo')\n          : String($json.items[0].ativo)\n      )\n}}",
+              "operator": {
+                "name": "filter.operator.notEquals",
+                "operation": "notEquals",
+                "type": "string"
+              },
+              "rightValue": "={{ \n  $('Variáveis').item.json.campo_alterado_id\n    ? String($json.items[0][ $('Variáveis').item.json.campo_alterado_id === 'nome' ? 'nome' : 'documento' ] ?? '')\n    : String($json.items[0].ativo)\n}}"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -1392,
+        -592
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "oEUC1Ap6WtxXEuUt",
+          "name": "Conta Azul"
+        }
+      },
+      "id": "70a93f43-e003-4386-bafb-8de5872e2501",
+      "maxTries": 5,
+      "name": "Busca Cliente CA",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {},
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "tipo_perfil",
+              "value": "=Cliente"
+            },
+            {
+              "name": "codigos_pessoa",
+              "value": "={{ $('Variáveis').item.json.idRegra }}"
+            }
+          ]
+        },
+        "sendQuery": true,
+        "url": "https://api-v2.contaazul.com/v1/pessoas"
+      },
+      "position": [
+        -2064,
+        -576
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "d329b0b9-cfd1-428a-9677-d6e42835e9d9",
+      "name": "Verificar CA",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "184b9e22-1d07-4404-9844-3c66f68c3722",
+                    "leftValue": "={{ $json.items ? $json.items.length : 0 }}",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "operation": "equals",
+                      "type": "number"
+                    },
+                    "rightValue": 0
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Criar",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c1f6c4c9-8d77-497d-b5b6-7649516624c9",
+                    "leftValue": "={{ $json.items ? $json.items.length : 0 }}",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "operation": "equals",
+                      "type": "number"
+                    },
+                    "rightValue": 1
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Verificar Diff",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "e0b5030e-5a1e-42b7-a36c-941c4a005c31",
+                    "leftValue": "={{ $json.items ? $json.items.length : 0 }}",
+                    "operator": {
+                      "name": "filter.operator.gt",
+                      "operation": "gt",
+                      "type": "number"
+                    },
+                    "rightValue": 1
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Erro",
+              "renameOutput": true
+            }
+          ]
+        }
+      },
+      "position": [
+        -1840,
+        -704
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "id": "ca1572b7-c066-4143-980f-846924123f75",
+      "name": "Erro: consulta CA",
+      "parameters": {
+        "errorMessage": "Erro: Consulta do cliente na conta azul"
+      },
+      "position": [
+        -1840,
+        -480
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "effe3b2d-049a-4c8b-818e-dc27315aedbb",
+      "name": "When Executed by Another Workflow",
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "idRegra"
+            },
+            {
+              "name": "cnpjFaturamento"
+            },
+            {
+              "name": "nome"
+            },
+            {
+              "name": "email"
+            }
+          ]
+        }
+      },
+      "position": [
+        -2512,
+        -576
+      ],
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1
+    },
+    {
+      "id": "b5459270-c46d-4276-925c-a5990468eb2a",
+      "name": "Dados estão diferentes?",
+      "parameters": {
+        "conditions": {
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "diff_check",
+              "leftValue": "={{ String($('Verificar CA').item.json.items[0].nome ?? '').trim() }}",
+              "operator": {
+                "name": "filter.operator.notEquals",
+                "operation": "notEquals",
+                "type": "string"
+              },
+              "rightValue": "={{ $('When Executed by Another Workflow').item.json.nome }}"
+            },
+            {
+              "id": "05680887-9a9f-4cc0-b83a-d5bc87a76cf9",
+              "leftValue": "={{ String($('Verificar CA').item.json.items[0].documento ?? '').replace(/[.\\-\\/]/g,'').trim() }}",
+              "operator": {
+                "operation": "notEquals",
+                "type": "string"
+              },
+              "rightValue": "={{ String($('When Executed by Another Workflow').item.json.cnpjFaturamento ?? '').replace(/[.\\-\\/]/g, '').trim() }}"
+            },
+            {
+              "id": "492fd1d2-4a80-4326-84a3-4cef6d8aecb0",
+              "leftValue": "String($('Verificar CA').item.json.items[0].email ?? '').trim()",
+              "operator": {
+                "operation": "notEquals",
+                "type": "string"
+              },
+              "rightValue": "String($('When Executed by Another Workflow').item.json.email ?? '').trim()"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -1392,
+        -784
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "oEUC1Ap6WtxXEuUt",
+          "name": "Conta Azul"
+        }
+      },
+      "id": "2f88942c-e569-4cd2-9f5f-e21c49b4ab32",
+      "name": "PATCH Cliente - Variáveis alteradas",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "body": "={{ JSON.stringify((() => {\n  const v = $('Variáveis').item.json;\n\n  // Campo (exclusivo)\n  if (v.campo_alterado_id === 'nome') return { nome: v.novo_valor };\n  if (v.campo_alterado_id === 'cnpj') return { cnpj: v.novo_valor };\n  if (v.campo_alterado_id === 'email') return { email: v.novo_valor };\n\n  // Fase (exclusivo) -> inativar/ativar via \"ativo\" boolean\n  if (['Ativo', 'Inativo'].includes(v.nova_fase)) {\n    return { ativo: v.nova_fase === 'Ativo' };\n  }\n\n  return {};\n})()) }}",
+        "contentType": "raw",
+        "genericAuthType": "oAuth2Api",
+        "method": "PATCH",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "rawContentType": "application/json",
+        "sendBody": true,
+        "url": "={{ 'https://api-v2.contaazul.com/v1/pessoas/' + $json.items[0].id }}"
+      },
+      "position": [
+        -1168,
+        -592
+      ],
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "oEUC1Ap6WtxXEuUt",
+          "name": "Conta Azul"
+        }
+      },
+      "id": "87bbc5be-93e6-4474-9c0a-4aafc694bcf7",
+      "name": "PATCH Cliente - Todos os dados",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "body": "={{ JSON.stringify({\n  nome: $('When Executed by Another Workflow').item.json.nome,\n  cnpj: $('When Executed by Another Workflow').item.json.cnpjFaturamento,\n  email: $('When Executed by Another Workflow').item.json.email\n}) }}",
+        "contentType": "raw",
+        "genericAuthType": "oAuth2Api",
+        "method": "PATCH",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "rawContentType": "application/json",
+        "sendBody": true,
+        "url": "={{ 'https://api-v2.contaazul.com/v1/pessoas/' + $json.items[0].id }}"
+      },
+      "position": [
+        -1168,
+        -784
+      ],
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2
+    },
+    {
+      "id": "af1172c9-ddaf-4620-a0b5-ff3139ffd28c",
+      "name": "Erro: criação falhou",
+      "parameters": {
+        "errorMessage": "Criação do cliente na conta azul falhou"
+      },
+      "position": [
+        -944,
+        -1184
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "c5ca24b0-e350-4246-a0a6-59bceee39c36",
+      "name": "Erro: multiplos resultados",
+      "parameters": {
+        "errorMessage": "Mais de um cliente encontrado com o mesmo código Pipefy."
+      },
+      "position": [
+        -1616,
+        -496
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "98a118cc-ac03-46b1-9992-e982300d7a8d",
+      "maxTries": 5,
+      "name": "Consultar regra FIN-01",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "operationName": "=",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    title\n    \n    # --- Added Phase Information ---\n    current_phase {\n      id\n      name\n    }\n    \n    # --- Other useful card-level fields (uncomment if needed) ---\n    # due_date\n    # url\n    # created_at\n    # assignees { id name }\n\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value          # human-readable value\n      report_value   # normalized value\n      array_value\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.idRegra }}\"\n}"
+      },
+      "position": [
+        -1392,
+        -1024
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "2d698629-f8fd-4f28-bb09-0646078cb8bd",
+      "name": "Erro: patch CA falhou",
+      "parameters": {
+        "errorMessage": "Erro na atualização do cliente na CA"
+      },
+      "position": [
+        -944,
+        -688
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "f707de6d-0c0e-4d37-8f93-42fbd65d18bb",
+      "name": "Origem",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "0a748587-5d13-4187-a7d8-c3fe5cc730f0",
+                    "leftValue": "={{ $(\"When Executed by Another Workflow\").isExecuted }}",
+                    "operator": {
+                      "operation": "true",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Workflow",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "f5cbcaf2-2553-445e-9c9e-3978b0160697",
+                    "leftValue": "={{ $(\"When Executed by Another Workflow\").isExecuted }}",
+                    "operator": {
+                      "operation": "false",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Pipe",
+              "renameOutput": true
+            }
+          ]
+        }
+      },
+      "position": [
+        -1616,
+        -1104
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "id": "617bbd18-d376-45ca-a39d-3ef17a5dbd13",
+      "name": "Origem2",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "0a748587-5d13-4187-a7d8-c3fe5cc730f0",
+                    "leftValue": "={{ $(\"When Executed by Another Workflow\").isExecuted }}",
+                    "operator": {
+                      "operation": "true",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Workflow",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "f5cbcaf2-2553-445e-9c9e-3978b0160697",
+                    "leftValue": "={{ $(\"When Executed by Another Workflow\").isExecuted }}",
+                    "operator": {
+                      "operation": "false",
+                      "singleValue": true,
+                      "type": "boolean"
+                    },
+                    "rightValue": ""
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Pipe",
+              "renameOutput": true
+            }
+          ]
+        }
+      },
+      "position": [
+        -1616,
+        -688
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "id": "905ba6de-14c1-4c56-a963-16276c477646",
+      "name": "Erro: consulta regra falhou",
+      "parameters": {
+        "errorMessage": "Erro na consulta da regra de faturamento"
+      },
+      "position": [
+        -1168,
+        -976
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "01666cd9-010a-4d5a-ae2d-f9c988513724",
+      "name": "No Operation, do nothing",
+      "parameters": {},
+      "position": [
+        -1216,
+        -288
+      ],
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1
+    },
+    {
+      "id": "3ce4b991-f98a-4d30-a90d-0fc1ac10d8be",
+      "name": "Sticky Note3",
+      "parameters": {
+        "content": "# Os \"clientes\" no Conta Azul são diferentes do Pipefy. Eles são reflexo das regras, e não dos clientes no DB-01.\n\nDessa forma, precisamos usar os dados das regras:\n- ID do card de regra de faturamento\n- CNPJ de faturamento\n- Nome de cobrança\n\n",
+        "height": 400,
+        "width": 416
+      },
+      "position": [
+        -2688,
+        -1072
+      ],
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v1",
+    "timeSavedPerExecution": 3
+  },
+  "shared": [
+    {
+      "createdAt": "2025-12-18T21:03:09.961Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2025-12-18T21:03:09.961Z",
+      "workflowId": "lhHidwjVm6OvE528"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2026-02-25T17:54:21.096Z",
+  "versionId": "19ad400e-0d95-4598-8944-082bfa105ba8"
+}

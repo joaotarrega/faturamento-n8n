@@ -1,0 +1,36 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "motivo_de_churn",
+      "index": 200.0,
+      "internal_id": "418433585",
+      "label": "Motivo de churn",
+      "options": [
+        "Usabilidade",
+        "Preço",
+        "Nova administração",
+        "Outro"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "4f6643df-e5d5-44a5-ada6-4079e178f74a"
+    }
+  },
+  "meta": {
+    "field_id": "motivo_de_churn",
+    "phase": {
+      "id": "340088247",
+      "name": "Retenção",
+      "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "fields_by_phase_id": {
+    "339912150": [
+      "anexos_relevantes",
+      "complexidade_estimada",
+      "data_de_submiss_o",
+      "respons_vel_pela_submiss_o"
+    ],
+    "339912151": [
+      "coment_rios_da_avalia_o",
+      "crit_rios_de_avalia_o",
+      "data_de_avalia_o",
+      "respons_vel_pela_avalia_o",
+      "resultado_da_avalia_o"
+    ],
+    "339912152": [
+      "data_de_in_cio_do_planejamento",
+      "objetivo_do_planejamento",
+      "prazo_para_conclus_o",
+      "recursos_necess_rios",
+      "respons_vel_pelo_planejamento"
+    ],
+    "339912153": [
+      "data_de_cria_o_do_prot_tipo",
+      "feedback_inicial",
+      "prot_tipo_nome",
+      "respons_vel_pelo_prot_tipo",
+      "status_do_prot_tipo"
+    ],
+    "339912154": [
+      "development_stage",
+      "development_team_members",
+      "estimated_development_cost",
+      "expected_completion_date",
+      "key_development_milestones"
+    ],
+    "339912155": [
+      "production_budget",
+      "production_challenges",
+      "production_manager",
+      "production_milestones",
+      "production_start_date"
+    ]
+  },
+  "ids": [
+    "anexos_relevantes",
+    "coment_rios_da_avalia_o",
+    "complexidade_estimada",
+    "crit_rios_de_avalia_o",
+    "data_de_avalia_o",
+    "data_de_cria_o_do_prot_tipo",
+    "data_de_in_cio_do_planejamento",
+    "data_de_submiss_o",
+    "descri_o_da_ideia",
+    "development_stage",
+    "development_team_members",
+    "estimated_development_cost",
+    "expected_completion_date",
+    "feedback_inicial",
+    "impacto_esperado",
+    "impacto_estrat_gico",
+    "key_development_milestones",
+    "modelo_de_pre_o",
+    "nome_da_ideia",
+    "objetivo_do_planejamento",
+    "observa_es",
+    "p_blico_alvo",
+    "prazo_para_conclus_o",
+    "prioridade",
+    "production_budget",
+    "production_challenges",
+    "production_manager",
+    "production_milestones",
+    "production_start_date",
+    "proponente",
+    "prot_tipo_nome",
+    "recursos_necess_rios",
+    "respons_vel_pela_avalia_o",
+    "respons_vel_pela_submiss_o",
+    "respons_vel_pelo_planejamento",
+    "respons_vel_pelo_prot_tipo",
+    "resultado_da_avalia_o",
+    "status",
+    "status_do_prot_tipo",
+    "tipo"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306612370",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "descri_o_da_ideia",
+    "impacto_esperado",
+    "impacto_estrat_gico",
+    "modelo_de_pre_o",
+    "nome_da_ideia",
+    "observa_es",
+    "p_blico_alvo",
+    "prioridade",
+    "proponente",
+    "status",
+    "tipo"
+  ]
+}

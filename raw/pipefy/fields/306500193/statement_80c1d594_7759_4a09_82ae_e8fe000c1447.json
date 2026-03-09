@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h2>Observações da negociação</h2>\n<p><strong>{{phase339269433.field415597983.field415395678}}</strong></p>",
+      "help": null,
+      "id": "statement_80c1d594_7759_4a09_82ae_e8fe000c1447",
+      "index": -0.390625,
+      "internal_id": "415633685",
+      "label": "Statement-80c1d594-7759-4a09-82ae-e8fe000c1447",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "69695603-805a-4e1f-a1e2-47a85b9cac53"
+    }
+  },
+  "meta": {
+    "field_id": "statement_80c1d594_7759_4a09_82ae_e8fe000c1447",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "pa_s",
+      "index": 300.0,
+      "internal_id": "415744525",
+      "label": "País",
+      "options": [
+        "Argentina",
+        "Bolívia",
+        "Brasil",
+        "Chile",
+        "Colômbia",
+        "Equador",
+        "Paraguai",
+        "Peru",
+        "Uruguai",
+        "Venezuela",
+        "México"
+      ],
+      "required": true,
+      "type": "select",
+      "uuid": "f33f5278-ff51-445c-a4e7-552d4edc1531"
+    }
+  },
+  "meta": {
+    "field_id": "pa_s",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

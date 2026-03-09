@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Defina o prazo final para a conclusão do planejamento.",
+      "help": null,
+      "id": "prazo_para_conclus_o",
+      "index": 2.0,
+      "internal_id": "417812941",
+      "label": "Prazo para Conclusão",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "3a2a9a52-65cd-4db1-b8a1-5f668a9fa457"
+    }
+  },
+  "meta": {
+    "field_id": "prazo_para_conclus_o",
+    "phase": {
+      "id": "339912152",
+      "name": "Planejamento",
+      "uuid": "fdf776f9-595c-4d42-87c3-de45cd4d3a2c"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "send_http_request",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": "",
+        "authenticationType": "oauth2",
+        "body": "{\"query\": \"mutation { moveCardToPhase( input: { card_id:\\\"%{417644326.id}\\\", destination_phase_id: \\\"339039672\\\" } ) { card { id current_phase { id } } } }\"\n}",
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": "POST",
+        "strategy": null,
+        "to_phase_id": null,
+        "url": "https://api.pipefy.com/graphql"
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312132423"
+      },
+      "created_at": "2025-10-28 19:25:26 UTC",
+      "event_id": "card_moved",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": "340088329",
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305940494",
+      "name": "Mover card do DB-01 para fase churn",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940494"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324662696",
+          "phaseField": {
+            "id": "saas_valor_fixo_mensal",
+            "internal_id": "414593514",
+            "label": "SaaS - Modelo fixo - Valor mensal (BRL)",
+            "uuid": "83faae53-32e8-4776-8007-a8b6d1f6132d"
+          },
+          "phaseFieldId": "414593514",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324834228",
+          "phaseField": {
+            "id": "copy_of_saas_modelo_fixo_valor_mensal_brl",
+            "internal_id": "415903234",
+            "label": "SaaS - Modelo fixo - Valor mensal (USD)",
+            "uuid": "38ca7025-e041-4677-bb02-906f48007b3a"
+          },
+          "phaseFieldId": "415903234",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415348173",
+            "id": "313278366",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Fixo"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310906547"
+      },
+      "id": "305855343",
+      "name": "Modelo SaaS != Fixo",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/305855343"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "305855343",
+    "scope": "phase"
+  }
+}

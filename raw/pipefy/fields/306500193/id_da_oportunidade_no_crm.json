@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_da_oportunidade_no_crm",
+      "internal_id": "415600097",
+      "label": "ID da oportunidade no CRM",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "3fe5dc2e-7fc2-40fe-a77a-9fb249a9cbfe"
+    }
+  },
+  "meta": {
+    "field_id": "id_da_oportunidade_no_crm",
+    "pipe_id": "306500193",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "respons_vel",
+      "index": 0.0,
+      "internal_id": "414856087",
+      "label": "Responsável pela preparação",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "96739c65-f8da-4745-a5b1-ef13b2df3168"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel",
+    "phase": {
+      "id": "339069570",
+      "name": "Preparação",
+      "uuid": "52fb420f-b70d-44c7-9ea1-51f35eaa4d39"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

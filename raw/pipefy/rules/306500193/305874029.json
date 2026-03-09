@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324766343",
+          "phaseField": {
+            "id": "copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+            "internal_id": "415633412",
+            "label": "Copy of Statement-45f6a270-21e5-43c1-8c70-dc4246575fa6",
+            "uuid": "b9021535-b1c6-4587-b6c3-c50d2dcd6946"
+          },
+          "phaseFieldId": "415633412",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.414591148",
+            "id": "313333129",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Cross-selling"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310951399"
+      },
+      "id": "305874029",
+      "name": "Produto != Cross",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269434/conditionals/305874029"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305874029",
+    "scope": "phase"
+  }
+}

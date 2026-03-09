@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<h1>Informações da empresa</h1>\n<p>Información de la empresa</p>\n<p> </p>",
+      "help": "",
+      "id": "statement_ade9331f_dcdb_4be4_8523_81755efc2c5e",
+      "index": 0.0,
+      "internal_id": "415743511",
+      "label": "Statement-ade9331f-dcdb-4be4-8523-81755efc2c5e",
+      "options": [],
+      "required": false,
+      "type": "statement",
+      "uuid": "5f9fa3ec-a94f-40f5-ad7d-9cf62d96ba7b"
+    }
+  },
+  "meta": {
+    "field_id": "statement_ade9331f_dcdb_4be4_8523_81755efc2c5e",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

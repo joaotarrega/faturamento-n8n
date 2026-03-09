@@ -1,0 +1,78 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327549416",
+          "phaseField": {
+            "id": "copy_of_a_es_do_card_1",
+            "internal_id": "425095747",
+            "label": "Ações do card (2)",
+            "uuid": "71e49dac-36ae-4b1c-9468-f77b6714fa62"
+          },
+          "phaseFieldId": "425095747",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "417248989",
+            "id": "315433542",
+            "operation": "blank",
+            "structure_id": "11",
+            "value": ""
+          },
+          {
+            "field_address": "416230334",
+            "id": "315433543",
+            "operation": "equals",
+            "structure_id": "12",
+            "value": ""
+          },
+          {
+            "field_address": "416258135",
+            "id": "315433544",
+            "operation": "equals",
+            "structure_id": "13",
+            "value": "Clique aqui para indicar a nova data de realização"
+          },
+          {
+            "field_address": "416258157",
+            "id": "315433545",
+            "operation": "blank",
+            "structure_id": "14",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "13",
+            "14"
+          ],
+          [
+            "12"
+          ],
+          [
+            "11"
+          ]
+        ],
+        "id": "312930694"
+      },
+      "id": "306490413",
+      "name": "Campos de agendado != preenchidos",
+      "url": "https://app.pipefy.com/pipes/306533442/settings/phases/339460641/conditionals/306490413"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339460641",
+      "name": "Agendado",
+      "uuid": "0868274a-4d0a-4145-aec6-08c676983033"
+    },
+    "pipe_id": "306533442",
+    "rule_id": "306490413",
+    "scope": "phase"
+  }
+}

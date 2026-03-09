@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325761053",
+          "phaseField": {
+            "id": "data_e_hora_da_reuni_o_p_s_implanta_o",
+            "internal_id": "416203969",
+            "label": "Data e hora da reunião de pós-treinamento",
+            "uuid": "e9065b16-8891-48e8-b786-dd7c1527d771"
+          },
+          "phaseFieldId": "416203969",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "425089642",
+            "id": "314100340",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Reunião adicional"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311672265"
+      },
+      "id": "306095318",
+      "name": "Ações adicionais != Reunião",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/306095318"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "rule_id": "306095318",
+    "scope": "phase"
+  }
+}

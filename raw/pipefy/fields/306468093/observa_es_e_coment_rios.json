@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Por exemplo, caso o nome de exibição seja diferente do nome do cliente, indique neste campo.",
+      "help": null,
+      "id": "observa_es_e_coment_rios",
+      "internal_id": "414921473",
+      "label": "Observações",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "155dc6f4-0e10-4285-81a0-8d10a9c56656"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_e_coment_rios",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324766345",
+          "phaseField": {
+            "id": "copy_of_copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+            "internal_id": "415633467",
+            "label": "Copy of Copy of Statement-45f6a270-21e5-43c1-8c70-dc4246575fa6",
+            "uuid": "0243fda5-71f0-4977-9dc6-77b6999912ca"
+          },
+          "phaseFieldId": "415633467",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.414591148",
+            "id": "313333130",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Marketplace - Canal direto"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310951400"
+      },
+      "id": "305874030",
+      "name": "Produto != Marketplace canal direto",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269434/conditionals/305874030"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305874030",
+    "scope": "phase"
+  }
+}

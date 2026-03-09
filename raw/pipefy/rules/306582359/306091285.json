@@ -1,0 +1,62 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325744088",
+          "phaseField": {
+            "id": "telefone_do_cliente",
+            "internal_id": "418415858",
+            "label": "Telefone do cliente",
+            "uuid": "b92afcce-caf0-4b5b-99c3-684407b23f46"
+          },
+          "phaseFieldId": "418415858",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325744110",
+          "phaseField": {
+            "id": "data_da_liga_o",
+            "internal_id": "418715937",
+            "label": "Data da ligação",
+            "uuid": "afcca906-7481-429a-b238-35ac040c4dee"
+          },
+          "phaseFieldId": "418715937",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418715851",
+            "id": "314088624",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311659665"
+      },
+      "id": "306091285",
+      "name": "Conseguiu contato telefônico != Sim",
+      "url": "https://app.pipefy.com/pipes/306582359/settings/phases/339743665/conditionals/306091285"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339743665",
+      "name": "Contato",
+      "uuid": "35a16b83-bd9f-4996-936b-e875d8e8b1a6"
+    },
+    "pipe_id": "306582359",
+    "rule_id": "306091285",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "e_mail_de_quem_ir_receber_a_ficha_cadastral",
+      "index": 172.875,
+      "internal_id": "415599286",
+      "label": "E-mail de quem irá receber a ficha cadastral",
+      "options": [],
+      "required": true,
+      "type": "email",
+      "uuid": "c495d0ef-c937-47bc-a666-03d67e766825"
+    }
+  },
+  "meta": {
+    "field_id": "e_mail_de_quem_ir_receber_a_ficha_cadastral",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

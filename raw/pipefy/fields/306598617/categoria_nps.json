@@ -1,0 +1,35 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "categoria_nps",
+      "index": -6.25,
+      "internal_id": "418533984",
+      "label": "Categoria NPS",
+      "options": [
+        "Promotor (9 ou 10)",
+        "Neutro (7 ou 8)",
+        "Detrator (6 ou menos)"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "2e59acbd-8ca9-4d7d-a96e-a988f491a734"
+    }
+  },
+  "meta": {
+    "field_id": "categoria_nps",
+    "phase": {
+      "id": "339833261",
+      "name": "Análise",
+      "uuid": "e840dab3-9592-447c-bcb6-10352b5509fc"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

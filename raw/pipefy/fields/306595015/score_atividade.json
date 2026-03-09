@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "score_atividade",
+      "index": -12.5,
+      "internal_id": "419305982",
+      "label": "Score - Atividade",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "f8fefd06-07e7-4ed1-a9db-b8a570bde425"
+    }
+  },
+  "meta": {
+    "field_id": "score_atividade",
+    "phase": {
+      "id": "339812904",
+      "name": "Calculando o score",
+      "uuid": "2fcde8a6-5a26-4201-a6d9-8582739ee1de"
+    },
+    "pipe_id": "306595015",
+    "scope": "phase"
+  }
+}

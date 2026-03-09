@@ -1,0 +1,53 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "325878234",
+          "phaseField": {
+            "id": "cliente",
+            "internal_id": "417357577",
+            "label": "Cliente",
+            "uuid": "844caea7-095f-42d3-afed-a888a721a3ba"
+          },
+          "phaseFieldId": "417357577",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "314019004",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "417357577",
+            "id": "314019005",
+            "operation": "present",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311589332"
+      },
+      "id": "306068169",
+      "name": "Esconder cliente após preenchimento",
+      "url": "https://app.pipefy.com/pipes/306589932/settings/form/conditionals/306068169"
+    }
+  },
+  "meta": {
+    "pipe_id": "306589932",
+    "rule_id": "306068169",
+    "scope": "start_form"
+  }
+}

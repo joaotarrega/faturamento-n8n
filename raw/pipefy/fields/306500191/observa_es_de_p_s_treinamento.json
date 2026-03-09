@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Indique informações como:\n- Status do relacionamento com o cliente\n- Motivo de não ocorrer passagem de bastão ou outras ações\n- Reuniões adicionais que ocorreram\n- Qualquer informação relevante envolvendo o cliente",
+      "help": "",
+      "id": "observa_es_de_p_s_treinamento",
+      "index": 400.0,
+      "internal_id": "424984952",
+      "label": "Observações de pós-treinamento",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "aabffdbc-1521-4c16-b90d-fd3e9a8d2591"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_de_p_s_treinamento",
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

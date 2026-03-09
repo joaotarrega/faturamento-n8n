@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "a_es_aplicadas_ap_s_treinamento",
+      "index": -87.5,
+      "internal_id": "425089642",
+      "label": "Ações aplicadas após treinamento",
+      "options": [
+        "Reunião adicional",
+        "Email"
+      ],
+      "required": false,
+      "type": "checklist_horizontal",
+      "uuid": "213746b1-5e14-4dd1-aaeb-8af965d7f57c"
+    }
+  },
+  "meta": {
+    "field_id": "a_es_aplicadas_ap_s_treinamento",
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Por padrão, será utilizado o mesmo do ambiente caso não seja preenchido.",
+      "help": "",
+      "id": "ambiente_logo_em_alta_para_a_proposta_1",
+      "index": 200.0,
+      "internal_id": "416539513",
+      "label": "Logo em alta para a proposta",
+      "options": [],
+      "required": false,
+      "type": "attachment",
+      "uuid": "3bc095ca-3b1d-4b41-b1cf-8926fdb5795b"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_logo_em_alta_para_a_proposta_1",
+    "phase": {
+      "id": "339069570",
+      "name": "Preparação",
+      "uuid": "52fb420f-b70d-44c7-9ea1-51f35eaa4d39"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

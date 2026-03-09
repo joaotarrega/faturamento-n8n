@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "tempo_entre_oportunidade_ganha_e_implanta_o",
+      "index": 0.0,
+      "internal_id": "418112719",
+      "label": "Dias entre oportunidade ganha e implantação",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "e5ffa888-9269-479d-8fa0-a9b5c04f2075"
+    }
+  },
+  "meta": {
+    "field_id": "tempo_entre_oportunidade_ganha_e_implanta_o",
+    "phase": {
+      "id": "339039661",
+      "name": "Treinamento",
+      "uuid": "9c4e396f-96f6-4136-8322-dc80b3e7a8e5"
+    },
+    "pipe_id": "306441622",
+    "scope": "phase"
+  }
+}

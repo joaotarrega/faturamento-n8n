@@ -1,0 +1,41 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "itens_conclu_dos_da_parametriza_o",
+      "index": 0.0,
+      "internal_id": "416199967",
+      "label": "Itens configurados da parametrização",
+      "options": [
+        "Salas e espaços (eventos): nome, metragem, preço, pé direito, capacidade máxima por formato e fotos",
+        "Alimentação e bebidas (A&B): menus atualizados com descrições e taxas",
+        "Equipamentos e serviços (E&S): o que é ofertado com preços e taxas",
+        "Contratos: todos os modelos utilizados pelo cliente",
+        "Metas: por mês e por setor (ex: A&B, espaços)",
+        "Nome e email dos futuros usuários (para cadastro na plataforma)",
+        "Quartos de hospedagem: descrições, preços, taxas de ISS e fotos",
+        "Proposta",
+        "Ordem de serviço"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "fc93864d-c1ff-4b43-9226-53e46ea4babb"
+    }
+  },
+  "meta": {
+    "field_id": "itens_conclu_dos_da_parametriza_o",
+    "phase": {
+      "id": "339455412",
+      "name": "Parametrização",
+      "uuid": "5c901a51-4b0c-4b81-bb6a-5396c12593d4"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

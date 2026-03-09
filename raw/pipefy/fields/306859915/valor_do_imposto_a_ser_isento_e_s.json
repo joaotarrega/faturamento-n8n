@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de cobrança, basta inserir 5.",
+      "help": null,
+      "id": "valor_do_imposto_a_ser_isento_e_s",
+      "internal_id": "422909785",
+      "label": "Valor percentual do imposto a ser isento - E&S",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "e9f5f945-cc31-49e3-9d1d-36f448d9ca7b"
+    }
+  },
+  "meta": {
+    "field_id": "valor_do_imposto_a_ser_isento_e_s",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Caso não, deixe esse campo em branco.\n\nAo indicar uma data aqui, será criada uma atividade lembrete.",
+      "help": "",
+      "id": "deseja_retomar_o_contato_futuramente",
+      "index": 200.0,
+      "internal_id": "415813579",
+      "label": "Deseja retomar o contato futuramente?",
+      "options": [],
+      "required": false,
+      "type": "due_date",
+      "uuid": "4c7d0f4a-72f1-4859-a56e-348d29fcf7d0"
+    }
+  },
+  "meta": {
+    "field_id": "deseja_retomar_o_contato_futuramente",
+    "phase": {
+      "id": "338732716",
+      "name": "Fechado",
+      "uuid": "6e1a45dc-b289-440e-92f0-7eb3430d0ed6"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

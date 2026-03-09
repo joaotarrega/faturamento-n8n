@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "anexo_com_o_email_enviado",
+      "index": 112.5,
+      "internal_id": "418414898",
+      "label": "Anexo com o email enviado",
+      "options": [],
+      "required": true,
+      "type": "attachment",
+      "uuid": "1b085803-0977-4698-b4b2-9685dc0f5583"
+    }
+  },
+  "meta": {
+    "field_id": "anexo_com_o_email_enviado",
+    "phase": {
+      "id": "339743665",
+      "name": "Contato",
+      "uuid": "35a16b83-bd9f-4996-936b-e875d8e8b1a6"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

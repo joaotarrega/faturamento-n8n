@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "CEP",
+      "help": null,
+      "id": "cep_brasil",
+      "internal_id": "414362303",
+      "label": "Código postal",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "578b5676-ee4f-4a82-a042-7b7b7fe47e5b"
+    }
+  },
+  "meta": {
+    "field_id": "cep_brasil",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

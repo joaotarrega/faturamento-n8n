@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "saas_modelo_de_pre_o",
+      "index": 25.0,
+      "internal_id": "415348173",
+      "label": "SaaS - Modelo de preço",
+      "options": [
+        "Fixo",
+        "Variável"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "f75f3ca7-31f1-49d8-9d79-510fc9ebd357"
+    }
+  },
+  "meta": {
+    "field_id": "saas_modelo_de_pre_o",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}
