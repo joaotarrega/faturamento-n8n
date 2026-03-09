@@ -6,26 +6,26 @@
         "inputSource": "jsonExample",
         "jsonExample": "{\n  \"contractVersion\": \"fin_v3\",\n  \"itemType\": \"rule_input\",\n  \"trace\": {\n    \"parentExecutionId\": \"123456\",\n    \"workflowExecutionId\": \"manual\",\n    \"ruleExecutionKey\": \"manual:123:456\"\n  },\n  \"run\": {\n    \"executionId\": \"123456\",\n    \"competenciaYMD\": \"2026-02-01\",\n    \"compStart\": \"2026-02-01\",\n    \"compEnd\": \"2026-02-28\",\n    \"todayDay\": 5\n  },\n  \"rule\": {\n    \"ruleId\": \"999999\",\n    \"ruleTitle\": \"Regra Exemplo\",\n    \"prefetchDecision\": \"new_rule_candidate\",\n    \"ruleFields\": {},\n    \"itemTemplateIds\": [\n      \"111\",\n      \"222\"\n    ]\n  }\n}"
       },
-      "id": "c0bcf8d2-f870-4e32-8e50-0297037f9b30",
+      "id": "8c9b895c-fa8f-45a2-a800-68d9869b9a0c",
       "name": "01.1 | Trigger entrada",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        -2840,
-        1000
+        -6528,
+        -208
       ]
     },
     {
       "parameters": {
-        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\n\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v));\n\nconst ruleSrc = (input.rule && typeof input.rule === 'object' && !Array.isArray(input.rule))\n  ? input.rule\n  : ((input.ruleContext && typeof input.ruleContext === 'object' && !Array.isArray(input.ruleContext)) ? input.ruleContext : {});\n\nconst runSrc = (input.run && typeof input.run === 'object' && !Array.isArray(input.run))\n  ? input.run\n  : ((input.runContext && typeof input.runContext === 'object' && !Array.isArray(input.runContext)) ? input.runContext : {});\n\nconst traceSrc = (input.trace && typeof input.trace === 'object' && !Array.isArray(input.trace)) ? input.trace : {};\nconst ruleExecutionKey = [String($execution.id ?? 'manual'), String(Date.now()), String(Math.floor(Math.random() * 1e9))].join(':');\nconst trace = {\n  parentExecutionId: traceSrc.parentExecutionId != null ? String(traceSrc.parentExecutionId) : (runSrc.executionId != null ? String(runSrc.executionId) : null),\n  workflowExecutionId: String($execution.id ?? 'manual'),\n  ruleExecutionKey,\n};\n\nconst cfg = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst ruleId = clean(ruleSrc.ruleId || ruleSrc.id || '');\nconst competenciaYMD = clean(ruleSrc.competenciaYMD || runSrc.competenciaYMD || '');\nconst compStart = clean(ruleSrc.compStart || runSrc.compStart || '');\nconst compEnd = clean(ruleSrc.compEnd || runSrc.compEnd || '');\nconst itemTemplateIds = Array.isArray(ruleSrc.itemTemplateIds)\n  ? Array.from(new Set(ruleSrc.itemTemplateIds.map((x) => clean(x)).filter(Boolean)))\n  : [];\n\nconst ctx = {\n  contractVersion: 'fin_v3',\n  trace,\n  run: {\n    executionId: runSrc.executionId != null ? String(runSrc.executionId) : String($execution.id ?? 'manual'),\n    competenciaYMD,\n    compStart,\n    compEnd,\n    todayDay: Number(runSrc.todayDay || 0),\n  },\n  rule: {\n    ruleId: ruleId || null,\n    ruleTitle: clean(ruleSrc.ruleTitle || ruleSrc.title || ''),\n    prefetchDecision: clean(ruleSrc.prefetchDecision || 'new_rule_candidate') || 'new_rule_candidate',\n    ruleFields: (ruleSrc.ruleFields && typeof ruleSrc.ruleFields === 'object' && !Array.isArray(ruleSrc.ruleFields)) ? ruleSrc.ruleFields : {},\n    itemTemplateIds,\n  },\n  config: cfg,\n  metricsDelta: {\n    itemBatchQueries: 0,\n    itemsFetched: 0,\n    createInvoices: 0,\n    createItems: 0,\n    updateItemInvoiceLinks: 0,\n    updateParcelasPagas: 0,\n  },\n  logs: [{ ts: nowIso, level: 'info', event: 'rule_input_received', ruleId: ruleId || null }],\n  errors: [],\n  createItemRequests: [],\n  createdItemIds: [],\n  parcelaUpdates: [],\n  linkUpdates: [],\n  eligibleItems: [],\n  invoiceInputBase: null,\n  invoiceId: null,\n  existingInvoiceId: null,\n  totals: { brl: 0, usd: 0 },\n  hasFetchErrors: false,\n  hasCreateItemErrors: false,\n  hasParcelaErrors: false,\n  terminal: { done: false, status: null, reason: null },\n  startedAt: nowIso,\n};\n\nif (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'rule_input') {\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  ctx.errors.push({ ts: nowIso, stage: 'init', reason: 'unexpected_payload_shape', details: { contractVersion: input.contractVersion ?? null, itemType: input.itemType ?? null } });\n}\n\nconst validationErrors = [];\nif (isBlank(ruleId)) validationErrors.push('missing_rule_id');\nif (!isIsoDate(competenciaYMD)) validationErrors.push('invalid_competencia_ymd');\nif (!isIsoDate(compStart)) validationErrors.push('invalid_comp_start');\nif (!isIsoDate(compEnd)) validationErrors.push('invalid_comp_end');\nif (isIsoDate(compStart) && isIsoDate(compEnd) && compStart > compEnd) validationErrors.push('comp_start_after_comp_end');\n\nif (!ctx.terminal.done && validationErrors.length > 0) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'invalid_rule_input' };\n  ctx.errors.push({ ts: nowIso, stage: 'init', reason: 'invalid_rule_input', details: { validationErrors } });\n}\n\nif (!ctx.terminal.done && itemTemplateIds.length === 0) {\n  ctx.terminal = { done: true, status: 'skipped', reason: 'rule_has_no_item_templates' };\n}\n\nreturn [{ json: ctx }];"
+        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\nconst NODE_NAME = '01.2 | Init contexto fin_v3';\n\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst failureEntry = (node, reason, ...ids) => ({\n  node,\n  reason: String(reason || 'unexpected_payload_shape'),\n  pipefyCardIds: collectIds(...ids),\n});\n\nconst ruleSrc = (input.rule && typeof input.rule === 'object' && !Array.isArray(input.rule))\n  ? input.rule\n  : ((input.ruleContext && typeof input.ruleContext === 'object' && !Array.isArray(input.ruleContext)) ? input.ruleContext : {});\n\nconst runSrc = (input.run && typeof input.run === 'object' && !Array.isArray(input.run))\n  ? input.run\n  : ((input.runContext && typeof input.runContext === 'object' && !Array.isArray(input.runContext)) ? input.runContext : {});\n\nconst traceSrc = (input.trace && typeof input.trace === 'object' && !Array.isArray(input.trace)) ? input.trace : {};\nconst ruleExecutionKey = [String($execution.id ?? 'manual'), String(Date.now()), String(Math.floor(Math.random() * 1e9))].join(':');\nconst trace = {\n  parentExecutionId: traceSrc.parentExecutionId != null ? String(traceSrc.parentExecutionId) : (runSrc.executionId != null ? String(runSrc.executionId) : null),\n  workflowExecutionId: String($execution.id ?? 'manual'),\n  ruleExecutionKey,\n};\n\nconst cfg = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst ruleId = clean(ruleSrc.ruleId || ruleSrc.id || '');\nconst competenciaYMD = clean(ruleSrc.competenciaYMD || runSrc.competenciaYMD || '');\nconst compStart = clean(ruleSrc.compStart || runSrc.compStart || '');\nconst compEnd = clean(ruleSrc.compEnd || runSrc.compEnd || '');\nconst itemTemplateIds = Array.isArray(ruleSrc.itemTemplateIds)\n  ? Array.from(new Set(ruleSrc.itemTemplateIds.map((x) => clean(x)).filter(Boolean)))\n  : [];\n\nconst ctx = {\n  contractVersion: 'fin_v3',\n  trace,\n  run: {\n    executionId: runSrc.executionId != null ? String(runSrc.executionId) : String($execution.id ?? 'manual'),\n    competenciaYMD,\n    compStart,\n    compEnd,\n    todayDay: Number(runSrc.todayDay || 0),\n  },\n  rule: {\n    ruleId: ruleId || null,\n    ruleTitle: clean(ruleSrc.ruleTitle || ruleSrc.title || ''),\n    prefetchDecision: clean(ruleSrc.prefetchDecision || 'new_rule_candidate') || 'new_rule_candidate',\n    ruleFields: (ruleSrc.ruleFields && typeof ruleSrc.ruleFields === 'object' && !Array.isArray(ruleSrc.ruleFields)) ? ruleSrc.ruleFields : {},\n    itemTemplateIds,\n  },\n  config: cfg,\n  metricsDelta: {\n    itemBatchQueries: 0,\n    itemsFetched: 0,\n    createInvoices: 0,\n    createItems: 0,\n    updateItemInvoiceLinks: 0,\n    updateParcelasPagas: 0,\n  },\n  failures: [],\n  createItemRequests: [],\n  createdItemIds: [],\n  parcelaUpdates: [],\n  linkUpdates: [],\n  eligibleItems: [],\n  invoiceInputBase: null,\n  invoiceId: null,\n  existingInvoiceId: null,\n  totals: { brl: 0, usd: 0 },\n  hasParcelaErrors: false,\n  terminal: { done: false, status: null, reason: null },\n  startedAt: nowIso,\n};\n\nif (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'rule_input') {\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  ctx.failures.push(failureEntry(NODE_NAME, 'unexpected_payload_shape', ruleId || null));\n}\n\nconst validationErrors = [];\nif (isBlank(ruleId)) validationErrors.push('missing_rule_id');\nif (!isIsoDate(competenciaYMD)) validationErrors.push('invalid_competencia_ymd');\nif (!isIsoDate(compStart)) validationErrors.push('invalid_comp_start');\nif (!isIsoDate(compEnd)) validationErrors.push('invalid_comp_end');\nif (isIsoDate(compStart) && isIsoDate(compEnd) && compStart > compEnd) validationErrors.push('comp_start_after_comp_end');\n\nif (!ctx.terminal.done && validationErrors.length > 0) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'invalid_rule_input' };\n  ctx.failures.push(failureEntry(NODE_NAME, 'invalid_rule_input', ruleId || null));\n}\n\nif (!ctx.terminal.done && itemTemplateIds.length === 0) {\n  ctx.terminal = { done: true, status: 'skipped', reason: 'rule_has_no_item_templates' };\n}\n\nreturn [{ json: ctx }];"
       },
-      "id": "3c7a15cc-7869-48aa-9993-5ed56ed34fd7",
+      "id": "d3603b4b-a821-4cd8-8202-b348ddfa52aa",
       "name": "01.2 | Init contexto fin_v3",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2620,
-        1000
+        -6304,
+        -208
       ]
     },
     {
@@ -52,13 +52,13 @@
         },
         "options": {}
       },
-      "id": "262b6311-c128-456c-a99f-f6bbe72420a6",
+      "id": "c5fc0e11-0b01-46b8-9f23-e4415a75c95a",
       "name": "01.3 | Encerrar na entrada?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -2400,
-        1000
+        -6080,
+        -208
       ]
     },
     {
@@ -68,24 +68,24 @@
         "query": "query GetTemplateItem($id: ID!) { card(id: $id) { id title current_phase { id name } fields { field { id label type } value report_value array_value } } }",
         "variables": "={{ { id: String($json.templateItemId) } }}"
       },
-      "id": "75e2d2b7-e31d-4833-8ef6-1ab23893976e",
+      "id": "d9cda502-d5c4-4544-b942-d305ae13e20d",
       "name": "02.3 | FIN-02 Buscar item template",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        -1960,
-        860
+        -5408,
+        -64
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -93,26 +93,26 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "bc38a833-a0f3-4e00-9261-8b6a1872b7f9",
+      "id": "15cb77c2-4941-4d87-a4c9-718f2c189d0a",
       "name": "02.4 | Merge retorno template",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1740,
-        860
+        -5184,
+        -144
       ]
     },
     {
       "parameters": {
-        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No template items received to consolidate');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate templates');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\nconst log = (level, event, details = {}) => ctx.logs.push({ ts: now(), level, event, ...details });\nconst pushError = (stage, reason, details = {}) => ctx.errors.push({ ts: now(), stage, reason, details });\n\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const av = f.array_value;\n  const ids = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) ids.push(String(x.id));\n      else if (x.value != null) ids.push(String(x.value));\n      else if (x.label != null) ids.push(String(x.label));\n      else ids.push(JSON.stringify(x));\n    } else {\n      ids.push(String(x));\n    }\n  };\n\n  if (Array.isArray(av)) {\n    for (const x of av) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const ms = v.match(/[0-9]+/g);\n      if (ms) for (const x of ms) ids.push(String(x));\n      else if (v.trim() !== '') ids.push(v.trim());\n    } else if (v != null) {\n      push(v);\n    }\n  }\n\n  return Array.from(new Set(ids.filter((s) => s && String(s).trim() !== ''))).map(String);\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const av = f.array_value;\n  let out = [];\n  if (Array.isArray(av)) {\n    out = av.map((x) => String(x));\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) out = v.map((x) => String(x));\n    else if (typeof v === 'string') {\n      const s = v.trim();\n      if (!s) out = [];\n      else if (s.startsWith('[')) {\n        try {\n          const p = JSON.parse(s);\n          if (Array.isArray(p)) out = p.map((x) => String(x));\n          else out = [String(p)];\n        } catch (_err) {\n          out = s.split(',').map((x) => x.trim()).filter(Boolean);\n        }\n      } else {\n        out = s.split(',').map((x) => x.trim()).filter(Boolean);\n      }\n    } else if (v != null) {\n      out = [String(v)];\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\n\nconst allowed = new Set(['afiliados_que_comp_em_a_cobran_a','base_do_c_lculo_percentual','categorias_do_saas_isentas_ou_com_desconto','data_de_compet_ncia','desconto_no_valor_vari_vel_do_saas_para_a_b','desconto_no_valor_vari_vel_do_saas_para_e_s','desconto_no_valor_vari_vel_do_saas_para_espa_os','desconto_no_valor_vari_vel_do_saas_para_hospedagem','desconto_no_valor_vari_vel_do_saas_para_outros','h_algum_desconto_nesse_item','id_backoffice_do_afiliado','id_da_fatura','id_do_item_usado_como_template_fin_02','modelo_de_cobran_a','moeda_da_fatura','observa_es_sobre_descontos_e_isen_es','percentual_a_ser_aplicado_na_base','percentual_de_desconto_a_ser_aplicado','produto','quantidade','status','tipo_de_desconto_a_b_1','tipo_de_desconto_e_s','tipo_de_desconto_espa_os','tipo_de_desconto_hospedagem','tipo_de_desconto_no_item','tipo_de_desconto_outros','tipo_de_item','unidade_de_cobran_a','valor_base_saas_categoria_a_b_brl','valor_base_saas_categoria_a_b_usd','valor_base_saas_categoria_e_s_brl','valor_base_saas_categoria_e_s_usd','valor_base_saas_categoria_espa_os_brl','valor_base_saas_categoria_espa_os_usd','valor_base_saas_categoria_hospedagem_brl','valor_base_saas_categoria_hospedagem_usd','valor_base_saas_categoria_outros_brl','valor_base_saas_categoria_outros_usd','valor_de_base_brl','valor_de_base_usd','valor_do_imposto_a_ser_isento_a_b','valor_do_imposto_a_ser_isento_e_s','valor_do_imposto_a_ser_isento_espa_os','valor_do_imposto_a_ser_isento_hospedagem','valor_do_imposto_a_ser_isento_outros','valor_nominal_a_ser_descontado_brl','valor_nominal_a_ser_descontado_usd','valor_total_do_item_brl','valor_total_do_item_com_descontos_brl','valor_total_do_item_com_descontos_usd','valor_total_do_item_usd','valor_unit_rio_brl','valor_unit_rio_usd','statement_2c441aae_a317_42eb_81c2_c3a06c8daae7','statement_4a274d3d_6286_453b_9e74_46b058076519','statement_4f0c1eda_5fed_4d79_8cdd_ac05c377995d','statement_7140fc81_0523_47c6_a23b_c31ede660ea4']);\nconst special = { tipo_de_desconto_no_item_1: 'tipo_de_desconto_no_item', subtotal_do_item_brl: 'valor_total_do_item_brl', subtotal_do_item_usd: 'valor_total_do_item_usd' };\n\nconst compStart = String(ctx.run.compStart || '');\nconst compEnd = String(ctx.run.compEnd || '');\nconst activePhase = String(ctx.config.activeItemPhaseId || '');\n\nlet fetchTransportErrors = 0;\nlet fetchLogicalErrors = 0;\nlet totalBrl = 0;\nlet totalUsd = 0;\nconst eligibleItems = [];\nconst createItemRequests = [];\n\nfor (const it of inItems) {\n  const templateItemId = String(it.templateItemId || '').trim();\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  if (it.error) {\n    fetchTransportErrors += 1;\n    ctx.hasFetchErrors = true;\n    pushError('fetch_template_item', 'fetch_template_item_error', { templateItemId: templateItemId || null, details: it.error });\n    continue;\n  }\n  if (gqlErrors.length > 0) {\n    fetchLogicalErrors += 1;\n    ctx.hasFetchErrors = true;\n    pushError('fetch_template_item', 'fetch_template_item_error', { templateItemId: templateItemId || null, gqlErrors });\n    continue;\n  }\n\n  const card = it.data?.card;\n  if (!card || !card.id) {\n    fetchLogicalErrors += 1;\n    ctx.hasFetchErrors = true;\n    pushError('fetch_template_item', 'fetch_template_item_error', { templateItemId: templateItemId || null, reason: 'missing_card_data' });\n    continue;\n  }\n\n  const phaseId = card.current_phase && card.current_phase.id ? String(card.current_phase.id) : '';\n  if (phaseId !== activePhase) {\n    log('info', 'item_skip_inactive_phase', { templateItemId: String(card.id), phaseId, expectedPhaseId: activePhase });\n    continue;\n  }\n\n  const fm = fieldMap(card.fields || []);\n  const start = String(pickScalar(fm['data_de_in_cio_do_faturamento']) || '').slice(0, 10);\n  const end = String(pickScalar(fm['data_de_fim_do_faturamento']) || '').slice(0, 10);\n\n  if (start && start > compEnd) {\n    log('info', 'item_skip_not_started', { templateItemId: String(card.id), start, compEnd });\n    continue;\n  }\n  if (end && end < compStart) {\n    log('info', 'item_skip_ended', { templateItemId: String(card.id), end, compStart });\n    continue;\n  }\n\n  const periodicidade = String(pickScalar(fm['periodicidade']) || '').trim();\n  let parcelado = null;\n  if (periodicidade === 'Parcelado') {\n    const pagas = parseInt(String(pickScalar(fm['parcelas_pagas']) || '0').match(/[0-9]+/) ? String(pickScalar(fm['parcelas_pagas'])).match(/[0-9]+/)[0] : '0', 10);\n    const total = parseInt(String(pickScalar(fm['quantidade_de_parcelas_totais']) || '0').match(/[0-9]+/) ? String(pickScalar(fm['quantidade_de_parcelas_totais'])).match(/[0-9]+/)[0] : '0', 10);\n    if (!(total > 0)) {\n      pushError('filter_templates', 'create_item_logical_error', { templateItemId: String(card.id), reason: 'invalid_total_parcelas', pagas, total });\n      ctx.hasCreateItemErrors = true;\n      continue;\n    }\n    if (pagas >= total) {\n      log('info', 'item_skip_parcelado_done', { templateItemId: String(card.id), pagas, total });\n      continue;\n    }\n    parcelado = { newParcelasPagas: pagas + 1 };\n  }\n\n  const currency = String(pickScalar(fm['moeda_da_fatura']) || '').trim();\n  let brl = 0;\n  let usd = 0;\n  if (currency.startsWith('USD')) {\n    usd = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']));\n  } else if (currency.startsWith('BRL')) {\n    brl = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']));\n  } else {\n    brl = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']));\n    usd = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']));\n  }\n\n  totalBrl += brl;\n  totalUsd += usd;\n\n  const fa = [];\n  fa.push({ field_id: 'data_de_compet_ncia', field_value: String(ctx.run.competenciaYMD || '') });\n  fa.push({ field_id: 'id_do_item_usado_como_template_fin_02', field_value: String(card.id) });\n  fa.push({ field_id: 'status', field_value: 'Ativo' });\n\n  for (const f of (card.fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (!fid) continue;\n    const target = special[fid] || fid;\n    if (!allowed.has(target)) continue;\n    if (target === 'data_de_compet_ncia' || target === 'id_do_item_usado_como_template_fin_02' || target === 'status' || target === 'id_da_fatura') continue;\n    const type = f && f.field ? String(f.field.type || '') : '';\n    let val = null;\n    if (type === 'connector' || type === 'checklist_horizontal' || type === 'checklist_vertical') {\n      val = extractIds(f);\n    } else {\n      val = pickScalar(f);\n    }\n    if (val === undefined || val === null) continue;\n    if (Array.isArray(val) && val.length === 0) continue;\n    if (typeof val === 'string' && val.trim() === '') continue;\n    fa.push({ field_id: target, field_value: val });\n  }\n\n  const createReq = {\n    templateItemId: String(card.id),\n    shouldUpdateParcelas: Boolean(parcelado),\n    newParcelasPagas: parcelado ? parcelado.newParcelasPagas : null,\n    input: {\n      pipe_id: Number(ctx.config.itemPipeId),\n      phase_id: Number(ctx.config.itemPhaseId),\n      parent_ids: [String(card.id)],\n      title: `Item ${String(ctx.run.competenciaYMD || '').slice(0, 7)} - ${String(card.id)}`,\n      fields_attributes: fa,\n    },\n  };\n\n  eligibleItems.push({ templateItemId: String(card.id), periodicidade, totalBrl: brl, totalUsd: usd });\n  createItemRequests.push(createReq);\n}\n\nctx.metricsDelta.itemBatchQueries = inItems.length;\nctx.metricsDelta.itemsFetched = eligibleItems.length;\nctx.eligibleItems = eligibleItems;\nctx.createItemRequests = createItemRequests;\nctx.totals = { brl: totalBrl, usd: totalUsd };\n\nconst rf = (ctx.rule.ruleFields && typeof ctx.rule.ruleFields === 'object' && !Array.isArray(ctx.rule.ruleFields)) ? ctx.rule.ruleFields : {};\nconst invoiceFields = [];\nconst pushField = (fid, val) => {\n  if (val === undefined || val === null) return;\n  if (Array.isArray(val) && val.length === 0) return;\n  if (typeof val === 'string' && val.trim() === '') return;\n  invoiceFields.push({ field_id: fid, field_value: val });\n};\n\npushField('clientes_na_fatura', extractIds(rf['clientes_na_fatura']));\npushField('rede_na_fatura', extractIds(rf['rede_na_fatura']));\npushField('contatos_que_receber_o_a_fatura', extractIds(rf['contatos_que_receber_o_a_fatura']));\npushField('forma_de_pagamento', extractList(rf['forma_de_pagamento']));\npushField('identificador_fiscal_na_fatura', String(pickScalar(rf['identificador_fiscal_na_fatura']) || ''));\npushField('tipo_de_cliente_final', String(pickScalar(rf['tipo_de_cliente_final']) || ''));\npushField('moeda_do_teto_de_faturamento', extractList(rf['moeda_do_teto_de_faturamento']));\nconst tetoBrl = parseNum(pickScalar(rf['teto_de_faturamento_brl']));\nconst tetoUsd = parseNum(pickScalar(rf['teto_de_faturamento_usd']));\nif (tetoBrl) pushField('teto_de_faturamento_brl', tetoBrl);\nif (tetoUsd) pushField('teto_de_faturamento_usd', tetoUsd);\npushField('etiquetas', extractList(rf['etiquetas']));\npushField('id_da_regra_de_faturamento', ctx.rule.ruleId);\npushField('data_de_compet_ncia', String(ctx.run.competenciaYMD || ''));\npushField('valor_total_da_fatura_brl', totalBrl);\npushField('valor_total_da_fatura_usd', totalUsd);\n\nctx.invoiceInputBase = {\n  pipe_id: Number(ctx.config.invoicePipeId),\n  phase_id: Number(ctx.config.invoicePhaseId),\n  title: `Fatura ${String(ctx.run.competenciaYMD || '').slice(0, 7)} - Regra ${String(ctx.rule.ruleId || '')}`,\n  fields_attributes: invoiceFields,\n};\n\nif (eligibleItems.length === 0) {\n  if (fetchTransportErrors > 0 || fetchLogicalErrors > 0) {\n    ctx.terminal = { done: true, status: 'failed', reason: 'fetch_template_item_error' };\n  } else {\n    ctx.terminal = { done: true, status: 'skipped', reason: 'no_eligible_items_after_filters' };\n  }\n}\n\nreturn [{ json: ctx }];"
+        "jsCode": "const inItems = $input.all().map((i) =>\n  (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {}\n);\n\nif (inItems.length === 0) {\n  throw new Error('No template items received to consolidate');\n}\n\nconst baseCtx =\n  (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx))\n    ? inItems[0].ctx\n    : null;\n\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate templates');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pushFailure = (node, reason, ...ids) => {\n  ctx.failures.push({\n    node,\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\n\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\n\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\n\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\n\nconst intFrom = (v) => {\n  const m = String(v ?? '').match(/[0-9]+/);\n  return m ? parseInt(m[0], 10) : 0;\n};\n\nconst extractIds = (f) => {\n  if (!f) return [];\n  const av = f.array_value;\n  const ids = [];\n\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) ids.push(String(x.id));\n      else if (x.value != null) ids.push(String(x.value));\n      else if (x.label != null) ids.push(String(x.label));\n      else ids.push(JSON.stringify(x));\n    } else {\n      ids.push(String(x));\n    }\n  };\n\n  if (Array.isArray(av)) {\n    for (const x of av) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const ms = v.match(/[0-9]+/g);\n      if (ms) for (const x of ms) ids.push(String(x));\n      else if (v.trim() !== '') ids.push(v.trim());\n    } else if (v != null) {\n      push(v);\n    }\n  }\n\n  return Array.from(new Set(ids.filter((s) => s && String(s).trim() !== ''))).map(String);\n};\n\nconst extractList = (f) => {\n  if (!f) return [];\n  const av = f.array_value;\n  let out = [];\n\n  if (Array.isArray(av)) {\n    out = av.map((x) => String(x));\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) out = v.map((x) => String(x));\n    else if (typeof v === 'string') {\n      const s = v.trim();\n      if (!s) out = [];\n      else if (s.startsWith('[')) {\n        try {\n          const p = JSON.parse(s);\n          if (Array.isArray(p)) out = p.map((x) => String(x));\n          else out = [String(p)];\n        } catch (_err) {\n          out = s.split(',').map((x) => x.trim()).filter(Boolean);\n        }\n      } else {\n        out = s.split(',').map((x) => x.trim()).filter(Boolean);\n      }\n    } else if (v != null) {\n      out = [String(v)];\n    }\n  }\n\n  return Array.from(new Set(out.filter(Boolean)));\n};\n\nconst allowed = new Set([\n  'afiliados_que_comp_em_a_cobran_a',\n  'base_do_c_lculo_percentual',\n  'categorias_do_saas_isentas_ou_com_desconto',\n  'data_de_compet_ncia',\n  'desconto_no_valor_vari_vel_do_saas_para_a_b',\n  'desconto_no_valor_vari_vel_do_saas_para_e_s',\n  'desconto_no_valor_vari_vel_do_saas_para_espa_os',\n  'desconto_no_valor_vari_vel_do_saas_para_hospedagem',\n  'desconto_no_valor_vari_vel_do_saas_para_outros',\n  'h_algum_desconto_nesse_item',\n  'id_backoffice_do_afiliado',\n  'id_da_fatura',\n  'id_do_item_usado_como_template_fin_02',\n  'modelo_de_cobran_a',\n  'moeda_da_fatura',\n  'observa_es_sobre_descontos_e_isen_es',\n  'percentual_a_ser_aplicado_na_base',\n  'percentual_de_desconto_a_ser_aplicado',\n  'produto',\n  'quantidade',\n  'status',\n  'tipo_de_desconto_a_b_1',\n  'tipo_de_desconto_e_s',\n  'tipo_de_desconto_espa_os',\n  'tipo_de_desconto_hospedagem',\n  'tipo_de_desconto_no_item',\n  'tipo_de_desconto_outros',\n  'tipo_de_item',\n  'unidade_de_cobran_a',\n  'valor_base_saas_categoria_a_b_brl',\n  'valor_base_saas_categoria_a_b_usd',\n  'valor_base_saas_categoria_e_s_brl',\n  'valor_base_saas_categoria_e_s_usd',\n  'valor_base_saas_categoria_espa_os_brl',\n  'valor_base_saas_categoria_espa_os_usd',\n  'valor_base_saas_categoria_hospedagem_brl',\n  'valor_base_saas_categoria_hospedagem_usd',\n  'valor_base_saas_categoria_outros_brl',\n  'valor_base_saas_categoria_outros_usd',\n  'valor_de_base_brl',\n  'valor_de_base_usd',\n  'valor_do_imposto_a_ser_isento_a_b',\n  'valor_do_imposto_a_ser_isento_e_s',\n  'valor_do_imposto_a_ser_isento_espa_os',\n  'valor_do_imposto_a_ser_isento_hospedagem',\n  'valor_do_imposto_a_ser_isento_outros',\n  'valor_nominal_a_ser_descontado_brl',\n  'valor_nominal_a_ser_descontado_usd',\n  'valor_total_do_item_brl',\n  'valor_total_do_item_com_descontos_brl',\n  'valor_total_do_item_com_descontos_usd',\n  'valor_total_do_item_usd',\n  'valor_unit_rio_brl',\n  'valor_unit_rio_usd',\n  'statement_2c441aae_a317_42eb_81c2_c3a06c8daae7',\n  'statement_4a274d3d_6286_453b_9e74_46b058076519',\n  'statement_4f0c1eda_5fed_4d79_8cdd_ac05c377995d',\n  'statement_7140fc81_0523_47c6_a23b_c31ede660ea4',\n]);\n\nconst special = {\n  tipo_de_desconto_no_item_1: 'tipo_de_desconto_no_item',\n  subtotal_do_item_brl: 'valor_total_do_item_brl',\n  subtotal_do_item_usd: 'valor_total_do_item_usd',\n};\n\nconst compStart = String(ctx.run.compStart || '');\nconst compEnd = String(ctx.run.compEnd || '');\nconst activePhase = String(ctx.config.activeItemPhaseId || '');\nconst ruleId = ctx.rule?.ruleId ?? null;\nconst failureCountBefore = ctx.failures.length;\n\nlet totalBrl = 0;\nlet totalUsd = 0;\nconst eligibleItems = [];\nconst createItemRequests = [];\n\nfor (const it of inItems) {\n  const templateItemId = String(it.templateItemId || '').trim();\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n\n  if (it.error) {\n    pushFailure('02.3 | FIN-02 Buscar item template', 'fetch_template_item_error', ruleId, templateItemId || null);\n    continue;\n  }\n\n  if (gqlErrors.length > 0) {\n    pushFailure('02.3 | FIN-02 Buscar item template', 'fetch_template_item_error', ruleId, templateItemId || null);\n    continue;\n  }\n\n  const card = it.data?.card;\n  if (!card || !card.id) {\n    pushFailure('02.3 | FIN-02 Buscar item template', 'fetch_template_item_error', ruleId, templateItemId || null);\n    continue;\n  }\n\n  const phaseId = card.current_phase && card.current_phase.id ? String(card.current_phase.id) : '';\n  if (phaseId !== activePhase) {\n    continue;\n  }\n\n  const fm = fieldMap(card.fields || []);\n  const start = String(pickScalar(fm['data_de_in_cio_do_faturamento']) || '').slice(0, 10);\n  const end = String(pickScalar(fm['data_de_fim_do_faturamento']) || '').slice(0, 10);\n\n  if (start && start > compEnd) {\n    continue;\n  }\n  if (end && end < compStart) {\n    continue;\n  }\n\n  const periodicidade = String(pickScalar(fm['periodicidade']) || '').trim();\n  let parcelado = null;\n\n  if (periodicidade === 'Parcelado') {\n    const pagas = intFrom(pickScalar(fm['parcelas_pagas']));\n    const total = intFrom(pickScalar(fm['quantidade_de_parcelas_totais']));\n\n    if (!(total > 0)) {\n      pushFailure('02.5 | Consolidar templates e elegibilidade', 'invalid_total_parcelas', ruleId, String(card.id));\n      continue;\n    }\n\n    if (pagas >= total) {\n      continue;\n    }\n\n    parcelado = { newParcelasPagas: pagas + 1 };\n  }\n\n  const currency = String(pickScalar(fm['moeda_da_fatura']) || '').trim();\n  let brl = 0;\n  let usd = 0;\n\n  if (currency.startsWith('USD')) {\n    usd = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']));\n  } else if (currency.startsWith('BRL')) {\n    brl = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']));\n  } else {\n    brl = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']));\n    usd = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']));\n  }\n\n  totalBrl += brl;\n  totalUsd += usd;\n\n  const fa = [];\n  fa.push({ field_id: 'data_de_compet_ncia', field_value: String(ctx.run.competenciaYMD || '') });\n  fa.push({ field_id: 'id_do_item_usado_como_template_fin_02', field_value: String(card.id) });\n  fa.push({ field_id: 'status', field_value: 'Ativo' });\n\n  for (const f of (card.fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (!fid) continue;\n\n    const target = special[fid] || fid;\n    if (!allowed.has(target)) continue;\n    if (target === 'data_de_compet_ncia' || target === 'id_do_item_usado_como_template_fin_02' || target === 'status' || target === 'id_da_fatura') continue;\n\n    const type = f && f.field ? String(f.field.type || '') : '';\n    let val = null;\n\n    if (type === 'connector' || type === 'checklist_horizontal' || type === 'checklist_vertical') {\n      val = extractIds(f);\n    } else {\n      val = pickScalar(f);\n    }\n\n    if (val === undefined || val === null) continue;\n    if (Array.isArray(val) && val.length === 0) continue;\n    if (typeof val === 'string' && val.trim() === '') continue;\n\n    fa.push({ field_id: target, field_value: val });\n  }\n\n  const createReq = {\n    templateItemId: String(card.id),\n    shouldUpdateParcelas: Boolean(parcelado),\n    newParcelasPagas: parcelado ? parcelado.newParcelasPagas : null,\n    input: {\n      pipe_id: Number(ctx.config.itemPipeId),\n      phase_id: Number(ctx.config.itemPhaseId),\n      parent_ids: [String(card.id)],\n      title: `Item ${String(ctx.run.competenciaYMD || '').slice(0, 7)} - ${String(card.id)}`,\n      fields_attributes: fa,\n    },\n  };\n\n  eligibleItems.push({ templateItemId: String(card.id), periodicidade, totalBrl: brl, totalUsd: usd });\n  createItemRequests.push(createReq);\n}\n\nctx.metricsDelta.itemBatchQueries = inItems.length;\nctx.metricsDelta.itemsFetched = eligibleItems.length;\nctx.eligibleItems = eligibleItems;\nctx.createItemRequests = createItemRequests;\nctx.totals = { brl: totalBrl, usd: totalUsd };\n\nconst rf =\n  (ctx.rule.ruleFields && typeof ctx.rule.ruleFields === 'object' && !Array.isArray(ctx.rule.ruleFields))\n    ? ctx.rule.ruleFields\n    : {};\n\nconst invoiceFields = [];\n\nconst pushField = (fid, val) => {\n  if (val === undefined || val === null) return;\n  if (Array.isArray(val) && val.length === 0) return;\n  if (typeof val === 'string' && val.trim() === '') return;\n  invoiceFields.push({ field_id: fid, field_value: val });\n};\n\npushField('clientes_na_fatura', extractIds(rf['clientes_na_fatura']));\npushField('rede_na_fatura', extractIds(rf['rede_na_fatura']));\npushField('contatos_que_receber_o_a_fatura', extractIds(rf['contatos_que_receber_o_a_fatura']));\npushField('forma_de_pagamento', extractList(rf['forma_de_pagamento']));\npushField('identificador_fiscal_na_fatura', String(pickScalar(rf['identificador_fiscal_na_fatura']) || ''));\npushField('tipo_de_cliente_final', String(pickScalar(rf['tipo_de_cliente_final']) || ''));\npushField('moeda_do_teto_de_faturamento', extractList(rf['moeda_do_teto_de_faturamento']));\n\nconst tetoBrl = parseNum(pickScalar(rf['teto_de_faturamento_brl']));\nconst tetoUsd = parseNum(pickScalar(rf['teto_de_faturamento_usd']));\nif (tetoBrl) pushField('teto_de_faturamento_brl', tetoBrl);\nif (tetoUsd) pushField('teto_de_faturamento_usd', tetoUsd);\n\npushField('etiquetas', extractList(rf['etiquetas']));\npushField('id_da_regra_de_faturamento', ctx.rule.ruleId);\npushField('data_de_compet_ncia', String(ctx.run.competenciaYMD || ''));\npushField('valor_total_da_fatura_brl', totalBrl);\npushField('valor_total_da_fatura_usd', totalUsd);\n\nctx.invoiceInputBase = {\n  pipe_id: Number(ctx.config.invoicePipeId),\n  phase_id: Number(ctx.config.invoicePhaseId),\n  title: `Fatura ${String(ctx.run.competenciaYMD || '').slice(0, 7)} - Regra ${String(ctx.rule.ruleId || '')}`,\n  fields_attributes: invoiceFields,\n};\n\nif (eligibleItems.length === 0) {\n  const newFailures = ctx.failures.slice(failureCountBefore);\n  if (newFailures.length > 0) {\n    ctx.terminal = { done: true, status: 'failed', reason: String(newFailures[0].reason || 'fetch_template_item_error') };\n  } else {\n    ctx.terminal = { done: true, status: 'skipped', reason: 'no_eligible_items_after_filters' };\n  }\n}\n\nreturn [{ json: ctx }];"
       },
-      "id": "cde0a1a7-c596-49c6-89f0-0c09a7227c25",
+      "id": "4375316a-68a1-4d09-b9ff-9a21568a4b67",
       "name": "02.5 | Consolidar templates e elegibilidade",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1520,
-        860
+        -4960,
+        -144
       ]
     },
     {
@@ -139,13 +139,13 @@
         },
         "options": {}
       },
-      "id": "be67436f-63c5-4e55-a82e-2a0d79fdab20",
+      "id": "2818c587-5b45-4951-8256-8c19e1af599d",
       "name": "02.6 | Encerrar após templates?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1300,
-        860
+        -4736,
+        -144
       ]
     },
     {
@@ -155,24 +155,24 @@
         "query": "mutation CreateItem($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
         "variables": "={{ { input: $json.createReq.input } }}"
       },
-      "id": "4ab3ab23-346b-46df-a544-3ed0851da685",
+      "id": "ee9cbe81-cc4a-4cfe-b6e9-9641b6e01d44",
       "name": "03.3 | FIN-04 Criar item",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        -860,
-        760
+        -4064,
+        160
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -180,26 +180,26 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "6d15a462-2721-4f5c-a778-8e90932bece5",
+      "id": "27ef345b-cc47-458d-a130-0ec8342078a6",
       "name": "03.4 | Merge criação item",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -640,
-        760
+        -3840,
+        80
       ]
     },
     {
       "parameters": {
-        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate create item stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate create item stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\nconst pushError = (reason, details = {}) => ctx.errors.push({ ts: now(), stage: 'create_item', reason, details });\n\nlet transportErrors = 0;\nlet logicalErrors = 0;\nconst created = [];\nconst parcelaUpdates = [];\n\nfor (const it of inItems) {\n  const req = (it.createReq && typeof it.createReq === 'object' && !Array.isArray(it.createReq)) ? it.createReq : {};\n  if (it.error) {\n    transportErrors += 1;\n    ctx.hasCreateItemErrors = true;\n    pushError('create_item_transport_error', { templateItemId: req.templateItemId ?? null, details: it.error });\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  if (gqlErrors.length > 0) {\n    logicalErrors += 1;\n    ctx.hasCreateItemErrors = true;\n    pushError('create_item_logical_error', { templateItemId: req.templateItemId ?? null, gqlErrors });\n    continue;\n  }\n\n  const create = it.data?.createCard;\n  const userErrors = Array.isArray(create?.userErrors) ? create.userErrors : (Array.isArray(create?.user_errors) ? create.user_errors : []);\n  const createdId = create?.card?.id != null ? String(create.card.id) : null;\n  if (userErrors.length > 0 || !createdId) {\n    logicalErrors += 1;\n    ctx.hasCreateItemErrors = true;\n    pushError('create_item_logical_error', { templateItemId: req.templateItemId ?? null, userErrors, hasCreatedId: Boolean(createdId) });\n    continue;\n  }\n\n  created.push(createdId);\n  if (req.shouldUpdateParcelas === true && req.newParcelasPagas != null && req.templateItemId != null) {\n    parcelaUpdates.push({\n      templateItemId: String(req.templateItemId),\n      newParcelasPagas: Number(req.newParcelasPagas),\n    });\n  }\n}\n\nctx.createdItemIds = Array.from(new Set(created));\nctx.parcelaUpdates = parcelaUpdates;\nctx.metricsDelta.createItems = ctx.createdItemIds.length;\n\nif (ctx.createdItemIds.length === 0) {\n  let reason = 'no_created_items_for_invoice';\n  if (transportErrors > 0 && logicalErrors === 0) reason = 'create_item_transport_error';\n  if (logicalErrors > 0 && transportErrors === 0) reason = 'create_item_logical_error';\n  ctx.terminal = { done: true, status: 'failed', reason };\n}\n\nreturn [{ json: ctx }];"
+        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate create item stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate create item stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\nconst SOURCE_NODE = '03.3 | FIN-04 Criar item';\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pushFailure = (reason, ...ids) => {\n  ctx.failures.push({\n    node: SOURCE_NODE,\n    reason: String(reason || 'no_created_items_for_invoice'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\n\nconst failureCountBefore = ctx.failures.length;\nconst created = [];\nconst parcelaUpdates = [];\n\nfor (const it of inItems) {\n  const req = (it.createReq && typeof it.createReq === 'object' && !Array.isArray(it.createReq)) ? it.createReq : {};\n  if (it.error) {\n    pushFailure('create_item_transport_error', ctx.rule?.ruleId ?? null, req.templateItemId ?? null);\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  if (gqlErrors.length > 0) {\n    pushFailure('create_item_logical_error', ctx.rule?.ruleId ?? null, req.templateItemId ?? null);\n    continue;\n  }\n\n  const create = it.data?.createCard;\n  const userErrors = Array.isArray(create?.userErrors) ? create.userErrors : (Array.isArray(create?.user_errors) ? create.user_errors : []);\n  const createdId = create?.card?.id != null ? String(create.card.id) : null;\n  if (userErrors.length > 0 || !createdId) {\n    pushFailure('create_item_logical_error', ctx.rule?.ruleId ?? null, req.templateItemId ?? null);\n    continue;\n  }\n\n  created.push(createdId);\n  if (req.shouldUpdateParcelas === true && req.newParcelasPagas != null && req.templateItemId != null) {\n    parcelaUpdates.push({\n      templateItemId: String(req.templateItemId),\n      newParcelasPagas: Number(req.newParcelasPagas),\n    });\n  }\n}\n\nctx.createdItemIds = Array.from(new Set(created));\nctx.parcelaUpdates = parcelaUpdates;\nctx.metricsDelta.createItems = ctx.createdItemIds.length;\n\nif (ctx.createdItemIds.length === 0) {\n  const newFailures = ctx.failures.slice(failureCountBefore);\n  const reason = newFailures.length > 0\n    ? String(newFailures[0].reason || 'no_created_items_for_invoice')\n    : 'no_created_items_for_invoice';\n  ctx.terminal = { done: true, status: 'failed', reason };\n}\n\nreturn [{ json: ctx }];"
       },
-      "id": "107be3e2-64b6-422f-8f54-f377b602e59d",
+      "id": "0b19143c-4a3d-4e45-b776-117cbc4058a0",
       "name": "03.5 | Consolidar criação de itens",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -420,
-        760
+        -3616,
+        80
       ]
     },
     {
@@ -226,13 +226,13 @@
         },
         "options": {}
       },
-      "id": "61f14b3d-fb15-481a-87aa-12cd07992576",
+      "id": "c4cb1477-ffbd-4325-8a8d-79fc14223c4d",
       "name": "04.1 | Há parcelas para atualizar?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -200,
-        760
+        -3392,
+        80
       ]
     },
     {
@@ -242,24 +242,24 @@
         "query": "mutation UpdateParcelas($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \"parcelas_pagas\", value: $value }] }) { success } }",
         "variables": "={{ { cardId: String($json.updateReq.templateItemId), value: [Number($json.updateReq.newParcelasPagas)] } }}"
       },
-      "id": "cdc126ac-3c2e-4011-b599-8139e2439dfa",
+      "id": "1ad119a0-1221-48f5-b6b4-ce6de9781ad9",
       "name": "04.4 | FIN-02 Atualizar parcelas_pagas",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        240,
-        660
+        -2720,
+        160
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -267,26 +267,26 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "0857fb3d-7115-4797-aa35-e41b6151d168",
+      "id": "d5dde41b-21d0-4e33-9326-00cca3bf296f",
       "name": "04.5 | Merge update parcelas",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        460,
-        660
+        -2496,
+        80
       ]
     },
     {
       "parameters": {
-        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate parcelas stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate parcelas stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\n\nfor (const it of inItems) {\n  const req = (it.updateReq && typeof it.updateReq === 'object' && !Array.isArray(it.updateReq)) ? it.updateReq : {};\n  if (it.error) {\n    ctx.hasParcelaErrors = true;\n    ctx.errors.push({ ts: now(), stage: 'update_parcelas', reason: 'create_item_logical_error', details: { templateItemId: req.templateItemId ?? null, transport: it.error } });\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  const upd = it.data?.updateFieldsValues;\n  const userErrors = Array.isArray(upd?.userErrors) ? upd.userErrors : [];\n  const success = upd?.success === true && gqlErrors.length === 0 && userErrors.length === 0;\n\n  if (success) {\n    ctx.metricsDelta.updateParcelasPagas = Number(ctx.metricsDelta.updateParcelasPagas || 0) + 1;\n  } else {\n    ctx.hasParcelaErrors = true;\n    ctx.errors.push({ ts: now(), stage: 'update_parcelas', reason: 'create_item_logical_error', details: { templateItemId: req.templateItemId ?? null, gqlErrors, userErrors } });\n  }\n}\n\nreturn [{ json: ctx }];"
+        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate parcelas stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate parcelas stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\nconst SOURCE_NODE = '04.4 | FIN-02 Atualizar parcelas_pagas';\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pushFailure = (...ids) => {\n  ctx.failures.push({\n    node: SOURCE_NODE,\n    reason: 'update_parcelas_error',\n    pipefyCardIds: collectIds(...ids),\n  });\n};\n\nfor (const it of inItems) {\n  const req = (it.updateReq && typeof it.updateReq === 'object' && !Array.isArray(it.updateReq)) ? it.updateReq : {};\n  if (it.error) {\n    ctx.hasParcelaErrors = true;\n    pushFailure(ctx.rule?.ruleId ?? null, req.templateItemId ?? null);\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  const upd = it.data?.updateFieldsValues;\n  const userErrors = Array.isArray(upd?.userErrors) ? upd.userErrors : [];\n  const success = upd?.success === true && gqlErrors.length === 0 && userErrors.length === 0;\n\n  if (success) {\n    ctx.metricsDelta.updateParcelasPagas = Number(ctx.metricsDelta.updateParcelasPagas || 0) + 1;\n  } else {\n    ctx.hasParcelaErrors = true;\n    pushFailure(ctx.rule?.ruleId ?? null, req.templateItemId ?? null);\n  }\n}\n\nreturn [{ json: ctx }];"
       },
-      "id": "1711dee4-1318-4afb-8977-1f38b35b9357",
+      "id": "51e02906-f78a-4243-b7b1-ee87ef4ea412",
       "name": "04.6 | Consolidar update parcelas",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        680,
-        660
+        -2272,
+        80
       ]
     },
     {
@@ -296,24 +296,24 @@
         "query": "query FindInvoicesForRuleRecheck($pipeId: ID!, $fieldId: String!, $competencia: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $competencia }) { edges { node { id title fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
         "variables": "={{ { pipeId: Number($json.config.invoicePipeId), fieldId: String($json.config.competenciaFieldId), competencia: String($json.run.competenciaYMD), first: 200 } }}"
       },
-      "id": "5f3dd21a-5f9a-4e57-a556-beb23d27c8da",
+      "id": "379661e9-1a0e-4195-be38-85241246cb76",
       "name": "05.1 | FIN-03 Recheck fatura existente",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        20,
-        860
+        -2048,
+        256
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -321,26 +321,26 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "329d8c48-51ad-4fcd-87b2-986748166544",
+      "id": "8627d34e-8aec-4b03-9f29-a66d36753849",
       "name": "05.2 | Merge recheck",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        240,
-        860
+        -1824,
+        32
       ]
     },
     {
       "parameters": {
-        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\nconst toObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : null;\n\nconst defaultConfig = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst defaultMetricsDelta = {\n  itemBatchQueries: 0,\n  itemsFetched: 0,\n  createInvoices: 0,\n  createItems: 0,\n  updateItemInvoiceLinks: 0,\n  updateParcelasPagas: 0,\n};\n\nlet baseCtx = toObj(input.ctx) || toObj(input);\nconst baseCtxLooksValid = baseCtx && toObj(baseCtx.config) && toObj(baseCtx.rule) && toObj(baseCtx.run);\n\nif (!baseCtxLooksValid) {\n  const trace = toObj(input.trace) || {\n    parentExecutionId: null,\n    workflowExecutionId: String($execution.id ?? 'manual'),\n    ruleExecutionKey: null,\n  };\n  const rule = toObj(input.rule) || {\n    ruleId: null,\n    ruleTitle: null,\n    prefetchDecision: null,\n    ruleFields: {},\n    itemTemplateIds: [],\n  };\n  const run = toObj(input.run) || {\n    executionId: String(trace.parentExecutionId ?? $execution.id ?? 'manual'),\n    competenciaYMD: null,\n    compStart: null,\n    compEnd: null,\n    todayDay: null,\n  };\n\n  return [{ json: {\n    contractVersion: 'fin_v3',\n    trace,\n    run,\n    rule,\n    config: defaultConfig,\n    metricsDelta: { ...defaultMetricsDelta },\n    logs: [{ ts: nowIso, level: 'error', event: 'recheck_missing_ctx_fallback' }],\n    errors: [{ ts: nowIso, stage: 'recheck_invoice', reason: 'unexpected_payload_shape', details: { reason: 'missing_ctx_on_parse_recheck' } }],\n    createItemRequests: [],\n    createdItemIds: [],\n    parcelaUpdates: [],\n    linkUpdates: [],\n    eligibleItems: [],\n    invoiceInputBase: null,\n    invoiceId: null,\n    existingInvoiceId: null,\n    totals: { brl: 0, usd: 0 },\n    hasFetchErrors: false,\n    hasCreateItemErrors: false,\n    hasParcelaErrors: false,\n    terminal: { done: true, status: 'failed', reason: 'unexpected_payload_shape' },\n    startedAt: nowIso,\n  }}];\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\n\nif (ctx.terminal?.done === true) {\n  return [{ json: ctx }];\n}\n\nif (input.error) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  ctx.errors.push({ ts: now(), stage: 'recheck_invoice', reason: 'unexpected_payload_shape', details: { transport: input.error } });\n  return [{ json: ctx }];\n}\n\nconst gqlErrors = Array.isArray(input.errors) ? input.errors : [];\nif (gqlErrors.length > 0) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  ctx.errors.push({ ts: now(), stage: 'recheck_invoice', reason: 'unexpected_payload_shape', details: { gqlErrors } });\n  return [{ json: ctx }];\n}\n\nconst edges = input.data?.findCards?.edges;\nif (!Array.isArray(edges)) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  ctx.errors.push({ ts: now(), stage: 'recheck_invoice', reason: 'unexpected_payload_shape', details: { shape: input.data ?? null } });\n  return [{ json: ctx }];\n}\n\nconst pickField = (fields, id) => {\n  for (const f of (fields || [])) if (f?.field?.id === id) return f;\n  return null;\n};\nconst pickValue = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v);\n  const m = s.match(/[0-9]+/);\n  return m ? m[0] : s.trim();\n};\n\nlet existingInvoiceId = null;\nfor (const e of edges) {\n  const node = e?.node;\n  if (!node) continue;\n  const rid = toId(pickValue(pickField(node.fields, ctx.config.ruleLinkFieldId)));\n  const comp = String(pickValue(pickField(node.fields, ctx.config.competenciaFieldId)) || '').slice(0, 10);\n  if (rid === String(ctx.rule.ruleId || '') && comp === String(ctx.run.competenciaYMD || '')) {\n    existingInvoiceId = String(node.id);\n    break;\n  }\n}\n\nif (existingInvoiceId) {\n  ctx.existingInvoiceId = existingInvoiceId;\n  ctx.invoiceId = existingInvoiceId;\n  ctx.terminal = { done: true, status: 'skipped', reason: 'existing_invoice_found' };\n  return [{ json: ctx }];\n}\n\nconst baseFields = Array.isArray(ctx.invoiceInputBase?.fields_attributes)\n  ? ctx.invoiceInputBase.fields_attributes.filter((x) => x && x.field_id !== 'itens_da_fatura')\n  : [];\nbaseFields.push({ field_id: 'itens_da_fatura', field_value: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [] });\nctx.invoiceInput = {\n  ...ctx.invoiceInputBase,\n  fields_attributes: baseFields,\n};\nctx.shouldCreateInvoice = true;\n\nreturn [{ json: ctx }];"
+        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\nconst NODE_NAME = '05.3 | Parse recheck anti-loop';\nconst SOURCE_NODE = '05.1 | FIN-03 Recheck fatura existente';\nconst toObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : null;\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst failureEntry = (node, reason, ...ids) => ({\n  node,\n  reason: String(reason || 'unexpected_payload_shape'),\n  pipefyCardIds: collectIds(...ids),\n});\n\nconst defaultConfig = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst defaultMetricsDelta = {\n  itemBatchQueries: 0,\n  itemsFetched: 0,\n  createInvoices: 0,\n  createItems: 0,\n  updateItemInvoiceLinks: 0,\n  updateParcelasPagas: 0,\n};\n\nlet baseCtx = toObj(input.ctx) || toObj(input);\nconst baseCtxLooksValid = baseCtx && toObj(baseCtx.config) && toObj(baseCtx.rule) && toObj(baseCtx.run);\n\nif (!baseCtxLooksValid) {\n  const trace = toObj(input.trace) || {\n    parentExecutionId: null,\n    workflowExecutionId: String($execution.id ?? 'manual'),\n    ruleExecutionKey: null,\n  };\n  const rule = toObj(input.rule) || {\n    ruleId: null,\n    ruleTitle: null,\n    prefetchDecision: null,\n    ruleFields: {},\n    itemTemplateIds: [],\n  };\n  const run = toObj(input.run) || {\n    executionId: String(trace.parentExecutionId ?? $execution.id ?? 'manual'),\n    competenciaYMD: null,\n    compStart: null,\n    compEnd: null,\n    todayDay: null,\n  };\n\n  return [{ json: {\n    contractVersion: 'fin_v3',\n    trace,\n    run,\n    rule,\n    config: defaultConfig,\n    metricsDelta: { ...defaultMetricsDelta },\n    failures: [failureEntry(NODE_NAME, 'unexpected_payload_shape', rule.ruleId ?? null)],\n    createItemRequests: [],\n    createdItemIds: [],\n    parcelaUpdates: [],\n    linkUpdates: [],\n    eligibleItems: [],\n    invoiceInputBase: null,\n    invoiceId: null,\n    existingInvoiceId: null,\n    totals: { brl: 0, usd: 0 },\n    hasParcelaErrors: false,\n    terminal: { done: true, status: 'failed', reason: 'unexpected_payload_shape' },\n    startedAt: nowIso,\n  }}];\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n\nif (ctx.terminal?.done === true) {\n  return [{ json: ctx }];\n}\n\nconst ruleId = ctx.rule?.ruleId ?? null;\nconst pushFailure = (node, reason, ...ids) => ctx.failures.push(failureEntry(node, reason, ...ids));\n\nif (input.error) {\n  pushFailure(SOURCE_NODE, 'recheck_invoice_transport_error', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'recheck_invoice_transport_error' };\n  return [{ json: ctx }];\n}\n\nconst gqlErrors = Array.isArray(input.errors) ? input.errors : [];\nif (gqlErrors.length > 0) {\n  pushFailure(SOURCE_NODE, 'recheck_invoice_logical_error', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'recheck_invoice_logical_error' };\n  return [{ json: ctx }];\n}\n\nconst edges = input.data?.findCards?.edges;\nif (!Array.isArray(edges)) {\n  pushFailure(NODE_NAME, 'unexpected_payload_shape', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  return [{ json: ctx }];\n}\n\nconst invoiceInputBase = toObj(ctx.invoiceInputBase);\nif (!invoiceInputBase) {\n  pushFailure(NODE_NAME, 'missing_invoice_input_context', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'missing_invoice_input_context' };\n  return [{ json: ctx }];\n}\n\nconst pickField = (fields, id) => {\n  for (const f of (fields || [])) if (f?.field?.id === id) return f;\n  return null;\n};\nconst pickValue = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v);\n  const m = s.match(/[0-9]+/);\n  return m ? m[0] : s.trim();\n};\n\nlet existingInvoiceId = null;\nfor (const e of edges) {\n  const node = e?.node;\n  if (!node) continue;\n  const rid = toId(pickValue(pickField(node.fields, ctx.config.ruleLinkFieldId)));\n  const comp = String(pickValue(pickField(node.fields, ctx.config.competenciaFieldId)) || '').slice(0, 10);\n  if (rid === String(ctx.rule.ruleId || '') && comp === String(ctx.run.competenciaYMD || '')) {\n    existingInvoiceId = String(node.id);\n    break;\n  }\n}\n\nif (existingInvoiceId) {\n  ctx.existingInvoiceId = existingInvoiceId;\n  ctx.invoiceId = existingInvoiceId;\n  if (ctx.failures.length > 0) {\n    const firstFailure = ctx.failures[0];\n    ctx.terminal = { done: true, status: 'failed', reason: String(firstFailure?.reason || 'existing_invoice_found') };\n  } else {\n    ctx.terminal = { done: true, status: 'skipped', reason: 'existing_invoice_found' };\n  }\n  return [{ json: ctx }];\n}\n\nconst baseFields = Array.isArray(invoiceInputBase.fields_attributes)\n  ? invoiceInputBase.fields_attributes.filter((x) => x && x.field_id !== 'itens_da_fatura')\n  : [];\nbaseFields.push({ field_id: 'itens_da_fatura', field_value: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [] });\nctx.invoiceInput = {\n  ...invoiceInputBase,\n  fields_attributes: baseFields,\n};\nctx.shouldCreateInvoice = true;\n\nreturn [{ json: ctx }];"
       },
-      "id": "09dd9372-78e6-4948-b170-67c9df48f734",
+      "id": "69ea1ee7-1a71-4a56-a8ae-33ea9bea3f64",
       "name": "05.3 | Parse recheck anti-loop",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        460,
-        860
+        -1600,
+        32
       ]
     },
     {
@@ -367,13 +367,13 @@
         },
         "options": {}
       },
-      "id": "030094a6-2d56-465e-9989-aff950c2d156",
+      "id": "5b3cac5b-a6c2-45d7-9cbf-a471f3205b30",
       "name": "06.1 | Criar fatura?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        680,
-        860
+        -1376,
+        32
       ]
     },
     {
@@ -383,24 +383,24 @@
         "query": "mutation CreateInvoice($input: CreateCardInput!) { createCard(input: $input) { card { id title url } } }",
         "variables": "={{ { input: $json.invoiceInput } }}"
       },
-      "id": "eb4653e8-d1b1-4f7f-82b0-6e65cc3c489d",
+      "id": "35e30148-4c17-489c-a4d0-e3fbca1bdc2b",
       "name": "06.2 | FIN-03 Criar fatura",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        900,
-        760
+        -1152,
+        80
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -408,26 +408,26 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "38f0483f-22c8-468b-99a0-0215da66848c",
+      "id": "b4cd2cb7-a7bc-45e7-ba7e-d6cfed2d78b3",
       "name": "06.3 | Merge criação fatura",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1120,
-        760
+        -928,
+        -48
       ]
     },
     {
       "parameters": {
-        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\nconst toObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : null;\n\nconst defaultConfig = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst defaultMetricsDelta = {\n  itemBatchQueries: 0,\n  itemsFetched: 0,\n  createInvoices: 0,\n  createItems: 0,\n  updateItemInvoiceLinks: 0,\n  updateParcelasPagas: 0,\n};\n\nlet baseCtx = toObj(input.ctx) || toObj(input);\nconst baseCtxLooksValid = baseCtx && toObj(baseCtx.config) && toObj(baseCtx.rule) && toObj(baseCtx.run);\n\nif (!baseCtxLooksValid) {\n  const trace = toObj(input.trace) || {\n    parentExecutionId: null,\n    workflowExecutionId: String($execution.id ?? 'manual'),\n    ruleExecutionKey: null,\n  };\n  const rule = toObj(input.rule) || {\n    ruleId: null,\n    ruleTitle: null,\n    prefetchDecision: null,\n    ruleFields: {},\n    itemTemplateIds: [],\n  };\n  const run = toObj(input.run) || {\n    executionId: String(trace.parentExecutionId ?? $execution.id ?? 'manual'),\n    competenciaYMD: null,\n    compStart: null,\n    compEnd: null,\n    todayDay: null,\n  };\n\n  return [{ json: {\n    contractVersion: 'fin_v3',\n    trace,\n    run,\n    rule,\n    config: defaultConfig,\n    metricsDelta: { ...defaultMetricsDelta },\n    logs: [{ ts: nowIso, level: 'error', event: 'create_invoice_missing_ctx_fallback' }],\n    errors: [{ ts: nowIso, stage: 'create_invoice', reason: 'unexpected_payload_shape', details: { reason: 'missing_ctx_on_parse_create_invoice' } }],\n    createItemRequests: [],\n    createdItemIds: [],\n    parcelaUpdates: [],\n    linkUpdates: [],\n    eligibleItems: [],\n    invoiceInputBase: null,\n    invoiceId: null,\n    existingInvoiceId: null,\n    totals: { brl: 0, usd: 0 },\n    hasFetchErrors: false,\n    hasCreateItemErrors: false,\n    hasParcelaErrors: false,\n    terminal: { done: true, status: 'failed', reason: 'unexpected_payload_shape' },\n    startedAt: nowIso,\n  }}];\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\n\nif (ctx.terminal?.done === true) {\n  return [{ json: ctx }];\n}\n\nif (input.error) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'create_invoice_transport_error' };\n  ctx.errors.push({ ts: now(), stage: 'create_invoice', reason: 'create_invoice_transport_error', details: { transport: input.error } });\n  return [{ json: ctx }];\n}\n\nconst gqlErrors = Array.isArray(input.errors) ? input.errors : [];\nconst create = input.data?.createCard;\nconst userErrors = Array.isArray(create?.userErrors) ? create.userErrors : (Array.isArray(create?.user_errors) ? create.user_errors : []);\nconst invoiceId = create?.card?.id != null ? String(create.card.id) : null;\n\nif (gqlErrors.length > 0 || userErrors.length > 0 || !invoiceId) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'create_invoice_logical_error' };\n  ctx.errors.push({ ts: now(), stage: 'create_invoice', reason: 'create_invoice_logical_error', details: { gqlErrors, userErrors, hasInvoiceId: Boolean(invoiceId) } });\n  return [{ json: ctx }];\n}\n\nctx.invoiceId = invoiceId;\nctx.metricsDelta.createInvoices = 1;\nctx.linkUpdates = (Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : []).map((itemId) => ({ itemId: String(itemId), invoiceId }));\n\nreturn [{ json: ctx }];"
+        "jsCode": "const input = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst nowIso = new Date().toISOString();\nconst NODE_NAME = '06.4 | Parse criação fatura';\nconst SOURCE_NODE = '06.2 | FIN-03 Criar fatura';\nconst toObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : null;\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst failureEntry = (node, reason, ...ids) => ({\n  node,\n  reason: String(reason || 'unexpected_payload_shape'),\n  pipefyCardIds: collectIds(...ids),\n});\n\nconst defaultConfig = {\n  invoicePipeId: 306859731,\n  invoicePhaseId: 341350484,\n  itemPipeId: 306859915,\n  itemPhaseId: 341351580,\n  activeItemPhaseId: '341306826',\n  ruleLinkFieldId: 'id_da_regra_de_faturamento',\n  competenciaFieldId: 'data_de_compet_ncia',\n};\n\nconst defaultMetricsDelta = {\n  itemBatchQueries: 0,\n  itemsFetched: 0,\n  createInvoices: 0,\n  createItems: 0,\n  updateItemInvoiceLinks: 0,\n  updateParcelasPagas: 0,\n};\n\nlet baseCtx = toObj(input.ctx) || toObj(input);\nconst baseCtxLooksValid = baseCtx && toObj(baseCtx.config) && toObj(baseCtx.rule) && toObj(baseCtx.run);\n\nif (!baseCtxLooksValid) {\n  const trace = toObj(input.trace) || {\n    parentExecutionId: null,\n    workflowExecutionId: String($execution.id ?? 'manual'),\n    ruleExecutionKey: null,\n  };\n  const rule = toObj(input.rule) || {\n    ruleId: null,\n    ruleTitle: null,\n    prefetchDecision: null,\n    ruleFields: {},\n    itemTemplateIds: [],\n  };\n  const run = toObj(input.run) || {\n    executionId: String(trace.parentExecutionId ?? $execution.id ?? 'manual'),\n    competenciaYMD: null,\n    compStart: null,\n    compEnd: null,\n    todayDay: null,\n  };\n\n  return [{ json: {\n    contractVersion: 'fin_v3',\n    trace,\n    run,\n    rule,\n    config: defaultConfig,\n    metricsDelta: { ...defaultMetricsDelta },\n    failures: [failureEntry(NODE_NAME, 'unexpected_payload_shape', rule.ruleId ?? null)],\n    createItemRequests: [],\n    createdItemIds: [],\n    parcelaUpdates: [],\n    linkUpdates: [],\n    eligibleItems: [],\n    invoiceInputBase: null,\n    invoiceId: null,\n    existingInvoiceId: null,\n    totals: { brl: 0, usd: 0 },\n    hasParcelaErrors: false,\n    terminal: { done: true, status: 'failed', reason: 'unexpected_payload_shape' },\n    startedAt: nowIso,\n  }}];\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n\nif (ctx.terminal?.done === true) {\n  return [{ json: ctx }];\n}\n\nconst ruleId = ctx.rule?.ruleId ?? null;\nconst pushFailure = (node, reason, ...ids) => ctx.failures.push(failureEntry(node, reason, ...ids));\n\nif (input.error) {\n  pushFailure(SOURCE_NODE, 'create_invoice_transport_error', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'create_invoice_transport_error' };\n  return [{ json: ctx }];\n}\n\nconst gqlErrors = Array.isArray(input.errors) ? input.errors : [];\nconst create = input.data?.createCard;\nconst userErrors = Array.isArray(create?.userErrors) ? create.userErrors : (Array.isArray(create?.user_errors) ? create.user_errors : []);\nconst invoiceId = create?.card?.id != null ? String(create.card.id) : null;\n\nif (gqlErrors.length > 0 || userErrors.length > 0 || !invoiceId) {\n  pushFailure(SOURCE_NODE, 'create_invoice_logical_error', ruleId, ctx.createdItemIds);\n  ctx.terminal = { done: true, status: 'failed', reason: 'create_invoice_logical_error' };\n  return [{ json: ctx }];\n}\n\nctx.invoiceId = invoiceId;\nctx.metricsDelta.createInvoices = 1;\nctx.linkUpdates = (Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : []).map((itemId) => ({ itemId: String(itemId), invoiceId }));\n\nreturn [{ json: ctx }];"
       },
-      "id": "4ff5a23a-ebc1-46c0-af90-065cd21b9d07",
+      "id": "842e59e9-75cb-4269-bc55-e6e53db717c0",
       "name": "06.4 | Parse criação fatura",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1340,
-        760
+        -704,
+        -48
       ]
     },
     {
@@ -454,13 +454,13 @@
         },
         "options": {}
       },
-      "id": "ac444670-d81f-423b-abb1-06992695a716",
+      "id": "0f9b5a71-ffbf-4d42-9289-09bf033d6a7d",
       "name": "07.1 | Precisa vincular invoice?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1560,
-        760
+        -480,
+        -48
       ]
     },
     {
@@ -470,24 +470,24 @@
         "query": "mutation LinkInvoiceOnItem($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \"id_da_fatura\", value: $value }] }) { success } }",
         "variables": "={{ { itemId: String($json.linkReq.itemId), value: [String($json.linkReq.invoiceId)] } }}"
       },
-      "id": "2ad2909b-fa2a-434c-a685-f0bf46210e0e",
+      "id": "e198a9ac-f971-425a-9feb-72c7f9ee3db6",
       "name": "07.4 | FIN-04 Vincular id_da_fatura",
       "type": "n8n-nodes-base.graphql",
       "typeVersion": 1.1,
       "position": [
-        2000,
-        660
+        192,
+        -48
       ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 2000,
       "credentials": {
         "oAuth2Api": {
           "id": "26uKvuUtjVempi2s",
           "name": "Pipefy OAuth2 API"
         }
       },
-      "onError": "continueErrorOutput",
-      "retryOnFail": true,
-      "maxTries": 5,
-      "waitBetweenTries": 2000
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -495,39 +495,39 @@
         "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "2a1ad9f1-cfb7-4e12-a60a-9e8083f36c09",
+      "id": "c0b7075d-1f1d-40ae-a945-b61e7e88b3bc",
       "name": "07.5 | Merge vínculo fatura",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        2220,
-        660
+        416,
+        -112
       ]
     },
     {
       "parameters": {
-        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate links stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate links stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nconst now = () => new Date().toISOString();\nlet hasLinkError = false;\nlet successCount = 0;\n\nfor (const it of inItems) {\n  const req = (it.linkReq && typeof it.linkReq === 'object' && !Array.isArray(it.linkReq)) ? it.linkReq : {};\n  if (it.error) {\n    hasLinkError = true;\n    ctx.errors.push({ ts: now(), stage: 'link_invoice', reason: 'link_invoice_error', details: { itemId: req.itemId ?? null, transport: it.error } });\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  const upd = it.data?.updateFieldsValues;\n  const userErrors = Array.isArray(upd?.userErrors) ? upd.userErrors : [];\n  const success = upd?.success === true && gqlErrors.length === 0 && userErrors.length === 0;\n\n  if (success) {\n    successCount += 1;\n  } else {\n    hasLinkError = true;\n    ctx.errors.push({ ts: now(), stage: 'link_invoice', reason: 'link_invoice_error', details: { itemId: req.itemId ?? null, gqlErrors, userErrors } });\n  }\n}\n\nctx.metricsDelta.updateItemInvoiceLinks = successCount;\nif (hasLinkError) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'link_invoice_error' };\n} else if (!ctx.terminal?.done) {\n  ctx.terminal = { done: true, status: 'processed', reason: 'invoice_created_and_items_linked' };\n}\n\nreturn [{ json: ctx }];"
+        "jsCode": "const inItems = $input.all().map((i) => (i && i.json && typeof i.json === 'object' && !Array.isArray(i.json)) ? i.json : {});\nif (inItems.length === 0) {\n  throw new Error('No items to consolidate links stage');\n}\n\nconst baseCtx = (inItems[0].ctx && typeof inItems[0].ctx === 'object' && !Array.isArray(inItems[0].ctx)) ? inItems[0].ctx : null;\nif (!baseCtx) {\n  throw new Error('Missing ctx on consolidate links stage');\n}\n\nconst ctx = JSON.parse(JSON.stringify(baseCtx));\nctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\nconst SOURCE_NODE = '07.4 | FIN-04 Vincular id_da_fatura';\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pushFailure = (...ids) => {\n  ctx.failures.push({\n    node: SOURCE_NODE,\n    reason: 'link_invoice_error',\n    pipefyCardIds: collectIds(...ids),\n  });\n};\n\nlet hasLinkError = false;\nlet successCount = 0;\n\nfor (const it of inItems) {\n  const req = (it.linkReq && typeof it.linkReq === 'object' && !Array.isArray(it.linkReq)) ? it.linkReq : {};\n  if (it.error) {\n    hasLinkError = true;\n    pushFailure(ctx.rule?.ruleId ?? null, req.itemId ?? null, req.invoiceId ?? ctx.invoiceId ?? null);\n    continue;\n  }\n\n  const gqlErrors = Array.isArray(it.errors) ? it.errors : [];\n  const upd = it.data?.updateFieldsValues;\n  const userErrors = Array.isArray(upd?.userErrors) ? upd.userErrors : [];\n  const success = upd?.success === true && gqlErrors.length === 0 && userErrors.length === 0;\n\n  if (success) {\n    successCount += 1;\n  } else {\n    hasLinkError = true;\n    pushFailure(ctx.rule?.ruleId ?? null, req.itemId ?? null, req.invoiceId ?? ctx.invoiceId ?? null);\n  }\n}\n\nctx.metricsDelta.updateItemInvoiceLinks = successCount;\nif (hasLinkError) {\n  ctx.terminal = { done: true, status: 'failed', reason: 'link_invoice_error' };\n} else if (!ctx.terminal?.done) {\n  if (ctx.hasParcelaErrors || ctx.failures.length > 0) {\n    const firstFailure = ctx.failures[0];\n    ctx.terminal = { done: true, status: 'failed', reason: String(firstFailure?.reason || 'link_invoice_error') };\n  } else {\n    ctx.terminal = { done: true, status: 'processed', reason: 'invoice_created_and_items_linked' };\n  }\n}\n\nreturn [{ json: ctx }];"
       },
-      "id": "e7266ab7-8389-4204-8c22-5c5a30d416c5",
+      "id": "eb3d81f2-a651-4961-bdb2-5fe4f2002219",
       "name": "07.6 | Consolidar vínculos",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2440,
-        660
+        640,
+        -112
       ]
     },
     {
       "parameters": {
-        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst finishedAt = new Date().toISOString();\n\nif (!ctx.terminal || ctx.terminal.done !== true) {\n  if (ctx.existingInvoiceId) {\n    ctx.terminal = { done: true, status: 'skipped', reason: 'existing_invoice_found' };\n  } else if (ctx.invoiceId && Array.isArray(ctx.createdItemIds) && ctx.createdItemIds.length > 0 && !ctx.hasParcelaErrors) {\n    ctx.terminal = { done: true, status: 'processed', reason: 'invoice_created_and_items_linked' };\n  } else if (ctx.hasParcelaErrors) {\n    ctx.terminal = { done: true, status: 'failed', reason: 'create_item_logical_error' };\n  } else {\n    ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n  }\n}\n\nconst startedMs = Date.parse(ctx.startedAt || '');\nconst finishedMs = Date.parse(finishedAt);\nconst durationMs = (Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0, finishedMs - startedMs) : null;\n\nconst out = {\n  contractVersion: 'fin_v3',\n  itemType: 'rule_result',\n  trace: (ctx.trace && typeof ctx.trace === 'object' && !Array.isArray(ctx.trace)) ? ctx.trace : { parentExecutionId: null, workflowExecutionId: String($execution.id ?? 'manual'), ruleExecutionKey: null },\n  rule: {\n    ruleId: ctx.rule?.ruleId ?? null,\n    ruleTitle: ctx.rule?.ruleTitle ?? null,\n    prefetchDecision: ctx.rule?.prefetchDecision ?? null,\n  },\n  result: {\n    status: String(ctx.terminal.status || 'failed'),\n    reason: String(ctx.terminal.reason || 'unexpected_payload_shape'),\n    invoiceId: ctx.invoiceId || null,\n    existingInvoiceId: ctx.existingInvoiceId || null,\n    createdItemIds: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [],\n    totals: (ctx.totals && typeof ctx.totals === 'object' && !Array.isArray(ctx.totals)) ? ctx.totals : { brl: 0, usd: 0 },\n    metricsDelta: (ctx.metricsDelta && typeof ctx.metricsDelta === 'object' && !Array.isArray(ctx.metricsDelta)) ? ctx.metricsDelta : {},\n    timings: {\n      startedAt: ctx.startedAt || null,\n      finishedAt,\n      durationMs,\n    },\n    errors: Array.isArray(ctx.errors) ? ctx.errors : [],\n    logs: Array.isArray(ctx.logs) ? ctx.logs : [],\n  },\n  status: String(ctx.terminal.status || 'failed'),\n  reason: String(ctx.terminal.reason || 'unexpected_payload_shape'),\n};\n\nreturn [{ json: out }];"
+        "jsCode": "const ctx = ($json && typeof $json === 'object' && !Array.isArray($json)) ? $json : {};\nconst finishedAt = new Date().toISOString();\nconst terminal = (ctx.terminal && ctx.terminal.done === true)\n  ? ctx.terminal\n  : { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n\nconst startedMs = Date.parse(ctx.startedAt || '');\nconst finishedMs = Date.parse(finishedAt);\nconst durationMs = (Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0, finishedMs - startedMs) : null;\n\nconst out = {\n  contractVersion: 'fin_v3',\n  itemType: 'rule_result',\n  trace: (ctx.trace && typeof ctx.trace === 'object' && !Array.isArray(ctx.trace)) ? ctx.trace : { parentExecutionId: null, workflowExecutionId: String($execution.id ?? 'manual'), ruleExecutionKey: null },\n  rule: {\n    ruleId: ctx.rule?.ruleId ?? null,\n    ruleTitle: ctx.rule?.ruleTitle ?? null,\n    prefetchDecision: ctx.rule?.prefetchDecision ?? null,\n  },\n  result: {\n    status: String(terminal.status || 'failed'),\n    reason: String(terminal.reason || 'unexpected_payload_shape'),\n    invoiceId: ctx.invoiceId || null,\n    existingInvoiceId: ctx.existingInvoiceId || null,\n    createdItemIds: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [],\n    totals: (ctx.totals && typeof ctx.totals === 'object' && !Array.isArray(ctx.totals)) ? ctx.totals : { brl: 0, usd: 0 },\n    metricsDelta: (ctx.metricsDelta && typeof ctx.metricsDelta === 'object' && !Array.isArray(ctx.metricsDelta)) ? ctx.metricsDelta : {},\n    timings: {\n      startedAt: ctx.startedAt || null,\n      finishedAt,\n      durationMs,\n    },\n    failures: Array.isArray(ctx.failures) ? ctx.failures : [],\n  },\n  status: String(terminal.status || 'failed'),\n  reason: String(terminal.reason || 'unexpected_payload_shape'),\n};\n\nreturn [{ json: out }];"
       },
-      "id": "2d50f35d-3aa5-48ad-9426-1c46772f74f1",
+      "id": "a63d0a2f-29e4-4e7d-88f8-beca8cab7a07",
       "name": "08.1 | Finalizar rule_result",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2660,
-        1000
+        864,
+        -112
       ]
     },
     {
@@ -539,25 +539,24 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2890,
-        620
+        -6576,
+        -416
       ],
-      "id": "61a022b9-93cd-4abe-9156-26a65beb6832",
+      "id": "6f69f4a2-c026-4250-a77c-54ff32d628bb",
       "name": "Nota Fase 01"
     },
     {
       "parameters": {
         "content": "## Fase 02 — Templates\nEntrada: templates da regra\nSaída: elegibilidade + requests de item + base da fatura.",
-        "height": 160,
         "width": 540
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -2230,
-        620
+        -5920,
+        -512
       ],
-      "id": "08820a78-8019-454d-bff0-869f835ca3b9",
+      "id": "f9caaa01-48b4-4a48-b4e7-d56138deb006",
       "name": "Nota Fase 02"
     },
     {
@@ -569,10 +568,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1130,
-        520
+        -4816,
+        -336
       ],
-      "id": "fc5107cb-8fc3-4c93-bf7e-2f40492beb61",
+      "id": "0c0d53d7-9055-4725-bd7d-46d065fc7efc",
       "name": "Nota Fase 03"
     },
     {
@@ -584,10 +583,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -40,
-        520
+        -3728,
+        -336
       ],
-      "id": "f5f58f00-2e6e-43a3-bb34-db8264abac1f",
+      "id": "7a176c4a-3685-4445-8053-58ba8a5adc06",
       "name": "Nota Fase 04"
     },
     {
@@ -599,10 +598,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        0,
-        940
+        -3680,
+        80
       ],
-      "id": "fef0277b-8a85-4491-ac8b-062b927f4d31",
+      "id": "781ee1d5-fb3e-445f-ae55-fc128c3ec5ce",
       "name": "Nota Fase 05"
     },
     {
@@ -614,10 +613,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        860,
-        940
+        -2816,
+        80
       ],
-      "id": "bae9be4e-4fa5-4ae9-ae45-a07b1315242e",
+      "id": "cc3eb207-dac1-4503-a8cc-6c6f1f15fa4d",
       "name": "Nota Fase 06"
     },
     {
@@ -629,10 +628,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1710,
-        520
+        -1968,
+        -336
       ],
-      "id": "b0ca80d8-c56a-4c32-903c-a6931995e899",
+      "id": "f811995f-d09b-4aa9-b94b-7412e5d3523e",
       "name": "Nota Fase 07"
     },
     {
@@ -644,10 +643,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2490,
-        840
+        -1184,
+        -16
       ],
-      "id": "603123d0-4ff2-4eae-a57a-6cd2dcdc760c",
+      "id": "7fda7d36-5c04-4ff1-b845-bfc5c79ee666",
       "name": "Nota Fase 08"
     },
     {
@@ -664,13 +663,13 @@
         },
         "options": {}
       },
-      "id": "21be89c6-9f14-4e90-b160-1a1beda9963b",
+      "id": "92958bdf-f8e1-40b7-8fb3-6dd8ba1d7b3b",
       "name": "02.1 | Set pares template IDs",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2180,
-        860
+        -5856,
+        -144
       ]
     },
     {
@@ -678,13 +677,13 @@
         "fieldToSplitOut": "emitTemplatePairs",
         "options": {}
       },
-      "id": "0986cdea-1fde-4194-a775-5ee703078d7c",
+      "id": "ba72579d-805b-4063-9fa3-a066c7de6883",
       "name": "02.2 | Split Out template IDs",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -2060,
-        860
+        -5632,
+        -144
       ]
     },
     {
@@ -701,13 +700,13 @@
         },
         "options": {}
       },
-      "id": "256c143b-3d2c-4086-bf61-f8b718a9f36e",
+      "id": "ea0899e4-4b5a-4f1c-92e2-6eee075142b0",
       "name": "03.1 | Set pares create requests",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1080,
-        760
+        -4512,
+        80
       ]
     },
     {
@@ -715,13 +714,13 @@
         "fieldToSplitOut": "emitCreatePairs",
         "options": {}
       },
-      "id": "2828e003-5a5f-4101-87d9-e960423e8bd2",
+      "id": "a5a3a6fb-c441-4f7c-9752-9f4153f7c3e3",
       "name": "03.2 | Split Out create requests",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -970,
-        760
+        -4288,
+        80
       ]
     },
     {
@@ -738,13 +737,13 @@
         },
         "options": {}
       },
-      "id": "3a3da81c-dfa0-4b3b-ad9b-1f5843b724aa",
+      "id": "932d4c88-d3e1-4155-8fcd-8a66fb90023b",
       "name": "04.2 | Set pares parcela updates",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        20,
-        660
+        -3168,
+        80
       ]
     },
     {
@@ -752,13 +751,13 @@
         "fieldToSplitOut": "emitParcelaPairs",
         "options": {}
       },
-      "id": "25cafbe0-0d0b-4f7c-8e5e-ed861f9f2248",
+      "id": "61403021-018c-4d59-9d11-984b05adb563",
       "name": "04.3 | Split Out parcela updates",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        130,
-        660
+        -2944,
+        80
       ]
     },
     {
@@ -775,13 +774,13 @@
         },
         "options": {}
       },
-      "id": "98d1f58d-b0c5-4d93-96af-06fd5518c474",
+      "id": "bb5fe65b-e039-4c76-ae2c-cad07a8531d2",
       "name": "07.2 | Set pares link updates",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1780,
-        660
+        -256,
+        -112
       ]
     },
     {
@@ -789,13 +788,13 @@
         "fieldToSplitOut": "emitLinkPairs",
         "options": {}
       },
-      "id": "f5fe6b2a-63e6-43d7-a7ff-11733a7db261",
+      "id": "14519bfb-7d88-4c33-8fd1-ff55e8260282",
       "name": "07.3 | Split Out link updates",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1890,
-        660
+        -32,
+        -112
       ]
     }
   ],
@@ -1242,7 +1241,7 @@
     "availableInMCP": false,
     "errorWorkflow": "mry7wCpuNRODMB5e"
   },
-  "versionId": "890e1608-d81b-4268-8769-18efbb667850",
+  "versionId": "bbe287b8-d87f-4aad-8805-e1e46a9d5599",
   "meta": {
     "instanceId": "3016816d496aebba57a69fdaf12429733e80c66b51f4f4969ff2808297f74ee9"
   },
