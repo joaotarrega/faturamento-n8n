@@ -34,53 +34,7 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0b8a7e57-4c07-4f11-83d7-1d903d5abc01",
-              "name": "trigger",
-              "type": "json",
-              "value": "={{ { source: 'scheduled', enforceBillingDay: true } }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "c8d693c7-d0d0-4e72-87dd-7b5f9c5477f6",
-      "name": "Run mode: scheduled",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2304,
-        496
-      ]
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "44ca4854-08a5-4e3e-9a11-e7dcf2eaf0d8",
-              "name": "trigger",
-              "type": "json",
-              "value": "={{ { source: 'manual', enforceBillingDay: false } }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "e28aa5b9-0002-4596-b735-09d887141d69",
-      "name": "Run mode: manual",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2304,
-        688
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\n\nconst executionId=String($execution.id ?? 'manual');\nconst input=($json && typeof $json==='object' && !Array.isArray($json)) ? $json : {};\nconst triggerInput=(input.trigger && typeof input.trigger==='object' && !Array.isArray(input.trigger)) ? input.trigger : {};\nconst executionSource=String(triggerInput.source || '').trim().toLowerCase()==='manual' ? 'manual' : 'scheduled';\nconst enforceBillingDay=typeof triggerInput.enforceBillingDay === 'boolean'\n  ? triggerInput.enforceBillingDay\n  : executionSource !== 'manual';\nconst TZ='America/Sao_Paulo';\nconst now=new Date();\nconst nowIso=now.toISOString();\nconst parts=new Intl.DateTimeFormat('en-CA',{\n  timeZone:TZ,\n  year:'numeric',\n  month:'2-digit',\n  day:'2-digit'\n}).formatToParts(now);\nconst m={};\nfor(const p of parts){\n  m[p.type]=p.value;\n}\n\nconst year=Number(m.year);\nconst month=Number(m.month);\nconst day=Number(m.day);\nlet compYear=year;\nlet compMonth=month-1;\nif(compMonth===0){\n  compMonth=12;\n  compYear=year-1;\n}\n\nconst mm=String(compMonth).padStart(2,'0');\nconst competenciaYMD=compYear+'-'+mm+'-01';\nconst daysInCompMonth=new Date(Date.UTC(compYear,compMonth,0)).getUTCDate();\nconst compStart=competenciaYMD;\nconst compEnd=compYear+'-'+mm+'-'+String(daysInCompMonth).padStart(2,'0');\n\nconst metrics={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runContext={\n  executionId,\n  startedAt:nowIso,\n  executionSource,\n  timezone:TZ,\n  todayDay:day,\n  competenciaYMD,\n  compStart,\n  compEnd,\n  flags:{\n    maxRulesPages:50,\n    maxPrefetchPages:50,\n    rulesPageSize:50,\n    prefetchPageSize:200,\n    enforceBillingDay\n  },\n  metrics,\n  logs:[],\n  errors:[]\n};\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nfor(const [key,state] of Object.entries(sd.finV3Runs)){\n  const startedAt=state?.runInit?.startedAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.finV3Runs[key];\n  }\n}\n\nsd.finV3Runs[executionId]={\n  runInit:{\n    executionId,\n    startedAt:runContext.startedAt,\n    competenciaYMD:runContext.competenciaYMD,\n    executionSource:runContext.executionSource,\n    enforceBillingDay:runContext.flags.enforceBillingDay,\n    metrics:{...runContext.metrics}\n  },\n  acc:{\n    contractVersion:'fin_v3',\n    metrics:{...runContext.metrics},\n    failures:[],\n    results:[],\n    statusCounts:{processed:0,skipped:0,failed:0},\n    skippedReasons:{},\n    prepSummarySeen:false,\n    prepSummaryCount:0,\n    ruleResultsReceived:0,\n    malformedResults:0\n  }\n};\n\nreturn [{json:{runContext}}];"
+        "jsCode": "const sd=$getWorkflowStaticData('global');\n\nconst executionId=String($execution.id ?? 'manual');\nconst TZ='America/Sao_Paulo';\nconst now=new Date();\nconst nowIso=now.toISOString();\nconst parts=new Intl.DateTimeFormat('en-CA',{\n  timeZone:TZ,\n  year:'numeric',\n  month:'2-digit',\n  day:'2-digit'\n}).formatToParts(now);\nconst m={};\nfor(const p of parts){\n  m[p.type]=p.value;\n}\n\nconst year=Number(m.year);\nconst month=Number(m.month);\nconst day=Number(m.day);\nlet compYear=year;\nlet compMonth=month-1;\nif(compMonth===0){\n  compMonth=12;\n  compYear=year-1;\n}\n\nconst mm=String(compMonth).padStart(2,'0');\nconst competenciaYMD=compYear+'-'+mm+'-01';\nconst daysInCompMonth=new Date(Date.UTC(compYear,compMonth,0)).getUTCDate();\nconst compStart=competenciaYMD;\nconst compEnd=compYear+'-'+mm+'-'+String(daysInCompMonth).padStart(2,'0');\n\nconst metrics={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runContext={\n  executionId,\n  startedAt:nowIso,\n  timezone:TZ,\n  todayDay:day,\n  competenciaYMD,\n  compStart,\n  compEnd,\n  flags:{\n    maxRulesPages:50,\n    maxPrefetchPages:50,\n    rulesPageSize:50,\n    prefetchPageSize:200\n  },\n  metrics,\n  logs:[],\n  errors:[]\n};\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nfor(const [key,state] of Object.entries(sd.finV3Runs)){\n  const startedAt=state?.runInit?.startedAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.finV3Runs[key];\n  }\n}\n\nsd.finV3Runs[executionId]={\n  runInit:{\n    executionId,\n    startedAt:runContext.startedAt,\n    competenciaYMD:runContext.competenciaYMD,\n    metrics:{...runContext.metrics}\n  },\n  acc:{\n    contractVersion:'fin_v3',\n    metrics:{...runContext.metrics},\n    failures:[],\n    results:[],\n    statusCounts:{processed:0,skipped:0,failed:0},\n    skippedReasons:{},\n    prepSummarySeen:false,\n    prepSummaryCount:0,\n    ruleResultsReceived:0,\n    malformedResults:0\n  }\n};\n\nreturn [{json:{runContext}}];"
       },
       "id": "9e95c877-3966-4b00-95c1-3847c0a0ef54",
       "name": "Init Run",
@@ -259,7 +213,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nconst state=sd.finV3Runs[executionId];\n\nconst defaults={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runInit=(state?.runInit && typeof state.runInit==='object' && !Array.isArray(state.runInit)) ? state.runInit : {executionId,startedAt:null,competenciaYMD:null,executionSource:null,enforceBillingDay:true,metrics:{...defaults}};\nconst acc=(state?.acc && typeof state.acc==='object' && !Array.isArray(state.acc)) ? state.acc : {\n  contractVersion:'fin_v3',\n  metrics:{...defaults},\n  failures:[],\n  results:[],\n  statusCounts:{processed:0,skipped:0,failed:0},\n  skippedReasons:{},\n  prepSummarySeen:false,\n  prepSummaryCount:0,\n  ruleResultsReceived:0,\n  malformedResults:0\n};\n\nconst metrics={...defaults};\nif(runInit.metrics && typeof runInit.metrics==='object' && !Array.isArray(runInit.metrics)){\n  for(const [k,v] of Object.entries(runInit.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\nif(acc.metrics && typeof acc.metrics==='object' && !Array.isArray(acc.metrics)){\n  for(const [k,v] of Object.entries(acc.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\n\nconst sc={processed:0,skipped:0,failed:0,...(acc.statusCounts || {})};\nconst processedRules=Number(sc.processed || 0);\nconst skippedRules=Number(sc.skipped || 0);\nconst failedRules=Number(sc.failed || 0);\nconst failures=Array.isArray(acc.failures) ? acc.failures : [];\nconst ruleResultsReceived=Number(acc.ruleResultsReceived || 0);\nconst malformedResults=Number(acc.malformedResults || 0);\nconst prepSummarySeen=Boolean(acc.prepSummarySeen);\nconst prepSummaryCount=Number(acc.prepSummaryCount || 0);\n\nconst failedNodes={};\nconst failedReasons={};\nconst pipefyCardIds=[];\nconst pipefyCardSet=new Set();\nfor(const failure of failures){\n  const node=String(failure?.node || 'Accumulate results');\n  const reason=String(failure?.reason || 'unexpected_payload_shape');\n  failedNodes[node]=Number(failedNodes[node] || 0) + 1;\n  failedReasons[reason]=Number(failedReasons[reason] || 0) + 1;\n  const ids=Array.isArray(failure?.pipefyCardIds) ? failure.pipefyCardIds : [];\n  for(const rawId of ids){\n    const id=String(rawId || '').trim();\n    if(!id || pipefyCardSet.has(id)) continue;\n    pipefyCardSet.add(id);\n    pipefyCardIds.push(id);\n  }\n}\n\nconst expectedRuleResults=Number(metrics.rulesTotal || 0);\nconst integrityErrors=[];\nif(!prepSummarySeen){\n  integrityErrors.push('prep_summary_missing');\n}\nif(expectedRuleResults>0 && ruleResultsReceived!==expectedRuleResults){\n  integrityErrors.push('rule_results_mismatch_expected');\n}\n\nconst startedAt=runInit.startedAt || null;\nconst finishedAt=new Date().toISOString();\nconst startedMs=Date.parse(startedAt || '');\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\nconst failureCount=failures.length;\n\nconst summary={\n  contractVersion:'fin_v3',\n  executionId,\n  executionSource:runInit.executionSource || null,\n  enforceBillingDay:runInit.enforceBillingDay !== false,\n  competenciaYMD:runInit.competenciaYMD || null,\n  startedAt,\n  finishedAt,\n  durationMs,\n  processedRules,\n  skippedRules,\n  failedRules,\n  totalRules:processedRules+skippedRules+failedRules,\n  ruleResultsReceived,\n  expectedRuleResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  malformedResults,\n  errorsCount:failureCount,\n  failureCount,\n  skippedReasons:(acc.skippedReasons && typeof acc.skippedReasons==='object' && !Array.isArray(acc.skippedReasons)) ? acc.skippedReasons : {},\n  failedNodes,\n  failedReasons,\n  pipefyCardIds,\n  integrityErrors,\n  metrics\n};\n\nconst ok=(failedRules===0) && (summary.failureCount===0) && (summary.malformedResults===0) && integrityErrors.length===0;\n\nconst run={\n  contractVersion:'fin_v3',\n  metrics,\n  failures,\n  results:Array.isArray(acc.results) ? acc.results : [],\n  statusCounts:sc,\n  skippedReasons:summary.skippedReasons,\n  failedNodes,\n  failedReasons,\n  malformedResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  ruleResultsReceived,\n  failureCount\n};\n\nif(sd.finV3Runs && sd.finV3Runs[executionId]){\n  delete sd.finV3Runs[executionId];\n}\n\nreturn [{json:{summary,run,ok}}];"
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nconst state=sd.finV3Runs[executionId];\n\nconst defaults={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runInit=(state?.runInit && typeof state.runInit==='object' && !Array.isArray(state.runInit)) ? state.runInit : {executionId,startedAt:null,competenciaYMD:null,metrics:{...defaults}};\nconst acc=(state?.acc && typeof state.acc==='object' && !Array.isArray(state.acc)) ? state.acc : {\n  contractVersion:'fin_v3',\n  metrics:{...defaults},\n  failures:[],\n  results:[],\n  statusCounts:{processed:0,skipped:0,failed:0},\n  skippedReasons:{},\n  prepSummarySeen:false,\n  prepSummaryCount:0,\n  ruleResultsReceived:0,\n  malformedResults:0\n};\n\nconst metrics={...defaults};\nif(runInit.metrics && typeof runInit.metrics==='object' && !Array.isArray(runInit.metrics)){\n  for(const [k,v] of Object.entries(runInit.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\nif(acc.metrics && typeof acc.metrics==='object' && !Array.isArray(acc.metrics)){\n  for(const [k,v] of Object.entries(acc.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\n\nconst sc={processed:0,skipped:0,failed:0,...(acc.statusCounts || {})};\nconst processedRules=Number(sc.processed || 0);\nconst skippedRules=Number(sc.skipped || 0);\nconst failedRules=Number(sc.failed || 0);\nconst failures=Array.isArray(acc.failures) ? acc.failures : [];\nconst ruleResultsReceived=Number(acc.ruleResultsReceived || 0);\nconst malformedResults=Number(acc.malformedResults || 0);\nconst prepSummarySeen=Boolean(acc.prepSummarySeen);\nconst prepSummaryCount=Number(acc.prepSummaryCount || 0);\n\nconst failedNodes={};\nconst failedReasons={};\nconst pipefyCardIds=[];\nconst pipefyCardSet=new Set();\nfor(const failure of failures){\n  const node=String(failure?.node || 'Accumulate results');\n  const reason=String(failure?.reason || 'unexpected_payload_shape');\n  failedNodes[node]=Number(failedNodes[node] || 0) + 1;\n  failedReasons[reason]=Number(failedReasons[reason] || 0) + 1;\n  const ids=Array.isArray(failure?.pipefyCardIds) ? failure.pipefyCardIds : [];\n  for(const rawId of ids){\n    const id=String(rawId || '').trim();\n    if(!id || pipefyCardSet.has(id)) continue;\n    pipefyCardSet.add(id);\n    pipefyCardIds.push(id);\n  }\n}\n\nconst expectedRuleResults=Number(metrics.rulesTotal || 0);\nconst integrityErrors=[];\nif(!prepSummarySeen){\n  integrityErrors.push('prep_summary_missing');\n}\nif(expectedRuleResults>0 && ruleResultsReceived!==expectedRuleResults){\n  integrityErrors.push('rule_results_mismatch_expected');\n}\n\nconst startedAt=runInit.startedAt || null;\nconst finishedAt=new Date().toISOString();\nconst startedMs=Date.parse(startedAt || '');\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\nconst failureCount=failures.length;\n\nconst summary={\n  contractVersion:'fin_v3',\n  executionId,\n  competenciaYMD:runInit.competenciaYMD || null,\n  startedAt,\n  finishedAt,\n  durationMs,\n  processedRules,\n  skippedRules,\n  failedRules,\n  totalRules:processedRules+skippedRules+failedRules,\n  ruleResultsReceived,\n  expectedRuleResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  malformedResults,\n  errorsCount:failureCount,\n  failureCount,\n  skippedReasons:(acc.skippedReasons && typeof acc.skippedReasons==='object' && !Array.isArray(acc.skippedReasons)) ? acc.skippedReasons : {},\n  failedNodes,\n  failedReasons,\n  pipefyCardIds,\n  integrityErrors,\n  metrics\n};\n\nconst ok=(failedRules===0) && (summary.failureCount===0) && (summary.malformedResults===0) && integrityErrors.length===0;\n\nconst run={\n  contractVersion:'fin_v3',\n  metrics,\n  failures,\n  results:Array.isArray(acc.results) ? acc.results : [],\n  statusCounts:sc,\n  skippedReasons:summary.skippedReasons,\n  failedNodes,\n  failedReasons,\n  malformedResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  ruleResultsReceived,\n  failureCount\n};\n\nif(sd.finV3Runs && sd.finV3Runs[executionId]){\n  delete sd.finV3Runs[executionId];\n}\n\nreturn [{json:{summary,run,ok}}];"
       },
       "id": "6406c89f-80f1-4d44-a4d5-f081a215ff76",
       "name": "Finalize summary",
@@ -628,7 +582,7 @@
       "main": [
         [
           {
-            "node": "Run mode: scheduled",
+            "node": "Init Run",
             "type": "main",
             "index": 0
           }
@@ -639,7 +593,7 @@
       "main": [
         [
           {
-            "node": "Run mode: manual",
+            "node": "Init Run",
             "type": "main",
             "index": 0
           }
@@ -753,28 +707,6 @@
         [
           {
             "node": "Run: tem erros?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Run mode: scheduled": {
-      "main": [
-        [
-          {
-            "node": "Init Run",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Run mode: manual": {
-      "main": [
-        [
-          {
-            "node": "Init Run",
             "type": "main",
             "index": 0
           }
