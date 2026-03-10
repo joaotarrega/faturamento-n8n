@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_o_evento_ou_cliente_rede_de_origem",
+      "internal_id": "416486282",
+      "label": "Qual a origem do lead?",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "f3584e2a-2f4e-427a-9e99-933ae570a7d0"
+    }
+  },
+  "meta": {
+    "field_id": "qual_o_evento_ou_cliente_rede_de_origem",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

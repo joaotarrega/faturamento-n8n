@@ -1,0 +1,62 @@
+{
+  "ids": [],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306612370",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p18": {
+          "id": "306612370",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "339912150",
+              "name": "Ideia Submetida",
+              "uuid": "1f3d5a2f-0e87-4baf-b7f8-e1eab16f7865"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339912151",
+              "name": "Avaliação",
+              "uuid": "72250e59-f21f-4919-b04f-c689fa803757"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339912152",
+              "name": "Planejamento",
+              "uuid": "fdf776f9-595c-4d42-87c3-de45cd4d3a2c"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339912153",
+              "name": "Protótipo",
+              "uuid": "db312048-354d-477b-9758-912cbb175cc9"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339912154",
+              "name": "Desenvolvimento",
+              "uuid": "00399c6f-f452-4495-b9d9-813aeba7b984"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339912155",
+              "name": "Produção",
+              "uuid": "45a89413-a63e-427e-9f27-14547d2d6cc2"
+            }
+          ],
+          "startFormFieldConditions": []
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {},
+  "start_form_rule_ids": []
+}

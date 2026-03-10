@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "permiss_es_e_acessos_n_o_atrapalham_meu_trabalho",
+      "index": 1102.0,
+      "internal_id": "418530391",
+      "label": "Permissões e acessos não atrapalham meu trabalho",
+      "options": [
+        "1 - Discordo totalmente",
+        "2 - Discordo",
+        "3 - Neutro",
+        "4 - Concordo",
+        "5 - Concordo totalmente"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "068097f3-de24-4b22-b147-68f3db7548eb"
+    }
+  },
+  "meta": {
+    "field_id": "permiss_es_e_acessos_n_o_atrapalham_meu_trabalho",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

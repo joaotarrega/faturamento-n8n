@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Será o *único* valor cobrado do cliente mensalmente.",
+      "help": null,
+      "id": "copy_of_saas_modelo_fixo_valor_mensal_brl",
+      "index": 56.25,
+      "internal_id": "415903234",
+      "label": "SaaS - Modelo fixo - Valor mensal (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "38ca7025-e041-4677-bb02-906f48007b3a"
+    }
+  },
+  "meta": {
+    "field_id": "copy_of_saas_modelo_fixo_valor_mensal_brl",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

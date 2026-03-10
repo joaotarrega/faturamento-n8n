@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "conhe_o_e_uso_visualiza_es_kanban_lista_e_relat_rios_para_responder_s_demandas_do_meu_dia_a_dia",
+      "index": 1106.5,
+      "internal_id": "418530434",
+      "label": "Conheço e uso visualizações kanban/lista e relatórios para responder às demandas do meu dia a dia",
+      "options": [
+        "1 - Discordo totalmente",
+        "2 - Discordo",
+        "3 - Neutro",
+        "4 - Concordo",
+        "5 - Concordo totalmente"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "572dae73-0890-4e5d-9c68-3a403f711415"
+    }
+  },
+  "meta": {
+    "field_id": "conhe_o_e_uso_visualiza_es_kanban_lista_e_relat_rios_para_responder_s_demandas_do_meu_dia_a_dia",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

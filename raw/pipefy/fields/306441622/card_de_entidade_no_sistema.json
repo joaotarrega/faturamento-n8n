@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "description": "",
+      "help": null,
+      "id": "card_de_entidade_no_sistema",
+      "index": -100.0,
+      "internal_id": "416236866",
+      "label": "Ambiente",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "fee59eb3-683d-46e9-a9a4-5d1aa76a03bd"
+    }
+  },
+  "meta": {
+    "field_id": "card_de_entidade_no_sistema",
+    "phase": {
+      "id": "338910239",
+      "name": "Implantado",
+      "uuid": "ffe30e36-cd48-4abc-9164-daa5098515ba"
+    },
+    "pipe_id": "306441622",
+    "scope": "phase"
+  }
+}

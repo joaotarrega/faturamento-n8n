@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327421043",
+          "phaseField": {
+            "id": "id_da_tarefa_principal",
+            "internal_id": "424608303",
+            "label": "ID da tarefa principal",
+            "uuid": "f9f27419-1b88-4d51-9ed9-a6a607798063"
+          },
+          "phaseFieldId": "424608303",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "424608303",
+            "id": "315342555",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312834002"
+      },
+      "id": "306463594",
+      "name": "ID da tarefa está vazio",
+      "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306463594"
+    }
+  },
+  "meta": {
+    "pipe_id": "306877425",
+    "rule_id": "306463594",
+    "scope": "start_form"
+  }
+}

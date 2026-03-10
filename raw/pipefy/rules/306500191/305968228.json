@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325175012",
+          "phaseField": {
+            "id": "cs_respons_vel",
+            "internal_id": "417006963",
+            "label": "CS Responsável",
+            "uuid": "1056378b-e297-4eeb-9fa2-4f274544a4be"
+          },
+          "phaseFieldId": "417006963",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "417007150",
+            "id": "313662278",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311279712"
+      },
+      "id": "305968228",
+      "name": "Passagem para o CS != Sim",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/305968228"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "rule_id": "305968228",
+    "scope": "phase"
+  }
+}

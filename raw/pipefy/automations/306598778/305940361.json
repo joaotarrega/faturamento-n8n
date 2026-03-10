@@ -1,0 +1,46 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "send_http_request",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": "",
+        "authenticationType": "oauth2",
+        "body": "{\"query\": \"mutation { updateCardField( input: { card_id: \\\"%{417644326.id}\\\", field_id: \\\"card_de_churn\\\", new_value: \\\"%{id}\\\" } ) { card { id } } }\"}",
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": "POST",
+        "strategy": null,
+        "to_phase_id": null,
+        "url": "https://api.pipefy.com/graphql"
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312132258"
+      },
+      "created_at": "2025-10-28 19:14:33 UTC",
+      "event_id": "card_created",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305940361",
+      "name": "Add churn no campo conectado em DB-01",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940361"
+    }
+  }
+}

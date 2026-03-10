@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "CNPJ (e outros identificadores para outros países).",
+      "help": "",
+      "id": "identificador_fiscal_na_fatura",
+      "internal_id": "422905926",
+      "label": "Identificador fiscal na fatura",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "e12fb56c-679b-4ce8-856f-fbae01543f1f"
+    }
+  },
+  "meta": {
+    "field_id": "identificador_fiscal_na_fatura",
+    "pipe_id": "306859731",
+    "scope": "start_form"
+  }
+}

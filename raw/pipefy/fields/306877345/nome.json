@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "nome",
+      "internal_id": "423266573",
+      "label": "Nome",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "0c7671e0-71a1-4c56-95ce-24e2ff9410fd"
+    }
+  },
+  "meta": {
+    "field_id": "nome",
+    "pipe_id": "306877345",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Caso selecionado, você deverá enviar o email manualmente dentro do card",
+      "help": null,
+      "id": "n_o_enviar_email_automaticamente_ao_cliente",
+      "internal_id": "417358630",
+      "label": "Não enviar email automaticamente ao respondente",
+      "options": [
+        "Clique aqui para cancelar o envio automático do email"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "dcb24ec8-67dc-48ed-a361-0731f5358610"
+    }
+  },
+  "meta": {
+    "field_id": "n_o_enviar_email_automaticamente_ao_cliente",
+    "pipe_id": "306589932",
+    "scope": "start_form"
+  }
+}

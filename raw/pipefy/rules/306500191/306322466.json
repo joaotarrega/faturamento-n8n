@@ -1,0 +1,86 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326784026",
+          "phaseField": {
+            "id": "statement_339a8ecc_a91f_4a2f_90be_60c34293dde9",
+            "internal_id": "422034958",
+            "label": "Statement-339a8ecc-a91f-4a2f-90be-60c34293dde9",
+            "uuid": "1098d946-3ef7-4f89-be86-2b96bfeb0a7e"
+          },
+          "phaseFieldId": "422034958",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422034716",
+            "id": "314871039",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "418071161",
+            "id": "314871441",
+            "operation": "present",
+            "structure_id": "3",
+            "value": ""
+          },
+          {
+            "field_address": "418071161",
+            "id": "314871442",
+            "operation": "blank",
+            "structure_id": "4",
+            "value": ""
+          },
+          {
+            "field_address": "418071161",
+            "id": "314871433",
+            "operation": "equals",
+            "structure_id": "1",
+            "value": "SaaS"
+          },
+          {
+            "field_address": "418071161",
+            "id": "314871434",
+            "operation": "not_equals",
+            "structure_id": "2",
+            "value": "SaaS"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "4"
+          ],
+          [
+            "2",
+            "3"
+          ],
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "312390563"
+      },
+      "id": "306322466",
+      "name": "Versão do SaaS está preenchida",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306322466"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "rule_id": "306322466",
+    "scope": "phase"
+  }
+}

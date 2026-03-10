@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_o_plano_de_reten_o",
+      "index": 262.5,
+      "internal_id": "422183797",
+      "label": "Qual é o plano de retenção?",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "d01276a0-85f9-45b1-a54c-2dc635416ae4"
+    }
+  },
+  "meta": {
+    "field_id": "qual_o_plano_de_reten_o",
+    "phase": {
+      "id": "339834129",
+      "name": "Análise",
+      "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

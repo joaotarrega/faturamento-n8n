@@ -1,0 +1,41 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Mapeado com base na reunião de kickoff",
+      "help": "",
+      "id": "documenta_o_que_o_cliente_deve_enviar",
+      "index": 150.0,
+      "internal_id": "416198900",
+      "label": "Documentação que o cliente deve enviar",
+      "options": [
+        "Salas e espaços (eventos): nome, metragem, preço, pé direito, capacidade máxima por formato e fotos",
+        "Alimentação e bebidas (A&B): menus atualizados com descrições e taxas",
+        "Equipamentos e serviços (E&S): o que é ofertado com preços e taxas",
+        "Contratos: todos os modelos utilizados pelo cliente",
+        "Metas: por mês e por setor (ex: A&B, espaços)",
+        "Nome e email dos futuros usuários (para cadastro na plataforma)",
+        "Quartos de hospedagem: descrições, preços, taxas de ISS e fotos",
+        "Exemplo de proposta real",
+        "Exemplo de ordem de serviço"
+      ],
+      "required": false,
+      "type": "checklist_vertical",
+      "uuid": "1ac0f0b4-35af-44e5-9085-9a2da7a54be9"
+    }
+  },
+  "meta": {
+    "field_id": "documenta_o_que_o_cliente_deve_enviar",
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Comentarios para el equipo EVNT",
+      "help": "",
+      "id": "coment_rios_para_a_equipe",
+      "index": 1000.0,
+      "internal_id": "418419258",
+      "label": "Comentários para a equipe EVNT",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "559666dd-4ab3-4f46-b3db-0421e8baf6ab"
+    }
+  },
+  "meta": {
+    "field_id": "coment_rios_para_a_equipe",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

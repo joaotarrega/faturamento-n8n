@@ -1,0 +1,72 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325162293",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325162369",
+          "phaseField": {
+            "id": "statement_aea01363_55ce_4368_b168_e8aa760e697b",
+            "internal_id": "416973879",
+            "label": "Statement-aea01363-55ce-4368-b168-e8aa760e697b",
+            "uuid": "0e7161bc-09e6-4902-bdb1-74fe61f0fef7"
+          },
+          "phaseFieldId": "416973879",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325162370",
+          "phaseField": {
+            "id": "statement_aea01363_55ce_4368_b168_e8aa760e697b",
+            "internal_id": "416973879",
+            "label": "Statement-aea01363-55ce-4368-b168-e8aa760e697b",
+            "uuid": "0e7161bc-09e6-4902-bdb1-74fe61f0fef7"
+          },
+          "phaseFieldId": "416973879",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "313653312",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "418195094",
+            "id": "313979468",
+            "operation": "not_equals",
+            "structure_id": "1",
+            "value": "Não"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311270242"
+      },
+      "id": "305965236",
+      "name": "Esconder forms inicial na criação direta",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/form/conditionals/305965236"
+    }
+  },
+  "meta": {
+    "pipe_id": "306500193",
+    "rule_id": "305965236",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "fields_by_phase_id": {
+    "339269434": [
+      "contrato_com_proposta_comercial_anexada",
+      "copy_of_copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+      "copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+      "copy_of_statement_5a7ac214_aa9c_431a_b3be_fc8e05974737",
+      "respons_vel",
+      "statement_269aabd6_a9f3_4295_92b2_838e528e4c17",
+      "statement_27938e14_c240_4a98_96f2_e810f2286055",
+      "statement_404c472b_3911_44b0_8cc0_e18835ff9e2b",
+      "statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+      "statement_5a7ac214_aa9c_431a_b3be_fc8e05974737",
+      "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+      "statement_80c1d594_7759_4a09_82ae_e8fe000c1447",
+      "statement_c47dc2bc_904c_4235_9d4e_4c8baee7df5f",
+      "statement_cca69147_f357_4768_be01_803094073cac"
+    ],
+    "339269435": [
+      "cliente_j_enviou_o_documento_assinado",
+      "contrato_para_assinatura_pdf",
+      "contrato_preechido_com_os_dados_do_cliente",
+      "observa_es_1"
+    ],
+    "339293275": [
+      "contrato_assinado",
+      "link_para_assinatura_da_testemunha_cliente",
+      "link_para_assinatura_no_let_s_sign",
+      "respons_vel_pelo_envio_via_let_s_sign",
+      "statement_92edf4cd_d51f_4f02_ad68_b90e8fbcdeb4"
+    ],
+    "339293546": [
+      "ficha_cadastral",
+      "statement_7e63e1ea_b6c8_43ee_b4d9_c556b4c076ea"
+    ]
+  },
+  "ids": [
+    "cliente",
+    "cliente_j_enviou_o_documento_assinado",
+    "contrato_assinado",
+    "contrato_com_proposta_comercial_anexada",
+    "contrato_para_assinatura_pdf",
+    "contrato_preechido_com_os_dados_do_cliente",
+    "copy_of_copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+    "copy_of_statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+    "copy_of_statement_5a7ac214_aa9c_431a_b3be_fc8e05974737",
+    "esconder_todos_os_campos_do_form_inicial",
+    "ficha_cadastral",
+    "id_da_oportunidade_no_crm",
+    "link_para_assinatura_da_testemunha_cliente",
+    "link_para_assinatura_no_let_s_sign",
+    "observa_es_1",
+    "oportunidade_no_crm",
+    "proposta_enviada",
+    "respons_vel",
+    "respons_vel_pelo_envio_via_let_s_sign",
+    "statement_269aabd6_a9f3_4295_92b2_838e528e4c17",
+    "statement_27938e14_c240_4a98_96f2_e810f2286055",
+    "statement_404c472b_3911_44b0_8cc0_e18835ff9e2b",
+    "statement_45f6a270_21e5_43c1_8c70_dc4246575fa6",
+    "statement_5a7ac214_aa9c_431a_b3be_fc8e05974737",
+    "statement_7e47a740_6e57_460d_a0ce_e932a465402a",
+    "statement_7e63e1ea_b6c8_43ee_b4d9_c556b4c076ea",
+    "statement_80c1d594_7759_4a09_82ae_e8fe000c1447",
+    "statement_92edf4cd_d51f_4f02_ad68_b90e8fbcdeb4",
+    "statement_aea01363_55ce_4368_b168_e8aa760e697b",
+    "statement_c47dc2bc_904c_4235_9d4e_4c8baee7df5f",
+    "statement_cca69147_f357_4768_be01_803094073cac",
+    "t_tulo_de_cria_o",
+    "tipo_de_documento"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306500193",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "cliente",
+    "esconder_todos_os_campos_do_form_inicial",
+    "id_da_oportunidade_no_crm",
+    "oportunidade_no_crm",
+    "proposta_enviada",
+    "statement_aea01363_55ce_4368_b168_e8aa760e697b",
+    "t_tulo_de_cria_o",
+    "tipo_de_documento"
+  ]
+}

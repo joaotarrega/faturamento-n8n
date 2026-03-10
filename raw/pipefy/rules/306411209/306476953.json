@@ -1,0 +1,86 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327476621",
+          "phaseField": {
+            "id": "quando_a_cobran_a_de_setup_ser_iniciada",
+            "internal_id": "416990376",
+            "label": "Quando a cobrança de setup será iniciada?",
+            "uuid": "c1730c4a-4d68-4036-8fbb-80ab15536eba"
+          },
+          "phaseFieldId": "416990376",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327476622",
+          "phaseField": {
+            "id": "saas_setup",
+            "internal_id": "415395512",
+            "label": "SaaS - Setup (BRL)",
+            "uuid": "9a412ca9-1aea-4e2a-965a-0d159f370d02"
+          },
+          "phaseFieldId": "415395512",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327476623",
+          "phaseField": {
+            "id": "copy_of_saas_setup_brl",
+            "internal_id": "415903553",
+            "label": "SaaS - Setup (USD)",
+            "uuid": "eb96551e-af4a-43d4-99d3-809884baf037"
+          },
+          "phaseFieldId": "415903553",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327476624",
+          "phaseField": {
+            "id": "saas_parcelas_de_setup",
+            "internal_id": "415395534",
+            "label": "SaaS - Parcelas de setup",
+            "uuid": "0799c54e-c24a-4718-919c-5cb53fd2e2a8"
+          },
+          "phaseFieldId": "415395534",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416990320",
+            "id": "315384944",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Sim - Totalmente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312878413"
+      },
+      "id": "306476953",
+      "name": "Isenção de setup = Totalmente",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/306476953"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306476953",
+    "scope": "phase"
+  }
+}

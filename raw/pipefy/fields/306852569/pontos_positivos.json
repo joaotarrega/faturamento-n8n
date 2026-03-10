@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "pontos_positivos",
+      "internal_id": "422758626",
+      "label": "Pontos positivos",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "4e39ac60-21d6-42ba-9f2c-ea5000484038"
+    }
+  },
+  "meta": {
+    "field_id": "pontos_positivos",
+    "pipe_id": "306852569",
+    "scope": "start_form"
+  }
+}

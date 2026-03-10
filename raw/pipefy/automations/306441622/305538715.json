@@ -1,0 +1,69 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "update_card_field",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": "%{415763017.id}",
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "418114452",
+            "field_id": "418114452",
+            "inputMode": "copy_from",
+            "value": "%{automation_event_execution_datetime}"
+          }
+        ],
+        "fields_map_order": [
+          "418114452"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": false,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "last_phase_in",
+            "id": "313960298",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "339455413"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311535907"
+      },
+      "created_at": "2025-08-26 15:14:35 UTC",
+      "event_id": "card_moved",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": "339455414",
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305538715",
+      "name": "Atualizar data de implantação",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/automations/305538715"
+    }
+  }
+}

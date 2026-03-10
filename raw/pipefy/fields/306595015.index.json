@@ -1,0 +1,47 @@
+{
+  "fields_by_phase_id": {
+    "339812904": [
+      "categorias_de_usabilidade",
+      "dados_obtidos_em",
+      "health_score",
+      "m_trica_1_como_foi_calculada",
+      "m_trica_1_observa_es",
+      "m_trica_1_peso",
+      "m_trica_1_score",
+      "m_trica_1_valor_bruto",
+      "m_tricas_utilizadas_no_score_de_atividade",
+      "m_tricas_utilizadas_no_score_de_maturidade",
+      "score_atividade",
+      "score_maturidade",
+      "statement_23d3d902_3f46_47d7_8fd4_a0f1cb3172ef"
+    ]
+  },
+  "ids": [
+    "ambiente",
+    "categorias_de_usabilidade",
+    "cliente",
+    "dados_obtidos_em",
+    "health_score",
+    "m_trica_1_como_foi_calculada",
+    "m_trica_1_observa_es",
+    "m_trica_1_peso",
+    "m_trica_1_score",
+    "m_trica_1_valor_bruto",
+    "m_tricas_utilizadas_no_score_de_atividade",
+    "m_tricas_utilizadas_no_score_de_maturidade",
+    "score_atividade",
+    "score_maturidade",
+    "statement_23d3d902_3f46_47d7_8fd4_a0f1cb3172ef",
+    "t_tulo"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306595015",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "ambiente",
+    "cliente",
+    "t_tulo"
+  ]
+}

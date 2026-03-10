@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>⚠️Todos os campos acima devem estar preenchidos para que a solicitação de criação do ambiente seja feita.⚠️</p>",
+      "help": null,
+      "id": "statement_80bfe368_066b_45fb_b57f_cf09fd1a6431",
+      "index": 375.0,
+      "internal_id": "420208133",
+      "label": "Statement-80bfe368-066b-45fb-b57f-cf09fd1a6431",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "419eac25-06e4-4a26-8880-706b4114fd9a"
+    }
+  },
+  "meta": {
+    "field_id": "statement_80bfe368_066b_45fb_b57f_cf09fd1a6431",
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

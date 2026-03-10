@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_da_regra",
+      "internal_id": "424147593",
+      "label": "ID da regra",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "b187ec84-df89-4968-8cf1-af540551a26c"
+    }
+  },
+  "meta": {
+    "field_id": "id_da_regra",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

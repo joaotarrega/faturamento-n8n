@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306877425",
+        "name": "[PRO-02] Tarefas"
+      },
+      "description": "",
+      "help": "",
+      "id": "tarefa_de_planejamento",
+      "index": -200.0,
+      "internal_id": "423997721",
+      "label": "Tarefa de planejamento",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "63e4e51b-e35a-449f-ba09-7611b911654f"
+    }
+  },
+  "meta": {
+    "field_id": "tarefa_de_planejamento",
+    "phase": {
+      "id": "341458554",
+      "name": "Planejamento",
+      "uuid": "21eac51f-0e9a-4384-839d-80283dedff9b"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

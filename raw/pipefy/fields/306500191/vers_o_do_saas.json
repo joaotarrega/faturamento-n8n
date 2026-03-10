@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "vers_o_do_saas",
+      "internal_id": "422034716",
+      "label": "Versão do SaaS",
+      "options": [
+        "1.0",
+        "2.0"
+      ],
+      "required": false,
+      "type": "radio_horizontal",
+      "uuid": "da5fdc5d-701d-47bb-890a-11518a385a8b"
+    }
+  },
+  "meta": {
+    "field_id": "vers_o_do_saas",
+    "pipe_id": "306500191",
+    "scope": "start_form"
+  }
+}

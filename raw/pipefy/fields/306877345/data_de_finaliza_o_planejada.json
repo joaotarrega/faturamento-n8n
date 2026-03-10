@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "data_de_finaliza_o_planejada",
+      "index": 100.0,
+      "internal_id": "423267494",
+      "label": "Data de finalização planejada",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "1260d7cc-6e99-484e-9e51-b357e775ddac"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_finaliza_o_planejada",
+    "phase": {
+      "id": "341458554",
+      "name": "Planejamento",
+      "uuid": "21eac51f-0e9a-4384-839d-80283dedff9b"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

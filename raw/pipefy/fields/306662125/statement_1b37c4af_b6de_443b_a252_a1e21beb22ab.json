@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Testar colocar aqui os avisos de inconsistencias etc</p>",
+      "help": null,
+      "id": "statement_1b37c4af_b6de_443b_a252_a1e21beb22ab",
+      "index": 0.0,
+      "internal_id": "424602855",
+      "label": "Statement-1b37c4af-b6de-443b-a252-a1e21beb22ab",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "5571d6bc-86d1-4fde-a59c-eda13b1f00f1"
+    }
+  },
+  "meta": {
+    "field_id": "statement_1b37c4af_b6de_443b_a252_a1e21beb22ab",
+    "phase": {
+      "id": "341313813",
+      "name": "Ativo",
+      "uuid": "c796e763-65cb-4d3b-b32a-71c4ce4c3bfb"
+    },
+    "pipe_id": "306662125",
+    "scope": "phase"
+  }
+}

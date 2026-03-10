@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "teto_de_faturamento_brl",
+      "internal_id": "422905937",
+      "label": "Teto de faturamento (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "1c2fdb10-cdd5-4244-918a-ccad5f6831a4"
+    }
+  },
+  "meta": {
+    "field_id": "teto_de_faturamento_brl",
+    "pipe_id": "306859731",
+    "scope": "start_form"
+  }
+}

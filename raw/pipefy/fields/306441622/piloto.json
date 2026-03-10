@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "piloto",
+      "internal_id": "420511832",
+      "label": "É piloto?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": false,
+      "type": "radio_horizontal",
+      "uuid": "cb81ea64-ec5d-412a-8b17-90247eb09426"
+    }
+  },
+  "meta": {
+    "field_id": "piloto",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

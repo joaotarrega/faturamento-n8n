@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Para casos específicos.\n\nRede Atrio: negociação simplificada, passagem direta pelo CRM para contabilizar como ganho.",
+      "help": "",
+      "id": "op_es_de_fluxo_r_pido",
+      "internal_id": "421734180",
+      "label": "Opções de fluxo rápido",
+      "options": [
+        "Esse cliente é da rede Atrio"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "1b398650-30c1-4316-ac3d-1d468a61cca9"
+    }
+  },
+  "meta": {
+    "field_id": "op_es_de_fluxo_r_pido",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

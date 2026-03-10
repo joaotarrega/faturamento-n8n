@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Após mover o card, aguarde alguns segundos e atualize a página.",
+      "help": "",
+      "id": "copy_of_a_es_do_card_1",
+      "internal_id": "425095747",
+      "label": "Ações do card (2)",
+      "options": [
+        "Mover para a fase \"Realizado\""
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "71e49dac-36ae-4b1c-9468-f77b6714fa62"
+    }
+  },
+  "meta": {
+    "field_id": "copy_of_a_es_do_card_1",
+    "pipe_id": "306533442",
+    "scope": "start_form"
+  }
+}

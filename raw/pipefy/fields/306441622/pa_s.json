@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "pa_s",
+      "internal_id": "414345675",
+      "label": "País",
+      "options": [
+        "Argentina",
+        "Bolívia",
+        "Brasil",
+        "Chile",
+        "Colômbia",
+        "Equador",
+        "Paraguai",
+        "Peru",
+        "Uruguai",
+        "Venezuela",
+        "México",
+        "Costa Rica",
+        "Porto Rico"
+      ],
+      "required": true,
+      "type": "select",
+      "uuid": "0707e5dd-b771-4bf0-9f97-ba73d96ed25a"
+    }
+  },
+  "meta": {
+    "field_id": "pa_s",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

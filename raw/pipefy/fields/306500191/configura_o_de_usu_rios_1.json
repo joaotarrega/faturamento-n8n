@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "configura_o_de_usu_rios_1",
+      "index": 200.0,
+      "internal_id": "420662204",
+      "label": "Configuração de usuários",
+      "options": [
+        "Usuário admin criado",
+        "Outros usuários criados"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "0e4c6f3f-31a8-4d41-b7d2-c10021639fa8"
+    }
+  },
+  "meta": {
+    "field_id": "configura_o_de_usu_rios_1",
+    "phase": {
+      "id": "339455413",
+      "name": "Treinamento",
+      "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

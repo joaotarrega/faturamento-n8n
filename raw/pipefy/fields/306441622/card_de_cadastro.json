@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306509228",
+        "name": "[OPE-05] Cadastro de clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306509228",
+        "name": "[OPE-05] Cadastro de clientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "card_de_cadastro",
+      "internal_id": "416883890",
+      "label": "Card de ficha cadastral",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "263b9fdf-43c5-4f59-9de4-5bc2dcb61614"
+    }
+  },
+  "meta": {
+    "field_id": "card_de_cadastro",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

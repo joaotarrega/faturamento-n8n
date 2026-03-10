@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "envolvidos_evnt",
+      "internal_id": "413177030",
+      "label": "Envolvidos EVNT",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "0ccd717a-7179-47af-9a49-4030b98845c0"
+    }
+  },
+  "meta": {
+    "field_id": "envolvidos_evnt",
+    "pipe_id": "306383313",
+    "scope": "start_form"
+  }
+}

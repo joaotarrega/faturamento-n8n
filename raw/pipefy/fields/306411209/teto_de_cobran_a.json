@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "teto_de_cobran_a",
+      "index": 81.25,
+      "internal_id": "414592055",
+      "label": "Teto de cobrança (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "24a00178-370b-4f10-9fd4-dc467fbb8639"
+    }
+  },
+  "meta": {
+    "field_id": "teto_de_cobran_a",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327048726",
+          "phaseField": {
+            "id": "valor_do_imposto_a_ser_isento_e_s",
+            "internal_id": "422751362",
+            "label": "Valor percentual do imposto a ser isento - E&S",
+            "uuid": "aa7fa10e-94cc-4d80-95f9-258768671950"
+          },
+          "phaseFieldId": "422751362",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422900627",
+            "id": "315062530",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337296"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312578365"
+      },
+      "id": "306381456",
+      "name": "Tipo de desconto E&S != Impostos locais",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381456"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306381456",
+    "scope": "start_form"
+  }
+}

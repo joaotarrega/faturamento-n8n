@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "cross_valor_mensal_adicional_fixo",
+      "index": 93.75,
+      "internal_id": "414861620",
+      "label": "Cross - Valor mensal adicional fixo (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "8a2e9d10-5118-4f2d-b266-38ffca247c38"
+    }
+  },
+  "meta": {
+    "field_id": "cross_valor_mensal_adicional_fixo",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

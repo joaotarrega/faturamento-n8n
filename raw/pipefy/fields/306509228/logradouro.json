@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "**Dirección y número**\n\n**Nome e número**",
+      "help": "",
+      "id": "logradouro",
+      "index": 1400.0,
+      "internal_id": "415745673",
+      "label": "Logradouro",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "2a82f6b9-8f4e-4353-92ca-107199cccc4f"
+    }
+  },
+  "meta": {
+    "field_id": "logradouro",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

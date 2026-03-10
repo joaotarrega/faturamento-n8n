@@ -1,0 +1,82 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "325696303",
+          "phaseField": {
+            "id": "quais_atividades_ou_rotinas_voc_gostaria_de_automatizar",
+            "internal_id": "418530855",
+            "label": "Quais atividades ou rotinas você gostaria de automatizar?",
+            "uuid": "6fcbcbe3-48c0-4b20-9933-52fcd23eb120"
+          },
+          "phaseFieldId": "418530855",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325696304",
+          "phaseField": {
+            "id": "quais_atividades_ou_rotinas_voc_gostaria_de_automatizar",
+            "internal_id": "418530855",
+            "label": "Quais atividades ou rotinas você gostaria de automatizar?",
+            "uuid": "6fcbcbe3-48c0-4b20-9933-52fcd23eb120"
+          },
+          "phaseFieldId": "418530855",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418530853",
+            "id": "314055323",
+            "operation": "equals",
+            "structure_id": "5",
+            "value": "4 - Concordo"
+          },
+          {
+            "field_address": "418530853",
+            "id": "314055324",
+            "operation": "equals",
+            "structure_id": "6",
+            "value": "5 - Concordo totalmente"
+          },
+          {
+            "field_address": "418530855",
+            "id": "314055346",
+            "operation": "present",
+            "structure_id": "7",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "7"
+          ],
+          [
+            "5"
+          ],
+          [
+            "6"
+          ]
+        ],
+        "id": "311623491"
+      },
+      "id": "306079535",
+      "name": "Gostaria de usar mais automações != Concordo",
+      "url": "https://app.pipefy.com/pipes/306598617/settings/phases/339833260/conditionals/306079535"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "rule_id": "306079535",
+    "scope": "phase"
+  }
+}

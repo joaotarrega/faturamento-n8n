@@ -1,0 +1,12 @@
+{
+  "duration_seconds": 34.18039798736572,
+  "error_samples": [],
+  "finished_at": 1773083441.119332,
+  "n8n_errors": 0,
+  "n8n_errors_by_stage": {},
+  "pipe_count": 26,
+  "pipefy_errors": 0,
+  "pipefy_errors_by_stage": {},
+  "run_id": "da021c8262974c67b72c1cb0877ee907",
+  "started_at": 1773083406.938934
+}

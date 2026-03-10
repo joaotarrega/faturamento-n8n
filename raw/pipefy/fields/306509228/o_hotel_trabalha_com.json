@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Su empresa trabaja con:",
+      "help": "",
+      "id": "o_hotel_trabalha_com",
+      "index": 2250.0,
+      "internal_id": "418380438",
+      "label": "Sua empresa trabalha com:",
+      "options": [
+        "Eventos",
+        "Grupos"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "b57baf7f-6ea7-4346-9f76-30d79ad99650"
+    }
+  },
+  "meta": {
+    "field_id": "o_hotel_trabalha_com",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

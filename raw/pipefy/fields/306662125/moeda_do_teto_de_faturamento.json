@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Indique apenas caso exista um teto",
+      "help": "",
+      "id": "moeda_do_teto_de_faturamento",
+      "internal_id": "422754544",
+      "label": "Moeda do teto de faturamento",
+      "options": [
+        "BRL",
+        "USD"
+      ],
+      "required": true,
+      "type": "checklist_horizontal",
+      "uuid": "36911bdd-ddbb-47bc-85b0-6e485680bc0b"
+    }
+  },
+  "meta": {
+    "field_id": "moeda_do_teto_de_faturamento",
+    "pipe_id": "306662125",
+    "scope": "start_form"
+  }
+}

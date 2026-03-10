@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Insira o link de acesso da pasta no OneDrive.",
+      "help": "",
+      "id": "pasta_do_onedrive_com_a_documenta_o_do_cliente_1",
+      "index": -50.0,
+      "internal_id": "420208288",
+      "label": "Pasta do OneDrive com a documentação do cliente",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "faeb5e19-7ac8-4753-a6d8-cd604239cc82"
+    }
+  },
+  "meta": {
+    "field_id": "pasta_do_onedrive_com_a_documenta_o_do_cliente_1",
+    "phase": {
+      "id": "339455412",
+      "name": "Parametrização",
+      "uuid": "5c901a51-4b0c-4b81-bb6a-5396c12593d4"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

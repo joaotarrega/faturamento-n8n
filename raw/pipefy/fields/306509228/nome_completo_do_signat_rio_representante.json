@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Nombre completo responsable firma",
+      "help": "",
+      "id": "nome_completo_do_signat_rio_representante",
+      "index": 1800.0,
+      "internal_id": "415745880",
+      "label": "Nome completo do signatário representante",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "38bf605a-fc41-4db1-8ecd-5f2f0968709d"
+    }
+  },
+  "meta": {
+    "field_id": "nome_completo_do_signat_rio_representante",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

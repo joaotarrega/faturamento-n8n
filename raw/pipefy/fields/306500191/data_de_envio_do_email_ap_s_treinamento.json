@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "data_de_envio_do_email_ap_s_treinamento",
+      "index": -75.0,
+      "internal_id": "418775676",
+      "label": "Data de envio do email após treinamento",
+      "options": [],
+      "required": false,
+      "type": "date",
+      "uuid": "6881c07c-ad98-424b-8702-557a5e2e651a"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_envio_do_email_ap_s_treinamento",
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

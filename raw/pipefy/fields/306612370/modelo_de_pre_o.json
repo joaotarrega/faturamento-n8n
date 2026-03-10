@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Modelo de preço (atual/previsto)",
+      "help": null,
+      "id": "modelo_de_pre_o",
+      "internal_id": "417812913",
+      "label": "Modelo de Preço",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "4340cd2b-a2e2-493d-8b53-f025518d0872"
+    }
+  },
+  "meta": {
+    "field_id": "modelo_de_pre_o",
+    "pipe_id": "306612370",
+    "scope": "start_form"
+  }
+}

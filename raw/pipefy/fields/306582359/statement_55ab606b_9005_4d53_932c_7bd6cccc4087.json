@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h1>Utilize o email e/ou número de celular anônimo criado especificamente para o cliente oculto</h1>\n<hr />\n<p> </p>",
+      "help": "",
+      "id": "statement_55ab606b_9005_4d53_932c_7bd6cccc4087",
+      "index": -100.0,
+      "internal_id": "418415336",
+      "label": "Statement-55ab606b-9005-4d53-932c-7bd6cccc4087",
+      "options": [],
+      "required": false,
+      "type": "statement",
+      "uuid": "3ab1adbd-42bf-4629-b178-56a5661c33a1"
+    }
+  },
+  "meta": {
+    "field_id": "statement_55ab606b_9005_4d53_932c_7bd6cccc4087",
+    "phase": {
+      "id": "339743665",
+      "name": "Contato",
+      "uuid": "35a16b83-bd9f-4996-936b-e875d8e8b1a6"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

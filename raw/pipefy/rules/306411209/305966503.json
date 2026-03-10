@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325167332",
+          "phaseField": {
+            "id": "quando_a_cobran_a_de_mensalidade_ser_iniciada",
+            "internal_id": "416989640",
+            "label": "Quando a cobrança de mensalidade será iniciada?",
+            "uuid": "b5ac7a8d-b728-4acd-a99a-b07cb7a42fee"
+          },
+          "phaseFieldId": "416989640",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416989278",
+            "id": "313656680",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim - Parcialmente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311274174"
+      },
+      "id": "305966503",
+      "name": "Isenção de mensalidade != Parcialmente",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/305966503"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "305966503",
+    "scope": "phase"
+  }
+}

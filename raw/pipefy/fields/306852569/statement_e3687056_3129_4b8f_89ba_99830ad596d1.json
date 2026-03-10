@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Aponte pontos positivos e/ou negativos que você têm percebido da migração dos hotéis da <strong>Atlântica</strong> para o <strong>SaaS 2.0</strong>.</p>",
+      "help": null,
+      "id": "statement_e3687056_3129_4b8f_89ba_99830ad596d1",
+      "internal_id": "422758654",
+      "label": "Statement-e3687056-3129-4b8f-89ba-99830ad596d1",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "4ec07366-2c86-4ce9-bc7f-6ce0838b6444"
+    }
+  },
+  "meta": {
+    "field_id": "statement_e3687056_3129_4b8f_89ba_99830ad596d1",
+    "pipe_id": "306852569",
+    "scope": "start_form"
+  }
+}

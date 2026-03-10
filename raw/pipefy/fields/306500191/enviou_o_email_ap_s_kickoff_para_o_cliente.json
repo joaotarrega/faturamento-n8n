@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "enviou_o_email_ap_s_kickoff_para_o_cliente",
+      "index": 225.0,
+      "internal_id": "418553131",
+      "label": "Enviou o email após kickoff para o cliente?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "72505c2f-7da9-449b-946b-649275d4185e"
+    }
+  },
+  "meta": {
+    "field_id": "enviou_o_email_ap_s_kickoff_para_o_cliente",
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

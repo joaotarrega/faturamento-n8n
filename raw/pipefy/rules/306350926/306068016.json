@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325643879",
+          "phaseField": {
+            "id": "cliente_associado",
+            "internal_id": "416260007",
+            "label": "Cliente associado",
+            "uuid": "ee20bac8-6cf5-40fb-8dba-8b4557574b40"
+          },
+          "phaseFieldId": "416260007",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "412615107",
+            "id": "314018522",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "316325632"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311588761"
+      },
+      "id": "306068016",
+      "name": "Tipo != Usabilidade",
+      "url": "https://app.pipefy.com/pipes/306350926/settings/form/conditionals/306068016"
+    }
+  },
+  "meta": {
+    "pipe_id": "306350926",
+    "rule_id": "306068016",
+    "scope": "start_form"
+  }
+}

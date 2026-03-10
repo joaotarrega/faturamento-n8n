@@ -1,0 +1,56 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "run_a_formula",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "418112719",
+            "field_id": "418112719",
+            "inputMode": "copy_from",
+            "value": "%{418114452}-%{418113274}"
+          }
+        ],
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": false,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "311535914"
+      },
+      "created_at": "2025-08-26 15:17:58 UTC",
+      "event_id": "field_updated",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": [
+          "418114452"
+        ]
+      },
+      "id": "305538719",
+      "name": "Calcular tempo entre opp ganha e implantação",
+      "url": "https://app.pipefy.com/pipes/306441622/settings/automations/305538719"
+    }
+  }
+}

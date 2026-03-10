@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306500193",
+        "name": "[OPE-04] Contratos (clientes)"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306500193",
+        "name": "[OPE-04] Contratos (clientes)"
+      },
+      "description": "",
+      "help": "",
+      "id": "card_de_contrato",
+      "internal_id": "417643536",
+      "label": "Card de contrato",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "7df7ad5f-77ac-4528-b1d9-a2bc729d51cd"
+    }
+  },
+  "meta": {
+    "field_id": "card_de_contrato",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

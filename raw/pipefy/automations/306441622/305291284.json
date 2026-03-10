@@ -1,0 +1,182 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "update_card_field",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": "%{415747619.id}",
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414749221",
+            "field_id": "414749221",
+            "inputMode": "copy_from",
+            "value": "%{415754043.414591148}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414343250",
+            "field_id": "414343250",
+            "inputMode": "copy_from",
+            "value": "%{415744692}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414362303",
+            "field_id": "414362303",
+            "inputMode": "copy_from",
+            "value": "%{415745412}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414345675",
+            "field_id": "414345675",
+            "inputMode": "copy_from",
+            "value": "%{415744525}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414357705",
+            "field_id": "414357705",
+            "inputMode": "copy_from",
+            "value": "%{415745554}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414308310",
+            "field_id": "414308310",
+            "inputMode": "copy_from",
+            "value": "%{415745661}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414308314",
+            "field_id": "414308314",
+            "inputMode": "copy_from",
+            "value": "%{415745667}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414357060",
+            "field_id": "414357060",
+            "inputMode": "copy_from",
+            "value": "%{415745673}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414985497",
+            "field_id": "414985497",
+            "inputMode": "copy_from",
+            "value": "%{415745318}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414985731",
+            "field_id": "414985731",
+            "inputMode": "copy_from",
+            "value": "%{415745309}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "415637709",
+            "field_id": "415637709",
+            "inputMode": "copy_from",
+            "value": "%{415744775}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414860709",
+            "field_id": "414860709",
+            "inputMode": "copy_from",
+            "value": "%{418380438}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "417445718",
+            "field_id": "417445718",
+            "inputMode": "copy_from",
+            "value": "%{417445698}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "420511832",
+            "field_id": "420511832",
+            "inputMode": "copy_from",
+            "value": "%{415754043.420511917}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "422169531",
+            "field_id": "422169531",
+            "inputMode": "copy_from",
+            "value": "%{416234106.422032976}"
+          }
+        ],
+        "fields_map_order": [
+          "414749221",
+          "414345675",
+          "414343250",
+          "415637709",
+          "414985731",
+          "414985497",
+          "414357705",
+          "414362303",
+          "414308310",
+          "414308314",
+          "414357060",
+          "417445718",
+          "414860709",
+          "420511832",
+          "420511879",
+          "422169531"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "labels",
+            "id": "314387962",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "316687233"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311176335"
+      },
+      "created_at": "2025-07-22 18:33:27 UTC",
+      "event_id": "card_left_phase",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": "339322139",
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305291284",
+      "name": "Atualizar DB-01 com ficha cadastral",
+      "url": "https://app.pipefy.com/pipes/306509228/settings/automations/305291284"
+    }
+  }
+}

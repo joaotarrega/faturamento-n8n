@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "id_backoffice_do_afiliado",
+      "internal_id": "425777996",
+      "label": "ID Backoffice do afiliado",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "ba42a6d8-c907-4ea0-96e1-b22a59146b71"
+    }
+  },
+  "meta": {
+    "field_id": "id_backoffice_do_afiliado",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326784134",
+          "phaseField": {
+            "id": "id_solicita_ao",
+            "internal_id": "421320812",
+            "label": "ID solicitaçao",
+            "uuid": "d8e14e5f-cecd-499d-92b3-e1e126c6e048"
+          },
+          "phaseFieldId": "421320812",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326784135",
+          "phaseField": {
+            "id": "url_ambiente",
+            "internal_id": "416244569",
+            "label": "URL - Ambiente",
+            "uuid": "2e77d0aa-7f34-4b21-b1eb-9d05221f221a"
+          },
+          "phaseFieldId": "416244569",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326784509",
+          "phaseField": {
+            "id": "cnpj",
+            "internal_id": "416244617",
+            "label": "CNPJ no sistema",
+            "uuid": "4c6b74ac-051b-4899-8b09-1978bdcf87c9"
+          },
+          "phaseFieldId": "416244617",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326784510",
+          "phaseField": {
+            "id": "identificador_fiscal",
+            "internal_id": "416244621",
+            "label": "Identificador fiscal no sistema",
+            "uuid": "8ccb6346-719e-4919-9e86-1250be56da7d"
+          },
+          "phaseFieldId": "416244621",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326784511",
+          "phaseField": {
+            "id": "porte",
+            "internal_id": "418407768",
+            "label": "Porte",
+            "uuid": "dab05257-0d8c-4522-a7ce-49801fcd6c40"
+          },
+          "phaseFieldId": "418407768",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422033228",
+            "id": "314871139",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "2.0"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312390662"
+      },
+      "id": "306322489",
+      "name": "Versão = 2.0",
+      "url": "https://app.pipefy.com/pipes/306533221/settings/phases/339458972/conditionals/306322489"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339458972",
+      "name": "Ativo 1.0",
+      "uuid": "eac3f11a-e040-4d2c-a0cc-32050e982057"
+    },
+    "pipe_id": "306533221",
+    "rule_id": "306322489",
+    "scope": "phase"
+  }
+}

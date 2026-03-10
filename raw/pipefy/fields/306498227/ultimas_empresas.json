@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306441622",
+        "name": "[DB-01] Clientes"
+      },
+      "description": "",
+      "help": "",
+      "id": "ultimas_empresas",
+      "internal_id": "421400537",
+      "label": "Ultimas empresas",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "d300d662-a940-4737-8513-5986a819f735"
+    }
+  },
+  "meta": {
+    "field_id": "ultimas_empresas",
+    "pipe_id": "306498227",
+    "scope": "start_form"
+  }
+}

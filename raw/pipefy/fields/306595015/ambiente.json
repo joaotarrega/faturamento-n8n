@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533221",
+        "name": "[DB-03] Ambientes"
+      },
+      "description": "",
+      "help": null,
+      "id": "ambiente",
+      "internal_id": "417552441",
+      "label": "Ambiente",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "62f9458c-41f6-4c82-9d41-1d9a4ee45fab"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente",
+    "pipe_id": "306595015",
+    "scope": "start_form"
+  }
+}

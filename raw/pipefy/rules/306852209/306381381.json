@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327048426",
+          "phaseField": {
+            "id": "tipo_de_desconto_e_s",
+            "internal_id": "422900627",
+            "label": "Tipo de desconto - E&S",
+            "uuid": "50006d1d-5b87-4f14-9dd6-009eed7c4c01"
+          },
+          "phaseFieldId": "422900627",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422751352",
+            "id": "315062201",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "E&S"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312577944"
+      },
+      "id": "306381381",
+      "name": "Desconto SaaS != E&S",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381381"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306381381",
+    "scope": "start_form"
+  }
+}

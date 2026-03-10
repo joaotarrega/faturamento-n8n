@@ -1,0 +1,292 @@
+{
+  "ids": [
+    "305858581",
+    "305965056",
+    "306314756",
+    "306314762"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306437961",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p3": {
+          "id": "306437961",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "339005039",
+              "name": "Atividades realizadas",
+              "uuid": "448c588e-f4ec-4a65-a764-60d77c0ddd23"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339005038",
+              "name": "Lembretes",
+              "uuid": "4c700df7-3d1a-4626-8d16-3f00063bf61b"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "324677037",
+                  "phaseField": {
+                    "id": "id_do_neg_cio",
+                    "internal_id": "414632041",
+                    "label": "ID do negócio",
+                    "uuid": "fe40e36c-d7da-454c-aea7-7796864030b0"
+                  },
+                  "phaseFieldId": "414632041",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "324677038",
+                  "phaseField": {
+                    "id": "neg_cio_relacionado",
+                    "internal_id": "414629881",
+                    "label": "Negócio relacionado",
+                    "uuid": "f33d82fa-d164-4fbd-8307-98cc6c0acdc6"
+                  },
+                  "phaseFieldId": "414629881",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325160947",
+                  "phaseField": {
+                    "id": "proibir_cria_o_de_cards_diretamente_no_pipe",
+                    "internal_id": "416970549",
+                    "label": "Esconder todos os campos do form inicial?",
+                    "uuid": "60440a23-53ec-44ff-9d8a-f8a595ba05c7"
+                  },
+                  "phaseFieldId": "416970549",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326749898",
+                  "phaseField": {
+                    "id": "cria_o_sendo_feita_pelo_db_01",
+                    "internal_id": "421918889",
+                    "label": "Criação sendo feita pelo DB-01?",
+                    "uuid": "7fe30a37-9ffa-41b4-a099-abce860ec726"
+                  },
+                  "phaseFieldId": "421918889",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326749909",
+                  "phaseField": {
+                    "id": "cria_o_sendo_feita_pelo_db_02",
+                    "internal_id": "421919596",
+                    "label": "Criação sendo feita pelo DB-02?",
+                    "uuid": "0856fcd5-e399-4cdd-a92f-a58ff1c91209"
+                  },
+                  "phaseFieldId": "421919596",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326750672",
+                  "phaseField": {
+                    "id": "id_do_cliente",
+                    "internal_id": "421923606",
+                    "label": "ID do cliente",
+                    "uuid": "fa343ce9-954d-440a-8160-546b399a8897"
+                  },
+                  "phaseFieldId": "421923606",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326750673",
+                  "phaseField": {
+                    "id": "id_da_rede",
+                    "internal_id": "421923620",
+                    "label": "ID da rede",
+                    "uuid": "16cf36c3-35d8-416f-a116-a153c04c9313"
+                  },
+                  "phaseFieldId": "421923620",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310913890"
+              },
+              "id": "305858581",
+              "name": "Campos escondidos",
+              "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/305858581"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325161115",
+                  "phaseField": null,
+                  "phaseFieldId": null,
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "325161119",
+                  "phaseField": {
+                    "id": "statement_784d5cb5_bba7_45c7_a9ed_6315b024329a",
+                    "internal_id": "416971601",
+                    "label": "Statement-784d5cb5-bba7-45c7-a9ed-6315b024329a",
+                    "uuid": "8d36237b-a7c2-4daa-a1b0-439e845a4052"
+                  },
+                  "phaseFieldId": "416971601",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325161120",
+                  "phaseField": {
+                    "id": "statement_784d5cb5_bba7_45c7_a9ed_6315b024329a",
+                    "internal_id": "416971601",
+                    "label": "Statement-784d5cb5-bba7-45c7-a9ed-6315b024329a",
+                    "uuid": "8d36237b-a7c2-4daa-a1b0-439e845a4052"
+                  },
+                  "phaseFieldId": "416971601",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "416970549",
+                    "id": "313652733",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Não"
+                  },
+                  {
+                    "field_address": "current_phase",
+                    "id": "313652734",
+                    "operation": "blank",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311269623"
+              },
+              "id": "305965056",
+              "name": "Esconder forms inicial",
+              "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/305965056"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "326749892",
+                  "phaseField": {
+                    "id": "id_do_neg_cio",
+                    "internal_id": "414632041",
+                    "label": "ID do negócio",
+                    "uuid": "fe40e36c-d7da-454c-aea7-7796864030b0"
+                  },
+                  "phaseFieldId": "414632041",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326749893",
+                  "phaseField": {
+                    "id": "nome_do_neg_cio",
+                    "internal_id": "417481704",
+                    "label": "Nome do negócio",
+                    "uuid": "355406c8-9bf2-469f-86bc-a14263587ebd"
+                  },
+                  "phaseFieldId": "417481704",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "421918889",
+                    "id": "314844159",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "Sim"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312363709"
+              },
+              "id": "306314756",
+              "name": "Criação pelo DB-01",
+              "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/306314756"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "326749912",
+                  "phaseField": {
+                    "id": "nome_do_neg_cio",
+                    "internal_id": "417481704",
+                    "label": "Nome do negócio",
+                    "uuid": "355406c8-9bf2-469f-86bc-a14263587ebd"
+                  },
+                  "phaseFieldId": "417481704",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "421919596",
+                    "id": "314844169",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "Sim"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312363717"
+              },
+              "id": "306314762",
+              "name": "Criação pelo DB-02",
+              "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/306314762"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {},
+  "start_form_rule_ids": [
+    "305858581",
+    "305965056",
+    "306314756",
+    "306314762"
+  ]
+}

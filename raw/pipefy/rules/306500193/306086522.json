@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325722717",
+          "phaseField": {
+            "id": "statement_7e63e1ea_b6c8_43ee_b4d9_c556b4c076ea",
+            "internal_id": "418645574",
+            "label": "Statement-7e63e1ea-b6c8-43ee-b4d9-c556b4c076ea",
+            "uuid": "2c7d454b-fe41-431d-9bcc-b5c35ba1d90f"
+          },
+          "phaseFieldId": "418645574",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.418551394.415480485",
+            "id": "314074522",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311645187"
+      },
+      "id": "306086522",
+      "name": "Contato de quem recebe a ficha está preenchido",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339293546/conditionals/306086522"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339293546",
+      "name": "Ficha cadastral",
+      "uuid": "6593f65e-d85a-4919-a9f3-6b1a17e8ca30"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "306086522",
+    "scope": "phase"
+  }
+}

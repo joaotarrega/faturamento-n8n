@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Um projeto é definido por:</p>\n<p> </p>\n<p>-&gt; Conjunto de pelo menos 3 atividades relacionadas de baixo esforço.</p>\n<p>-&gt; Conjunto de pelo menos 2 atividades, sendo 1 de médio ou alto esforço.</p>",
+      "help": null,
+      "id": "statement_bcca9735_57ab_43d0_a137_756a8d62d226",
+      "internal_id": "423726617",
+      "label": "Statement-bcca9735-57ab-43d0-a137-756a8d62d226",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "dd651da2-b2ae-4c8e-8a12-fbefdf8bdd34"
+    }
+  },
+  "meta": {
+    "field_id": "statement_bcca9735_57ab_43d0_a137_756a8d62d226",
+    "pipe_id": "306877345",
+    "scope": "start_form"
+  }
+}

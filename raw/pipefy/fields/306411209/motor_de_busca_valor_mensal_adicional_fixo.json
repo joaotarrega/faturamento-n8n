@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Valor padrão: R$ 500",
+      "help": "",
+      "id": "motor_de_busca_valor_mensal_adicional_fixo",
+      "index": 96.875,
+      "internal_id": "414861630",
+      "label": "Motor de busca - Valor mensal adicional fixo (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "db609d4c-b24e-4092-8d66-a9529937eaff"
+    }
+  },
+  "meta": {
+    "field_id": "motor_de_busca_valor_mensal_adicional_fixo",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

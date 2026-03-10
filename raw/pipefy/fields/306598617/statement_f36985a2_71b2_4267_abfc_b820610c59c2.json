@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h1>Queremos ouvir você!</h1>\n<p> </p>\n<p>O Pipefy é uma das ferramentas que ajuda a manter nossos processos organizados e funcionando. Mas, para que ele realmente facilite o trabalho de todos, precisamos entender como tem sido sua experiência no dia a dia.</p>\n<p> </p>\n<p>Esse questionário serve para que o time de processos receba seu feedback de forma clara e consiga enxergar onde estão os pontos fortes e onde precisamos melhorar.</p>\n<p> </p>\n<p>Quanto mais sinceras forem as respostas, mais conseguimos direcionar treinamentos, materiais e ajustes que realmente façam diferença.</p>",
+      "help": null,
+      "id": "statement_f36985a2_71b2_4267_abfc_b820610c59c2",
+      "index": 0.0,
+      "internal_id": "418490861",
+      "label": "Statement-f36985a2-71b2-4267-abfc-b820610c59c2",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "6e77a3a7-0ccf-41c5-98b0-5bbbfab5323c"
+    }
+  },
+  "meta": {
+    "field_id": "statement_f36985a2_71b2_4267_abfc_b820610c59c2",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

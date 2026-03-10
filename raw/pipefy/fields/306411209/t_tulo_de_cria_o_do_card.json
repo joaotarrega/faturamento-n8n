@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "t_tulo_de_cria_o_do_card",
+      "internal_id": "416715933",
+      "label": "Título de criação do card",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "71da43c1-adf9-45ff-8033-8afbba1be757"
+    }
+  },
+  "meta": {
+    "field_id": "t_tulo_de_cria_o_do_card",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

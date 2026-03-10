@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "n_mero_de_identidad_responsable_firma",
+      "index": 2012.5,
+      "internal_id": "416052028",
+      "label": "Número de identidad responsable firma",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "f3c6dfd0-0cc5-4e02-8ebc-e7e762ee5bd2"
+    }
+  },
+  "meta": {
+    "field_id": "n_mero_de_identidad_responsable_firma",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": false,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306437961",
+            "name": "[COM-02] Atividades"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303024162",
+          "name": "Atividades comerciais",
+          "ownFieldMaps": [
+            {
+              "fieldId": "414240774",
+              "field_id": "414240774",
+              "inputMode": "copy_from",
+              "value": "%{automation_event_execution_datetime}"
+            },
+            {
+              "fieldId": "416970549",
+              "field_id": "416970549",
+              "inputMode": "fixed_value",
+              "value": "Não"
+            },
+            {
+              "fieldId": "421919596",
+              "field_id": "421919596",
+              "inputMode": "fixed_value",
+              "value": "Sim"
+            },
+            {
+              "fieldId": "421923620",
+              "field_id": "421923620",
+              "inputMode": "copy_from",
+              "value": "%{id}"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303011244",
+          "name": "Contatos",
+          "ownFieldMaps": [
+            {
+              "fieldId": "416299205",
+              "field_id": "416299205",
+              "inputMode": "copy_from",
+              "value": "%{421170612.416199309}"
+            },
+            {
+              "fieldId": "418489601",
+              "field_id": "418489601",
+              "inputMode": "fixed_value",
+              "value": "Sim"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306533442",
+            "name": "[OPE-06] Treinamento e suporte"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303005815",
+          "name": "Treinamentos",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306589932",
+            "name": "[OPE-08] CSAT e NPS"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303006287",
+          "name": "Satisfação",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": false,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303067820",
+          "name": "Regras de faturamento",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        }
+      ],
+      "color": "orange",
+      "description": null,
+      "id": "306533151",
+      "labels": [
+        {
+          "color": "#4A90E2",
+          "id": "316546542",
+          "name": "Hotelaria"
+        },
+        {
+          "color": "#1BAE0F",
+          "id": "316546547",
+          "name": "Restaurantes"
+        },
+        {
+          "color": "#9013FE",
+          "id": "316546548",
+          "name": "Agências"
+        },
+        {
+          "color": "#4A4A4A",
+          "id": "316546550",
+          "name": "Espaços de eventos"
+        },
+        {
+          "color": "#F5A623",
+          "id": "316546556",
+          "name": "Catering"
+        },
+        {
+          "color": "#EC4082",
+          "id": "316546559",
+          "name": "Outros"
+        }
+      ],
+      "members": [
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "tcampion@evnt.com.br",
+            "id": "306611102",
+            "name": "Thomas Campion"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "automacoes_http-301997709@service-account.pipefy.com",
+            "id": "306824351",
+            "name": "Automações HTTP"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "scripts-301997709@service-account.pipefy.com",
+            "id": "306874087",
+            "name": "Scripts"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        }
+      ],
+      "name": "[DB-02] Redes e grupos",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [],
+      "phases": [
+        {
+          "cards_count": 202,
+          "color": "red",
+          "description": "",
+          "fields": [],
+          "id": "339458690",
+          "name": "Redes",
+          "uuid": "fc05bf3c-ceee-4cd6-92fa-5c7e73770aae"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "id_pipefy",
+          "internal_id": "416307606",
+          "label": "ID Pipefy",
+          "options": [],
+          "required": false,
+          "type": "id",
+          "uuid": "01a4ed92-7de5-40ed-a4db-cf941e127343"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "nome_da_rede",
+          "internal_id": "416193586",
+          "label": "Nome da rede",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "ecee3c9f-d237-451e-908c-197f9b193036"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "pa_s",
+          "internal_id": "416193626",
+          "label": "País da rede",
+          "options": [
+            "Argentina",
+            "Bolívia",
+            "Brasil",
+            "Chile",
+            "Colômbia",
+            "Equador",
+            "Paraguai",
+            "Peru",
+            "Uruguai",
+            "Venezuela",
+            "México",
+            "Espanha",
+            "França",
+            "Bermudas",
+            "Estados Unidos",
+            "Canadá",
+            "El Salvador",
+            "Emirados Árabes Unidos",
+            "Alemanha",
+            "Hong Kong",
+            "Portugal",
+            "Reino Unido"
+          ],
+          "required": true,
+          "type": "select",
+          "uuid": "b0664349-548d-4501-80ba-bb89ad661a66"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "tipo_de_rede",
+          "internal_id": "418834607",
+          "label": "Tipo de rede ou grupo",
+          "options": [],
+          "required": true,
+          "type": "label_select",
+          "uuid": "20148c94-8e20-49f8-a202-691eabc09702"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "observa_es",
+          "internal_id": "417692221",
+          "label": "Observações",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "aec698cf-11e6-4666-b565-7eaeffd2c806"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306533442",
+            "name": "[OPE-06] Treinamento e suporte"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306533442",
+            "name": "[OPE-06] Treinamento e suporte"
+          },
+          "description": "",
+          "help": "",
+          "id": "cards_de_treinamentos",
+          "internal_id": "421170612",
+          "label": "Cards de treinamentos",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "dea88cd7-5497-4496-9713-68929a0e9233"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306589932",
+            "name": "[OPE-08] CSAT e NPS"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306589932",
+            "name": "[OPE-08] CSAT e NPS"
+          },
+          "description": "",
+          "help": "",
+          "id": "cards_de_csat_e_nps",
+          "internal_id": "421189034",
+          "label": "Cards de CSAT e NPS",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "0812d913-ca5d-4e18-979c-3489b76e9e10"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "description": "",
+          "help": "",
+          "id": "cards_de_contatos",
+          "internal_id": "421388459",
+          "label": "Cards de contatos",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "706b0ec3-cbd2-4899-aa13-fabd42da07c3"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306437961",
+            "name": "[COM-02] Atividades"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306437961",
+            "name": "[COM-02] Atividades"
+          },
+          "description": "",
+          "help": "",
+          "id": "cards_de_atividades",
+          "internal_id": "421919663",
+          "label": "Cards de atividades",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "e7cf1187-8b7a-49e3-a6e9-d8c199acbaf9"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306662125",
+            "name": "[FIN-01] Regras de faturamento"
+          },
+          "description": "",
+          "help": "",
+          "id": "regras_de_faturamento",
+          "internal_id": "424277603",
+          "label": "Regras de faturamento",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "b3f179d5-1ab0-4cb2-9eff-76322bfc328c"
+        }
+      ],
+      "uuid": "8b3f4264-e03f-48b8-9f07-c1c880bab632",
+      "webhooks": []
+    }
+  }
+}

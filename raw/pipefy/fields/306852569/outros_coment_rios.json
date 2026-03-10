@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "outros_coment_rios",
+      "internal_id": "422759346",
+      "label": "Outros comentários",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "6cd58d7e-234e-485f-b070-fc79964d3581"
+    }
+  },
+  "meta": {
+    "field_id": "outros_coment_rios",
+    "pipe_id": "306852569",
+    "scope": "start_form"
+  }
+}

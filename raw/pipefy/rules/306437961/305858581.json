@@ -1,0 +1,105 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324677037",
+          "phaseField": {
+            "id": "id_do_neg_cio",
+            "internal_id": "414632041",
+            "label": "ID do negócio",
+            "uuid": "fe40e36c-d7da-454c-aea7-7796864030b0"
+          },
+          "phaseFieldId": "414632041",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324677038",
+          "phaseField": {
+            "id": "neg_cio_relacionado",
+            "internal_id": "414629881",
+            "label": "Negócio relacionado",
+            "uuid": "f33d82fa-d164-4fbd-8307-98cc6c0acdc6"
+          },
+          "phaseFieldId": "414629881",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325160947",
+          "phaseField": {
+            "id": "proibir_cria_o_de_cards_diretamente_no_pipe",
+            "internal_id": "416970549",
+            "label": "Esconder todos os campos do form inicial?",
+            "uuid": "60440a23-53ec-44ff-9d8a-f8a595ba05c7"
+          },
+          "phaseFieldId": "416970549",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326749898",
+          "phaseField": {
+            "id": "cria_o_sendo_feita_pelo_db_01",
+            "internal_id": "421918889",
+            "label": "Criação sendo feita pelo DB-01?",
+            "uuid": "7fe30a37-9ffa-41b4-a099-abce860ec726"
+          },
+          "phaseFieldId": "421918889",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326749909",
+          "phaseField": {
+            "id": "cria_o_sendo_feita_pelo_db_02",
+            "internal_id": "421919596",
+            "label": "Criação sendo feita pelo DB-02?",
+            "uuid": "0856fcd5-e399-4cdd-a92f-a58ff1c91209"
+          },
+          "phaseFieldId": "421919596",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326750672",
+          "phaseField": {
+            "id": "id_do_cliente",
+            "internal_id": "421923606",
+            "label": "ID do cliente",
+            "uuid": "fa343ce9-954d-440a-8160-546b399a8897"
+          },
+          "phaseFieldId": "421923606",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326750673",
+          "phaseField": {
+            "id": "id_da_rede",
+            "internal_id": "421923620",
+            "label": "ID da rede",
+            "uuid": "16cf36c3-35d8-416f-a116-a153c04c9313"
+          },
+          "phaseFieldId": "421923620",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "310913890"
+      },
+      "id": "305858581",
+      "name": "Campos escondidos",
+      "url": "https://app.pipefy.com/pipes/306437961/settings/form/conditionals/305858581"
+    }
+  },
+  "meta": {
+    "pipe_id": "306437961",
+    "rule_id": "305858581",
+    "scope": "start_form"
+  }
+}

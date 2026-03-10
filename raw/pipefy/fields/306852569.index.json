@@ -1,0 +1,25 @@
+{
+  "fields_by_phase_id": {
+    "341308780": [
+      "t_tulo"
+    ]
+  },
+  "ids": [
+    "outros_coment_rios",
+    "pontos_negativos",
+    "pontos_positivos",
+    "statement_e3687056_3129_4b8f_89ba_99830ad596d1",
+    "t_tulo"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306852569",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "outros_coment_rios",
+    "pontos_negativos",
+    "pontos_positivos",
+    "statement_e3687056_3129_4b8f_89ba_99830ad596d1"
+  ]
+}

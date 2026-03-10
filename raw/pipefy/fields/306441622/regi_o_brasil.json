@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "regi_o_brasil",
+      "internal_id": "414357705",
+      "label": "Região - Brasil",
+      "options": [
+        "Sudeste",
+        "Sul",
+        "Nordeste",
+        "Norte",
+        "Centro-Oeste"
+      ],
+      "required": false,
+      "type": "select",
+      "uuid": "f3e88007-9f42-4fda-8a09-e68384884a4a"
+    }
+  },
+  "meta": {
+    "field_id": "regi_o_brasil",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

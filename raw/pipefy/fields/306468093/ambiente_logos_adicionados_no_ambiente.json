@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "ambiente_logos_adicionados_no_ambiente",
+      "index": 100.0,
+      "internal_id": "416540207",
+      "label": "Logos adicionados no ambiente?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "aeb2d486-aa68-49d2-af4c-d04564541f1d"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_logos_adicionados_no_ambiente",
+    "phase": {
+      "id": "339556245",
+      "name": "Ambiente em configuração",
+      "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

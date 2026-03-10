@@ -1,0 +1,64 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "update_card_field",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": "%{417644326.id}",
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414751830",
+            "field_id": "414751830",
+            "inputMode": "copy_from",
+            "value": "%{418433585}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414751837",
+            "field_id": "414751837",
+            "inputMode": "copy_from",
+            "value": "%{418433608}"
+          }
+        ],
+        "fields_map_order": [
+          "414751830",
+          "414751837"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312132383"
+      },
+      "created_at": "2025-10-28 19:19:26 UTC",
+      "event_id": "card_moved",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": "340088329",
+        "triggerAutomationId": null,
+        "triggerFieldIds": null
+      },
+      "id": "305940475",
+      "name": "Atualizar motivo de churn no DB-01",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/automations/305940475"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "estado",
+      "internal_id": "418980538",
+      "label": "Estado",
+      "options": [
+        "AC",
+        "AL",
+        "AP",
+        "AM",
+        "BA",
+        "CE",
+        "DF",
+        "ES",
+        "GO",
+        "MA",
+        "MT",
+        "MS",
+        "MG",
+        "PA",
+        "PB",
+        "PR",
+        "PE",
+        "PI",
+        "RJ",
+        "RN",
+        "RS",
+        "RO",
+        "RR",
+        "SC",
+        "SP",
+        "SE",
+        "TO"
+      ],
+      "required": false,
+      "type": "select",
+      "uuid": "bedcfea2-45e5-461d-814a-eff9f62fea06"
+    }
+  },
+  "meta": {
+    "field_id": "estado",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

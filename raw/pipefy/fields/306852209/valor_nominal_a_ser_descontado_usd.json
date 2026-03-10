@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "valor_nominal_a_ser_descontado_usd",
+      "internal_id": "422869922",
+      "label": "Valor nominal a ser descontado (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "4bad1fa1-92f0-4b8f-ae77-1de75c8e77d0"
+    }
+  },
+  "meta": {
+    "field_id": "valor_nominal_a_ser_descontado_usd",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

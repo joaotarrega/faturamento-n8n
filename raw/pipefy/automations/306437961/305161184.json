@@ -1,0 +1,99 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "create_connected_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": [
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414240767",
+            "field_id": "414240767",
+            "inputMode": "fixed_value",
+            "value": "🔔 Lembrete"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414240774",
+            "field_id": "414240774",
+            "inputMode": "copy_from",
+            "value": "%{415813579}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414240779",
+            "field_id": "414240779",
+            "inputMode": "copy_from",
+            "value": "%{413744800}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "414632041",
+            "field_id": "414632041",
+            "inputMode": "copy_from",
+            "value": "%{id}"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "416970549",
+            "field_id": "416970549",
+            "inputMode": "fixed_value",
+            "value": "Não"
+          },
+          {
+            "__typename": "FieldMap",
+            "fieldId": "417481704",
+            "field_id": "417481704",
+            "inputMode": "copy_from",
+            "value": "%{title}"
+          }
+        ],
+        "fields_map_order": [
+          "414632041",
+          "414240779",
+          "414240767",
+          "414591536",
+          "414240774",
+          "416970549",
+          "417481704"
+        ],
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": null,
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "310993755"
+      },
+      "created_at": "2025-07-04 19:48:14 UTC",
+      "event_id": "field_updated",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": [
+          "415813579"
+        ]
+      },
+      "id": "305161184",
+      "name": "Criar lembrete para retomar contato com negócio perdido",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/automations/305161184"
+    }
+  }
+}

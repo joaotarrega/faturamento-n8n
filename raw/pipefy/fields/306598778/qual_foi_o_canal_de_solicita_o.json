@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_foi_o_canal_de_solicita_o",
+      "internal_id": "418432709",
+      "label": "Qual foi o canal de solicitação?",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "a8077aee-48a9-4e45-8e63-d39c40ea751b"
+    }
+  },
+  "meta": {
+    "field_id": "qual_foi_o_canal_de_solicita_o",
+    "pipe_id": "306598778",
+    "scope": "start_form"
+  }
+}

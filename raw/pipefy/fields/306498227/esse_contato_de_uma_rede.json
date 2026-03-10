@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "**Sim**: o contato **não atua em um hotel específico** mas sim na rede/grupo.\n\n**Não**: o contato é **colaborador de um hotel específico**.",
+      "help": "",
+      "id": "esse_contato_de_uma_rede",
+      "internal_id": "418489601",
+      "label": "Esse contato é de uma rede/grupo?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "0f64f896-8744-4473-9089-607fa584a842"
+    }
+  },
+  "meta": {
+    "field_id": "esse_contato_de_uma_rede",
+    "pipe_id": "306498227",
+    "scope": "start_form"
+  }
+}

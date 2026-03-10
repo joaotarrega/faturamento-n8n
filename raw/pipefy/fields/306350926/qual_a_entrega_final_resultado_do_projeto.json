@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_a_entrega_final_resultado_do_projeto",
+      "index": 0.0,
+      "internal_id": "414195394",
+      "label": "Qual é a entrega final (resultado) do projeto?",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "bbf31bcb-767c-4de5-b79e-1a3349ad41a2"
+    }
+  },
+  "meta": {
+    "field_id": "qual_a_entrega_final_resultado_do_projeto",
+    "phase": {
+      "id": "338374015",
+      "name": "Caixa de entrada",
+      "uuid": "1289a325-a9d2-402b-b427-1cb8044f9879"
+    },
+    "pipe_id": "306350926",
+    "scope": "phase"
+  }
+}

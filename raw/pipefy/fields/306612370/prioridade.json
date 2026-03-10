@@ -1,0 +1,29 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Prioridade da ideia",
+      "help": null,
+      "id": "prioridade",
+      "internal_id": "417812909",
+      "label": "Prioridade",
+      "options": [
+        "Alta",
+        "Média",
+        "Baixa"
+      ],
+      "required": true,
+      "type": "label_select",
+      "uuid": "cd098a17-c514-4ee5-b3e6-b39bbb9111f7"
+    }
+  },
+  "meta": {
+    "field_id": "prioridade",
+    "pipe_id": "306612370",
+    "scope": "start_form"
+  }
+}

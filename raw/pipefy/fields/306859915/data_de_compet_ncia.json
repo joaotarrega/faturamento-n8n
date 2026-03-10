@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Mês em que o serviço foi prestado",
+      "help": "",
+      "id": "data_de_compet_ncia",
+      "internal_id": "422911699",
+      "label": "Data de competência",
+      "options": [],
+      "required": true,
+      "type": "date",
+      "uuid": "ae3ebe9b-04b2-46b8-8550-e5662d4b44e7"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_compet_ncia",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

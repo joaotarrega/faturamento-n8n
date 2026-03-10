@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "ambiente_cnpj",
+      "internal_id": "416178472",
+      "label": "CNPJ",
+      "options": [],
+      "required": true,
+      "type": "cnpj",
+      "uuid": "cdfda42f-8341-4fa8-a02f-29a428d807e0"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_cnpj",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

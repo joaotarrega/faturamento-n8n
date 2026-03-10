@@ -1,0 +1,595 @@
+{
+  "ids": [
+    "306398812",
+    "306398969",
+    "306403724",
+    "306403744",
+    "306403745",
+    "306403781",
+    "306423305",
+    "306425463",
+    "306463594",
+    "306464188"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306877425",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p25": {
+          "id": "306877425",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "341596085",
+              "name": "Backlog",
+              "uuid": "2a93b181-ac3b-479d-8568-1321facbef92"
+            },
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "327150110",
+                      "phaseField": {
+                        "id": "qual_o_tipo_de_entrega",
+                        "internal_id": "423726957",
+                        "label": "Qual é o tipo de entrega?",
+                        "uuid": "4fa340fa-6213-4acb-9e79-7b0a487a5202"
+                      },
+                      "phaseFieldId": "423726957",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "423267580",
+                        "id": "315138297",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312652133"
+                  },
+                  "id": "306403724",
+                  "name": "Tipo de entrega != Outro",
+                  "url": "https://app.pipefy.com/pipes/306877425/settings/phases/341458594/conditionals/306403724"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "327151220",
+                      "phaseField": {
+                        "id": "testes_valida_o_adicionais",
+                        "internal_id": "423729813",
+                        "label": "Testes / validação adicionais",
+                        "uuid": "2cbd6359-e37e-446c-b986-9ba9dab39511"
+                      },
+                      "phaseFieldId": "423729813",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327151285",
+                      "phaseField": {
+                        "id": "instru_es",
+                        "internal_id": "423730058",
+                        "label": "Instruções técnicas",
+                        "uuid": "fec1edbd-421f-4786-8168-a222a3537c58"
+                      },
+                      "phaseFieldId": "423730058",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327151286",
+                      "phaseField": {
+                        "id": "crit_rios_de_aceite",
+                        "internal_id": "423730059",
+                        "label": "Critérios de aceite",
+                        "uuid": "923229af-55f6-4c98-af7c-6d60d4c2a78c"
+                      },
+                      "phaseFieldId": "423730059",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327151287",
+                      "phaseField": {
+                        "id": "plano_de_testes_e_valida_o",
+                        "internal_id": "423730060",
+                        "label": "Plano de testes e validação",
+                        "uuid": "63268f86-26c9-4426-865b-aaf00886fa35"
+                      },
+                      "phaseFieldId": "423730060",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327238110",
+                      "phaseField": {
+                        "id": "desenvolvimento_t_cnico_com_ia",
+                        "internal_id": "424018645",
+                        "label": "Desenvolvimento técnico com IA?",
+                        "uuid": "953e8567-e2e0-47a2-91a8-2d3566ad84b4"
+                      },
+                      "phaseFieldId": "424018645",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "423267580",
+                        "id": "315138561",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Técnica"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312652389"
+                  },
+                  "id": "306403781",
+                  "name": "Tipo de entrega != Técnica",
+                  "url": "https://app.pipefy.com/pipes/306877425/settings/phases/341458594/conditionals/306403781"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "327238121",
+                      "phaseField": {
+                        "id": "instru_es",
+                        "internal_id": "423730058",
+                        "label": "Instruções técnicas",
+                        "uuid": "fec1edbd-421f-4786-8168-a222a3537c58"
+                      },
+                      "phaseFieldId": "423730058",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327246223",
+                      "phaseField": {
+                        "id": "plano_de_testes_e_valida_o",
+                        "internal_id": "423730060",
+                        "label": "Plano de testes e validação",
+                        "uuid": "63268f86-26c9-4426-865b-aaf00886fa35"
+                      },
+                      "phaseFieldId": "423730060",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "424018645",
+                        "id": "315203674",
+                        "operation": "equals",
+                        "structure_id": "0",
+                        "value": "Sim"
+                      },
+                      {
+                        "field_address": "424613695",
+                        "id": "315344263",
+                        "operation": "equals",
+                        "structure_id": "1",
+                        "value": "Desenvolvimento com IA"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "1"
+                      ],
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312709881"
+                  },
+                  "id": "306423305",
+                  "name": "Desenvolvimento técnico com IA = Sim",
+                  "url": "https://app.pipefy.com/pipes/306877425/settings/phases/341458594/conditionals/306423305"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "327423781",
+                      "phaseField": {
+                        "id": "instru_es",
+                        "internal_id": "423730058",
+                        "label": "Instruções técnicas",
+                        "uuid": "fec1edbd-421f-4786-8168-a222a3537c58"
+                      },
+                      "phaseFieldId": "423730058",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327423782",
+                      "phaseField": {
+                        "id": "crit_rios_de_aceite",
+                        "internal_id": "423730059",
+                        "label": "Critérios de aceite",
+                        "uuid": "923229af-55f6-4c98-af7c-6d60d4c2a78c"
+                      },
+                      "phaseFieldId": "423730059",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327423783",
+                      "phaseField": {
+                        "id": "plano_de_testes_e_valida_o",
+                        "internal_id": "423730060",
+                        "label": "Plano de testes e validação",
+                        "uuid": "63268f86-26c9-4426-865b-aaf00886fa35"
+                      },
+                      "phaseFieldId": "423730060",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "424613695",
+                        "id": "315344268",
+                        "operation": "equals",
+                        "structure_id": "0",
+                        "value": "Detalhes de execução e testes estão nas subtarefas"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312835601"
+                  },
+                  "id": "306464188",
+                  "name": "Flag = Subtarefas",
+                  "url": "https://app.pipefy.com/pipes/306877425/settings/phases/341458594/conditionals/306464188"
+                }
+              ],
+              "id": "341458594",
+              "name": "Triagem e definição",
+              "uuid": "1859086f-fd2b-4985-9bc3-b5be72883c43"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341676949",
+              "name": "Fila de execução",
+              "uuid": "70f1dbc1-e225-4d97-8679-e507cce304dd"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341458605",
+              "name": "Fazendo",
+              "uuid": "6c717138-3c3d-46f5-b573-f84c55f6c1a1"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341458606",
+              "name": "Validação e testes",
+              "uuid": "d067cf79-7ba2-43f7-acca-7bde6b2bb2de"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341458613",
+              "name": "Concluído",
+              "uuid": "3051deef-c8f4-4b0b-8b35-c90dbbf1dab0"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341458614",
+              "name": "Cancelado",
+              "uuid": "f81f87b9-af62-4ccb-83cf-d2ebf0b9b04f"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327197171",
+                  "phaseField": {
+                    "id": "prioridade",
+                    "internal_id": "423727731",
+                    "label": "Prioridade",
+                    "uuid": "6dcd196b-b7b7-444f-96ab-05fc69775874"
+                  },
+                  "phaseFieldId": "423727731",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327230539",
+                  "phaseField": {
+                    "id": "projeto_associado",
+                    "internal_id": "423727840",
+                    "label": "Projeto associado",
+                    "uuid": "edabf595-0982-4ae0-8094-e9825f274f3f"
+                  },
+                  "phaseFieldId": "423727840",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312636492"
+              },
+              "id": "306398812",
+              "name": "Escondidos",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306398812"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327218534",
+                  "phaseField": {
+                    "id": "t_tulo",
+                    "internal_id": "423305242",
+                    "label": "Título",
+                    "uuid": "c58ad602-c5a0-480c-9911-94e748fbd66e"
+                  },
+                  "phaseFieldId": "423305242",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "315124308",
+                    "operation": "present",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312637418"
+              },
+              "id": "306398969",
+              "name": "Esconder campo de título após criação do card",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306398969"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327150285",
+                  "phaseField": {
+                    "id": "retorno_estimado",
+                    "internal_id": "423727470",
+                    "label": "Retorno estimado",
+                    "uuid": "a5fcccb5-5b0f-4267-b909-f09cf4c64cd2"
+                  },
+                  "phaseFieldId": "423727470",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "423727481",
+                    "id": "315138418",
+                    "operation": "present",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "423727840",
+                    "id": "315138427",
+                    "operation": "present",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "1"
+                  ],
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312652246"
+              },
+              "id": "306403744",
+              "name": "Tarefa faz parte de um projeto",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306403744"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327150298",
+                  "phaseField": {
+                    "id": "categoria_de_prioridade",
+                    "internal_id": "423727609",
+                    "label": "Categoria de prioridade",
+                    "uuid": "5703cd8c-bf01-45b9-bfc9-01f0dda074cf"
+                  },
+                  "phaseFieldId": "423727609",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327421507",
+                  "phaseField": {
+                    "id": "id_do_projeto_associado",
+                    "internal_id": "423727481",
+                    "label": "ID do projeto associado",
+                    "uuid": "afa283a8-028d-4009-b668-b9b4d38f4f68"
+                  },
+                  "phaseFieldId": "423727481",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327421508",
+                  "phaseField": {
+                    "id": "id_da_tarefa_principal",
+                    "internal_id": "424608303",
+                    "label": "ID da tarefa principal",
+                    "uuid": "f9f27419-1b88-4d51-9ed9-a6a607798063"
+                  },
+                  "phaseFieldId": "424608303",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "315138420",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312652249"
+              },
+              "id": "306403745",
+              "name": "Esconder campos no form inicial",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306403745"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327247013",
+                  "phaseField": {
+                    "id": "id_do_projeto_associado",
+                    "internal_id": "423727481",
+                    "label": "ID do projeto associado",
+                    "uuid": "afa283a8-028d-4009-b668-b9b4d38f4f68"
+                  },
+                  "phaseFieldId": "423727481",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "327247014",
+                  "phaseField": {
+                    "id": "id_do_projeto_associado",
+                    "internal_id": "423727481",
+                    "label": "ID do projeto associado",
+                    "uuid": "afa283a8-028d-4009-b668-b9b4d38f4f68"
+                  },
+                  "phaseFieldId": "423727481",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "423727481",
+                    "id": "315209989",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312716846"
+              },
+              "id": "306425463",
+              "name": "ID do projeto está vazio",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306425463"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327421043",
+                  "phaseField": {
+                    "id": "id_da_tarefa_principal",
+                    "internal_id": "424608303",
+                    "label": "ID da tarefa principal",
+                    "uuid": "f9f27419-1b88-4d51-9ed9-a6a607798063"
+                  },
+                  "phaseFieldId": "424608303",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "424608303",
+                    "id": "315342555",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312834002"
+              },
+              "id": "306463594",
+              "name": "ID da tarefa está vazio",
+              "url": "https://app.pipefy.com/pipes/306877425/settings/form/conditionals/306463594"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "341458594": [
+      "306403724",
+      "306403781",
+      "306423305",
+      "306464188"
+    ]
+  },
+  "start_form_rule_ids": [
+    "306398812",
+    "306398969",
+    "306403744",
+    "306403745",
+    "306425463",
+    "306463594"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<p> </p>",
+      "help": null,
+      "id": "statement_309b0b3c_80d6_47c7_a2df_9ca35948bcc5",
+      "index": 950.0,
+      "internal_id": "418420971",
+      "label": "Statement-309b0b3c-80d6-47c7-a2df-9ca35948bcc5",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "8f408724-2447-4299-913a-2b2d750d46b4"
+    }
+  },
+  "meta": {
+    "field_id": "statement_309b0b3c_80d6_47c7_a2df_9ca35948bcc5",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

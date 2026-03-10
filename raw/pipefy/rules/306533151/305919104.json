@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324972375",
+          "phaseField": {
+            "id": "pa_s",
+            "internal_id": "416193626",
+            "label": "País da rede",
+            "uuid": "b0664349-548d-4501-80ba-bb89ad661a66"
+          },
+          "phaseFieldId": "416193626",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416193586",
+            "id": "313505832",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Independente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311116271"
+      },
+      "id": "305919104",
+      "name": "Hotéis independentes",
+      "url": "https://app.pipefy.com/pipes/306533151/settings/form/conditionals/305919104"
+    }
+  },
+  "meta": {
+    "pipe_id": "306533151",
+    "rule_id": "305919104",
+    "scope": "start_form"
+  }
+}

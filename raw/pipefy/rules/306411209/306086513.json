@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325722695",
+          "phaseField": {
+            "id": "statement_271577b4_bd93_4433_a355_7b7dd3317810",
+            "internal_id": "418645395",
+            "label": "Statement-271577b4-bd93-4433-a355-7b7dd3317810",
+            "uuid": "52aebea6-87e2-46f1-8483-0934a20bf86b"
+          },
+          "phaseFieldId": "418645395",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418551394.415480485",
+            "id": "314074515",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311645177"
+      },
+      "id": "306086513",
+      "name": "Contato está com email preenchido",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/306086513"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306086513",
+    "scope": "phase"
+  }
+}

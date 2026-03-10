@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h1>Tipo de desconto <strong>inválido</strong>!</h1>\n<p> </p>\n<p>Para aplicar descontos nas categorias de propostas, selecione:</p>\n<p><br><strong>Modelo de cobrança</strong>: Percentual sobre base</p>\n<p><strong>Base do cálculo percentual</strong>: Valor dos eventos definitivos do afiliado</p>",
+      "help": null,
+      "id": "statement_a1c6f3e5_63a6_4e42_9c1f_33efe925f224",
+      "internal_id": "425563338",
+      "label": "Statement-a1c6f3e5-63a6-4e42-9c1f-33efe925f224",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "1266a488-1b8b-4ac1-9131-24875af9e584"
+    }
+  },
+  "meta": {
+    "field_id": "statement_a1c6f3e5_63a6_4e42_9c1f_33efe925f224",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

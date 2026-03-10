@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051382",
+          "phaseField": {
+            "id": "desconto_no_valor_vari_vel_do_saas_para_espa_os",
+            "internal_id": "422909788",
+            "label": "Valor percentual de desconto SaaS - Categoria Espaços",
+            "uuid": "bf487131-5d4f-495e-961c-744e1aed7ff4"
+          },
+          "phaseFieldId": "422909788",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909780",
+            "id": "315064160",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337139"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312580005"
+      },
+      "id": "306382062",
+      "name": "Tipo de desconto Espaços != Valor percentual",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382062"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382062",
+    "scope": "start_form"
+  }
+}

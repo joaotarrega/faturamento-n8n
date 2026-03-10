@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Indique o link utilizado como base e as cores primárias e secundárias.",
+      "help": null,
+      "id": "ambiente_apar_ncia",
+      "index": 400.0,
+      "internal_id": "416539854",
+      "label": "Aparência",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "2ef99b0c-9b18-467b-a941-1ad40d06b35f"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_apar_ncia",
+    "phase": {
+      "id": "339069570",
+      "name": "Preparação",
+      "uuid": "52fb420f-b70d-44c7-9ea1-51f35eaa4d39"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

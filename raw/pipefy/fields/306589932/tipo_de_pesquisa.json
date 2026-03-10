@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "tipo_de_pesquisa",
+      "internal_id": "418419383",
+      "label": "Tipo de pesquisa",
+      "options": [],
+      "required": false,
+      "type": "label_select",
+      "uuid": "18f1a649-eb6c-4193-a710-55a78bf3ae2b"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_pesquisa",
+    "pipe_id": "306589932",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "qual_o_motivo_de_perda",
+      "index": 100.0,
+      "internal_id": "417808377",
+      "label": "Observações sobre o fechamento",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "a4b3e2c1-4940-4c52-b3e2-dcd2c7fc1cb6"
+    }
+  },
+  "meta": {
+    "field_id": "qual_o_motivo_de_perda",
+    "phase": {
+      "id": "338732716",
+      "name": "Fechado",
+      "uuid": "6e1a45dc-b289-440e-92f0-7eb3430d0ed6"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

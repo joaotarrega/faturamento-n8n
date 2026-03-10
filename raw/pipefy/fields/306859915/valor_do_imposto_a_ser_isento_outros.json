@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de cobrança, basta inserir 5.",
+      "help": null,
+      "id": "valor_do_imposto_a_ser_isento_outros",
+      "internal_id": "422909791",
+      "label": "Valor percentual do imposto a ser isento - Outros",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "96d30184-cd33-486c-b786-c03943839f7b"
+    }
+  },
+  "meta": {
+    "field_id": "valor_do_imposto_a_ser_isento_outros",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

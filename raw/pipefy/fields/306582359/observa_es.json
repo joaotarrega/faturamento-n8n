@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Adicione observações relevantes sobre o pedido.",
+      "help": null,
+      "id": "observa_es",
+      "index": 3.0,
+      "internal_id": "417218312",
+      "label": "Observações",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "fafd2bcc-3f48-42ca-86e9-37e55ad622c0"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es",
+    "phase": {
+      "id": "339743664",
+      "name": "Aguardando",
+      "uuid": "3539ea57-091e-4518-ba9b-2d144b5ef483"
+    },
+    "pipe_id": "306582359",
+    "scope": "phase"
+  }
+}

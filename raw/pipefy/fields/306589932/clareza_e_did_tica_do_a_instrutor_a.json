@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Claridad y didáctica del/de la instructor(a)",
+      "help": "",
+      "id": "clareza_e_did_tica_do_a_instrutor_a",
+      "index": 675.0,
+      "internal_id": "417360350",
+      "label": "Clareza e didática do(a) instrutor(a)",
+      "options": [
+        "1 - Muito ruim | Muy mala",
+        "2 - Ruim | Mala",
+        "3 - Razoável | Razonable",
+        "4 - Boa | Buena",
+        "5 - Muito boa | Muy buena"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "dc6cd437-3607-4f4d-be91-cd93027d0d83"
+    }
+  },
+  "meta": {
+    "field_id": "clareza_e_did_tica_do_a_instrutor_a",
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "scope": "phase"
+  }
+}

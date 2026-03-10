@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326783858",
+          "phaseField": {
+            "id": "vers_o_do_saas",
+            "internal_id": "422034138",
+            "label": "Versão do SaaS",
+            "uuid": "ea5dbe50-05f2-425f-a9a9-f009dab3b895"
+          },
+          "phaseFieldId": "422034138",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416259169",
+            "id": "314870879",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "SaaS"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312390391"
+      },
+      "id": "306322421",
+      "name": "Tipo != SaaS",
+      "url": "https://app.pipefy.com/pipes/306533442/settings/form/conditionals/306322421"
+    }
+  },
+  "meta": {
+    "pipe_id": "306533442",
+    "rule_id": "306322421",
+    "scope": "start_form"
+  }
+}

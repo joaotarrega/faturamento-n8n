@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "observa_es_para_o_time_de_implanta_o",
+      "index": 222.875,
+      "internal_id": "418757345",
+      "label": "Observações para o time de onboarding",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "9d34eba8-3a64-4c17-a6e3-96faceccbf70"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_para_o_time_de_implanta_o",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

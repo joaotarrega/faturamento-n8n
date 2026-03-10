@@ -1,0 +1,105 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324678395",
+          "phaseField": {
+            "id": "porte",
+            "internal_id": "414344865",
+            "label": "Porte",
+            "uuid": "5fc037c0-0ebb-4f70-8186-36e16c491856"
+          },
+          "phaseFieldId": "414344865",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324678396",
+          "phaseField": {
+            "id": "marca",
+            "internal_id": "415035446",
+            "label": "Bandeira",
+            "uuid": "f31d2a30-98c8-42e7-b51f-52cae17a77ba"
+          },
+          "phaseFieldId": "415035446",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324678397",
+          "phaseField": {
+            "id": "uhs",
+            "internal_id": "414356816",
+            "label": "UHs",
+            "uuid": "1fce4410-122c-4b1b-ada4-cd69568d2820"
+          },
+          "phaseFieldId": "414356816",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324678398",
+          "phaseField": {
+            "id": "quartos",
+            "internal_id": "414356828",
+            "label": "Espaços",
+            "uuid": "d54269df-cb4a-457b-b748-a58cbdc1f96b"
+          },
+          "phaseFieldId": "414356828",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324678399",
+          "phaseField": {
+            "id": "estrelas",
+            "internal_id": "414356936",
+            "label": "Estrelas",
+            "uuid": "9725b4da-62e8-4b17-9b79-6ae0ab4a3230"
+          },
+          "phaseFieldId": "414356936",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324678400",
+          "phaseField": {
+            "id": "segmento",
+            "internal_id": "414911546",
+            "label": "Segmento",
+            "uuid": "3bb26b82-487d-40a4-8570-e7e51c7beac6"
+          },
+          "phaseFieldId": "414911546",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "414745878",
+            "id": "313221854",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "316108031"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310858533"
+      },
+      "id": "305834434",
+      "name": "Tipo != Hotel",
+      "url": "https://app.pipefy.com/pipes/306441622/settings/form/conditionals/305834434"
+    }
+  },
+  "meta": {
+    "pipe_id": "306441622",
+    "rule_id": "305834434",
+    "scope": "start_form"
+  }
+}

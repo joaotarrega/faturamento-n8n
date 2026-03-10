@@ -1,0 +1,495 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [],
+      "color": "orange",
+      "description": null,
+      "id": "306498227",
+      "labels": [],
+      "members": [
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "tcampion@evnt.com.br",
+            "id": "306611102",
+            "name": "Thomas Campion"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "scripts-301997709@service-account.pipefy.com",
+            "id": "306874087",
+            "name": "Scripts"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        }
+      ],
+      "name": "[DB-04] Contatos",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": false,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "302917888",
+          "name": "Contatos",
+          "ownFieldMaps": [],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306411209",
+            "name": "[COM-01] CRM"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "303011244",
+          "name": "Contatos",
+          "ownFieldMaps": [
+            {
+              "fieldId": "416299205",
+              "field_id": "416299205",
+              "inputMode": "copy_from",
+              "value": "%{421170612.416199309}"
+            },
+            {
+              "fieldId": "418489601",
+              "field_id": "418489601",
+              "inputMode": "fixed_value",
+              "value": "Sim"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          }
+        },
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "302979260",
+          "name": "Contatos",
+          "ownFieldMaps": [
+            {
+              "fieldId": "415480500",
+              "field_id": "415480500",
+              "inputMode": "copy_from",
+              "value": "%{416234106.414861329}"
+            },
+            {
+              "fieldId": "418489601",
+              "field_id": "418489601",
+              "inputMode": "fixed_value",
+              "value": "Não"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "cards_count": 1431,
+          "color": "indigo",
+          "description": "",
+          "fields": [],
+          "id": "339257694",
+          "name": "Contato ativo",
+          "uuid": "688e34dd-9392-4972-bde4-6927df3b62b4"
+        },
+        {
+          "cards_count": 8,
+          "color": "red",
+          "description": "",
+          "fields": [],
+          "id": "341002310",
+          "name": "Contato inativo",
+          "uuid": "9644d3cc-1b46-4642-810f-d38c3703b3d2"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "**Sim**: o contato **não atua em um hotel específico** mas sim na rede/grupo.\n\n**Não**: o contato é **colaborador de um hotel específico**.",
+          "help": "",
+          "id": "esse_contato_de_uma_rede",
+          "internal_id": "418489601",
+          "label": "Esse contato é de uma rede/grupo?",
+          "options": [
+            "Sim",
+            "Não"
+          ],
+          "required": true,
+          "type": "radio_vertical",
+          "uuid": "0f64f896-8744-4473-9089-607fa584a842"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "description": "",
+          "help": "",
+          "id": "empresa",
+          "internal_id": "415480500",
+          "label": "Cliente",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "7d2d00c0-d684-46c5-82d6-6e329713c28a"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": false,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "description": "",
+          "help": "",
+          "id": "rede",
+          "internal_id": "416299205",
+          "label": "Rede",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "43699d10-ccad-436a-9719-c7292ab3b097"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "Não deve conter números e nem caracteres especiais",
+          "help": "",
+          "id": "nome_do_contato",
+          "internal_id": "415480418",
+          "label": "Nome do contato",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "ccbac9c2-dbb2-408c-be97-c27b79b5dea7"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "cargo",
+          "internal_id": "415480451",
+          "label": "Cargo",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "a707920a-766e-4d6d-b881-aaa269550f9b"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "**Esse email será utilizado para enviar comunicações ao contato. Garanta que ele esteja correto!**",
+          "help": "",
+          "id": "e_mail",
+          "internal_id": "415480485",
+          "label": "E-mail principal",
+          "options": [],
+          "required": false,
+          "type": "email",
+          "uuid": "9bdc16a7-bee7-4aa3-a6fb-d704f0ef1932"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "e_mail_2",
+          "internal_id": "415486955",
+          "label": "E-mail 2",
+          "options": [],
+          "required": false,
+          "type": "email",
+          "uuid": "e08c6bf8-2dd3-4d8f-8e28-589364d409e2"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "e_mail_3",
+          "internal_id": "415486957",
+          "label": "E-mail 3",
+          "options": [],
+          "required": false,
+          "type": "email",
+          "uuid": "7ffa28bb-5745-4aac-b646-d8da53c3dac3"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "telefone",
+          "internal_id": "415480487",
+          "label": "Telefone principal",
+          "options": [],
+          "required": false,
+          "type": "phone",
+          "uuid": "6d8d8189-327c-49c8-ba5f-748f1b6eaacc"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "telefone_2",
+          "internal_id": "415486952",
+          "label": "Telefone 2",
+          "options": [],
+          "required": false,
+          "type": "phone",
+          "uuid": "41fd47da-50b6-457e-bc70-ec2d4a6067b2"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "telefone_3",
+          "internal_id": "415486953",
+          "label": "Telefone 3",
+          "options": [],
+          "required": false,
+          "type": "phone",
+          "uuid": "78349b56-95ff-404b-aa65-5e52c9236680"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "linkedin",
+          "internal_id": "420284519",
+          "label": "LinkedIn",
+          "options": [],
+          "required": false,
+          "type": "short_text",
+          "uuid": "19918265-434b-45a9-a898-ca7e58cf81e2"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": null,
+          "id": "observa_es",
+          "internal_id": "415486025",
+          "label": "Observações",
+          "options": [],
+          "required": false,
+          "type": "long_text",
+          "uuid": "727e44d2-05fe-4afa-8f92-f05d7b7d7369"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": false,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306533151",
+            "name": "[DB-02] Redes e grupos"
+          },
+          "description": "",
+          "help": "",
+          "id": "ultima_rede",
+          "internal_id": "421400514",
+          "label": "Ultima rede",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "3ec488d8-7f54-476d-a811-41e313b6ce94"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "description": "",
+          "help": "",
+          "id": "ultimas_empresas",
+          "internal_id": "421400537",
+          "label": "Ultimas empresas",
+          "options": [],
+          "required": false,
+          "type": "connector",
+          "uuid": "d300d662-a940-4737-8513-5986a819f735"
+        }
+      ],
+      "uuid": "19026153-3942-4f1c-9c39-4438996f96a3",
+      "webhooks": [
+        {
+          "actions": [
+            "card.create"
+          ],
+          "email": "jtarega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300591971",
+          "url": "https://n8n.evnt.com.br/webhook/f6cec47d-b25d-4789-8bcb-c74190659896"
+        },
+        {
+          "actions": [
+            "card.field_update"
+          ],
+          "email": "jtarrega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300592062",
+          "url": "https://n8n.evnt.com.br/webhook-test/fc5a5d1a-72bc-452d-9db0-c1c479b25d80"
+        },
+        {
+          "actions": [
+            "card.create"
+          ],
+          "email": "jtarega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300591961",
+          "url": "https://n8n.evnt.com.br/webhook-test/f6cec47d-b25d-4789-8bcb-c74190659896"
+        },
+        {
+          "actions": [
+            "card.field_update"
+          ],
+          "email": "jtarrega@evnt.com.br",
+          "filters": {},
+          "headers": "{\"Pipefy-Webhook-Token\":\"1I04K6ukazSRd96D5Mht1yzYLOaewHCTYQwtwy6DbEijdoBtTLjfsiNOFyrReseTdkcOEA5Nw9PFebHfXIyfHGu8rYLOZsV7O2zCug2fMumf8cq1XqIzHvv9WPTq4YD6wpyTCb8TmoGs9dedebvTh3KfrVqvxFLkmEdlUgXUIuAPIsBOT2c7cJ6wzaAP1iGZE9BANVlNwAJTHoRCGi7CBL9xo7Hr179SNdQmFEM2NgT8ItprCRHbGUDObKYBDtYlJDZTBxDV5i2Sfr8xVHkl08YrMQ5ZGJ3n8c9WI8Hx3DcYHiQyU846gAhru6GJkrvc91GXY1E4CAkoZ2Q4btxosOOiadXIf2EC77vHce5MX7R3SrF0T0SCBc1GNrUnBaj3fOcQ3pEYYWGDrvRfoszC5zuSFzRWpQeio91TkamjyrRBOq8KgLQOGL2J1EnpbVjzHBmfudrj7n8xRR4fudSLA7hBVKLqsrRZGpsg0OLqy5Wfn148KQbiz1S5gI6xEhwW\"}",
+          "id": "300592082",
+          "url": "https://n8n.evnt.com.br/webhook/fc5a5d1a-72bc-452d-9db0-c1c479b25d80"
+        }
+      ]
+    }
+  }
+}

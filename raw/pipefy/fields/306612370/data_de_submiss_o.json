@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Data em que a ideia foi submetida.",
+      "help": null,
+      "id": "data_de_submiss_o",
+      "index": 0.0,
+      "internal_id": "417812918",
+      "label": "Data de Submissão",
+      "options": [],
+      "required": true,
+      "type": "date",
+      "uuid": "94ec95ec-4fb0-477b-9eeb-db649f9e2ae7"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_submiss_o",
+    "phase": {
+      "id": "339912150",
+      "name": "Ideia Submetida",
+      "uuid": "1f3d5a2f-0e87-4baf-b7f8-e1eab16f7865"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

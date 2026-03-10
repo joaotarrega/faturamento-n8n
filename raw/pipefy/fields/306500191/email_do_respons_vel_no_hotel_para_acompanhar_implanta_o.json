@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "email_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+      "internal_id": "416231682",
+      "label": "Email do responsável no hotel por acompanhar implantação",
+      "options": [],
+      "required": false,
+      "type": "email",
+      "uuid": "4e117f5d-c436-43a7-981b-f08a5c6908a4"
+    }
+  },
+  "meta": {
+    "field_id": "email_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+    "pipe_id": "306500191",
+    "scope": "start_form"
+  }
+}

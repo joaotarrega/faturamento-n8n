@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "proibir_cria_o_de_cards_diretamente_no_pipe",
+      "internal_id": "416970549",
+      "label": "Esconder todos os campos do form inicial?",
+      "options": [
+        "Não"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "60440a23-53ec-44ff-9d8a-f8a595ba05c7"
+    }
+  },
+  "meta": {
+    "field_id": "proibir_cria_o_de_cards_diretamente_no_pipe",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

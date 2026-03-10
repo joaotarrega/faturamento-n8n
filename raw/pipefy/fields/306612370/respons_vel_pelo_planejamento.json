@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Selecione o responsável por conduzir o planejamento.",
+      "help": null,
+      "id": "respons_vel_pelo_planejamento",
+      "index": 3.0,
+      "internal_id": "417812946",
+      "label": "Responsável pelo Planejamento",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "71d7d55b-d40e-485a-8ae4-a2d0b8757407"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel_pelo_planejamento",
+    "phase": {
+      "id": "339912152",
+      "name": "Planejamento",
+      "uuid": "fdf776f9-595c-4d42-87c3-de45cd4d3a2c"
+    },
+    "pipe_id": "306612370",
+    "scope": "phase"
+  }
+}

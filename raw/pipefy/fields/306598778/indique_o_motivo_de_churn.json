@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "indique_o_motivo_de_churn",
+      "index": 300.0,
+      "internal_id": "418433608",
+      "label": "Indique o motivo de churn",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "57b057f8-bf91-4936-aa5f-edadd594db51"
+    }
+  },
+  "meta": {
+    "field_id": "indique_o_motivo_de_churn",
+    "phase": {
+      "id": "340088247",
+      "name": "Retenção",
+      "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Nessa etapa, as informações comerciais devem ser validadas com a proposta enviada pelo time comercial.<br /><br />Feito isso, incluir os dados da proposta comercial no contrato para o envio e validação do cliente na próxima fase.</p>\n<p><br /><a href=\"https://evnt.sharepoint.com/:w:/r/Shared%20Documents/EVNT%202024/Processos/Processos/Pipefy/Contrato%20padr%C3%A3o/Contrato%20+%20Proposta%20EVNT%2007_10_2025.docx?d=w5284324ebc904dad8650b060f0d5502c&amp;csf=1&amp;web=1&amp;e=K1Kodn\" target=\"_blank\" rel=\"noopener\">Contrato + Proposta EVNT 07_10_2025.docx</a></p>\n<p> </p>\n<p>---</p>\n<p> </p>\n<p><a href=\"https://evnt.sharepoint.com/:w:/r/Shared%20Documents/EVNT%202024/Processos/Processos/Pipefy/Contrato%20padr%C3%A3o/Contrato%20EVNT%2007_10_2025.docx?d=w46665b2f7f164fbaacd6603e50cf4fc5&amp;csf=1&amp;web=1&amp;e=YfK7gI\" target=\"_blank\" rel=\"noopener\">Contrato EVNT 07_10_2025.docx</a></p>\n<p><a href=\"https://evnt.sharepoint.com/:w:/r/Shared%20Documents/EVNT%202024/Processos/Processos/Pipefy/Contrato%20padr%C3%A3o/Carta%20proposta%20comercial%20EVNT%2022_09_2025.docx?d=w6c74420b416e4c88a386090b4d3ed646&amp;csf=1&amp;web=1&amp;e=0EsxuV\">Carta proposta comercial EVNT 22_09_2025.docx</a></p>\n<hr />\n<p> </p>",
+      "help": "",
+      "id": "statement_cca69147_f357_4768_be01_803094073cac",
+      "index": -100.0,
+      "internal_id": "415632863",
+      "label": "Statement-cca69147-f357-4768-be01-803094073cac",
+      "options": [],
+      "required": false,
+      "type": "statement",
+      "uuid": "4c70ee81-dd18-48c3-9fb7-890ffd6e1c0e"
+    }
+  },
+  "meta": {
+    "field_id": "statement_cca69147_f357_4768_be01_803094073cac",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

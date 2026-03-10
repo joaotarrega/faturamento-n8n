@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "email_de_quem_ir_receber_a_ficha",
+      "internal_id": "415750556",
+      "label": "Email de quem irá receber a ficha",
+      "options": [],
+      "required": false,
+      "type": "email",
+      "uuid": "7be83d0d-5b7b-4d85-8449-71b901b09011"
+    }
+  },
+  "meta": {
+    "field_id": "email_de_quem_ir_receber_a_ficha",
+    "pipe_id": "306509228",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Ciudad",
+      "help": "",
+      "id": "cidade",
+      "index": 1300.0,
+      "internal_id": "415745667",
+      "label": "Cidade",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "7a3b718d-3d01-4aab-ade8-e92de033f186"
+    }
+  },
+  "meta": {
+    "field_id": "cidade",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "fields_by_phase_id": {},
+  "ids": [
+    "cards_de_atividades",
+    "cards_de_contatos",
+    "cards_de_csat_e_nps",
+    "cards_de_treinamentos",
+    "id_pipefy",
+    "nome_da_rede",
+    "observa_es",
+    "pa_s",
+    "regras_de_faturamento",
+    "tipo_de_rede"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306533151",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "cards_de_atividades",
+    "cards_de_contatos",
+    "cards_de_csat_e_nps",
+    "cards_de_treinamentos",
+    "id_pipefy",
+    "nome_da_rede",
+    "observa_es",
+    "pa_s",
+    "regras_de_faturamento",
+    "tipo_de_rede"
+  ]
+}

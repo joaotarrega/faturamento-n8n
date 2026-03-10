@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "clique_aqui_para_treinamentos_feitos_a_redes",
+      "internal_id": "416199183",
+      "label": "Clique aqui para treinamentos feitos a redes",
+      "options": [
+        "O treinamento será ministrado para uma rede como um todo"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "cf479987-cbcf-4164-85bf-b72575363b09"
+    }
+  },
+  "meta": {
+    "field_id": "clique_aqui_para_treinamentos_feitos_a_redes",
+    "pipe_id": "306533442",
+    "scope": "start_form"
+  }
+}

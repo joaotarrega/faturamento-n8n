@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "data_e_hora_da_reuni_o_p_s_implanta_o",
+      "index": 0.0,
+      "internal_id": "416203969",
+      "label": "Data e hora da reunião de pós-treinamento",
+      "options": [],
+      "required": true,
+      "type": "datetime",
+      "uuid": "e9065b16-8891-48e8-b786-dd7c1527d771"
+    }
+  },
+  "meta": {
+    "field_id": "data_e_hora_da_reuni_o_p_s_implanta_o",
+    "phase": {
+      "id": "339455414",
+      "name": "Pós-treinamento",
+      "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

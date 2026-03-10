@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "fora_do_escopo",
+      "index": 300.0,
+      "internal_id": "423997277",
+      "label": "Fora do escopo",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "03c6e573-532e-459f-82de-09a0bdcfb064"
+    }
+  },
+  "meta": {
+    "field_id": "fora_do_escopo",
+    "phase": {
+      "id": "341458414",
+      "name": "Triagem e definição",
+      "uuid": "682472a7-8b50-4956-ad4c-4aeb6d5d84c7"
+    },
+    "pipe_id": "306877345",
+    "scope": "phase"
+  }
+}

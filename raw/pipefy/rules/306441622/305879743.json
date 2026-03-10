@@ -1,0 +1,374 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324792933",
+          "phaseField": {
+            "id": "produtos",
+            "internal_id": "414749221",
+            "label": "Produtos",
+            "uuid": "6c6c1377-6526-4930-8e89-9c87ea2fbad8"
+          },
+          "phaseFieldId": "414749221",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792934",
+          "phaseField": {
+            "id": "cnpj_de_faturamento",
+            "internal_id": "415637709",
+            "label": "CNPJ de faturamento",
+            "uuid": "fd836514-e763-485c-9fc9-ad674dfc63bb"
+          },
+          "phaseFieldId": "415637709",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792935",
+          "phaseField": {
+            "id": "tipo_de_identificador_fiscal",
+            "internal_id": "414985731",
+            "label": "Tipo de identificador fiscal",
+            "uuid": "6f27d33e-5bd2-4c48-a6e2-9b9455091855"
+          },
+          "phaseFieldId": "414985731",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792936",
+          "phaseField": {
+            "id": "identificador_fiscal_fora_do_brasil",
+            "internal_id": "414985497",
+            "label": "Identificador fiscal fora do Brasil",
+            "uuid": "afc082ce-cb5f-4e56-855a-1afb70e2f292"
+          },
+          "phaseFieldId": "414985497",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792937",
+          "phaseField": {
+            "id": "latitude",
+            "internal_id": "414752749",
+            "label": "Latitude",
+            "uuid": "627228af-025f-4970-b8f2-2aa8549f49e0"
+          },
+          "phaseFieldId": "414752749",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792938",
+          "phaseField": {
+            "id": "longitude",
+            "internal_id": "414752766",
+            "label": "Longitude",
+            "uuid": "0181603b-61d1-4440-a814-6a0eed268dc1"
+          },
+          "phaseFieldId": "414752766",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792939",
+          "phaseField": {
+            "id": "tipo_de_uso_da_plataforma",
+            "internal_id": "414860709",
+            "label": "Tipo de uso da plataforma",
+            "uuid": "2fdc19ad-3e3b-4ca5-a9da-158b4820ff3e"
+          },
+          "phaseFieldId": "414860709",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792940",
+          "phaseField": {
+            "id": "segmento",
+            "internal_id": "414911546",
+            "label": "Segmento",
+            "uuid": "3bb26b82-487d-40a4-8570-e7e51c7beac6"
+          },
+          "phaseFieldId": "414911546",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792941",
+          "phaseField": {
+            "id": "hist_rico_ploomes_descri_es_das_intera_es",
+            "internal_id": "415366156",
+            "label": "Histórico Ploomes - Descrições das interações",
+            "uuid": "5f379a50-354a-415c-b15f-8474c1767968"
+          },
+          "phaseFieldId": "415366156",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792942",
+          "phaseField": {
+            "id": "hist_rico_ploomes_envolvidos_nas_intera_es",
+            "internal_id": "415366158",
+            "label": "Histórico Ploomes - Envolvidos nas interações",
+            "uuid": "d10af004-f538-4bc9-95f1-a9103e39ca88"
+          },
+          "phaseFieldId": "415366158",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324792943",
+          "phaseField": {
+            "id": "hist_rico_ploomes_datas_de_intera_es",
+            "internal_id": "415366155",
+            "label": "Histórico Ploomes - Datas de interações",
+            "uuid": "8737364a-e151-4921-96e7-c12d24103a1f"
+          },
+          "phaseFieldId": "415366155",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405404",
+          "phaseField": {
+            "id": "card_no_crm",
+            "internal_id": "416234106",
+            "label": "Card no CRM",
+            "uuid": "6b15021d-79a1-4767-be36-1f763f886a4f"
+          },
+          "phaseFieldId": "416234106",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405405",
+          "phaseField": {
+            "id": "card_de_cadastro",
+            "internal_id": "416883890",
+            "label": "Card de ficha cadastral",
+            "uuid": "263b9fdf-43c5-4f59-9de4-5bc2dcb61614"
+          },
+          "phaseFieldId": "416883890",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405406",
+          "phaseField": {
+            "id": "card_de_contrato",
+            "internal_id": "417643536",
+            "label": "Card de contrato",
+            "uuid": "7df7ad5f-77ac-4528-b1d9-a2bc729d51cd"
+          },
+          "phaseFieldId": "417643536",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405407",
+          "phaseField": {
+            "id": "cards_de_treinamentos",
+            "internal_id": "417643712",
+            "label": "Card de treinamento",
+            "uuid": "c0f14d5b-bd68-4d34-b063-68484a0b5af9"
+          },
+          "phaseFieldId": "417643712",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405409",
+          "phaseField": {
+            "id": "card_de_health_score",
+            "internal_id": "417644293",
+            "label": "Card de health score",
+            "uuid": "dcdb7f60-52e2-4ac5-b39d-6f794ee3d9ae"
+          },
+          "phaseFieldId": "417644293",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405410",
+          "phaseField": {
+            "id": "card_de_csat_nps",
+            "internal_id": "417652517",
+            "label": "Card de CSAT/NPS",
+            "uuid": "4f5eb8af-a527-4a03-8a75-8a106705fe06"
+          },
+          "phaseFieldId": "417652517",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325405411",
+          "phaseField": {
+            "id": "card_de_cliente_oculto",
+            "internal_id": "417644273",
+            "label": "Card de cliente oculto",
+            "uuid": "35a5f4ed-4a7a-4d5a-b39a-bdee6500698c"
+          },
+          "phaseFieldId": "417644273",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325551093",
+          "phaseField": {
+            "id": "data_em_que_a_oportunidade_foi_ganha",
+            "internal_id": "418113274",
+            "label": "Data em que a oportunidade foi ganha",
+            "uuid": "8e339575-2de3-4732-bb6b-8800ff4ce4a1"
+          },
+          "phaseFieldId": "418113274",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325551094",
+          "phaseField": {
+            "id": "data_de_implanta_o",
+            "internal_id": "418114452",
+            "label": "Data de implantação",
+            "uuid": "99e9b23a-9a84-406b-93f9-f94c84ef60a7"
+          },
+          "phaseFieldId": "418114452",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325699513",
+          "phaseField": {
+            "id": "card_de_churn",
+            "internal_id": "418488668",
+            "label": "Card de churn",
+            "uuid": "a5a73059-2476-4d6f-ac0d-b6c612bd2be4"
+          },
+          "phaseFieldId": "418488668",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277020",
+          "phaseField": {
+            "id": "usu_rio_administrador_saas",
+            "internal_id": "420518902",
+            "label": "Usuário administrador SaaS",
+            "uuid": "9c1b9ff2-cb59-45db-9ef7-1ca0a8b43c41"
+          },
+          "phaseFieldId": "420518902",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277021",
+          "phaseField": {
+            "id": "piloto",
+            "internal_id": "420511832",
+            "label": "É piloto?",
+            "uuid": "cb81ea64-ec5d-412a-8b17-90247eb09426"
+          },
+          "phaseFieldId": "420511832",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277022",
+          "phaseField": {
+            "id": "data_de_fim_do_piloto",
+            "internal_id": "420516255",
+            "label": "Data de fim do piloto",
+            "uuid": "eb999148-50cf-438c-9ecd-712d38e1f751"
+          },
+          "phaseFieldId": "420516255",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277023",
+          "phaseField": {
+            "id": "emails_financeiros",
+            "internal_id": "418222367",
+            "label": "Emails financeiros",
+            "uuid": "9a845098-cd90-426d-acb6-30267f670a6e"
+          },
+          "phaseFieldId": "418222367",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277024",
+          "phaseField": {
+            "id": "contato_financeiro",
+            "internal_id": "418709320",
+            "label": "Contato financeiro",
+            "uuid": "e549f93d-ff4c-4a75-b39e-9c4dd7ba7835"
+          },
+          "phaseFieldId": "418709320",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "326277025",
+          "phaseField": {
+            "id": "cards_de_contatos",
+            "internal_id": "420051505",
+            "label": "Cards de contatos",
+            "uuid": "434f3165-1bd9-4b4e-8d5c-b15f62f8bc68"
+          },
+          "phaseFieldId": "420051505",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327293635",
+          "phaseField": {
+            "id": "regras_de_faturamento",
+            "internal_id": "424223520",
+            "label": "Regras de faturamento",
+            "uuid": "e664345d-7f84-4f39-baa5-8dc40849e23e"
+          },
+          "phaseFieldId": "424223520",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "313353706",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310976391"
+      },
+      "id": "305879743",
+      "name": "Esconder campos avançados de cadastro",
+      "url": "https://app.pipefy.com/pipes/306441622/settings/phases/339039677/conditionals/305879743"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339039677",
+      "name": "Não é cliente",
+      "uuid": "bd9c0c0a-8311-4e3a-a214-1720e751e1de"
+    },
+    "pipe_id": "306441622",
+    "rule_id": "305879743",
+    "scope": "phase"
+  }
+}

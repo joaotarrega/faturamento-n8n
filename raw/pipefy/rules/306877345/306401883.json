@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327142845",
+          "phaseField": {
+            "id": "nome",
+            "internal_id": "423266573",
+            "label": "Nome",
+            "uuid": "0c7671e0-71a1-4c56-95ce-24e2ff9410fd"
+          },
+          "phaseFieldId": "423266573",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "315133150",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312646682"
+      },
+      "id": "306401883",
+      "name": "Esconder nome após criação do card",
+      "url": "https://app.pipefy.com/pipes/306877345/settings/form/conditionals/306401883"
+    }
+  },
+  "meta": {
+    "pipe_id": "306877345",
+    "rule_id": "306401883",
+    "scope": "start_form"
+  }
+}

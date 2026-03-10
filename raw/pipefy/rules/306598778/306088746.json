@@ -1,0 +1,65 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325732070",
+          "phaseField": {
+            "id": "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+            "internal_id": "418673713",
+            "label": "Copy of Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+            "uuid": "016f74f6-ed9d-4ad6-877e-5806b7815898"
+          },
+          "phaseFieldId": "418673713",
+          "whenEvaluator": false
+        },
+        {
+          "actionId": "show",
+          "id": "325743547",
+          "phaseField": {
+            "id": "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+            "internal_id": "418673713",
+            "label": "Copy of Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+            "uuid": "016f74f6-ed9d-4ad6-877e-5806b7815898"
+          },
+          "phaseFieldId": "418673713",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418715054.415480487",
+            "id": "314080740",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "418715054",
+            "id": "314088442",
+            "operation": "present",
+            "structure_id": "1",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311651692"
+      },
+      "id": "306088746",
+      "name": "Contato sem telefone",
+      "url": "https://app.pipefy.com/pipes/306598778/settings/form/conditionals/306088746"
+    }
+  },
+  "meta": {
+    "pipe_id": "306598778",
+    "rule_id": "306088746",
+    "scope": "start_form"
+  }
+}

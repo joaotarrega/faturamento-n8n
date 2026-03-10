@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "ambiente_pa_s_da_empresa",
+      "internal_id": "416178464",
+      "label": "País da empresa",
+      "options": [
+        "Argentina",
+        "Bolívia",
+        "Brasil",
+        "Chile",
+        "Colômbia",
+        "Equador",
+        "Paraguai",
+        "Peru",
+        "Uruguai",
+        "Venezuela",
+        "México",
+        "Costa Rica",
+        "Porto Rico"
+      ],
+      "required": true,
+      "type": "select",
+      "uuid": "407cce02-fcec-4d29-b9c8-db01f4532ee7"
+    }
+  },
+  "meta": {
+    "field_id": "ambiente_pa_s_da_empresa",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

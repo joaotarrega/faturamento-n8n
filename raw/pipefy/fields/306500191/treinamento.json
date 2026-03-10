@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533442",
+        "name": "[OPE-06] Treinamento e suporte"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533442",
+        "name": "[OPE-06] Treinamento e suporte"
+      },
+      "description": "",
+      "help": "",
+      "id": "treinamento",
+      "index": 0.0,
+      "internal_id": "416199646",
+      "label": "Treinamento",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "496e4baa-5360-4d17-9035-e07e44cc6c0c"
+    }
+  },
+  "meta": {
+    "field_id": "treinamento",
+    "phase": {
+      "id": "339455413",
+      "name": "Treinamento",
+      "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051383",
+          "phaseField": {
+            "id": "valor_do_imposto_a_ser_isento_espa_os",
+            "internal_id": "422909789",
+            "label": "Valor percentual do imposto a ser isento - Espaços",
+            "uuid": "1bad48ea-4658-4934-b926-a87a70e04b8d"
+          },
+          "phaseFieldId": "422909789",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909780",
+            "id": "315064161",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "1260337296"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312580006"
+      },
+      "id": "306382063",
+      "name": "Tipo de desconto Espaços != Impostos locais",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382063"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382063",
+    "scope": "start_form"
+  }
+}

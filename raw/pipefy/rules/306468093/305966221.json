@@ -1,0 +1,72 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325166244",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "325166245",
+          "phaseField": {
+            "id": "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7",
+            "internal_id": "416986198",
+            "label": "Statement-5cb2f8a5-9bd8-4cf5-8ac6-7ebe4e5459b7",
+            "uuid": "59964ee9-b84a-4a5b-8968-4153f7e6ae16"
+          },
+          "phaseFieldId": "416986198",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325166246",
+          "phaseField": {
+            "id": "statement_5cb2f8a5_9bd8_4cf5_8ac6_7ebe4e5459b7",
+            "internal_id": "416986198",
+            "label": "Statement-5cb2f8a5-9bd8-4cf5-8ac6-7ebe4e5459b7",
+            "uuid": "59964ee9-b84a-4a5b-8968-4153f7e6ae16"
+          },
+          "phaseFieldId": "416986198",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "313655882",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "416985756",
+            "id": "313655883",
+            "operation": "not_equals",
+            "structure_id": "1",
+            "value": "Não"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "1"
+          ]
+        ],
+        "id": "311273324"
+      },
+      "id": "305966221",
+      "name": "Esconder campos do forms inicial na criação direta pelo pipe",
+      "url": "https://app.pipefy.com/pipes/306468093/settings/form/conditionals/305966221"
+    }
+  },
+  "meta": {
+    "pipe_id": "306468093",
+    "rule_id": "305966221",
+    "scope": "start_form"
+  }
+}

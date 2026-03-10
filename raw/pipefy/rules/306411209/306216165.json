@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326275415",
+          "phaseField": {
+            "id": "qual_a_data_de_finaliza_o_do_piloto",
+            "internal_id": "420512016",
+            "label": "Qual é a data de finalização do piloto?",
+            "uuid": "3b8fde01-e1a7-4217-aadd-6ec39eac9eec"
+          },
+          "phaseFieldId": "420512016",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "420511917",
+            "id": "314488363",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312046176"
+      },
+      "id": "306216165",
+      "name": "Piloto != Sim",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338732673/conditionals/306216165"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306216165",
+    "scope": "phase"
+  }
+}

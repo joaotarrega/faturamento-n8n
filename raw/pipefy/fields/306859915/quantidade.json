@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "quantidade",
+      "internal_id": "422909764",
+      "label": "Quantidade",
+      "options": [],
+      "required": true,
+      "type": "number",
+      "uuid": "5ff23222-c939-4b7c-8eae-37e93229de17"
+    }
+  },
+  "meta": {
+    "field_id": "quantidade",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

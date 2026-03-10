@@ -1,0 +1,145 @@
+{
+  "ids": [
+    "305792688",
+    "306068016"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306350926",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p0": {
+          "id": "306350926",
+          "phases": [
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "324387748",
+                      "phaseField": {
+                        "id": "qual_a_entrega_final_resultado_do_projeto",
+                        "internal_id": "414195394",
+                        "label": "Qual é a entrega final (resultado) do projeto?",
+                        "uuid": "bbf31bcb-767c-4de5-b79e-1a3349ad41a2"
+                      },
+                      "phaseFieldId": "414195394",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "412615107",
+                        "id": "313120341",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "316043418"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "310770917"
+                  },
+                  "id": "305792688",
+                  "name": "Tipo != Projeto",
+                  "url": "https://app.pipefy.com/pipes/306350926/settings/phases/338374015/conditionals/305792688"
+                }
+              ],
+              "id": "338374015",
+              "name": "Caixa de entrada",
+              "uuid": "1289a325-a9d2-402b-b427-1cb8044f9879"
+            },
+            {
+              "fieldConditions": [],
+              "id": "338374016",
+              "name": "Fazendo",
+              "uuid": "58adc205-f9af-4791-8742-e750dc048cd8"
+            },
+            {
+              "fieldConditions": [],
+              "id": "338393490",
+              "name": "Aguardando",
+              "uuid": "8dce6041-8dbe-4e4c-bca6-bebe62e61e0c"
+            },
+            {
+              "fieldConditions": [],
+              "id": "338494149",
+              "name": "On-hold",
+              "uuid": "99a3bcea-57df-4812-8dcb-9b8efd1b49e0"
+            },
+            {
+              "fieldConditions": [],
+              "id": "338374017",
+              "name": "Concluído",
+              "uuid": "53c22d48-cf0a-4ddc-a156-1e7d7da58bcc"
+            },
+            {
+              "fieldConditions": [],
+              "id": "338374032",
+              "name": "Cancelado / Arquivado",
+              "uuid": "a2f9becd-d488-49e4-917b-22f9e6e1843a"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325643879",
+                  "phaseField": {
+                    "id": "cliente_associado",
+                    "internal_id": "416260007",
+                    "label": "Cliente associado",
+                    "uuid": "ee20bac8-6cf5-40fb-8dba-8b4557574b40"
+                  },
+                  "phaseFieldId": "416260007",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "412615107",
+                    "id": "314018522",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "316325632"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311588761"
+              },
+              "id": "306068016",
+              "name": "Tipo != Usabilidade",
+              "url": "https://app.pipefy.com/pipes/306350926/settings/form/conditionals/306068016"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "338374015": [
+      "305792688"
+    ]
+  },
+  "start_form_rule_ids": [
+    "306068016"
+  ]
+}

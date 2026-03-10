@@ -1,0 +1,39 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "description": "Responsável por aprovar a criação e remoção de usuários no ambiente SaaS do cliente.",
+      "help": "",
+      "id": "usu_rio_administrador_saas",
+      "index": 100.0,
+      "internal_id": "420661914",
+      "label": "Usuário administrador SaaS",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "d303e618-8eb0-4f55-a283-021f5f09b0b6"
+    }
+  },
+  "meta": {
+    "field_id": "usu_rio_administrador_saas",
+    "phase": {
+      "id": "339455413",
+      "name": "Treinamento",
+      "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

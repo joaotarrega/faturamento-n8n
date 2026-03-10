@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325693467",
+          "phaseField": {
+            "id": "quem_o_seu_gestor",
+            "internal_id": "418491136",
+            "label": "Quem é o seu gestor?",
+            "uuid": "6c353867-254b-4f53-bca0-3885481b9d98"
+          },
+          "phaseFieldId": "418491136",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418491079",
+            "id": "314053568",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Gestor"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311623470"
+      },
+      "id": "306079517",
+      "name": "Gestor != incorreto",
+      "url": "https://app.pipefy.com/pipes/306598617/settings/phases/339833260/conditionals/306079517"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "rule_id": "306079517",
+    "scope": "phase"
+  }
+}

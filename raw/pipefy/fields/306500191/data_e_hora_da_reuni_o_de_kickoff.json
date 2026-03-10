@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "data_e_hora_da_reuni_o_de_kickoff",
+      "index": 100.0,
+      "internal_id": "416198340",
+      "label": "Data e hora da reunião de kickoff",
+      "options": [],
+      "required": true,
+      "type": "datetime",
+      "uuid": "477251f5-a7bd-43f0-b654-1b85762183f1"
+    }
+  },
+  "meta": {
+    "field_id": "data_e_hora_da_reuni_o_de_kickoff",
+    "phase": {
+      "id": "339269421",
+      "name": "Kickoff",
+      "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

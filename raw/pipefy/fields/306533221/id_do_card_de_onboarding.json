@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_do_card_de_onboarding",
+      "internal_id": "423809910",
+      "label": "ID do card de onboarding",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "cb43c376-6ea5-4bc8-adb1-c4d001774a04"
+    }
+  },
+  "meta": {
+    "field_id": "id_do_card_de_onboarding",
+    "pipe_id": "306533221",
+    "scope": "start_form"
+  }
+}

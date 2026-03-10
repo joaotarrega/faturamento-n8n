@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "oSEdXvjs",
+        "name": "Tipos de desconto para categorias SaaS"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "oSEdXvjs",
+        "name": "Tipos de desconto para categorias SaaS"
+      },
+      "description": "",
+      "help": "",
+      "id": "tipo_de_desconto_a_b_1",
+      "internal_id": "422751354",
+      "label": "Tipo de desconto - A&B",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "a5733ea4-65ea-400a-ba30-2eb440217fbd"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_desconto_a_b_1",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

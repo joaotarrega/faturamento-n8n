@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "| Score \t| Classificação |\n|:------------:\t|:-----------:\t|\n| Menor que 50 \t|    Baixa    \t|\n|  De 50 a 74  \t|    Média    \t|\n|  De 75 a 100 \t|    Alta|",
+      "help": "",
+      "id": "categorias_de_usabilidade",
+      "index": 50.0,
+      "internal_id": "419304080",
+      "label": "Categorias de usabilidade",
+      "options": [],
+      "required": true,
+      "type": "label_select",
+      "uuid": "5fc6dccd-b247-4de8-be6f-d1f44fceaa53"
+    }
+  },
+  "meta": {
+    "field_id": "categorias_de_usabilidade",
+    "phase": {
+      "id": "339812904",
+      "name": "Calculando o score",
+      "uuid": "2fcde8a6-5a26-4201-a6d9-8582739ee1de"
+    },
+    "pipe_id": "306595015",
+    "scope": "phase"
+  }
+}

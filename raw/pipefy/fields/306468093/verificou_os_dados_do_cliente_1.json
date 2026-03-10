@@ -1,0 +1,36 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "verificou_os_dados_do_cliente_1",
+      "index": 150.0,
+      "internal_id": "420207430",
+      "label": "Verificação de dados do cliente",
+      "options": [
+        "Rede",
+        "Marca",
+        "Endereço",
+        "CNPJ"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "1d7d9def-8b2a-4898-9d5f-e1e0f50802f5"
+    }
+  },
+  "meta": {
+    "field_id": "verificou_os_dados_do_cliente_1",
+    "phase": {
+      "id": "339556245",
+      "name": "Ambiente em configuração",
+      "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

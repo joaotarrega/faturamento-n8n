@@ -1,0 +1,85 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325742399",
+          "phaseField": {
+            "id": "nome_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+            "internal_id": "416231669",
+            "label": "Nome do responsável no hotel por acompanhar implantação",
+            "uuid": "c8f2cdae-8995-4f35-bb4f-d607d66c2fb8"
+          },
+          "phaseFieldId": "416231669",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325742400",
+          "phaseField": {
+            "id": "email_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+            "internal_id": "416231682",
+            "label": "Email do responsável no hotel por acompanhar implantação",
+            "uuid": "4e117f5d-c436-43a7-981b-f08a5c6908a4"
+          },
+          "phaseFieldId": "416231682",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325742401",
+          "phaseField": {
+            "id": "celular_do_respons_vel_no_hotel_por_acompanhar_implanta_o",
+            "internal_id": "416231706",
+            "label": "Celular do responsável no hotel por acompanhar implantação",
+            "uuid": "84f4f3e4-bafc-4c2e-bc7d-107d168f2f20"
+          },
+          "phaseFieldId": "416231706",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416231669",
+            "id": "314087794",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          },
+          {
+            "field_address": "416231682",
+            "id": "314087795",
+            "operation": "blank",
+            "structure_id": "2",
+            "value": ""
+          },
+          {
+            "field_address": "416231706",
+            "id": "314087796",
+            "operation": "blank",
+            "structure_id": "3",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "2",
+            "3"
+          ]
+        ],
+        "id": "311658930"
+      },
+      "id": "306090975",
+      "name": "Esconder nome e email do responsável",
+      "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306090975"
+    }
+  },
+  "meta": {
+    "pipe_id": "306500191",
+    "rule_id": "306090975",
+    "scope": "start_form"
+  }
+}

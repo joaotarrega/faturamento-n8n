@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "cidade",
+      "internal_id": "418980495",
+      "label": "Cidade",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "7655d79d-9a14-4fd6-929c-58d6621415fa"
+    }
+  },
+  "meta": {
+    "field_id": "cidade",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

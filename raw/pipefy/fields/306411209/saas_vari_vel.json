@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Valor que será cobrado de propostas fechadas pela plataforma.\n\n**Padrão: 0,75**",
+      "help": null,
+      "id": "saas_vari_vel",
+      "index": 75.0,
+      "internal_id": "414593582",
+      "label": "SaaS - Modelo variável - % de cálculo",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "3f30fb13-9f5c-4fb2-b067-4a3cd2366f8b"
+    }
+  },
+  "meta": {
+    "field_id": "saas_vari_vel",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

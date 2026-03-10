@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "raz_o_social",
+      "index": 200.0,
+      "internal_id": "415743606",
+      "label": "Razão social",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "7316dfcd-6c87-4c2d-982c-62072d67c38d"
+    }
+  },
+  "meta": {
+    "field_id": "raz_o_social",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

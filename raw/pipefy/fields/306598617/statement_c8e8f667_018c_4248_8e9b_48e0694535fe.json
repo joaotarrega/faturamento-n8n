@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h3><strong> Suporte, documentação e treinamento</strong></h3>\n<p> </p>",
+      "help": null,
+      "id": "statement_c8e8f667_018c_4248_8e9b_48e0694535fe",
+      "index": 1114.5,
+      "internal_id": "418532016",
+      "label": "Statement-c8e8f667-018c-4248-8e9b-48e0694535fe",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "35f0884a-a36a-46ea-94fa-05207322af91"
+    }
+  },
+  "meta": {
+    "field_id": "statement_c8e8f667_018c_4248_8e9b_48e0694535fe",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

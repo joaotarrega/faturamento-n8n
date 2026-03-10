@@ -1,0 +1,511 @@
+{
+  "ids": [
+    "305124476",
+    "305124487",
+    "305130922",
+    "305130937",
+    "305149643",
+    "305149644",
+    "305586402",
+    "305586404",
+    "305811523",
+    "305940025"
+  ],
+  "meta": {
+    "kind": "automations",
+    "organization_id": "301997709",
+    "pipe_id": "306500193",
+    "repo_id": "306500193",
+    "supports_pagination": true
+  },
+  "pages": [
+    {
+      "data": {
+        "a8": {
+          "nodes": [
+            {
+              "__typename": "Automation",
+              "action_id": "create_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": [
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415597860",
+                    "field_id": "415597860",
+                    "inputMode": "fixed_value",
+                    "value": "316204224"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415597978",
+                    "field_id": "415597978",
+                    "inputMode": "copy_from",
+                    "value": "%{414861329}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415600097",
+                    "field_id": "415600097",
+                    "inputMode": "copy_from",
+                    "value": "%{id}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415631082",
+                    "field_id": "415631082",
+                    "inputMode": "copy_from",
+                    "value": "%{415631122}"
+                  },
+                  {
+                    "__typename": "FieldMap",
+                    "fieldId": "415980458",
+                    "field_id": "415980458",
+                    "inputMode": "copy_from",
+                    "value": "[Contrato] %{414861329}"
+                  }
+                ],
+                "fields_map_order": [
+                  "415597860",
+                  "415597978",
+                  "415597983",
+                  "415600097",
+                  "415631082",
+                  "415980458"
+                ],
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [
+                  {
+                    "__typename": "ConditionExpression",
+                    "field_address": "421734180",
+                    "id": "314803151",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Esse cliente é da rede Atrio"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "310945359"
+              },
+              "created_at": "2025-06-30 21:13:36 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339432377",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305124476",
+              "name": "Criar card em gestão de contratos",
+              "url": "https://app.pipefy.com/pipes/306411209/settings/automations/305124476"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_http_request",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": "",
+                "authenticationType": "oauth2",
+                "body": "{\"query\": \"mutation { updateCardField( input: { card_id: \\\"%{id}\\\", field_id: \\\"oportunidade_no_crm\\\", new_value: \\\"%{415600097}\\\" } ) { card { id } } }\"}",
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": "",
+                "httpMethod": "POST",
+                "strategy": null,
+                "to_phase_id": null,
+                "url": "https://api.pipefy.com/graphql"
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310945388"
+              },
+              "created_at": "2025-06-30 21:20:24 UTC",
+              "event_id": "card_created",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305124487",
+              "name": "Atribuir oportunidade ao documento",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305124487"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_a_task",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310954475"
+              },
+              "created_at": "2025-07-01 19:27:15 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339269435",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305130922",
+              "name": "Atribuir tarefa para preparar contrato",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305130922"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_a_task",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310954495"
+              },
+              "created_at": "2025-07-01 19:28:20 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339293275",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305130937",
+              "name": "Atribuir tarefa para enviar contrato no Let's Sign",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305130937"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "move_parent_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": "339269435",
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310978443"
+              },
+              "created_at": "2025-07-03 19:17:59 UTC",
+              "event_id": "all_children_in_phase",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339322140",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305149643",
+              "name": "Mover contrato para fase de elaboração",
+              "url": "https://app.pipefy.com/pipes/306509228/settings/automations/305149643"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "move_parent_card",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": "339269434",
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "310978444"
+              },
+              "created_at": "2025-07-03 19:18:02 UTC",
+              "event_id": "all_children_in_phase",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339334716",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305149644",
+              "name": "Mover contrato para fase de preparação",
+              "url": "https://app.pipefy.com/pipes/306509228/settings/automations/305149644"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309091933",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311609543"
+              },
+              "created_at": "2025-09-03 17:49:22 UTC",
+              "event_id": "sla_based",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": "late",
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305586402",
+              "name": "Notificar comercial quando contrato fica atrasado",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305586402"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309091933",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311609546"
+              },
+              "created_at": "2025-09-03 17:49:41 UTC",
+              "event_id": "sla_based",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": "expired",
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305586404",
+              "name": "Notificar comercial quando contrato fica expirado",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305586404"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_email_template",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": null,
+                "authenticationType": null,
+                "body": null,
+                "card_id": null,
+                "email_template_id": "309165242",
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": null,
+                "httpMethod": null,
+                "strategy": null,
+                "to_phase_id": null,
+                "url": null
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "311942627"
+              },
+              "created_at": "2025-10-08 14:15:58 UTC",
+              "event_id": "card_moved",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": "339293284",
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305811523",
+              "name": "Notificar contrato assinado",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305811523"
+            },
+            {
+              "__typename": "Automation",
+              "action_id": "send_http_request",
+              "action_params": {
+                "__typename": "AutomationActionParams",
+                "authenticationAddTo": null,
+                "authenticationKey": "",
+                "authenticationType": "oauth2",
+                "body": "{\"query\": \"mutation { updateCardField( input: { card_id: \\\"%{415597978.id}\\\", field_id: \\\"card_de_contrato\\\", new_value: \\\"%{id}\\\" } ) { card { id } } }\"}",
+                "card_id": null,
+                "email_template_id": null,
+                "field_map": null,
+                "fields_map_order": null,
+                "hasAuthenticationValue": false,
+                "headers": "",
+                "httpMethod": "POST",
+                "strategy": null,
+                "to_phase_id": null,
+                "url": "https://api.pipefy.com/graphql"
+              },
+              "active": true,
+              "condition": {
+                "__typename": "Condition",
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312131800"
+              },
+              "created_at": "2025-10-28 18:32:39 UTC",
+              "event_id": "card_created",
+              "event_params": {
+                "__typename": "AutomationEventParams",
+                "fromPhaseId": null,
+                "inPhaseId": null,
+                "kindOfSla": null,
+                "to_phase_id": null,
+                "triggerAutomationId": null,
+                "triggerFieldIds": null
+              },
+              "id": "305940025",
+              "name": "Atribuir contrato no card do cliente",
+              "url": "https://app.pipefy.com/pipes/306500193/settings/automations/305940025"
+            }
+          ],
+          "pageInfo": {
+            "endCursor": "WzMwNTk0MDAyNV0",
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ]
+}

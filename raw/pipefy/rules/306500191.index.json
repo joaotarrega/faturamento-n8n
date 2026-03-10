@@ -1,0 +1,932 @@
+{
+  "ids": [
+    "305965961",
+    "305968228",
+    "306045632",
+    "306068155",
+    "306070255",
+    "306090975",
+    "306095318",
+    "306135989",
+    "306193397",
+    "306218377",
+    "306322466",
+    "306322504",
+    "306490160"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306500191",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p7": {
+          "id": "306500191",
+          "phases": [
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325652280",
+                      "phaseField": null,
+                      "phaseFieldId": null,
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "325652281",
+                      "phaseField": null,
+                      "phaseFieldId": null,
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "325652282",
+                      "phaseField": null,
+                      "phaseFieldId": null,
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "325652283",
+                      "phaseField": null,
+                      "phaseFieldId": null,
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "325652284",
+                      "phaseField": null,
+                      "phaseFieldId": null,
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "title",
+                        "id": "314025167",
+                        "operation": "equals",
+                        "structure_id": "0",
+                        "value": "Rascunho"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311595321"
+                  },
+                  "id": "306070255",
+                  "name": "Nome = Rascunho",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306070255"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325925215",
+                      "phaseField": {
+                        "id": "statement_c9d3ca3b_1847_435b_9655_2fd4d87f6ee0",
+                        "internal_id": "419367399",
+                        "label": "Statement-c9d3ca3b-1847-435b-9655-2fd4d87f6ee0",
+                        "uuid": "eb0f7355-59a2-42ed-84cb-f3a774fbb040"
+                      },
+                      "phaseFieldId": "419367399",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "418071161",
+                        "id": "314233482",
+                        "operation": "present",
+                        "structure_id": "0",
+                        "value": ""
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311799440"
+                  },
+                  "id": "306135989",
+                  "name": "Tipo de onboarding está preenchido",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306135989"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "show",
+                      "id": "326184508",
+                      "phaseField": {
+                        "id": "solicita_o_para_criar_ambiente",
+                        "internal_id": "416198714",
+                        "label": "Solicitação para criar ambiente",
+                        "uuid": "abbb791c-1f39-48e6-adfd-7837639994b2"
+                      },
+                      "phaseFieldId": "416198714",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326184510",
+                      "phaseField": {
+                        "id": "solicita_o_para_criar_ambiente",
+                        "internal_id": "416198714",
+                        "label": "Solicitação para criar ambiente",
+                        "uuid": "abbb791c-1f39-48e6-adfd-7837639994b2"
+                      },
+                      "phaseFieldId": "416198714",
+                      "whenEvaluator": false
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326184511",
+                      "phaseField": {
+                        "id": "statement_80bfe368_066b_45fb_b57f_cf09fd1a6431",
+                        "internal_id": "420208133",
+                        "label": "Statement-80bfe368-066b-45fb-b57f-cf09fd1a6431",
+                        "uuid": "419eac25-06e4-4a26-8880-706b4114fd9a"
+                      },
+                      "phaseFieldId": "420208133",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "show",
+                      "id": "326184512",
+                      "phaseField": {
+                        "id": "statement_80bfe368_066b_45fb_b57f_cf09fd1a6431",
+                        "internal_id": "420208133",
+                        "label": "Statement-80bfe368-066b-45fb-b57f-cf09fd1a6431",
+                        "uuid": "419eac25-06e4-4a26-8880-706b4114fd9a"
+                      },
+                      "phaseFieldId": "420208133",
+                      "whenEvaluator": false
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "416198409",
+                        "id": "314418618",
+                        "operation": "present",
+                        "structure_id": "0",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "416198340",
+                        "id": "314418619",
+                        "operation": "present",
+                        "structure_id": "1",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418553131",
+                        "id": "314418621",
+                        "operation": "present",
+                        "structure_id": "4",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "416230398",
+                        "id": "314418622",
+                        "operation": "number_greater_than",
+                        "structure_id": "5",
+                        "value": "0"
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314418876",
+                        "operation": "present",
+                        "structure_id": "6",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "416198714",
+                        "id": "314418877",
+                        "operation": "present",
+                        "structure_id": "7",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314926730",
+                        "operation": "present",
+                        "structure_id": "8",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314926731",
+                        "operation": "not_equals",
+                        "structure_id": "9",
+                        "value": "SaaS"
+                      },
+                      {
+                        "field_address": "416198409",
+                        "id": "314926732",
+                        "operation": "present",
+                        "structure_id": "10",
+                        "value": ""
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "8",
+                        "9",
+                        "10"
+                      ],
+                      [
+                        "7"
+                      ],
+                      [
+                        "0",
+                        "1",
+                        "4",
+                        "5",
+                        "6"
+                      ]
+                    ],
+                    "id": "311977846"
+                  },
+                  "id": "306193397",
+                  "name": "Campos de kickoff preenchidos",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306193397"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326784026",
+                      "phaseField": {
+                        "id": "statement_339a8ecc_a91f_4a2f_90be_60c34293dde9",
+                        "internal_id": "422034958",
+                        "label": "Statement-339a8ecc-a91f-4a2f-90be-60c34293dde9",
+                        "uuid": "1098d946-3ef7-4f89-be86-2b96bfeb0a7e"
+                      },
+                      "phaseFieldId": "422034958",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422034716",
+                        "id": "314871039",
+                        "operation": "present",
+                        "structure_id": "0",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314871441",
+                        "operation": "present",
+                        "structure_id": "3",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314871442",
+                        "operation": "blank",
+                        "structure_id": "4",
+                        "value": ""
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314871433",
+                        "operation": "equals",
+                        "structure_id": "1",
+                        "value": "SaaS"
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314871434",
+                        "operation": "not_equals",
+                        "structure_id": "2",
+                        "value": "SaaS"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "4"
+                      ],
+                      [
+                        "2",
+                        "3"
+                      ],
+                      [
+                        "0",
+                        "1"
+                      ]
+                    ],
+                    "id": "312390563"
+                  },
+                  "id": "306322466",
+                  "name": "Versão do SaaS está preenchida",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306322466"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "show",
+                      "id": "326784209",
+                      "phaseField": {
+                        "id": "ambiente_afiliado_backoffice",
+                        "internal_id": "422035582",
+                        "label": "Ambiente / afiliado backoffice",
+                        "uuid": "60a21150-1aa3-4fc0-b9dd-59c932b9e6f6"
+                      },
+                      "phaseFieldId": "422035582",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326784210",
+                      "phaseField": {
+                        "id": "solicita_o_para_criar_ambiente",
+                        "internal_id": "416198714",
+                        "label": "Solicitação para criar ambiente",
+                        "uuid": "abbb791c-1f39-48e6-adfd-7837639994b2"
+                      },
+                      "phaseFieldId": "416198714",
+                      "whenEvaluator": true
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "326784211",
+                      "phaseField": {
+                        "id": "ambiente_afiliado_backoffice",
+                        "internal_id": "422035582",
+                        "label": "Ambiente / afiliado backoffice",
+                        "uuid": "60a21150-1aa3-4fc0-b9dd-59c932b9e6f6"
+                      },
+                      "phaseFieldId": "422035582",
+                      "whenEvaluator": false
+                    },
+                    {
+                      "actionId": "hide",
+                      "id": "327511326",
+                      "phaseField": {
+                        "id": "statement_80bfe368_066b_45fb_b57f_cf09fd1a6431",
+                        "internal_id": "420208133",
+                        "label": "Statement-80bfe368-066b-45fb-b57f-cf09fd1a6431",
+                        "uuid": "419eac25-06e4-4a26-8880-706b4114fd9a"
+                      },
+                      "phaseFieldId": "420208133",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "422034716",
+                        "id": "314871161",
+                        "operation": "equals",
+                        "structure_id": "0",
+                        "value": "2.0"
+                      },
+                      {
+                        "field_address": "418071161",
+                        "id": "314871388",
+                        "operation": "equals",
+                        "structure_id": "1",
+                        "value": "SaaS"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0",
+                        "1"
+                      ]
+                    ],
+                    "id": "312390687"
+                  },
+                  "id": "306322504",
+                  "name": "SaaS = 2.0",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339269421/conditionals/306322504"
+                }
+              ],
+              "id": "339269421",
+              "name": "Kickoff",
+              "uuid": "6b2d86b3-0e84-44f3-b14a-beb9bd58f9b6"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339455412",
+              "name": "Parametrização",
+              "uuid": "5c901a51-4b0c-4b81-bb6a-5396c12593d4"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339455413",
+              "name": "Treinamento",
+              "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+            },
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325175012",
+                      "phaseField": {
+                        "id": "cs_respons_vel",
+                        "internal_id": "417006963",
+                        "label": "CS Responsável",
+                        "uuid": "1056378b-e297-4eeb-9fa2-4f274544a4be"
+                      },
+                      "phaseFieldId": "417006963",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "417007150",
+                        "id": "313662278",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Sim"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311279712"
+                  },
+                  "id": "305968228",
+                  "name": "Passagem para o CS != Sim",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/305968228"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "325761053",
+                      "phaseField": {
+                        "id": "data_e_hora_da_reuni_o_p_s_implanta_o",
+                        "internal_id": "416203969",
+                        "label": "Data e hora da reunião de pós-treinamento",
+                        "uuid": "e9065b16-8891-48e8-b786-dd7c1527d771"
+                      },
+                      "phaseFieldId": "416203969",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "425089642",
+                        "id": "314100340",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Reunião adicional"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "311672265"
+                  },
+                  "id": "306095318",
+                  "name": "Ações adicionais != Reunião",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/306095318"
+                },
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "327547863",
+                      "phaseField": {
+                        "id": "email_p_s_treinamento_enviado_ao_cliente",
+                        "internal_id": "418775689",
+                        "label": "Email pós treinamento enviado ao cliente",
+                        "uuid": "b5de43c1-dec0-4082-8700-c8cbbe886060"
+                      },
+                      "phaseFieldId": "418775689",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "425089642",
+                        "id": "315432281",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Email"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312929558"
+                  },
+                  "id": "306490160",
+                  "name": "Ações adicionais != Email",
+                  "url": "https://app.pipefy.com/pipes/306500191/settings/phases/339455414/conditionals/306490160"
+                }
+              ],
+              "id": "339455414",
+              "name": "Pós-treinamento",
+              "uuid": "0f78cf38-377f-47ea-83d7-8157c5570d0b"
+            },
+            {
+              "fieldConditions": [],
+              "id": "339455433",
+              "name": "Onboarding finalizado",
+              "uuid": "b0069d7d-808f-4cd3-9205-44e70c5b45d7"
+            },
+            {
+              "fieldConditions": [],
+              "id": "342403651",
+              "name": "Cancelado",
+              "uuid": "e59ee849-ce96-4aa3-83c1-73acca173719"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325165322",
+                  "phaseField": null,
+                  "phaseFieldId": null,
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "325165323",
+                  "phaseField": {
+                    "id": "statement_6b672ee9_4c82_4441_8803_c5513f261f2d",
+                    "internal_id": "416983963",
+                    "label": "Statement-6b672ee9-4c82-4441-8803-c5513f261f2d",
+                    "uuid": "a9b872b0-e84b-406a-b163-6d9b247b4ffa"
+                  },
+                  "phaseFieldId": "416983963",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325165324",
+                  "phaseField": {
+                    "id": "statement_6b672ee9_4c82_4441_8803_c5513f261f2d",
+                    "internal_id": "416983963",
+                    "label": "Statement-6b672ee9-4c82-4441-8803-c5513f261f2d",
+                    "uuid": "a9b872b0-e84b-406a-b163-6d9b247b4ffa"
+                  },
+                  "phaseFieldId": "416983963",
+                  "whenEvaluator": false
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "313655276",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "311272578"
+              },
+              "id": "305965961",
+              "name": "Esconder campos do forms inicial em criação direta",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/305965961"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325537261",
+                  "phaseField": {
+                    "id": "solicita_o_para_criar_ambiente",
+                    "internal_id": "416198714",
+                    "label": "Solicitação para criar ambiente",
+                    "uuid": "abbb791c-1f39-48e6-adfd-7837639994b2"
+                  },
+                  "phaseFieldId": "416198714",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325537299",
+                  "phaseField": {
+                    "id": "statement_a60d2312_3581_472a_a1b5_6238d05b096b",
+                    "internal_id": "417255154",
+                    "label": "Statement-a60d2312-3581-472a-a1b5-6238d05b096b",
+                    "uuid": "859d2c0c-abf6-42cb-9429-00eecf920cc3"
+                  },
+                  "phaseFieldId": "417255154",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325727996",
+                  "phaseField": {
+                    "id": "statement_404c69b8_b1aa_4e9b_af9c_c4ddfe595204",
+                    "internal_id": "418381292",
+                    "label": "Statement-404c69b8-b1aa-4e9b-af9c-c4ddfe595204",
+                    "uuid": "83143cd7-f62b-4962-b36e-db2a72b9a158"
+                  },
+                  "phaseFieldId": "418381292",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325727997",
+                  "phaseField": {
+                    "id": "statement_80e67426_fb96_453c_aa34_3ee3358eaadc",
+                    "internal_id": "418381294",
+                    "label": "Statement-80e67426-fb96-453c-aa34-3ee3358eaadc",
+                    "uuid": "ee9be596-0d6e-4498-8925-bcc524e9345c"
+                  },
+                  "phaseFieldId": "418381294",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325925093",
+                  "phaseField": {
+                    "id": "data_e_hora_da_reuni_o_de_kickoff",
+                    "internal_id": "416198340",
+                    "label": "Data e hora da reunião de kickoff",
+                    "uuid": "477251f5-a7bd-43f0-b654-1b85762183f1"
+                  },
+                  "phaseFieldId": "416198340",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325925094",
+                  "phaseField": {
+                    "id": "dura_o_do_kickoff_minutos",
+                    "internal_id": "416230398",
+                    "label": "Duração do kickoff (minutos)",
+                    "uuid": "f6fda697-722b-4bda-9c2a-ebf0d6efee94"
+                  },
+                  "phaseFieldId": "416230398",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325925095",
+                  "phaseField": {
+                    "id": "anota_es_da_reuni_o_de_kickoff",
+                    "internal_id": "416198405",
+                    "label": "Anotações da reunião de kickoff",
+                    "uuid": "115ed7d1-cf15-4f3e-b921-0d40218c6c4f"
+                  },
+                  "phaseFieldId": "416198405",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325925105",
+                  "phaseField": {
+                    "id": "enviou_o_email_ap_s_kickoff_para_o_cliente",
+                    "internal_id": "418553131",
+                    "label": "Enviou o email após kickoff para o cliente?",
+                    "uuid": "72505c2f-7da9-449b-946b-649275d4185e"
+                  },
+                  "phaseFieldId": "418553131",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "326783980",
+                  "phaseField": {
+                    "id": "vers_o_do_saas",
+                    "internal_id": "422034716",
+                    "label": "Versão do SaaS",
+                    "uuid": "da5fdc5d-701d-47bb-890a-11518a385a8b"
+                  },
+                  "phaseFieldId": "422034716",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "418071161",
+                    "id": "313951621",
+                    "operation": "not_equals",
+                    "structure_id": "1",
+                    "value": "SaaS"
+                  },
+                  {
+                    "field_address": "418071161",
+                    "id": "313951623",
+                    "operation": "present",
+                    "structure_id": "3",
+                    "value": "Motor de busca"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "1",
+                    "3"
+                  ]
+                ],
+                "id": "311526198"
+              },
+              "id": "306045632",
+              "name": "Tipo de onboarding != SaaS e está preenchido",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306045632"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325644326",
+                  "phaseField": {
+                    "id": "cliente",
+                    "internal_id": "415763017",
+                    "label": "Cliente",
+                    "uuid": "88b24a04-19b5-4414-9638-d203999f8fef"
+                  },
+                  "phaseFieldId": "415763017",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "314018922",
+                    "operation": "present",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "415763017",
+                    "id": "314018923",
+                    "operation": "present",
+                    "structure_id": "1",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1"
+                  ]
+                ],
+                "id": "311589252"
+              },
+              "id": "306068155",
+              "name": "Esconder cliente após criação do card",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306068155"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "325742399",
+                  "phaseField": {
+                    "id": "nome_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+                    "internal_id": "416231669",
+                    "label": "Nome do responsável no hotel por acompanhar implantação",
+                    "uuid": "c8f2cdae-8995-4f35-bb4f-d607d66c2fb8"
+                  },
+                  "phaseFieldId": "416231669",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325742400",
+                  "phaseField": {
+                    "id": "email_do_respons_vel_no_hotel_para_acompanhar_implanta_o",
+                    "internal_id": "416231682",
+                    "label": "Email do responsável no hotel por acompanhar implantação",
+                    "uuid": "4e117f5d-c436-43a7-981b-f08a5c6908a4"
+                  },
+                  "phaseFieldId": "416231682",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "325742401",
+                  "phaseField": {
+                    "id": "celular_do_respons_vel_no_hotel_por_acompanhar_implanta_o",
+                    "internal_id": "416231706",
+                    "label": "Celular do responsável no hotel por acompanhar implantação",
+                    "uuid": "84f4f3e4-bafc-4c2e-bc7d-107d168f2f20"
+                  },
+                  "phaseFieldId": "416231706",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "416231669",
+                    "id": "314087794",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "416231682",
+                    "id": "314087795",
+                    "operation": "blank",
+                    "structure_id": "2",
+                    "value": ""
+                  },
+                  {
+                    "field_address": "416231706",
+                    "id": "314087796",
+                    "operation": "blank",
+                    "structure_id": "3",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "2",
+                    "3"
+                  ]
+                ],
+                "id": "311658930"
+              },
+              "id": "306090975",
+              "name": "Esconder nome e email do responsável",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306090975"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "326284599",
+                  "phaseField": {
+                    "id": "statement_43cc93f3_039d_417b_9f64_a96fb8853c65",
+                    "internal_id": "420519000",
+                    "label": "Statement-43cc93f3-039d-417b-9f64-a96fb8853c65",
+                    "uuid": "0fa1a7a8-4842-4544-a35a-2319318d6089"
+                  },
+                  "phaseFieldId": "420519000",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312054193"
+              },
+              "id": "306218377",
+              "name": "Campos escondidos",
+              "url": "https://app.pipefy.com/pipes/306500191/settings/form/conditionals/306218377"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "339269421": [
+      "306070255",
+      "306135989",
+      "306193397",
+      "306322466",
+      "306322504"
+    ],
+    "339455414": [
+      "305968228",
+      "306095318",
+      "306490160"
+    ]
+  },
+  "start_form_rule_ids": [
+    "305965961",
+    "306045632",
+    "306068155",
+    "306090975",
+    "306218377"
+  ]
+}

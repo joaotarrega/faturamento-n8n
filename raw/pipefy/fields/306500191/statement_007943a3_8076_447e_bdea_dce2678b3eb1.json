@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p><strong>OBS</strong>: é possível associar um treinamento para vários hotéis conjuntamente. Caso tenha dúvidas, entre em contato com o time de processos.</p>\n<hr />\n<p> </p>",
+      "help": null,
+      "id": "statement_007943a3_8076_447e_bdea_dce2678b3eb1",
+      "index": -50.0,
+      "internal_id": "418673325",
+      "label": "Statement-007943a3-8076-447e-bdea-dce2678b3eb1",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "abf486c8-279c-479c-8f7a-1160c52c5a5a"
+    }
+  },
+  "meta": {
+    "field_id": "statement_007943a3_8076_447e_bdea_dce2678b3eb1",
+    "phase": {
+      "id": "339455413",
+      "name": "Treinamento",
+      "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

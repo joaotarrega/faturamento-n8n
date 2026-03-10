@@ -1,0 +1,92 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "325696290",
+          "phaseField": {
+            "id": "por_que_motivo_voc_n_o_utiliza_a_documenta_o",
+            "internal_id": "418531285",
+            "label": "Por que motivo você não utiliza a documentação?",
+            "uuid": "1660c593-dc5c-46ed-91a6-03c929e40d55"
+          },
+          "phaseFieldId": "418531285",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325696291",
+          "phaseField": {
+            "id": "por_que_motivo_voc_n_o_utiliza_a_documenta_o",
+            "internal_id": "418531285",
+            "label": "Por que motivo você não utiliza a documentação?",
+            "uuid": "1660c593-dc5c-46ed-91a6-03c929e40d55"
+          },
+          "phaseFieldId": "418531285",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418531284",
+            "id": "314053608",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "1 - Discordo totalmente"
+          },
+          {
+            "field_address": "418531284",
+            "id": "314053609",
+            "operation": "equals",
+            "structure_id": "5",
+            "value": "2 - Discordo"
+          },
+          {
+            "field_address": "418531284",
+            "id": "314053610",
+            "operation": "equals",
+            "structure_id": "6",
+            "value": "3 - Neutro"
+          },
+          {
+            "field_address": "418531285",
+            "id": "314055343",
+            "operation": "present",
+            "structure_id": "10",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "10"
+          ],
+          [
+            "6"
+          ],
+          [
+            "5"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "311623502"
+      },
+      "id": "306079546",
+      "name": "Utiliza documentação != Discordo ou Neutro",
+      "url": "https://app.pipefy.com/pipes/306598617/settings/phases/339833260/conditionals/306079546"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "rule_id": "306079546",
+    "scope": "phase"
+  }
+}

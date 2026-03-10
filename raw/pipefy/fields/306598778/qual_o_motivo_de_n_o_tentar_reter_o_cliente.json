@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+      "index": 175.0,
+      "internal_id": "422183029",
+      "label": "Qual o motivo de não tentar reter o cliente?",
+      "options": [
+        "A causa do churn não envolve a EVNT",
+        "Outro"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "46541bb8-e855-4980-b1e0-bebdce2f264d"
+    }
+  },
+  "meta": {
+    "field_id": "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+    "phase": {
+      "id": "339834129",
+      "name": "Análise",
+      "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+    },
+    "pipe_id": "306598778",
+    "scope": "phase"
+  }
+}

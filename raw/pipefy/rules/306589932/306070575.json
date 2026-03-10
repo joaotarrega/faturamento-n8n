@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325655013",
+          "phaseField": {
+            "id": "de_0_a_10_qual_a_probabilidade_de_voc_recomendar_a_evnt_para_um_amigo_ou_colega",
+            "internal_id": "418422000",
+            "label": "De 0 a 10, qual a probabilidade de você recomendar a EVNT para um amigo ou colega?",
+            "uuid": "7c36fbf5-24d5-4e63-9f61-165f8f7a5a9f"
+          },
+          "phaseFieldId": "418422000",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "418419383",
+            "id": "314026168",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "316498856"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311596339"
+      },
+      "id": "306070575",
+      "name": "Tipo != NPS",
+      "url": "https://app.pipefy.com/pipes/306589932/settings/phases/339784409/conditionals/306070575"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339784409",
+      "name": "Aguardando resposta",
+      "uuid": "00e00487-637a-4a9e-bee5-8fad641dfac6"
+    },
+    "pipe_id": "306589932",
+    "rule_id": "306070575",
+    "scope": "phase"
+  }
+}

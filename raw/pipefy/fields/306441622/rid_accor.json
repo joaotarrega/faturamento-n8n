@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "rid_accor",
+      "internal_id": "414344714",
+      "label": "RID - Accor",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "8a4ca89b-b83f-41eb-80fa-5467a7edc055"
+    }
+  },
+  "meta": {
+    "field_id": "rid_accor",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

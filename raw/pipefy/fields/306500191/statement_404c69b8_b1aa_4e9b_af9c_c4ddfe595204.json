@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>Link do ambiente: <strong>{{phase339269421.field416198714.field416232682}}</strong></p>\n<hr style=\"width: 392px;\" />\n<p> </p>",
+      "help": null,
+      "id": "statement_404c69b8_b1aa_4e9b_af9c_c4ddfe595204",
+      "index": -100.0,
+      "internal_id": "418381292",
+      "label": "Statement-404c69b8-b1aa-4e9b-af9c-c4ddfe595204",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "83143cd7-f62b-4962-b36e-db2a72b9a158"
+    }
+  },
+  "meta": {
+    "field_id": "statement_404c69b8_b1aa_4e9b_af9c_c4ddfe595204",
+    "phase": {
+      "id": "339455413",
+      "name": "Treinamento",
+      "uuid": "36bbaef4-e611-4cb0-a68a-43450630624a"
+    },
+    "pipe_id": "306500191",
+    "scope": "phase"
+  }
+}

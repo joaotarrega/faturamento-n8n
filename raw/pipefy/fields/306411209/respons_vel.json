@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "respons_vel",
+      "internal_id": "413744800",
+      "label": "Responsável",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "446c8911-5ca0-478a-9a7a-c96271e64836"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel",
+    "pipe_id": "306411209",
+    "scope": "start_form"
+  }
+}

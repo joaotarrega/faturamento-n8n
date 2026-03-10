@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324387748",
+          "phaseField": {
+            "id": "qual_a_entrega_final_resultado_do_projeto",
+            "internal_id": "414195394",
+            "label": "Qual é a entrega final (resultado) do projeto?",
+            "uuid": "bbf31bcb-767c-4de5-b79e-1a3349ad41a2"
+          },
+          "phaseFieldId": "414195394",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "412615107",
+            "id": "313120341",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "316043418"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310770917"
+      },
+      "id": "305792688",
+      "name": "Tipo != Projeto",
+      "url": "https://app.pipefy.com/pipes/306350926/settings/phases/338374015/conditionals/305792688"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338374015",
+      "name": "Caixa de entrada",
+      "uuid": "1289a325-a9d2-402b-b427-1cb8044f9879"
+    },
+    "pipe_id": "306350926",
+    "rule_id": "305792688",
+    "scope": "phase"
+  }
+}

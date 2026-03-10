@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "jvn6AIAT",
+        "name": "Bases de cálculo percentual"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "jvn6AIAT",
+        "name": "Bases de cálculo percentual"
+      },
+      "description": "",
+      "help": "",
+      "id": "base_do_c_lculo_percentual",
+      "internal_id": "422904895",
+      "label": "Base do cálculo percentual",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "9da2b8a2-2193-4c97-b4dd-1a475ef7f2d0"
+    }
+  },
+  "meta": {
+    "field_id": "base_do_c_lculo_percentual",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

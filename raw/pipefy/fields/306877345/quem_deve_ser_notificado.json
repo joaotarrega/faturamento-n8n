@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "b8KuxVsk",
+        "name": "Colaboradores"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "b8KuxVsk",
+        "name": "Colaboradores"
+      },
+      "description": "",
+      "help": "",
+      "id": "quem_deve_ser_notificado",
+      "internal_id": "424982936",
+      "label": "Quem deve ser notificado?",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "b95af259-469b-4d09-95bc-cd8696894566"
+    }
+  },
+  "meta": {
+    "field_id": "quem_deve_ser_notificado",
+    "pipe_id": "306877345",
+    "scope": "start_form"
+  }
+}

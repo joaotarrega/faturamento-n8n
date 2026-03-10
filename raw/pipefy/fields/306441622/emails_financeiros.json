@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "emails_financeiros",
+      "internal_id": "418222367",
+      "label": "Emails financeiros",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "9a845098-cd90-426d-acb6-30267f670a6e"
+    }
+  },
+  "meta": {
+    "field_id": "emails_financeiros",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

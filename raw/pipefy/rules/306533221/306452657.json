@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "327370442",
+          "phaseField": {
+            "id": "url_ambiente",
+            "internal_id": "416244569",
+            "label": "URL - Ambiente",
+            "uuid": "2e77d0aa-7f34-4b21-b1eb-9d05221f221a"
+          },
+          "phaseFieldId": "416244569",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416244569",
+            "id": "315303074",
+            "operation": "present",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312798800"
+      },
+      "id": "306452657",
+      "name": "URL está preenchida",
+      "url": "https://app.pipefy.com/pipes/306533221/settings/phases/339458972/conditionals/306452657"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339458972",
+      "name": "Ativo 1.0",
+      "uuid": "eac3f11a-e040-4d2c-a0cc-32050e982057"
+    },
+    "pipe_id": "306533221",
+    "rule_id": "306452657",
+    "scope": "phase"
+  }
+}

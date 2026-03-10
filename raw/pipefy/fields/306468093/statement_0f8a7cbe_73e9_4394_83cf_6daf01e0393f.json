@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<h1>Logos</h1>\n<p style=\"line-height: 1.4;\">Ambiente: <strong>{{phase339069570.field416539503}}</strong> <br />Proposta: <strong>{{phase339069570.field416539513}}</strong></p>",
+      "help": null,
+      "id": "statement_0f8a7cbe_73e9_4394_83cf_6daf01e0393f",
+      "index": 50.0,
+      "internal_id": "420207466",
+      "label": "Statement-0f8a7cbe-73e9-4394-83cf-6daf01e0393f",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "2abcfc3f-67c1-4ff1-9680-86f03f1d5d79"
+    }
+  },
+  "meta": {
+    "field_id": "statement_0f8a7cbe_73e9_4394_83cf_6daf01e0393f",
+    "phase": {
+      "id": "339556245",
+      "name": "Ambiente em configuração",
+      "uuid": "f177ae4a-9d54-4cbe-a31c-913b920061de"
+    },
+    "pipe_id": "306468093",
+    "scope": "phase"
+  }
+}

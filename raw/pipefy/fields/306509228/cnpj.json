@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "cnpj",
+      "index": 400.0,
+      "internal_id": "415744692",
+      "label": "CNPJ",
+      "options": [],
+      "required": true,
+      "type": "cnpj",
+      "uuid": "bcf24299-f3d0-4457-9c58-5e907fd16956"
+    }
+  },
+  "meta": {
+    "field_id": "cnpj",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "h_alguma_observa_o_importante_para_o_time_de_onboarding",
+      "index": 197.875,
+      "internal_id": "418757354",
+      "label": "Há alguma observação importante para o time de onboarding?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "ca61206c-30c4-4ce7-99a3-96dd0e7ed005"
+    }
+  },
+  "meta": {
+    "field_id": "h_alguma_observa_o_importante_para_o_time_de_onboarding",
+    "phase": {
+      "id": "338732673",
+      "name": "Oportunidade em negociação",
+      "uuid": "0c28859c-0511-4ee3-9d05-c8fb487ae7cb"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

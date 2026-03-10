@@ -1,0 +1,57 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "327758529",
+          "phaseField": {
+            "id": "valor_total_do_item_usd",
+            "internal_id": "422909767",
+            "label": "Subtotal do item (USD)",
+            "uuid": "2d3002e8-213b-4379-9866-9972d803bce9"
+          },
+          "phaseFieldId": "422909767",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "327758530",
+          "phaseField": {
+            "id": "valor_total_do_item_brl",
+            "internal_id": "422909768",
+            "label": "Subtotal do item (BRL)",
+            "uuid": "159943fe-79f5-448c-83ea-0cb453d054d5"
+          },
+          "phaseFieldId": "422909768",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909757",
+            "id": "315594185",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Fixo"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "313070771"
+      },
+      "id": "306535364",
+      "name": "Mostra subtotal quando modelo = fixo ",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306535364"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306535364",
+    "scope": "start_form"
+  }
+}

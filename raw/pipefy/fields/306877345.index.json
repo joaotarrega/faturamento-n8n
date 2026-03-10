@@ -1,0 +1,59 @@
+{
+  "fields_by_phase_id": {
+    "341458414": [
+      "escopo_1",
+      "fora_do_escopo",
+      "objetivos",
+      "riscos_e_depend_ncias_1",
+      "tarefa_de_investiga_o"
+    ],
+    "341458554": [
+      "data_de_finaliza_o_planejada",
+      "data_de_in_cio_planejada",
+      "tarefa_de_planejamento",
+      "tarefas_para_execu_o"
+    ],
+    "341458587": [
+      "tarefas_adicionais_de_execu_o"
+    ],
+    "341458589": [
+      "motivo_de_cancelamento"
+    ]
+  },
+  "ids": [
+    "categoria_de_prioridade",
+    "data_de_finaliza_o_planejada",
+    "data_de_in_cio_planejada",
+    "descri_o",
+    "escopo_1",
+    "esfor_o_estimado",
+    "fora_do_escopo",
+    "motivo_de_cancelamento",
+    "nome",
+    "objetivos",
+    "prioridade",
+    "quem_deve_ser_notificado",
+    "retorno_estimado",
+    "riscos_e_depend_ncias_1",
+    "statement_bcca9735_57ab_43d0_a137_756a8d62d226",
+    "tarefa_de_investiga_o",
+    "tarefa_de_planejamento",
+    "tarefas_adicionais_de_execu_o",
+    "tarefas_para_execu_o"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306877345",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "categoria_de_prioridade",
+    "descri_o",
+    "esfor_o_estimado",
+    "nome",
+    "prioridade",
+    "quem_deve_ser_notificado",
+    "retorno_estimado",
+    "statement_bcca9735_57ab_43d0_a137_756a8d62d226"
+  ]
+}

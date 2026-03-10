@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "identificador_fiscal",
+      "internal_id": "416244621",
+      "label": "Identificador fiscal no sistema",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "8ccb6346-719e-4919-9e86-1250be56da7d"
+    }
+  },
+  "meta": {
+    "field_id": "identificador_fiscal",
+    "pipe_id": "306533221",
+    "scope": "start_form"
+  }
+}

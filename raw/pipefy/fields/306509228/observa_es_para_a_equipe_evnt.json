@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Observaciones para el equipo EVNT",
+      "help": "",
+      "id": "observa_es_para_a_equipe_evnt",
+      "index": 2700.0,
+      "internal_id": "415746110",
+      "label": "Observações para a equipe EVNT",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "756f04c9-a488-4ac5-934b-382d76be5abb"
+    }
+  },
+  "meta": {
+    "field_id": "observa_es_para_a_equipe_evnt",
+    "phase": {
+      "id": "339322139",
+      "name": "Preenchimento do cliente",
+      "uuid": "bca057cf-4170-4990-b28c-1b9d9b361cf8"
+    },
+    "pipe_id": "306509228",
+    "scope": "phase"
+  }
+}

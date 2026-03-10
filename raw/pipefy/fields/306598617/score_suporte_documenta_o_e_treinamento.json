@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "| Campo                                                          \t| Cálculo                                                                                                                           \t|\n|----------------------------------------------------------------\t|-----------------------------------------------------------------------------------------------------------------------------------\t|\n| O treinamento inicial foi suficiente                           \t| Discorda totalmente: 0 pontos \\| Discorda: 8 pontos \\| Neutro: 16 pontos \\| Concorda: 25 pontos \\| Concorda totalmente: 33 pontos \t|\n| Utilizo a documentação disponível no portal para tirar dúvidas \t| Discorda totalmente: 0 pontos \\| Discorda: 8 pontos \\| Neutro: 17 pontos \\| Concorda: 25 pontos \\| Concorda totalmente: 33 pontos \t|\n| O time de processos responde minhas dúvidas em tempo adequado  \t| Discorda totalmente: 0 pontos \\| Discorda: 9 pontos \\| Neutro: 17 pontos \\| Concorda: 25 pontos \\| Concorda totalmente: 34 pontos \t|",
+      "help": null,
+      "id": "score_suporte_documenta_o_e_treinamento",
+      "index": -12.5,
+      "internal_id": "418533797",
+      "label": "[Score] Suporte, documentação e treinamento",
+      "options": [],
+      "required": true,
+      "type": "number",
+      "uuid": "1b33d678-413a-4f95-ac69-828a3b890ae3"
+    }
+  },
+  "meta": {
+    "field_id": "score_suporte_documenta_o_e_treinamento",
+    "phase": {
+      "id": "339833261",
+      "name": "Análise",
+      "uuid": "e840dab3-9592-447c-bcb6-10352b5509fc"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

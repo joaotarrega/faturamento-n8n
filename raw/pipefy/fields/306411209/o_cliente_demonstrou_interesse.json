@@ -1,0 +1,34 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "o_cliente_demonstrou_interesse",
+      "index": 100.0,
+      "internal_id": "414304221",
+      "label": "O cliente demonstrou interesse?",
+      "options": [
+        "Sim",
+        "Não"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "039a94ca-9445-40d4-8b15-ea5aeb25b47e"
+    }
+  },
+  "meta": {
+    "field_id": "o_cliente_demonstrou_interesse",
+    "phase": {
+      "id": "338908997",
+      "name": "Qualificação do prospect",
+      "uuid": "a86c43ea-e23b-48dc-8f1c-6f5d800dc6d2"
+    },
+    "pipe_id": "306411209",
+    "scope": "phase"
+  }
+}

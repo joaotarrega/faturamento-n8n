@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "data_de_vencimento",
+      "internal_id": "414240774",
+      "label": "Data",
+      "options": [],
+      "required": true,
+      "type": "due_date",
+      "uuid": "a18cc602-116d-4780-a906-0438f8b96043"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_vencimento",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

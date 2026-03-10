@@ -1,0 +1,69 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325044079",
+          "phaseField": {
+            "id": "ambiente_cnpj",
+            "internal_id": "416178472",
+            "label": "CNPJ",
+            "uuid": "cdfda42f-8341-4fa8-a02f-29a428d807e0"
+          },
+          "phaseFieldId": "416178472",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "325044080",
+          "phaseField": {
+            "id": "ambiente_identificador_fiscal_fora_do_brasil",
+            "internal_id": "416181688",
+            "label": "Identificador fiscal fora do Brasil",
+            "uuid": "fe128235-9997-43c2-bbd2-156ef60b006c"
+          },
+          "phaseFieldId": "416181688",
+          "whenEvaluator": false
+        },
+        {
+          "actionId": "hide",
+          "id": "325044081",
+          "phaseField": {
+            "id": "ambiente_tipo_de_identificador_fiscal",
+            "internal_id": "416181665",
+            "label": "Tipo de identificador fiscal",
+            "uuid": "1fd15d9d-eefd-4b4f-a858-82707b39a85c"
+          },
+          "phaseFieldId": "416181665",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "416178464",
+            "id": "313557658",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Brasil"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "311172275"
+      },
+      "id": "305935105",
+      "name": "País != Brasil",
+      "url": "https://app.pipefy.com/pipes/306468093/settings/form/conditionals/305935105"
+    }
+  },
+  "meta": {
+    "pipe_id": "306468093",
+    "rule_id": "305935105",
+    "scope": "start_form"
+  }
+}

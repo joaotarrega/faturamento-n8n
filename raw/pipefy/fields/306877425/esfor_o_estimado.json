@@ -1,0 +1,29 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Considerando tempo, complexidade e incerteza.",
+      "help": "",
+      "id": "esfor_o_estimado",
+      "internal_id": "423727465",
+      "label": "Esforço estimado",
+      "options": [
+        "Baixo",
+        "Médio",
+        "Alto"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "a4dc57e0-f56f-4ca9-8f31-dbcd826d3cc5"
+    }
+  },
+  "meta": {
+    "field_id": "esfor_o_estimado",
+    "pipe_id": "306877425",
+    "scope": "start_form"
+  }
+}

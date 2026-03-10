@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "logradouro",
+      "internal_id": "418980356",
+      "label": "Logradouro",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "246841eb-4590-4f5c-8406-769bf576c542"
+    }
+  },
+  "meta": {
+    "field_id": "logradouro",
+    "pipe_id": "306468093",
+    "scope": "start_form"
+  }
+}

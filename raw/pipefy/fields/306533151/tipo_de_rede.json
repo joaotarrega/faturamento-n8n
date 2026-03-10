@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "tipo_de_rede",
+      "internal_id": "418834607",
+      "label": "Tipo de rede ou grupo",
+      "options": [],
+      "required": true,
+      "type": "label_select",
+      "uuid": "20148c94-8e20-49f8-a202-691eabc09702"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_rede",
+    "pipe_id": "306533151",
+    "scope": "start_form"
+  }
+}

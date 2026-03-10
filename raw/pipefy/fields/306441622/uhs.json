@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "uhs",
+      "internal_id": "414356816",
+      "label": "UHs",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "1fce4410-122c-4b1b-ada4-cd69568d2820"
+    }
+  },
+  "meta": {
+    "field_id": "uhs",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

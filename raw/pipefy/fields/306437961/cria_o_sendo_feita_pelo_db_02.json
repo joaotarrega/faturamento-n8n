@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "cria_o_sendo_feita_pelo_db_02",
+      "internal_id": "421919596",
+      "label": "Criação sendo feita pelo DB-02?",
+      "options": [
+        "Sim"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "0856fcd5-e399-4cdd-a92f-a58ff1c91209"
+    }
+  },
+  "meta": {
+    "field_id": "cria_o_sendo_feita_pelo_db_02",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

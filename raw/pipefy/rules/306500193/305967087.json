@@ -1,0 +1,60 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "325169607",
+          "phaseField": {
+            "id": "statement_27938e14_c240_4a98_96f2_e810f2286055",
+            "internal_id": "416993128",
+            "label": "Statement-27938e14-c240-4a98-96f2-e810f2286055",
+            "uuid": "55383d6d-06ed-4801-98b7-3442abbcb3c5"
+          },
+          "phaseFieldId": "416993128",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "415597983.416990320",
+            "id": "313658435",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Sim - Totalmente"
+          },
+          {
+            "field_address": "415597983.416990320",
+            "id": "313658436",
+            "operation": "not_equals",
+            "structure_id": "3",
+            "value": "Sim - Parcialmente"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "3"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "311275778"
+      },
+      "id": "305967087",
+      "name": "Isenção setup != Sim",
+      "url": "https://app.pipefy.com/pipes/306500193/settings/phases/339269434/conditionals/305967087"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "rule_id": "305967087",
+    "scope": "phase"
+  }
+}

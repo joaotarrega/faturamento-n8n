@@ -1,0 +1,716 @@
+{
+  "data": {
+    "pipe": {
+      "childrenRelations": [],
+      "color": "sky",
+      "description": null,
+      "id": "306598778",
+      "labels": [],
+      "members": [
+        {
+          "role_name": "member",
+          "user": {
+            "email": "fsousa@evnt.com.br",
+            "id": "306094143",
+            "name": "Flávio Rodrigues de Sousa Filho"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "jtarrega@evnt.com.br",
+            "id": "306441124",
+            "name": "João Tarrega"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "tcampion@evnt.com.br",
+            "id": "306611102",
+            "name": "Thomas Campion"
+          }
+        },
+        {
+          "role_name": "member",
+          "user": {
+            "email": "tgarcia@evnt.com.br",
+            "id": "306801946",
+            "name": "TAYNA CAROLINA GARCIA GOMEZ"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "automacoes_http-301997709@service-account.pipefy.com",
+            "id": "306824351",
+            "name": "Automações HTTP"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "utilities_tool-301997709@service-account.pipefy.com",
+            "id": "307079813",
+            "name": "Utilities Tool"
+          }
+        },
+        {
+          "role_name": "admin",
+          "user": {
+            "email": "n8n-301997709@service-account.pipefy.com",
+            "id": "307147262",
+            "name": "N8N"
+          }
+        }
+      ],
+      "name": "[OPE-09] Churn",
+      "organization": {
+        "id": "301997709",
+        "name": "EVNT"
+      },
+      "parentsRelations": [
+        {
+          "allChildrenMustBeDoneToFinishParent": false,
+          "allChildrenMustBeDoneToMoveParent": false,
+          "autoFillFieldEnabled": true,
+          "canConnectExistingItems": true,
+          "canConnectMultipleItems": true,
+          "canCreateNewItems": true,
+          "child": {
+            "__typename": "Pipe",
+            "id": "306598778",
+            "name": "[OPE-09] Churn"
+          },
+          "childMustExistToFinishParent": false,
+          "childMustExistToMoveParent": false,
+          "id": "302923249",
+          "name": "Churn",
+          "ownFieldMaps": [
+            {
+              "fieldId": "417644326",
+              "field_id": "417644326",
+              "inputMode": "copy_from",
+              "value": "%{416883890.415747619}"
+            }
+          ],
+          "parent": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "cards_count": 1,
+          "color": "blue",
+          "description": "",
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": null,
+              "id": "respons_veis_pela_reten_o",
+              "index": 0.0,
+              "internal_id": "418433174",
+              "label": "Responsáveis pela análise",
+              "options": [],
+              "required": true,
+              "type": "assignee_select",
+              "uuid": "d6100918-eceb-4536-bd3b-1af3dfb6fcc1"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "cliente_n_o_retornou_contato",
+              "index": 25.0,
+              "internal_id": "418715162",
+              "label": "Foi feita uma reunião com o cliente?",
+              "options": [
+                "Sim",
+                "Não, o cliente não retornou o contato",
+                "Não, o cliente recusou o agendamento",
+                "Não, outro motivo"
+              ],
+              "required": true,
+              "type": "radio_vertical",
+              "uuid": "bb002229-2d64-4e1b-988d-21806e02268f"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "por_qual_motivo_n_o_foi_feita_uma_reuni_o_com_o_cliente",
+              "index": 37.5,
+              "internal_id": "422182350",
+              "label": "Por qual motivo não foi feita uma reunião com o cliente?",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "e5d54cc3-49f8-4311-9769-001e575b02ef"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "data_e_hora_da_reuni_o_com_o_cliente",
+              "index": 50.0,
+              "internal_id": "418433182",
+              "label": "Data e hora da reunião com o cliente",
+              "options": [],
+              "required": true,
+              "type": "datetime",
+              "uuid": "32286d4b-9d17-42f2-972f-54b35830c95f"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "anota_es_reuni_o_com_cliente",
+              "index": 100.0,
+              "internal_id": "418433179",
+              "label": "Anotações - Reunião com cliente",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "6c42688e-a767-4f33-96ef-f6d037788a64"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "ser_feita_uma_tentativa_de_reten_o",
+              "index": 150.0,
+              "internal_id": "422182696",
+              "label": "Será feita uma tentativa de retenção?",
+              "options": [
+                "Sim",
+                "Não"
+              ],
+              "required": true,
+              "type": "radio_horizontal",
+              "uuid": "1c40e337-964c-471b-8322-fde6c42a5305"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "qual_o_motivo_de_n_o_tentar_reter_o_cliente",
+              "index": 175.0,
+              "internal_id": "422183029",
+              "label": "Qual o motivo de não tentar reter o cliente?",
+              "options": [
+                "A causa do churn não envolve a EVNT",
+                "Outro"
+              ],
+              "required": true,
+              "type": "checklist_vertical",
+              "uuid": "46541bb8-e855-4980-b1e0-bebdce2f264d"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "indique_o_motivo_de_n_o_tentar_reter_o_cliente",
+              "index": 187.5,
+              "internal_id": "422183057",
+              "label": "Indique o motivo de não tentar reter o cliente",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "c96678a4-f551-429b-af5b-06d25aa83720"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "Isenção de até 2 mensalidades é pré-aprovada. Outros casos necessitam de nova aprovação.",
+              "help": "",
+              "id": "plano_de_a_o_para_reter_o_cliente",
+              "index": 237.5,
+              "internal_id": "422183795",
+              "label": "Plano de ação para reter o cliente",
+              "options": [
+                "Isentar 2 mensalidades SaaS (fixo + variável)",
+                "Realizar novo treinamento com a equipe",
+                "Outro"
+              ],
+              "required": true,
+              "type": "checklist_vertical",
+              "uuid": "0625f77f-cda0-4425-9ef0-b27c60637836"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "qual_o_plano_de_reten_o",
+              "index": 262.5,
+              "internal_id": "422183797",
+              "label": "Qual é o plano de retenção?",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "d01276a0-85f9-45b1-a54c-2dc635416ae4"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "observa_es_sobre_o_plano_de_reten_o",
+              "index": 287.5,
+              "internal_id": "422183602",
+              "label": "Observações sobre o plano de retenção",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "db424ded-ee78-45a0-bc17-7b95456e87e3"
+            }
+          ],
+          "id": "339834129",
+          "name": "Análise",
+          "uuid": "684e243d-3faa-426c-bdb5-5d90efa0c80e"
+        },
+        {
+          "cards_count": 0,
+          "color": "yellow",
+          "description": "",
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": null,
+              "id": "aprovador",
+              "index": 0.0,
+              "internal_id": "418433458",
+              "label": "Responsável pela validação",
+              "options": [],
+              "required": true,
+              "type": "assignee_select",
+              "uuid": "ce500f4f-fab9-4a28-b284-847b80a5bb6c"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "parecer",
+              "index": 100.0,
+              "internal_id": "418433465",
+              "label": "Parecer",
+              "options": [
+                "Aprovado",
+                "Aprovado com ressalvas",
+                "Reprovado"
+              ],
+              "required": true,
+              "type": "radio_vertical",
+              "uuid": "7758f4c0-b366-4cc2-a838-0e98e9cb5afb"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "coment_rios_do_aprovador",
+              "index": 200.0,
+              "internal_id": "418433467",
+              "label": "Comentários",
+              "options": [],
+              "required": false,
+              "type": "long_text",
+              "uuid": "6af91670-3d00-48bc-8a87-f79962d3a99d"
+            }
+          ],
+          "id": "339834130",
+          "name": "Validação do plano de ação",
+          "uuid": "58485501-f828-48d9-a880-5c6288373f8d"
+        },
+        {
+          "cards_count": 0,
+          "color": "blue",
+          "description": null,
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "respons_veis_pela_reten_o_1",
+              "index": -100.0,
+              "internal_id": "418434057",
+              "label": "Responsáveis pela retenção",
+              "options": [],
+              "required": true,
+              "type": "assignee_select",
+              "uuid": "8a1c62f1-52d1-47f1-96b6-692ccad36ee1"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "anota_es_da_execu_o_do_plano_de_a_o",
+              "index": 0.0,
+              "internal_id": "418433569",
+              "label": "Anotações da execução do plano de ação",
+              "options": [],
+              "required": true,
+              "type": "long_text",
+              "uuid": "170063e2-9f5f-49be-af39-0f02f85c0252"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": null,
+              "id": "o_cliente_foi_retido",
+              "index": 100.0,
+              "internal_id": "418433571",
+              "label": "O churn foi revertido?",
+              "options": [
+                "Sim",
+                "Não"
+              ],
+              "required": true,
+              "type": "radio_horizontal",
+              "uuid": "d84d70b5-5aee-49c4-baa0-2c593e50cf33"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "motivo_de_churn",
+              "index": 200.0,
+              "internal_id": "418433585",
+              "label": "Motivo de churn",
+              "options": [
+                "Usabilidade",
+                "Preço",
+                "Nova administração",
+                "Outro"
+              ],
+              "required": true,
+              "type": "radio_vertical",
+              "uuid": "4f6643df-e5d5-44a5-ada6-4079e178f74a"
+            },
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "indique_o_motivo_de_churn",
+              "index": 300.0,
+              "internal_id": "418433608",
+              "label": "Indique o motivo de churn",
+              "options": [],
+              "required": true,
+              "type": "short_text",
+              "uuid": "57b057f8-bf91-4936-aa5f-edadd594db51"
+            }
+          ],
+          "id": "340088247",
+          "name": "Retenção",
+          "uuid": "053395e1-3211-4a05-9460-5b49cf37086d"
+        },
+        {
+          "cards_count": 31,
+          "color": "red",
+          "description": null,
+          "fields": [
+            {
+              "canConnectExisting": false,
+              "canConnectMultiples": true,
+              "canCreateNewConnected": true,
+              "connectedRepo": null,
+              "connected_repo": null,
+              "description": "",
+              "help": "",
+              "id": "data_de_churn",
+              "index": 0.0,
+              "internal_id": "418715733",
+              "label": "Data de churn",
+              "options": [],
+              "required": false,
+              "type": "date",
+              "uuid": "59f72564-9464-4c9b-88fc-4db9bb9024eb"
+            }
+          ],
+          "id": "340088329",
+          "name": "Churn",
+          "uuid": "35d13728-ce93-4116-9ca8-8923f9c61f35"
+        },
+        {
+          "cards_count": 0,
+          "color": "lime",
+          "description": null,
+          "fields": [],
+          "id": "340088345",
+          "name": "Reversão",
+          "uuid": "731c4a56-2e44-42ab-bd25-1db5b6c595d7"
+        }
+      ],
+      "start_form_fields": [
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306441622",
+            "name": "[DB-01] Clientes"
+          },
+          "description": "",
+          "help": "",
+          "id": "cliente",
+          "internal_id": "417644326",
+          "label": "Cliente",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "797f3778-be29-4c03-b2d8-cb5de8744389"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": {
+            "__typename": "PublicPipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "connected_repo": {
+            "__typename": "Pipe",
+            "id": "306498227",
+            "name": "[DB-04] Contatos"
+          },
+          "description": "",
+          "help": "",
+          "id": "solicitante",
+          "internal_id": "418715054",
+          "label": "Solicitante",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "5c00a53b-614f-4f36-9649-5a09e0dfafbc"
+        },
+        {
+          "canConnectExisting": null,
+          "canConnectMultiples": null,
+          "canCreateNewConnected": null,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "<h1>⚠️O contato indicado acima não possui email cadastrado!⚠️</h1>",
+          "help": null,
+          "id": "statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+          "internal_id": "418673712",
+          "label": "Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+          "options": [],
+          "required": null,
+          "type": "statement",
+          "uuid": "583d55c0-ab66-4513-8348-f7c1f6ab6a78"
+        },
+        {
+          "canConnectExisting": null,
+          "canConnectMultiples": null,
+          "canCreateNewConnected": null,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "<h1>⚠️O contato indicado acima não possui telefone cadastrado!⚠️</h1>",
+          "help": null,
+          "id": "copy_of_statement_cc7a57a8_4aa6_473f_bac2_2ef731728e06",
+          "internal_id": "418673713",
+          "label": "Copy of Statement-cc7a57a8-4aa6-473f-bac2-2ef731728e06",
+          "options": [],
+          "required": null,
+          "type": "statement",
+          "uuid": "016f74f6-ed9d-4ad6-877e-5806b7815898"
+        },
+        {
+          "canConnectExisting": true,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": false,
+          "connectedRepo": {
+            "__typename": "PublicTable",
+            "id": "b8KuxVsk",
+            "name": "Colaboradores"
+          },
+          "connected_repo": {
+            "__typename": "Table",
+            "id": "b8KuxVsk",
+            "name": "Colaboradores"
+          },
+          "description": "",
+          "help": "",
+          "id": "quem_recebeu_a_solicita_o",
+          "internal_id": "418432806",
+          "label": "Quem recebeu a solicitação?",
+          "options": [],
+          "required": true,
+          "type": "connector",
+          "uuid": "5a0b22a6-b530-4f37-86c6-04410c46997e"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "canal_da_solicita_o",
+          "internal_id": "418432706",
+          "label": "Canal da solicitação",
+          "options": [
+            "Email",
+            "Whatsapp",
+            "Pessoalmente",
+            "Outro"
+          ],
+          "required": true,
+          "type": "checklist_vertical",
+          "uuid": "2e1d6da1-7479-4404-a3ec-0e66538d696d"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "qual_foi_o_canal_de_solicita_o",
+          "internal_id": "418432709",
+          "label": "Qual foi o canal de solicitação?",
+          "options": [],
+          "required": true,
+          "type": "short_text",
+          "uuid": "a8077aee-48a9-4e45-8e63-d39c40ea751b"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "anexe_o_email_enviado_pelo_cliente",
+          "internal_id": "418432898",
+          "label": "Anexe o email enviado pelo cliente",
+          "options": [],
+          "required": true,
+          "type": "attachment",
+          "uuid": "b569b4ef-1cdb-457c-86e4-2f5d886bac93"
+        },
+        {
+          "canConnectExisting": false,
+          "canConnectMultiples": true,
+          "canCreateNewConnected": true,
+          "connectedRepo": null,
+          "connected_repo": null,
+          "description": "",
+          "help": "",
+          "id": "como_foi_a_solicita_o_do_cliente",
+          "internal_id": "418432891",
+          "label": "Como foi a solicitação do cliente?",
+          "options": [],
+          "required": true,
+          "type": "long_text",
+          "uuid": "88343d7a-9ab5-4c7d-a03d-106332024da0"
+        }
+      ],
+      "uuid": "71f660a5-9f9b-40cd-be74-fbe667102a51",
+      "webhooks": [
+        {
+          "actions": [
+            "card.done"
+          ],
+          "email": null,
+          "filters": {
+            "on_phase_id": [
+              340088329
+            ]
+          },
+          "headers": "{}",
+          "id": "300561802",
+          "url": "https://ipaas.pipefy.com/api/v1/webhooks/OcKn5OYfSpECRVEUMf2Fs"
+        }
+      ]
+    }
+  }
+}

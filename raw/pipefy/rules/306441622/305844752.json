@@ -1,0 +1,93 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "324616122",
+          "phaseField": {
+            "id": "tipo_de_identificador_fiscal",
+            "internal_id": "414985731",
+            "label": "Tipo de identificador fiscal",
+            "uuid": "6f27d33e-5bd2-4c48-a6e2-9b9455091855"
+          },
+          "phaseFieldId": "414985731",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324616123",
+          "phaseField": {
+            "id": "identificador_fiscal_fora_do_brasil",
+            "internal_id": "414985497",
+            "label": "Identificador fiscal fora do Brasil",
+            "uuid": "afc082ce-cb5f-4e56-855a-1afb70e2f292"
+          },
+          "phaseFieldId": "414985497",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "324616124",
+          "phaseField": {
+            "id": "cnpj",
+            "internal_id": "414343250",
+            "label": "CNPJ",
+            "uuid": "961a4afa-e942-4c4e-a86b-744a6bc94b9b"
+          },
+          "phaseFieldId": "414343250",
+          "whenEvaluator": false
+        },
+        {
+          "actionId": "hide",
+          "id": "324678348",
+          "phaseField": {
+            "id": "regi_o_brasil",
+            "internal_id": "414357705",
+            "label": "Região - Brasil",
+            "uuid": "f3e88007-9f42-4fda-8a09-e68384884a4a"
+          },
+          "phaseFieldId": "414357705",
+          "whenEvaluator": false
+        },
+        {
+          "actionId": "hide",
+          "id": "324678349",
+          "phaseField": {
+            "id": "estado",
+            "internal_id": "414308310",
+            "label": "Estado - Brasil",
+            "uuid": "608ffb9b-75f4-4d10-9813-e8a73688f262"
+          },
+          "phaseFieldId": "414308310",
+          "whenEvaluator": false
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "414345675",
+            "id": "313250021",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Brasil"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "310881563"
+      },
+      "id": "305844752",
+      "name": "País = Brasil",
+      "url": "https://app.pipefy.com/pipes/306441622/settings/form/conditionals/305844752"
+    }
+  },
+  "meta": {
+    "pipe_id": "306441622",
+    "rule_id": "305844752",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "notas_e_observa_es",
+      "internal_id": "414240781",
+      "label": "Notas e observações",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "6c056dbb-3955-49e2-8745-d1c07ae2ad48"
+    }
+  },
+  "meta": {
+    "field_id": "notas_e_observa_es",
+    "pipe_id": "306437961",
+    "scope": "start_form"
+  }
+}

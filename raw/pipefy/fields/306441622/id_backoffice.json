@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "id_backoffice",
+      "internal_id": "422169566",
+      "label": "ID Backoffice",
+      "options": [],
+      "required": false,
+      "type": "short_text",
+      "uuid": "85176910-b043-495b-bede-7cf251e0819b"
+    }
+  },
+  "meta": {
+    "field_id": "id_backoffice",
+    "pipe_id": "306441622",
+    "scope": "start_form"
+  }
+}

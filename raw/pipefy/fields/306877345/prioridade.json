@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "| Esforço \t| Retorno \t| Prioridade \t| Prioridade (tag) \t|\n|:---:\t|:---:\t|:---:\t|:---:\t|\n| Baixo \t| Baixo \t| 40 \t| Média \t|\n| Baixo \t| Médio \t| 70 \t| Alta \t|\n| Baixo \t| Alto \t| 100 \t| Crítica \t|\n| Médio \t| Baixo \t| 25 \t| Baixa \t|\n| Médio \t| Médio \t| 55 \t| Média \t|\n| Médio \t| Alto \t| 85 \t| Alta \t|\n| Alto \t| Baixo \t| 5 \t| Muito baixa \t|\n| Alto \t| Médio \t| 35 \t| Baixa \t|\n| Alto \t| Alto \t| 65 \t| Média \t|",
+      "help": null,
+      "id": "prioridade",
+      "internal_id": "423725181",
+      "label": "Prioridade estimada",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "d0dd3489-4f30-48be-9267-716b94ba0e93"
+    }
+  },
+  "meta": {
+    "field_id": "prioridade",
+    "pipe_id": "306877345",
+    "scope": "start_form"
+  }
+}

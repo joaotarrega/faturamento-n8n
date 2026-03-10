@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "modalidade_de_treinamento",
+      "internal_id": "425096741",
+      "label": "Modalidade",
+      "options": [
+        "Online",
+        "Presencial"
+      ],
+      "required": false,
+      "type": "radio_vertical",
+      "uuid": "bd47c9bc-be7e-442e-bf3c-226f36469f37"
+    }
+  },
+  "meta": {
+    "field_id": "modalidade_de_treinamento",
+    "pipe_id": "306533442",
+    "scope": "start_form"
+  }
+}

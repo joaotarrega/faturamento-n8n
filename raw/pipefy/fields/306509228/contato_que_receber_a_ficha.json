@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "description": "",
+      "help": "",
+      "id": "contato_que_receber_a_ficha",
+      "internal_id": "418550761",
+      "label": "Contato que receberá a ficha",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "df8a3672-97cd-48b1-aec2-6f53302a9f43"
+    }
+  },
+  "meta": {
+    "field_id": "contato_que_receber_a_ficha",
+    "pipe_id": "306509228",
+    "scope": "start_form"
+  }
+}

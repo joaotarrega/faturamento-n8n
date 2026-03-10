@@ -1,0 +1,37 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "O portal pode ser acessado pelo link: https://app.pipefy.com/organizations/301997709/interfaces/f228d5ee-838b-4d05-8eda-2d4d41a908e7",
+      "id": "utilizo_a_documenta_o_dispon_vel_no_portal_para_tirar_d_vidas",
+      "index": 1115.0,
+      "internal_id": "418531284",
+      "label": "Utilizo a documentação disponível no portal para tirar dúvidas",
+      "options": [
+        "1 - Discordo totalmente",
+        "2 - Discordo",
+        "3 - Neutro",
+        "4 - Concordo",
+        "5 - Concordo totalmente"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "d24ab164-9ad9-4056-94d2-c3dfdbb1032c"
+    }
+  },
+  "meta": {
+    "field_id": "utilizo_a_documenta_o_dispon_vel_no_portal_para_tirar_d_vidas",
+    "phase": {
+      "id": "339833260",
+      "name": "Aguardando usuário",
+      "uuid": "093c206a-7ee4-4e45-98a3-e2d7829a390b"
+    },
+    "pipe_id": "306598617",
+    "scope": "phase"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "ids": [],
+  "meta": {
+    "kind": "table_records",
+    "supports_pagination": true,
+    "table_id": "v-DP0jR8"
+  },
+  "pages": [
+    {
+      "data": {
+        "table_records": {
+          "nodes": [],
+          "pageInfo": {
+            "endCursor": null,
+            "hasNextPage": false
+          }
+        }
+      }
+    }
+  ],
+  "records": []
+}

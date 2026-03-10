@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306437961",
+        "name": "[COM-02] Atividades"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306437961",
+        "name": "[COM-02] Atividades"
+      },
+      "description": "",
+      "help": "",
+      "id": "cards_de_atividades",
+      "internal_id": "421919663",
+      "label": "Cards de atividades",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "e7cf1187-8b7a-49e3-a6e9-d8c199acbaf9"
+    }
+  },
+  "meta": {
+    "field_id": "cards_de_atividades",
+    "pipe_id": "306533151",
+    "scope": "start_form"
+  }
+}

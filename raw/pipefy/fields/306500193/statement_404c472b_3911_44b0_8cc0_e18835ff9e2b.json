@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<hr />\n<p> </p>",
+      "help": null,
+      "id": "statement_404c472b_3911_44b0_8cc0_e18835ff9e2b",
+      "index": -0.1953125,
+      "internal_id": "415634337",
+      "label": "Statement-404c472b-3911-44b0-8cc0-e18835ff9e2b",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "e853f2d3-96c3-4a53-b48b-d570c99e3a7e"
+    }
+  },
+  "meta": {
+    "field_id": "statement_404c472b_3911_44b0_8cc0_e18835ff9e2b",
+    "phase": {
+      "id": "339269434",
+      "name": "Caixa de entrada",
+      "uuid": "ef035ce6-4cc5-40ad-a4b4-5a6e8cc88058"
+    },
+    "pipe_id": "306500193",
+    "scope": "phase"
+  }
+}

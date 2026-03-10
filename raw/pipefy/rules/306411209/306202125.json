@@ -1,0 +1,60 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326224328",
+          "phaseField": {
+            "id": "respons_vel",
+            "internal_id": "413744800",
+            "label": "Responsável",
+            "uuid": "446c8911-5ca0-478a-9a7a-c96271e64836"
+          },
+          "phaseFieldId": "413744800",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "current_phase",
+            "id": "314447404",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "338933200"
+          },
+          {
+            "field_address": "current_phase",
+            "id": "314447405",
+            "operation": "equals",
+            "structure_id": "1",
+            "value": "338732716"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "1"
+          ],
+          [
+            "0"
+          ]
+        ],
+        "id": "312006196"
+      },
+      "id": "306202125",
+      "name": "Esconder responsável quando ganho ou perdido",
+      "url": "https://app.pipefy.com/pipes/306411209/settings/phases/338933200/conditionals/306202125"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "338933200",
+      "name": "Ganho",
+      "uuid": "81b8d6b1-93ce-4204-b173-805c8b665104"
+    },
+    "pipe_id": "306411209",
+    "rule_id": "306202125",
+    "scope": "phase"
+  }
+}

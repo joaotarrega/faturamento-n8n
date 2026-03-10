@@ -1,0 +1,28 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "tipo_de_item",
+      "internal_id": "422775097",
+      "label": "Tipo de item",
+      "options": [
+        "Produto",
+        "Ajustes de fatura"
+      ],
+      "required": true,
+      "type": "radio_horizontal",
+      "uuid": "4d0e807b-5fa1-4d73-837b-b9762711ee75"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_item",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

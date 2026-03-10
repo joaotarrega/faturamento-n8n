@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "descri_o",
+      "internal_id": "423718878",
+      "label": "Descrição",
+      "options": [],
+      "required": true,
+      "type": "long_text",
+      "uuid": "93bfeff2-12c7-4629-a062-ecc33e69904d"
+    }
+  },
+  "meta": {
+    "field_id": "descri_o",
+    "pipe_id": "306877345",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "respons_vel",
+      "internal_id": "418430935",
+      "label": "Analista responsável",
+      "options": [],
+      "required": true,
+      "type": "assignee_select",
+      "uuid": "f542947b-4329-4505-86ee-27045e7f5cd9"
+    }
+  },
+  "meta": {
+    "field_id": "respons_vel",
+    "pipe_id": "306582359",
+    "scope": "start_form"
+  }
+}
