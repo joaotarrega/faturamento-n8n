@@ -1,5 +1,259 @@
 {
-  "active": false,
+  "name": "[FIN] 1.3 Materializar itens FIN-04",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"contractVersion\": \"fin_v3\",\n  \"itemType\": \"item_plan\"\n}"
+      },
+      "id": "00b55333-b741-47ab-807b-80b4ab3a77a7",
+      "name": "Execute Workflow Trigger",
+      "position": [
+        -1904,
+        240
+      ],
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const plan = clone(asObj(input.itemPlan));\n    const run = clone(asObj(input.run));\n    const traceIn = clone(asObj(input.trace));\n    const rule = clone(asObj(input.rule));\n    const ctx = ensureLogState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: traceIn.workflowExecutionId ?? traceIn.parentExecutionId ?? null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1.3 Materializar itens FIN-04',\n      },\n      run,\n      rule,\n      plan,\n      metrics: {},\n      createdItemIds: [],\n      parcelUpdates: [],\n      terminal: { done: false, status: null, reason: null },\n    });\n    ctx.workflowLogs = Array.isArray(input.logs?.workflowLogs) ? input.logs.workflowLogs : [];\n    ctx.entityLogs = Array.isArray(input.logs?.entityLogs) ? input.logs.entityLogs : [];\n    ctx.graphqlLogs = Array.isArray(input.logs?.graphqlLogs) ? input.logs.graphqlLogs : [];\n    ctx.failures = Array.isArray(input.failures) ? input.failures : [];\n    if (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'item_plan') {\n      addFailure(ctx, 'Init materializacao', 'unexpected_payload_shape', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n    }\n    if (!ctx.terminal.done && !Array.isArray(plan.plannedItems)) {\n      addFailure(ctx, 'Init materializacao', 'invalid_item_plan', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'invalid_item_plan' };\n    }\n    if (!ctx.terminal.done && plan.plannedItems.length === 0) {\n      addFailure(ctx, 'Init materializacao', 'no_items_ready_for_invoice', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'no_items_ready_for_invoice' };\n    }\n    return [{ json: ctx }];"
+      },
+      "id": "7f155e72-3c48-4f4f-bb52-5120ccb7e3a2",
+      "name": "Init materializacao",
+      "position": [
+        -1680,
+        240
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.plan?.plannedItems) && $json.plan.plannedItems.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "a4826261-91a0-45cd-91f9-9926ee7029a4",
+      "name": "Pode materializar itens?",
+      "position": [
+        -1456,
+        240
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const ctx = ensureLogState(clone(asObj($json)));\n    const reason = ctx.terminal?.reason || (ctx.failures[0]?.reason || 'no_items_ready_for_invoice');\n    addWorkflowLog(ctx, {\n      status: 'failed',\n      failure_reason: reason,\n      rules_processed: 1,\n      rules_failed: 1,\n      items_created: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n      summary_json: jsonString({ directResult: true, reason }),\n    });\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'rule_result',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n        result: {\n          status: 'failed',\n          reason,\n          invoiceId: null,\n          existingInvoiceId: null,\n          createdItemIds: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [],\n          totals: asObj(ctx.plan?.totals),\n          metricsDelta: { createItems: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0 },\n          failures: ctx.failures,\n        },\n        logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n        failures: ctx.failures,\n      }\n    }];"
+      },
+      "id": "add8e377-50d0-4767-8808-f8f94ca0550e",
+      "name": "Emitir rule_result direto",
+      "position": [
+        -1232,
+        336
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "22ccd431-48a1-4f25-8912-1b8161ec523f",
+              "name": "emitCreatePairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.plan?.plannedItems) ? $json.plan.plannedItems : []).map((plannedItem) => ({ ctx: $json, plannedItem })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a16a3584-4cd0-4fd9-ac6c-347756250cad",
+      "name": "Set pares create requests",
+      "position": [
+        -1232,
+        144
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "emitCreatePairs",
+        "options": {}
+      },
+      "id": "3ab6aa16-68da-459b-bce2-be461d122c17",
+      "name": "Split Out create requests",
+      "position": [
+        -1008,
+        144
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query FindFin04ByTemplate($pipeId: ID!, $fieldId: String!, $templateId: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $templateId }) { edges { node { id fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
+        "variables": "={{ { pipeId: '306859915', fieldId: 'id_do_item_usado_como_template_fin_02', templateId: String($json.plannedItem.templateItemId), first: 100 } }}"
+      },
+      "id": "d7bd0046-dcb0-4773-81e6-10414d08bd80",
+      "maxTries": 5,
+      "name": "FIN-04 Recheck conflito antes de criar",
+      "position": [
+        -784,
+        80
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "16e40a20-9f02-4dec-8d0a-036751c2b7b8",
+      "name": "Merge retorno recheck",
+      "position": [
+        -560,
+        144
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const merged = asObj($json);\n    const ctx = ensureLogState(clone(asObj(merged.ctx || merged)));\n    const response = asObj(merged.recheckResponse || merged);\n    const planned = asObj(merged.plannedItem || {});\n    const templateItemId = clean(planned.templateItemId);\n    const dedupeKey = clean(planned.dedupeKey);\n    const callIndex = nextGraphqlIndex(ctx);\n    const out = { ...merged, ctx, recheckGraphqlCallIndex: callIndex, canCreateItem: false };\n    if (ctx.terminal?.done === true) return [{ json: out }];\n    if (response.error) {\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-04 Recheck conflito antes de criar',\n        operation_name: 'recheck_fin04_conflict_by_template',\n        pipe_id: '306859915',\n        phase_id: '341351580',\n        entity_type: 'fin04_item',\n        entity_id: templateItemId || null,\n        card_id: templateItemId || null,\n        graphql_call_index: callIndex,\n        error_message: clean(response.error?.message || 'transport_error'),\n        query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n        response_json: jsonString(response),\n      });\n      out.validationErrorReason = 'conflict_fin04_query_error';\n      return [{ json: out }];\n    }\n    const errors = Array.isArray(response.errors) ? response.errors : [];\n    if (errors.length > 0) {\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-04 Recheck conflito antes de criar',\n        operation_name: 'recheck_fin04_conflict_by_template',\n        pipe_id: '306859915',\n        phase_id: '341351580',\n        entity_type: 'fin04_item',\n        entity_id: templateItemId || null,\n        card_id: templateItemId || null,\n        graphql_call_index: callIndex,\n        error_message: clean(errors[0]?.message || 'graphql_error'),\n        query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n        response_json: jsonString(response),\n      });\n      out.validationErrorReason = 'conflict_fin04_query_error';\n      return [{ json: out }];\n    }\n    if (response.data?.findCards?.pageInfo?.hasNextPage === true) {\n      out.validationErrorReason = 'conflict_fin04_query_requires_pagination';\n      return [{ json: out }];\n    }\n    const edges = Array.isArray(response.data?.findCards?.edges) ? response.data.findCards.edges : [];\n    for (const edge of edges) {\n      const node = edge?.node;\n      if (!node) continue;\n      const fm = fieldMap(node.fields || []);\n      const sameTemplate = clean(pickScalar(fm['id_do_item_usado_como_template_fin_02'])) === templateItemId;\n      const sameCompetence = clean(pickScalar(fm['data_de_compet_ncia'])).slice(0, 10) === clean(ctx.run.competenceYMD);\n      if (!sameTemplate || !sameCompetence) continue;\n      out.recheckConflictId = clean(node.id);\n      out.recheckInvoiceId = clean(pickScalar(fm['id_da_fatura']) || '');\n      return [{ json: out }];\n    }\n    out.canCreateItem = true;\n    out.createGraphqlCallIndex = nextGraphqlIndex(ctx);\n    out.dedupeKey = dedupeKey || null;\n    return [{ json: out }];"
+      },
+      "id": "14ddbf01-8fc7-4e36-ae09-56aa2b22c353",
+      "name": "Parse recheck conflito",
+      "position": [
+        -336,
+        144
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.canCreateItem === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "d500aeff-5338-4284-a0fe-87fe77892338",
+      "name": "Pode criar item FIN-04?",
+      "position": [
+        -112,
+        80
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation CreateFin04($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
+        "variables": "={{ { input: $json.plannedItem.createInput } }}"
+      },
+      "id": "c3828f06-d8bc-47ec-bcf3-30c78112b808",
+      "maxTries": 5,
+      "name": "FIN-04 Criar item",
+      "position": [
+        112,
+        0
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "015b8b52-5756-4e7e-a01a-062c381ad7bc",
+      "name": "Merge criacao item",
+      "position": [
+        336,
+        144
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const items = $input.all().map((item) => asObj(item.json));\n    if (items.length === 0) throw new Error('No materialization items received');\n    const ctx = ensureLogState(clone(asObj(items[0].ctx || items[0])));\n    let anyFailure = false;\n    for (const item of items) {\n      const planned = asObj(item.plannedItem || item.createReq || {});\n      const dedupeKey = clean(planned.dedupeKey);\n      const templateItemId = clean(planned.templateItemId);\n      if (item.recheckConflictId) {\n        anyFailure = true;\n        const reason = clean(item.recheckInvoiceId) ? 'existing_fin04_conflict' : 'orphan_fin04_exists_for_rule_competence';\n        addFailure(ctx, 'Recheck FIN-04 antes de criar', reason, ctx.rule.ruleId, templateItemId, item.recheckConflictId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'template_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          fin04_item_id: item.recheckConflictId,\n          action: 'recheck_before_create',\n          status: 'blocked',\n          failure_reason: reason,\n          dedupe_key: dedupeKey,\n        });\n        continue;\n      }\n      if (item.validationErrorReason) {\n        anyFailure = true;\n        addFailure(ctx, 'Recheck FIN-04 antes de criar', item.validationErrorReason, ctx.rule.ruleId, templateItemId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'template_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'validate_before_create',\n          status: 'failed',\n          failure_reason: item.validationErrorReason,\n          dedupe_key: dedupeKey,\n        });\n        continue;\n      }\n      if (item.error) {\n        anyFailure = true;\n        addFailure(ctx, 'FIN-04 Criar item', 'create_item_transport_error', ctx.rule.ruleId, templateItemId);\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-04 Criar item',\n          operation_name: 'create_fin04_item',\n          pipe_id: '306859915',\n          phase_id: '341351580',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          graphql_call_index: Number(item.createGraphqlCallIndex || 0),\n          error_message: clean(item.error?.message || 'transport_error'),\n          query_excerpt: 'mutation CreateFin04',\n          response_json: jsonString(item),\n        });\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'create_item',\n          status: 'failed',\n          failure_reason: 'create_item_transport_error',\n          dedupe_key: dedupeKey,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      const errors = Array.isArray(item.errors) ? item.errors : [];\n      const createdId = clean(item.data?.createCard?.card?.id);\n      if (errors.length > 0 || !createdId) {\n        anyFailure = true;\n        addFailure(ctx, 'FIN-04 Criar item', 'create_item_logical_error', ctx.rule.ruleId, templateItemId);\n        if (errors.length > 0) {\n          addGraphqlErrorLog(ctx, {\n            node_name: 'FIN-04 Criar item',\n            operation_name: 'create_fin04_item',\n            pipe_id: '306859915',\n            phase_id: '341351580',\n            entity_type: 'fin04_item',\n            entity_id: templateItemId,\n            graphql_call_index: Number(item.createGraphqlCallIndex || 0),\n            error_message: clean(errors[0]?.message || 'graphql_error'),\n            query_excerpt: 'mutation CreateFin04',\n            response_json: jsonString(item),\n          });\n        }\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'create_item',\n          status: 'failed',\n          failure_reason: 'create_item_logical_error',\n          dedupe_key: dedupeKey,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      ctx.createdItemIds.push(createdId);\n      addEntityLog(ctx, {\n        node_name: 'Consolidar materializacao',\n        entity_type: 'fin04_item',\n        entity_id: createdId,\n        template_item_id: templateItemId,\n        fin04_item_id: createdId,\n        action: 'create_item',\n        status: 'success',\n        dedupe_key: dedupeKey,\n        graphql_calls_delta: 1,\n      });\n      if (planned.shouldUpdateParcelas === true) {\n        ctx.parcelUpdates.push({\n          templateItemId,\n          newParcelasPagas: planned.newParcelasPagas,\n          shouldInactivateParent: planned.shouldInactivateParent === true,\n          parcelasTotais: planned.parcelasTotais,\n          dedupeKey,\n        });\n      }\n    }\n    ctx.createdItemIds = Array.from(new Set(ctx.createdItemIds));\n    addWorkflowLog(ctx, {\n      status: anyFailure ? 'failed' : 'success',\n      failure_reason: anyFailure ? 'failed_item_stage' : null,\n      rules_processed: 1,\n      rules_failed: anyFailure ? 1 : 0,\n      items_created: ctx.createdItemIds.length,\n      summary_json: jsonString({ createdItemIds: ctx.createdItemIds, parcelUpdates: ctx.parcelUpdates }),\n    });\n    if (anyFailure || ctx.createdItemIds.length === 0) {\n      const reason = anyFailure ? (ctx.failures[0]?.reason || 'failed_item_stage') : 'no_items_ready_for_invoice';\n      return [{\n        json: {\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: ctx.trace,\n          run: ctx.run,\n          rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n          result: {\n            status: 'failed',\n            reason,\n            invoiceId: null,\n            existingInvoiceId: null,\n            createdItemIds: ctx.createdItemIds,\n            totals: asObj(ctx.plan.totals),\n            metricsDelta: { createItems: ctx.createdItemIds.length },\n            failures: ctx.failures,\n          },\n          logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n          failures: ctx.failures,\n        }\n      }];\n    }\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'fin04_items_ready',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: ctx.rule,\n        itemPlan: ctx.plan,\n        createdItemIds: ctx.createdItemIds,\n        parcelUpdates: ctx.parcelUpdates,\n        logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n        failures: ctx.failures,\n      }\n    }];"
+      },
+      "id": "dce8bbd9-133a-44d4-a08a-760e2c95480e",
+      "name": "Consolidar materializacao",
+      "position": [
+        560,
+        144
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    }
+  ],
+  "pinData": {},
   "connections": {
     "Execute Workflow Trigger": {
       "main": [
@@ -147,343 +401,14 @@
       ]
     }
   },
-  "createdAt": "2026-03-10T18:30:27Z",
-  "id": "dC7sV4pLm9QxT2aK",
-  "isArchived": false,
-  "meta": null,
-  "name": "[FIN] 1.3 Materializar itens FIN-04",
-  "nodes": [
-    {
-      "id": "4b4a63f3-c9d6-4c35-a9c9-67bb32474392",
-      "name": "Execute Workflow Trigger",
-      "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"contractVersion\": \"fin_v3\",\n  \"itemType\": \"item_plan\"\n}"
-      },
-      "position": [
-        -1180,
-        -60
-      ],
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1
-    },
-    {
-      "id": "57a48737-2ce7-473e-8b6f-e89259738962",
-      "name": "Init materializacao",
-      "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const plan = clone(asObj(input.itemPlan));\n    const run = clone(asObj(input.run));\n    const traceIn = clone(asObj(input.trace));\n    const rule = clone(asObj(input.rule));\n    const ctx = ensureLogState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: traceIn.workflowExecutionId ?? traceIn.parentExecutionId ?? null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1.3 Materializar itens FIN-04',\n      },\n      run,\n      rule,\n      plan,\n      metrics: {},\n      createdItemIds: [],\n      parcelUpdates: [],\n      terminal: { done: false, status: null, reason: null },\n    });\n    ctx.workflowLogs = Array.isArray(input.logs?.workflowLogs) ? input.logs.workflowLogs : [];\n    ctx.entityLogs = Array.isArray(input.logs?.entityLogs) ? input.logs.entityLogs : [];\n    ctx.graphqlLogs = Array.isArray(input.logs?.graphqlLogs) ? input.logs.graphqlLogs : [];\n    ctx.failures = Array.isArray(input.failures) ? input.failures : [];\n    if (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'item_plan') {\n      addFailure(ctx, 'Init materializacao', 'unexpected_payload_shape', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n    }\n    if (!ctx.terminal.done && !Array.isArray(plan.plannedItems)) {\n      addFailure(ctx, 'Init materializacao', 'invalid_item_plan', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'invalid_item_plan' };\n    }\n    if (!ctx.terminal.done && plan.plannedItems.length === 0) {\n      addFailure(ctx, 'Init materializacao', 'no_items_ready_for_invoice', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'no_items_ready_for_invoice' };\n    }\n    return [{ json: ctx }];"
-      },
-      "position": [
-        -940,
-        -60
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "id": "7b7b3769-f251-4244-86ea-84e12d31952f",
-      "name": "Pode materializar itens?",
-      "parameters": {
-        "conditions": {
-          "combinator": "and",
-          "conditions": [
-            {
-              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.plan?.plannedItems) && $json.plan.plannedItems.length > 0 }}",
-              "operator": {
-                "operation": "true",
-                "singleValue": true,
-                "type": "boolean"
-              },
-              "rightValue": ""
-            }
-          ],
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          }
-        },
-        "options": {}
-      },
-      "position": [
-        -820,
-        -60
-      ],
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2
-    },
-    {
-      "id": "f3eeefc1-a709-486b-a0f1-ab34886933f7",
-      "name": "Emitir rule_result direto",
-      "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const ctx = ensureLogState(clone(asObj($json)));\n    const reason = ctx.terminal?.reason || (ctx.failures[0]?.reason || 'no_items_ready_for_invoice');\n    addWorkflowLog(ctx, {\n      status: 'failed',\n      failure_reason: reason,\n      rules_processed: 1,\n      rules_failed: 1,\n      items_created: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n      summary_json: jsonString({ directResult: true, reason }),\n    });\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'rule_result',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n        result: {\n          status: 'failed',\n          reason,\n          invoiceId: null,\n          existingInvoiceId: null,\n          createdItemIds: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [],\n          totals: asObj(ctx.plan?.totals),\n          metricsDelta: { createItems: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0 },\n          failures: ctx.failures,\n        },\n        logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n        failures: ctx.failures,\n      }\n    }];"
-      },
-      "position": [
-        -580,
-        120
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "id": "a8f33766-a12e-4657-8a1f-20119c5a6fc0",
-      "name": "Set pares create requests",
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "9cdf3d47-339e-4b6d-8b5d-a3b9043b192d",
-              "name": "emitCreatePairs",
-              "type": "json",
-              "value": "={{ (Array.isArray($json.plan?.plannedItems) ? $json.plan.plannedItems : []).map((plannedItem) => ({ ctx: $json, plannedItem })) }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "position": [
-        -700,
-        -60
-      ],
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4
-    },
-    {
-      "id": "3920d846-232b-45e4-9368-b6f7c96e46d7",
-      "name": "Split Out create requests",
-      "parameters": {
-        "fieldToSplitOut": "emitCreatePairs",
-        "options": {}
-      },
-      "position": [
-        -460,
-        -60
-      ],
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1
-    },
-    {
-      "credentials": {
-        "oAuth2Api": {
-          "id": "26uKvuUtjVempi2s",
-          "name": "Pipefy OAuth2 API"
-        }
-      },
-      "id": "a659fa5a-15d2-45fe-8560-4b20753d76f6",
-      "maxTries": 5,
-      "name": "FIN-04 Recheck conflito antes de criar",
-      "onError": "continueErrorOutput",
-      "parameters": {
-        "authentication": "oAuth2",
-        "endpoint": "https://api.pipefy.com/graphql",
-        "query": "query FindFin04ByTemplate($pipeId: ID!, $fieldId: String!, $templateId: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $templateId }) { edges { node { id fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
-        "variables": "={{ { pipeId: '306859915', fieldId: 'id_do_item_usado_como_template_fin_02', templateId: String($json.plannedItem.templateItemId), first: 100 } }}"
-      },
-      "position": [
-        -220,
-        -180
-      ],
-      "retryOnFail": true,
-      "type": "n8n-nodes-base.graphql",
-      "typeVersion": 1.1,
-      "waitBetweenTries": 2000
-    },
-    {
-      "id": "ab10c22e-f5e6-43e9-8af2-2df09fbcdedd",
-      "name": "Merge retorno recheck",
-      "parameters": {
-        "combineBy": "combineByPosition",
-        "mode": "combine",
-        "options": {}
-      },
-      "position": [
-        20,
-        -180
-      ],
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2
-    },
-    {
-      "id": "e2055d06-b963-4826-af2c-2ec806064b87",
-      "name": "Parse recheck conflito",
-      "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const merged = asObj($json);\n    const ctx = ensureLogState(clone(asObj(merged.ctx || merged)));\n    const response = asObj(merged.recheckResponse || merged);\n    const planned = asObj(merged.plannedItem || {});\n    const templateItemId = clean(planned.templateItemId);\n    const dedupeKey = clean(planned.dedupeKey);\n    const callIndex = nextGraphqlIndex(ctx);\n    const out = { ...merged, ctx, recheckGraphqlCallIndex: callIndex, canCreateItem: false };\n    if (ctx.terminal?.done === true) return [{ json: out }];\n    if (response.error) {\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-04 Recheck conflito antes de criar',\n        operation_name: 'recheck_fin04_conflict_by_template',\n        pipe_id: '306859915',\n        phase_id: '341351580',\n        entity_type: 'fin04_item',\n        entity_id: templateItemId || null,\n        card_id: templateItemId || null,\n        graphql_call_index: callIndex,\n        error_message: clean(response.error?.message || 'transport_error'),\n        query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n        response_json: jsonString(response),\n      });\n      out.validationErrorReason = 'conflict_fin04_query_error';\n      return [{ json: out }];\n    }\n    const errors = Array.isArray(response.errors) ? response.errors : [];\n    if (errors.length > 0) {\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-04 Recheck conflito antes de criar',\n        operation_name: 'recheck_fin04_conflict_by_template',\n        pipe_id: '306859915',\n        phase_id: '341351580',\n        entity_type: 'fin04_item',\n        entity_id: templateItemId || null,\n        card_id: templateItemId || null,\n        graphql_call_index: callIndex,\n        error_message: clean(errors[0]?.message || 'graphql_error'),\n        query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n        response_json: jsonString(response),\n      });\n      out.validationErrorReason = 'conflict_fin04_query_error';\n      return [{ json: out }];\n    }\n    if (response.data?.findCards?.pageInfo?.hasNextPage === true) {\n      out.validationErrorReason = 'conflict_fin04_query_requires_pagination';\n      return [{ json: out }];\n    }\n    const edges = Array.isArray(response.data?.findCards?.edges) ? response.data.findCards.edges : [];\n    for (const edge of edges) {\n      const node = edge?.node;\n      if (!node) continue;\n      const fm = fieldMap(node.fields || []);\n      const sameTemplate = clean(pickScalar(fm['id_do_item_usado_como_template_fin_02'])) === templateItemId;\n      const sameCompetence = clean(pickScalar(fm['data_de_compet_ncia'])).slice(0, 10) === clean(ctx.run.competenceYMD);\n      if (!sameTemplate || !sameCompetence) continue;\n      out.recheckConflictId = clean(node.id);\n      out.recheckInvoiceId = clean(pickScalar(fm['id_da_fatura']) || '');\n      return [{ json: out }];\n    }\n    out.canCreateItem = true;\n    out.createGraphqlCallIndex = nextGraphqlIndex(ctx);\n    out.dedupeKey = dedupeKey || null;\n    return [{ json: out }];"
-      },
-      "position": [
-        240,
-        -180
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "id": "09ad4b04-0ac5-4f74-8bbe-5d6ee793a602",
-      "name": "Pode criar item FIN-04?",
-      "parameters": {
-        "conditions": {
-          "combinator": "and",
-          "conditions": [
-            {
-              "leftValue": "={{ $json.canCreateItem === true }}",
-              "operator": {
-                "operation": "true",
-                "singleValue": true,
-                "type": "boolean"
-              },
-              "rightValue": ""
-            }
-          ],
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          }
-        },
-        "options": {}
-      },
-      "position": [
-        480,
-        -180
-      ],
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2
-    },
-    {
-      "credentials": {
-        "oAuth2Api": {
-          "id": "26uKvuUtjVempi2s",
-          "name": "Pipefy OAuth2 API"
-        }
-      },
-      "id": "7f2e8ee2-89d5-4e4c-83d7-4a8c05869043",
-      "maxTries": 5,
-      "name": "FIN-04 Criar item",
-      "onError": "continueErrorOutput",
-      "parameters": {
-        "authentication": "oAuth2",
-        "endpoint": "https://api.pipefy.com/graphql",
-        "query": "mutation CreateFin04($input: CreateCardInput!) { createCard(input: $input) { card { id url } } }",
-        "variables": "={{ { input: $json.plannedItem.createInput } }}"
-      },
-      "position": [
-        720,
-        -300
-      ],
-      "retryOnFail": true,
-      "type": "n8n-nodes-base.graphql",
-      "typeVersion": 1.1,
-      "waitBetweenTries": 2000
-    },
-    {
-      "id": "75caef69-684b-4ef9-a1c1-88dffc55e77c",
-      "name": "Merge criacao item",
-      "parameters": {
-        "combineBy": "combineByPosition",
-        "mode": "combine",
-        "options": {}
-      },
-      "position": [
-        960,
-        -180
-      ],
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2
-    },
-    {
-      "id": "79681cd6-092a-456a-b0b2-fe3241fb82d8",
-      "name": "Consolidar materializacao",
-      "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const items = $input.all().map((item) => asObj(item.json));\n    if (items.length === 0) throw new Error('No materialization items received');\n    const ctx = ensureLogState(clone(asObj(items[0].ctx || items[0])));\n    let anyFailure = false;\n    for (const item of items) {\n      const planned = asObj(item.plannedItem || item.createReq || {});\n      const dedupeKey = clean(planned.dedupeKey);\n      const templateItemId = clean(planned.templateItemId);\n      if (item.recheckConflictId) {\n        anyFailure = true;\n        const reason = clean(item.recheckInvoiceId) ? 'existing_fin04_conflict' : 'orphan_fin04_exists_for_rule_competence';\n        addFailure(ctx, 'Recheck FIN-04 antes de criar', reason, ctx.rule.ruleId, templateItemId, item.recheckConflictId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'template_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          fin04_item_id: item.recheckConflictId,\n          action: 'recheck_before_create',\n          status: 'blocked',\n          failure_reason: reason,\n          dedupe_key: dedupeKey,\n        });\n        continue;\n      }\n      if (item.validationErrorReason) {\n        anyFailure = true;\n        addFailure(ctx, 'Recheck FIN-04 antes de criar', item.validationErrorReason, ctx.rule.ruleId, templateItemId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'template_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'validate_before_create',\n          status: 'failed',\n          failure_reason: item.validationErrorReason,\n          dedupe_key: dedupeKey,\n        });\n        continue;\n      }\n      if (item.error) {\n        anyFailure = true;\n        addFailure(ctx, 'FIN-04 Criar item', 'create_item_transport_error', ctx.rule.ruleId, templateItemId);\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-04 Criar item',\n          operation_name: 'create_fin04_item',\n          pipe_id: '306859915',\n          phase_id: '341351580',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          graphql_call_index: Number(item.createGraphqlCallIndex || 0),\n          error_message: clean(item.error?.message || 'transport_error'),\n          query_excerpt: 'mutation CreateFin04',\n          response_json: jsonString(item),\n        });\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'create_item',\n          status: 'failed',\n          failure_reason: 'create_item_transport_error',\n          dedupe_key: dedupeKey,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      const errors = Array.isArray(item.errors) ? item.errors : [];\n      const createdId = clean(item.data?.createCard?.card?.id);\n      if (errors.length > 0 || !createdId) {\n        anyFailure = true;\n        addFailure(ctx, 'FIN-04 Criar item', 'create_item_logical_error', ctx.rule.ruleId, templateItemId);\n        if (errors.length > 0) {\n          addGraphqlErrorLog(ctx, {\n            node_name: 'FIN-04 Criar item',\n            operation_name: 'create_fin04_item',\n            pipe_id: '306859915',\n            phase_id: '341351580',\n            entity_type: 'fin04_item',\n            entity_id: templateItemId,\n            graphql_call_index: Number(item.createGraphqlCallIndex || 0),\n            error_message: clean(errors[0]?.message || 'graphql_error'),\n            query_excerpt: 'mutation CreateFin04',\n            response_json: jsonString(item),\n          });\n        }\n        addEntityLog(ctx, {\n          node_name: 'Consolidar materializacao',\n          entity_type: 'fin04_item',\n          entity_id: templateItemId,\n          template_item_id: templateItemId,\n          action: 'create_item',\n          status: 'failed',\n          failure_reason: 'create_item_logical_error',\n          dedupe_key: dedupeKey,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      ctx.createdItemIds.push(createdId);\n      addEntityLog(ctx, {\n        node_name: 'Consolidar materializacao',\n        entity_type: 'fin04_item',\n        entity_id: createdId,\n        template_item_id: templateItemId,\n        fin04_item_id: createdId,\n        action: 'create_item',\n        status: 'success',\n        dedupe_key: dedupeKey,\n        graphql_calls_delta: 1,\n      });\n      if (planned.shouldUpdateParcelas === true) {\n        ctx.parcelUpdates.push({\n          templateItemId,\n          newParcelasPagas: planned.newParcelasPagas,\n          shouldInactivateParent: planned.shouldInactivateParent === true,\n          parcelasTotais: planned.parcelasTotais,\n          dedupeKey,\n        });\n      }\n    }\n    ctx.createdItemIds = Array.from(new Set(ctx.createdItemIds));\n    addWorkflowLog(ctx, {\n      status: anyFailure ? 'failed' : 'success',\n      failure_reason: anyFailure ? 'failed_item_stage' : null,\n      rules_processed: 1,\n      rules_failed: anyFailure ? 1 : 0,\n      items_created: ctx.createdItemIds.length,\n      summary_json: jsonString({ createdItemIds: ctx.createdItemIds, parcelUpdates: ctx.parcelUpdates }),\n    });\n    if (anyFailure || ctx.createdItemIds.length === 0) {\n      const reason = anyFailure ? (ctx.failures[0]?.reason || 'failed_item_stage') : 'no_items_ready_for_invoice';\n      return [{\n        json: {\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: ctx.trace,\n          run: ctx.run,\n          rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n          result: {\n            status: 'failed',\n            reason,\n            invoiceId: null,\n            existingInvoiceId: null,\n            createdItemIds: ctx.createdItemIds,\n            totals: asObj(ctx.plan.totals),\n            metricsDelta: { createItems: ctx.createdItemIds.length },\n            failures: ctx.failures,\n          },\n          logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n          failures: ctx.failures,\n        }\n      }];\n    }\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'fin04_items_ready',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: ctx.rule,\n        itemPlan: ctx.plan,\n        createdItemIds: ctx.createdItemIds,\n        parcelUpdates: ctx.parcelUpdates,\n        logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n        failures: ctx.failures,\n      }\n    }];"
-      },
-      "position": [
-        1200,
-        -60
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    }
-  ],
-  "pinData": {},
+  "active": false,
   "settings": {
-    "availableInMCP": false,
-    "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "mry7wCpuNRODMB5e",
     "executionOrder": "v1"
   },
-  "shared": [
-    {
-      "createdAt": "2026-03-10T18:30:27Z",
-      "project": {
-        "createdAt": "2025-10-27T18:38:08.229Z",
-        "description": null,
-        "icon": null,
-        "id": "MxRYCPypQDED18DI",
-        "name": "João Tarrega <jtarrega@evnt.com.br>",
-        "projectRelations": [
-          {
-            "createdAt": "2025-10-27T18:38:08.229Z",
-            "projectId": "MxRYCPypQDED18DI",
-            "updatedAt": "2025-10-27T18:38:08.229Z",
-            "user": {
-              "createdAt": "2025-10-27T18:38:08.229Z",
-              "disabled": false,
-              "email": "jtarrega@evnt.com.br",
-              "firstName": "João",
-              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
-              "isPending": false,
-              "lastActiveAt": "2026-03-09",
-              "lastName": "Tarrega",
-              "mfaEnabled": true,
-              "personalizationAnswers": {
-                "companyIndustryExtended": [
-                  "it-industry"
-                ],
-                "companyType": "other",
-                "personalization_survey_n8n_version": "1.116.2",
-                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
-                "version": "v4"
-              },
-              "settings": {
-                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
-                "npsSurvey": {
-                  "lastShownAt": 1762550473483,
-                  "responded": true
-                },
-                "userActivated": true,
-                "userActivatedAt": 1762272334672
-              },
-              "updatedAt": "2026-03-09T11:15:52.534Z"
-            },
-            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
-          }
-        ],
-        "type": "personal",
-        "updatedAt": "2025-10-27T18:41:32.999Z"
-      },
-      "projectId": "MxRYCPypQDED18DI",
-      "role": "workflow:owner",
-      "updatedAt": "2026-03-10T18:30:27Z",
-      "workflowId": "dC7sV4pLm9QxT2aK"
-    }
-  ],
-  "staticData": null,
-  "tags": [
-    {
-      "createdAt": "2025-10-28T14:26:57.025Z",
-      "id": "jWQLHyRjnHUkdCL1",
-      "name": "Pipefy",
-      "updatedAt": "2025-10-28T14:26:57.025Z"
-    },
-    {
-      "createdAt": "2025-11-10T13:15:26.055Z",
-      "id": "XyK45Idu3SHOnbVr",
-      "name": "Automação de pipe",
-      "updatedAt": "2025-11-10T13:15:58.540Z"
-    }
-  ],
-  "triggerCount": 0,
-  "updatedAt": "2026-03-10T18:30:27Z",
-  "versionId": "a12e629d-b5b5-493c-a978-c32530d6e921"
+  "versionId": "d35dc8fc-afa9-47ba-9146-9cf2aac240a1",
+  "meta": {
+    "instanceId": "3016816d496aebba57a69fdaf12429733e80c66b51f4f4969ff2808297f74ee9"
+  },
+  "id": "QopNPbMmL97hjhfz",
+  "tags": []
 }
