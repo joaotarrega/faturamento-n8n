@@ -2,42 +2,34 @@
 import json
 import pathlib
 import subprocess
-import sys
 import tempfile
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 WORKFLOWS_DIR = ROOT / "raw" / "n8n" / "workflows"
-INDEX_PATH = ROOT / "raw" / "n8n" / "workflows.index.json"
 
-EXPECTED = {
-    "sbjuPdz4ipegrKh2": "[FIN] 1 Orquestrar faturamento mensal",
-    "KRYkEmSTkuVD8Nsn": "[FIN] 1.1 Preparar regras elegiveis",
-    "0nUKP2OUpRLgMSxq": "[FIN] 1.2 Preparar itens elegiveis da regra",
-    "dC7sV4pLm9QxT2aK": "[FIN] 1.3 Materializar itens FIN-04",
-    "fN6rJ3wUz8YhL5cP": "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
-}
-
-PLACEHOLDERS = {
-    "PLACEHOLDER_FIN_BILLING_RUN_LOG",
-    "PLACEHOLDER_FIN_BILLING_ENTITY_LOG",
-    "PLACEHOLDER_FIN_BILLING_GRAPHQL_LOG",
-}
+EXPECTED = [
+    "[FIN] 1 Orquestrar faturamento mensal",
+    "[FIN] 1.1 Preparar regras elegiveis",
+    "[FIN] 1.2 Preparar itens elegiveis da regra",
+    "[FIN] 1.3 Materializar itens FIN-04",
+    "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
+]
 
 GRAPHQL_EXPECTATIONS = {
-    "KRYkEmSTkuVD8Nsn": {
+    "[FIN] 1.1 Preparar regras elegiveis": {
         "FIN-01: Listar regras Ativo (page)": ["341313813"],
         "FIN-03: Prefetch faturas (competencia)": ["data_de_compet_ncia"],
     },
-    "0nUKP2OUpRLgMSxq": {
+    "[FIN] 1.2 Preparar itens elegiveis da regra": {
         "FIN-02 Buscar item template": ["card(id:"],
         "FIN-04 Verificar conflitos por competencia": ["id_do_item_usado_como_template_fin_02"],
     },
-    "dC7sV4pLm9QxT2aK": {
+    "[FIN] 1.3 Materializar itens FIN-04": {
         "FIN-04 Recheck conflito antes de criar": ["id_do_item_usado_como_template_fin_02"],
         "FIN-04 Criar item": ["createCard"],
     },
-    "fN6rJ3wUz8YhL5cP": {
+    "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": {
         "FIN-03 Recheck fatura existente": ["id_da_regra_de_faturamento"],
         "FIN-03 Criar fatura": ["createCard"],
         "FIN-04 Vincular id_da_fatura": ["id_da_fatura"],
@@ -46,13 +38,38 @@ GRAPHQL_EXPECTATIONS = {
     },
 }
 
+PAGINATION_CONTEXT_EXPECTATIONS = {
+    "[FIN] 1.1 Preparar regras elegiveis": {
+        "Parse rules page": {
+            "must_contain": [
+                "$(nodeName).item.json",
+                "linkedJson('Ha proxima pagina de regras?').ctx",
+                "linkedJson('Init Run').ctx",
+            ],
+            "must_not_contain": [
+                "$node['Init Run'].json.ctx",
+            ],
+        },
+        "Parse prefetch": {
+            "must_contain": [
+                "$(nodeName).item.json",
+                "linkedJson('Ha proxima pagina de prefetch?').ctx",
+                "linkedJson('Ha proxima pagina de regras?').ctx",
+            ],
+            "must_not_contain": [
+                "$node['Parse rules page'].json.ctx",
+            ],
+        },
+    },
+}
+
 
 def fail(message: str) -> None:
     raise SystemExit(message)
 
 
-def load_workflow(workflow_id: str) -> dict:
-    path = WORKFLOWS_DIR / f"{workflow_id}.json"
+def load_workflow(workflow_name: str) -> dict:
+    path = WORKFLOWS_DIR / f"{workflow_name}.json"
     return json.loads(path.read_text())
 
 
@@ -78,11 +95,10 @@ def compile_js(js_code: str, label: str) -> None:
         fail(f"js syntax invalid for {label}: {proc.stderr.strip()}")
 
 
-def validate_index() -> None:
-    index_data = json.loads(INDEX_PATH.read_text()).get("data", [])
-    names = {item.get("id"): item.get("name") for item in index_data}
-    for workflow_id, expected_name in EXPECTED.items():
-        assert_true(names.get(workflow_id) == expected_name, f"index missing workflow {workflow_id} -> {expected_name}")
+def validate_expected_exports() -> None:
+    for workflow_name in EXPECTED:
+        path = WORKFLOWS_DIR / f"{workflow_name}.json"
+        assert_true(path.exists(), f"missing workflow export {path.name}")
 
 
 def validate_orchestrator(workflow: dict) -> None:
@@ -94,41 +110,59 @@ def validate_orchestrator(workflow: dict) -> None:
         "Preparar itens elegiveis da regra",
         "Materializar itens FIN-04",
         "Criar fatura FIN-03 e concluir regra",
+        "Emit workflow run logs",
+        "Persistir fin_billing_run_log",
         "Ha entity logs?",
+        "Persistir fin_billing_entity_log",
         "Ha graphql logs?",
+        "Persistir fin_billing_graphql_log",
     ]:
         assert_true(required in node_names, f"orchestrator missing node {required}")
     text = json.dumps(workflow, ensure_ascii=False)
-    for placeholder in PLACEHOLDERS:
-        assert_contains(text, placeholder, f"orchestrator missing placeholder {placeholder}")
     assert_contains(text, "competence_date", "orchestrator missing competence_date tracking")
 
 
-def validate_graphql_nodes(workflow_id: str, workflow: dict) -> None:
-    expectations = GRAPHQL_EXPECTATIONS.get(workflow_id, {})
+def get_node(workflow: dict, node_name: str) -> dict:
+    for node in workflow["nodes"]:
+        if node["name"] == node_name:
+            return node
+    fail(f"{workflow['name']} missing node {node_name}")
+
+
+def validate_graphql_nodes(workflow_name: str, workflow: dict) -> None:
+    expectations = GRAPHQL_EXPECTATIONS.get(workflow_name, {})
     for node in workflow["nodes"]:
         params = node.get("parameters", {})
         js_code = params.get("jsCode")
         if js_code:
-            compile_js(js_code, f"{workflow_id}:{node['name']}")
+            compile_js(js_code, f"{workflow_name}:{node['name']}")
         if not str(node.get("type") or "").endswith(".graphql"):
             continue
-        assert_true(node.get("onError") == "continueErrorOutput", f"{workflow_id}:{node['name']} must use continueErrorOutput")
-        assert_true(node.get("retryOnFail") is True, f"{workflow_id}:{node['name']} must retry on fail")
-        assert_true(int(node.get("maxTries") or 0) == 5, f"{workflow_id}:{node['name']} must use maxTries=5")
+        assert_true(node.get("onError") == "continueErrorOutput", f"{workflow_name}:{node['name']} must use continueErrorOutput")
+        assert_true(node.get("retryOnFail") is True, f"{workflow_name}:{node['name']} must retry on fail")
+        assert_true(int(node.get("maxTries") or 0) == 5, f"{workflow_name}:{node['name']} must use maxTries=5")
         query = json.dumps(params, ensure_ascii=False)
         for token in expectations.get(node["name"], []):
-            assert_contains(query, token, f"{workflow_id}:{node['name']} missing token {token}")
+            assert_contains(query, token, f"{workflow_name}:{node['name']} missing token {token}")
 
 
-def validate_contract_tokens(workflow_id: str, workflow: dict) -> None:
+def validate_pagination_context(workflow_name: str, workflow: dict) -> None:
+    for node_name, expectations in PAGINATION_CONTEXT_EXPECTATIONS.get(workflow_name, {}).items():
+        js_code = get_node(workflow, node_name).get("parameters", {}).get("jsCode", "")
+        for token in expectations.get("must_contain", []):
+            assert_contains(js_code, token, f"{workflow_name}:{node_name} missing token {token}")
+        for token in expectations.get("must_not_contain", []):
+            assert_true(token not in js_code, f"{workflow_name}:{node_name} contains stale token {token}")
+
+
+def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     for forbidden in ["parent_ids", "Faturas associadas", "Itens associados"]:
-        assert_true(forbidden not in text, f"{workflow_id} contains forbidden token {forbidden}")
-    if workflow_id == "KRYkEmSTkuVD8Nsn":
+        assert_true(forbidden not in text, f"{workflow_name} contains forbidden token {forbidden}")
+    if workflow_name == "[FIN] 1.1 Preparar regras elegiveis":
         for token in ["341313813", "itens_da_fatura", "invoice_already_exists"]:
-            assert_contains(text, token, f"{workflow_id} missing token {token}")
-    if workflow_id == "0nUKP2OUpRLgMSxq":
+            assert_contains(text, token, f"{workflow_name} missing token {token}")
+    if workflow_name == "[FIN] 1.2 Preparar itens elegiveis da regra":
         for token in [
             "341306826",
             "341351580",
@@ -137,11 +171,11 @@ def validate_contract_tokens(workflow_id: str, workflow: dict) -> None:
             "blocked_missing_external_signal_onboarding_training",
             "blocked_missing_external_signal_setup_payment",
         ]:
-            assert_contains(text, token, f"{workflow_id} missing token {token}")
-    if workflow_id == "dC7sV4pLm9QxT2aK":
+            assert_contains(text, token, f"{workflow_name} missing token {token}")
+    if workflow_name == "[FIN] 1.3 Materializar itens FIN-04":
         for token in ["341351580", "existing_fin04_conflict", "no_items_ready_for_invoice", "Pode criar item FIN-04?"]:
-            assert_contains(text, token, f"{workflow_id} missing token {token}")
-    if workflow_id == "fN6rJ3wUz8YhL5cP":
+            assert_contains(text, token, f"{workflow_name} missing token {token}")
+    if workflow_name == "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02":
         for token in [
             "itens_da_fatura",
             "id_da_fatura",
@@ -153,17 +187,18 @@ def validate_contract_tokens(workflow_id: str, workflow: dict) -> None:
             "Ha parcelas para atualizar?",
             "Ha status para atualizar?",
         ]:
-            assert_contains(text, token, f"{workflow_id} missing token {token}")
+            assert_contains(text, token, f"{workflow_name} missing token {token}")
 
 
 def main() -> None:
-    validate_index()
-    for workflow_id, expected_name in EXPECTED.items():
-        workflow = load_workflow(workflow_id)
-        assert_true(workflow["name"] == expected_name, f"{workflow_id} has unexpected name {workflow['name']}")
-        validate_graphql_nodes(workflow_id, workflow)
-        validate_contract_tokens(workflow_id, workflow)
-        if workflow_id == "sbjuPdz4ipegrKh2":
+    validate_expected_exports()
+    for workflow_name in EXPECTED:
+        workflow = load_workflow(workflow_name)
+        assert_true(workflow["name"] == workflow_name, f"{workflow_name} has unexpected name {workflow['name']}")
+        validate_graphql_nodes(workflow_name, workflow)
+        validate_pagination_context(workflow_name, workflow)
+        validate_contract_tokens(workflow_name, workflow)
+        if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
     print("fin_monthly_workflows_ok")
 
