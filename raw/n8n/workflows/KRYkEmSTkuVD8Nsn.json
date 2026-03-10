@@ -1,75 +1,13 @@
 {
   "active": false,
   "connections": {
-    "Accumulate regras": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "Há próxima página?",
-            "type": "main"
-          }
-        ]
-      ]
-    },
-    "Build regras elegíveis": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "Emit runContext + rule",
-            "type": "main"
-          }
-        ]
-      ]
-    },
     "Execute Workflow Trigger": {
       "main": [
         [
           {
-            "index": 0,
             "node": "Init Run",
-            "type": "main"
-          }
-        ]
-      ]
-    },
-    "FIN-01: Listar regras Ativo (page)": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "Accumulate regras",
-            "type": "main"
-          }
-        ]
-      ]
-    },
-    "FIN-03: Prefetch faturas (competência)": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "Parse prefetch",
-            "type": "main"
-          }
-        ]
-      ]
-    },
-    "Há próxima página?": {
-      "main": [
-        [
-          {
-            "index": 0,
-            "node": "FIN-01: Listar regras Ativo (page)",
-            "type": "main"
-          }
-        ],
-        [
-          {
-            "index": 0,
-            "node": "Build regras elegíveis",
-            "type": "main"
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -78,9 +16,60 @@
       "main": [
         [
           {
-            "index": 0,
-            "node": "FIN-03: Prefetch faturas (competência)",
-            "type": "main"
+            "node": "FIN-01: Listar regras Ativo (page)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-01: Listar regras Ativo (page)": {
+      "main": [
+        [
+          {
+            "node": "Parse rules page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse rules page": {
+      "main": [
+        [
+          {
+            "node": "Ha proxima pagina de regras?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ha proxima pagina de regras?": {
+      "main": [
+        [
+          {
+            "node": "FIN-01: Listar regras Ativo (page)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "FIN-03: Prefetch faturas (competencia)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-03: Prefetch faturas (competencia)": {
+      "main": [
+        [
+          {
+            "node": "Parse prefetch",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -89,61 +78,61 @@
       "main": [
         [
           {
-            "index": 0,
-            "node": "Prefetch: Há próxima página?",
-            "type": "main"
+            "node": "Ha proxima pagina de prefetch?",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     },
-    "Prefetch: Há próxima página?": {
+    "Ha proxima pagina de prefetch?": {
       "main": [
         [
           {
-            "index": 0,
-            "node": "FIN-03: Prefetch faturas (competência)",
-            "type": "main"
+            "node": "FIN-03: Prefetch faturas (competencia)",
+            "type": "main",
+            "index": 0
           }
         ],
         [
           {
-            "index": 0,
-            "node": "FIN-01: Listar regras Ativo (page)",
-            "type": "main"
+            "node": "Build regras elegiveis",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     }
   },
-  "createdAt": "2026-02-27T19:57:51.163Z",
+  "createdAt": "2026-03-10T18:30:27Z",
   "id": "KRYkEmSTkuVD8Nsn",
   "isArchived": false,
   "meta": null,
-  "name": "FIN - Preparação regras elegíveis (faturamento mensal)",
+  "name": "[FIN] 1.1 Preparar regras elegiveis",
   "nodes": [
     {
-      "id": "97c1e270-9b9a-4889-90f6-ab98f7a8fc43",
+      "id": "30a5adb7-92f2-40e2-8b0f-f60e3eff526f",
       "name": "Execute Workflow Trigger",
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"runContext\": {\n    \"startedAt\": \"2026-03-02T10:00:00.000Z\",\n    \"timezone\": \"America/Sao_Paulo\",\n    \"todayDay\": 2,\n    \"competenciaYMD\": \"2026-02-01\",\n    \"compStart\": \"2026-02-01\",\n    \"compEnd\": \"2026-02-28\",\n    \"flags\": {\n      \"maxRulesPages\": 50,\n      \"maxPrefetchPages\": 50,\n      \"rulesPageSize\": 50,\n      \"prefetchPageSize\": 200\n    }\n  },\n  \"caller\": {\n    \"workflowId\": \"parent-workflow-id\",\n    \"workflowName\": \"FIN - Gerar faturas mensais\",\n    \"executionId\": \"12345\"\n  },\n  \"prepConfig\": {\n    \"rulesPhaseId\": 341313813,\n    \"invoicesPipeId\": 306859731,\n    \"competenciaFieldId\": \"data_de_compet_ncia\",\n    \"ruleLinkFieldId\": \"id_da_regra_de_faturamento\"\n  }\n}"
+        "jsonExample": "{\n  \"runContext\": {\n    \"runId\": \"fin-billing:123:2026-02-01\",\n    \"todayDay\": 2,\n    \"competenceYMD\": \"2026-02-01\"\n  },\n  \"trace\": {\n    \"workflowExecutionId\": \"123\"\n  }\n}"
       },
       "position": [
-        -1952,
-        -256
+        -1100,
+        -60
       ],
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1
     },
     {
-      "id": "ba7906b6-2aa6-44f9-93fa-3c779d30598f",
+      "id": "6f9b2434-f8d0-4ded-87b5-4e5ac9d51222",
       "name": "Init Run",
       "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst nowIso=new Date().toISOString();\nconst METRICS_DEFAULTS={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"unexpectedStateErrors\":0};\n\nconst normalizeNumber=(value,fallback,min=1,max=Number.MAX_SAFE_INTEGER)=>{\n  const n=Number(value);\n  if(!Number.isFinite(n)) return fallback;\n  const normalized=Math.floor(n);\n  return Math.min(max,Math.max(min,normalized));\n};\nconst isIsoDate=(value)=>/^\\d{4}-\\d{2}-\\d{2}$/.test(String(value||'').slice(0,10));\nconst normalizeIsoDate=(value,fallbackValue,fieldName,notes)=>{\n  const candidate=String(value ?? '').trim().slice(0,10);\n  if(isIsoDate(candidate)) return candidate;\n  notes.push({field:fieldName,from:value ?? null,to:fallbackValue});\n  return fallbackValue;\n};\nconst validatePositiveInt=(value,name)=>{\n  const n=Number(value);\n  if(!Number.isInteger(n) || n<=0){\n    throw new Error('Invalid prepConfig '+name+': '+String(value));\n  }\n  return n;\n};\n\nconst buildFallbackRunContext=()=>{\n  const TZ='America/Sao_Paulo';\n  const now=new Date();\n  const parts=new Intl.DateTimeFormat('en-CA',{\n    timeZone:TZ,\n    year:'numeric',\n    month:'2-digit',\n    day:'2-digit'\n  }).formatToParts(now);\n  const m={};\n  for(const p of parts){\n    m[p.type]=p.value;\n  }\n\n  const year=Number(m.year);\n  const month=Number(m.month);\n  const day=Number(m.day);\n  let compYear=year;\n  let compMonth=month-1;\n  if(compMonth===0){\n    compMonth=12;\n    compYear=year-1;\n  }\n\n  const mm=String(compMonth).padStart(2,'0');\n  const competenciaYMD=compYear+'-'+mm+'-01';\n  const daysInCompMonth=new Date(Date.UTC(compYear,compMonth,0)).getUTCDate();\n\n  return {\n    startedAt:now.toISOString(),\n    timezone:TZ,\n    todayDay:day,\n    competenciaYMD,\n    compStart:competenciaYMD,\n    compEnd:compYear+'-'+mm+'-'+String(daysInCompMonth).padStart(2,'0'),\n    flags:{\n      maxRulesPages:50,\n      maxPrefetchPages:50,\n      rulesPageSize:50,\n      prefetchPageSize:200\n    },\n    metrics:{...METRICS_DEFAULTS},\n    logs:[],\n    errors:[]\n  };\n};\n\nconst clone=(obj)=>JSON.parse(JSON.stringify(obj));\nconst fallback=buildFallbackRunContext();\n\nconst input=($json && typeof $json==='object' && !Array.isArray($json)) ? $json : {};\nconst incomingRunContext=(input.runContext && typeof input.runContext==='object' && !Array.isArray(input.runContext)) ? input.runContext : null;\nconst callerInput=(input.caller && typeof input.caller==='object' && !Array.isArray(input.caller)) ? input.caller : {};\nconst prepInput=(input.prepConfig && typeof input.prepConfig==='object' && !Array.isArray(input.prepConfig)) ? input.prepConfig : {};\n\nconst runContext=incomingRunContext ? clone(incomingRunContext) : fallback;\nconst normalizationNotes=[];\nrunContext.timezone=String(runContext.timezone || fallback.timezone || 'America/Sao_Paulo');\nrunContext.startedAt=String(runContext.startedAt || nowIso);\nrunContext.todayDay=normalizeNumber(runContext.todayDay,fallback.todayDay,1,31);\nrunContext.competenciaYMD=normalizeIsoDate(runContext.competenciaYMD,fallback.competenciaYMD,'competenciaYMD',normalizationNotes);\nrunContext.compStart=normalizeIsoDate(runContext.compStart || runContext.competenciaYMD,fallback.compStart,'compStart',normalizationNotes);\nrunContext.compEnd=normalizeIsoDate(runContext.compEnd,fallback.compEnd,'compEnd',normalizationNotes);\nif(runContext.compStart > runContext.compEnd){\n  normalizationNotes.push({field:'competencia_window',from:{compStart:runContext.compStart,compEnd:runContext.compEnd},to:{compStart:fallback.compStart,compEnd:fallback.compEnd}});\n  runContext.compStart=fallback.compStart;\n  runContext.compEnd=fallback.compEnd;\n}\n\nrunContext.flags=(runContext.flags && typeof runContext.flags==='object' && !Array.isArray(runContext.flags)) ? runContext.flags : {};\nrunContext.flags.maxRulesPages=normalizeNumber(runContext.flags.maxRulesPages,50,1,1000);\nrunContext.flags.maxPrefetchPages=normalizeNumber(runContext.flags.maxPrefetchPages,50,1,1000);\nrunContext.flags.rulesPageSize=normalizeNumber(runContext.flags.rulesPageSize,50,1,200);\nrunContext.flags.prefetchPageSize=normalizeNumber(runContext.flags.prefetchPageSize,200,1,200);\nrunContext.metrics=(runContext.metrics && typeof runContext.metrics==='object' && !Array.isArray(runContext.metrics)) ? runContext.metrics : {};\nfor(const [k,v] of Object.entries(METRICS_DEFAULTS)){\n  runContext.metrics[k]=Number.isFinite(Number(runContext.metrics[k])) ? Number(runContext.metrics[k]) : v;\n}\nrunContext.logs=Array.isArray(runContext.logs) ? runContext.logs : [];\nrunContext.errors=Array.isArray(runContext.errors) ? runContext.errors : [];\n\nconst prepConfig={\n  rulesPhaseId:validatePositiveInt(prepInput.rulesPhaseId ?? 341313813,'rulesPhaseId'),\n  invoicesPipeId:validatePositiveInt(prepInput.invoicesPipeId ?? 306859731,'invoicesPipeId'),\n  competenciaFieldId:String(prepInput.competenciaFieldId || 'data_de_compet_ncia').trim(),\n  ruleLinkFieldId:String(prepInput.ruleLinkFieldId || 'id_da_regra_de_faturamento').trim()\n};\nif(!prepConfig.competenciaFieldId){\n  throw new Error('Invalid prepConfig competenciaFieldId (blank)');\n}\nif(!prepConfig.ruleLinkFieldId){\n  throw new Error('Invalid prepConfig ruleLinkFieldId (blank)');\n}\n\nconst prepMeta={\n  source:incomingRunContext ? 'caller' : 'fallback',\n  callerWorkflowId:callerInput.workflowId != null ? String(callerInput.workflowId) : null,\n  callerWorkflowName:callerInput.workflowName != null ? String(callerInput.workflowName) : null,\n  callerExecutionId:callerInput.executionId != null ? String(callerInput.executionId) : null,\n  prepExecutionId:execId,\n  normalizedAt:nowIso\n};\n\nif(normalizationNotes.length>0){\n  runContext.metrics.unexpectedStateErrors=Number(runContext.metrics.unexpectedStateErrors || 0) + normalizationNotes.length;\n  runContext.logs.push({\n    ts:nowIso,\n    level:'warn',\n    event:'prep_run_context_normalized',\n    fields:normalizationNotes.map((x)=>x.field),\n    details:normalizationNotes\n  });\n}\n\nif(!isIsoDate(runContext.compStart) || !isIsoDate(runContext.compEnd) || runContext.compStart>runContext.compEnd){\n  runContext.metrics.unexpectedStateErrors=Number(runContext.metrics.unexpectedStateErrors || 0) + 1;\n  runContext.errors.push({event:'prep_invalid_comp_window',details:{compStart:runContext.compStart,compEnd:runContext.compEnd}});\n  throw new Error('Invalid competencia window after normalization');\n}\n\nsd.prepRuns=(sd.prepRuns && typeof sd.prepRuns==='object' && !Array.isArray(sd.prepRuns)) ? sd.prepRuns : {};\nfor(const [key,state] of Object.entries(sd.prepRuns)){\n  const startedAt=state?.runContext?.startedAt || state?.stateStartedAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.prepRuns[key];\n  }\n}\n\nsd.prepRuns[execId]={\n  runContext,\n  rules:[],\n  existingRuleIds:{},\n  prepMeta,\n  prepConfig,\n  stateStartedAt:nowIso\n};\n\nreturn [{json:{\n  execId,\n  runContext,\n  prepMeta,\n  prepConfig,\n  after:null,\n  prefetchAfter:null\n}}];"
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const incomingRun = clone(asObj(input.runContext));\n    const incomingTrace = clone(asObj(input.trace));\n    const ctx = ensureLogState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: incomingTrace.workflowExecutionId ?? incomingTrace.parentExecutionId ?? null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1.1 Preparar regras elegiveis',\n      },\n      run: {\n        runId: incomingRun.runId ?? null,\n        triggerType: incomingRun.triggerType ?? null,\n        todayDay: Number(incomingRun.todayDay || 0),\n        competenceYMD: incomingRun.competenceYMD ?? null,\n        competenceDateTime: incomingRun.competenceDateTime ?? timeWithOffset(incomingRun.competenceYMD),\n      },\n      metrics: {\n        graphqlCallsTotal: 0,\n      },\n      rules: [],\n      existingRuleIds: {},\n    });\n    return [{ json: { ctx, after: null, prefetchAfter: null } }];"
       },
       "position": [
-        -1728,
-        -256
+        -860,
+        -60
       ],
       "type": "n8n-nodes-base.code",
       "typeVersion": 2
@@ -155,18 +144,19 @@
           "name": "Pipefy OAuth2 API"
         }
       },
-      "id": "969ec5c1-ba16-4777-9159-47073fda8c94",
+      "id": "868d394b-fcfc-42ac-a48d-8e4318321cbb",
       "maxTries": 5,
       "name": "FIN-01: Listar regras Ativo (page)",
+      "onError": "continueErrorOutput",
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "query RulesByPhase($phaseId: ID!, $first: Int!, $after: String) { phase(id: $phaseId) { id name cards(first: $first, after: $after) { edges { node { id title fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } } }",
-        "variables": "={{ { phaseId: $node['Init Run'].json.prepConfig.rulesPhaseId, first: Number($node['Init Run'].json.runContext.flags.rulesPageSize || 50), after: (() => { const a = ($json.after ?? null); if (a === null) return null; const s = String(a).trim(); if (!s || s.toLowerCase() === 'null') return null; return s; })() } }}"
+        "query": "query RulesByPhase($phaseId: ID!, $first: Int!, $after: String) { phase(id: $phaseId) { id cards(first: $first, after: $after) { edges { node { id title fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } } }",
+        "variables": "={{ { phaseId: '341313813', first: 100, after: (() => { const v = $json.after; return v ? String(v) : null; })() } }}"
       },
       "position": [
-        -832,
-        -256
+        -620,
+        -200
       ],
       "retryOnFail": true,
       "type": "n8n-nodes-base.graphql",
@@ -174,28 +164,27 @@
       "waitBetweenTries": 2000
     },
     {
-      "id": "f11457f1-abe6-4317-be21-861319747413",
-      "name": "Accumulate regras",
+      "id": "a0f4e72c-b535-433c-9068-8f122be8e509",
+      "name": "Parse rules page",
       "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst state=sd.prepRuns?.[execId];\nif(!state){\n  throw new Error('Missing state for execution '+execId);\n}\n\nconst runContext=state.runContext;\nrunContext.metrics=runContext.metrics || {};\nrunContext.logs=Array.isArray(runContext.logs) ? runContext.logs : [];\nrunContext.errors=Array.isArray(runContext.errors) ? runContext.errors : [];\nstate.rules=Array.isArray(state.rules) ? state.rules : [];\n\nconst nowIso=new Date().toISOString();\nconst gqlErrors=Array.isArray($json.errors) ? $json.errors : [];\nif(gqlErrors.length>0){\n  runContext.errors.push({event:'rules_query_error',reason:'graphql_errors',errors:gqlErrors});\n  runContext.logs.push({ts:nowIso,level:'error',event:'rules_query_error',reason:'graphql_errors',errorsCount:gqlErrors.length});\n  throw new Error('Rules query returned GraphQL errors: '+JSON.stringify(gqlErrors));\n}\n\nconst cards=$json.data?.phase?.cards;\nif(!cards || !Array.isArray(cards.edges) || typeof cards.pageInfo!=='object' || cards.pageInfo===null){\n  runContext.errors.push({event:'rules_query_error',reason:'invalid_shape',details:$json.data ?? null});\n  runContext.logs.push({ts:nowIso,level:'error',event:'rules_query_invalid_shape',reason:'invalid_shape'});\n  throw new Error('Invalid GraphQL shape for rules listing');\n}\n\nconst edges=cards.edges;\nconst pi=cards.pageInfo;\nconst sanitizeCursor=(c)=>{\n  if(c===undefined || c===null) return null;\n  const s=String(c).trim();\n  if(!s || s.toLowerCase()==='null') return null;\n  return s;\n};\n\nlet hasNextPage=pi.hasNextPage===true;\nlet endCursor=sanitizeCursor(pi.endCursor);\nlet stopReason=null;\n\nconst pageNum=Number(runContext.metrics.rulesPages || 0) + 1;\nrunContext.metrics.rulesPages=pageNum;\n\nfor(const e of edges){\n  if(e?.node?.id) state.rules.push(e.node);\n}\n\nif(edges.length===0){\n  hasNextPage=false;\n  stopReason='empty_page';\n}\n\nconst lastCursor=runContext.lastRulesCursor ?? null;\nif(hasNextPage && endCursor===null){\n  hasNextPage=false;\n  stopReason='missing_end_cursor';\n  runContext.logs.push({ts:nowIso,level:'warn',event:'rules_cursor_missing',page:pageNum});\n}else if(hasNextPage && lastCursor!==null && String(endCursor)===String(lastCursor)){\n  hasNextPage=false;\n  stopReason='stuck_cursor';\n  runContext.logs.push({ts:nowIso,level:'warn',event:'rules_cursor_stuck',page:pageNum,endCursor:String(endCursor)});\n}\nrunContext.lastRulesCursor=endCursor;\n\nconst MAX_PAGES=Math.max(1,Number(runContext.flags?.maxRulesPages || 50));\nif(pageNum>=MAX_PAGES && hasNextPage){\n  hasNextPage=false;\n  stopReason='max_pages_reached';\n  runContext.logs.push({ts:nowIso,level:'warn',event:'rules_page_cap_reached',maxPages:MAX_PAGES,page:pageNum});\n}\n\nrunContext.logs.push({\n  ts:nowIso,\n  level:'info',\n  event:'rules_page_fetched',\n  page:pageNum,\n  edgesCount:edges.length,\n  accumulatedRules:state.rules.length,\n  hasNextPage,\n  endCursor,\n  stopReason\n});\n\nreturn [{\n  json:{\n    hasNextPage,\n    endCursor,\n    after:(hasNextPage ? endCursor : null),\n    edgesCount:edges.length,\n    page:pageNum,\n    stopReason\n  }\n}];"
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const ctx = ensureLogState(clone(asObj($node['Init Run'].json.ctx)));\n    const callIndex = nextGraphqlIndex(ctx);\n    if (input.error) {\n      addFailure(ctx, 'FIN-01: Listar regras Ativo (page)', 'rules_query_transport_error');\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-01: Listar regras Ativo (page)',\n        operation_name: 'list_fin01_rules_by_phase',\n        pipe_id: '306662125',\n        phase_id: '341313813',\n        entity_type: 'rule',\n        graphql_call_index: callIndex,\n        error_message: clean(input.error?.message || 'transport_error'),\n        query_excerpt: 'phase(id) { cards { edges { node { id title fields } } } }',\n        response_json: jsonString(input),\n      });\n      return [{ json: { ctx, after: null, hasNext: false, fatal: true } }];\n    }\n    const errors = Array.isArray(input.errors) ? input.errors : [];\n    if (errors.length > 0) {\n      addFailure(ctx, 'FIN-01: Listar regras Ativo (page)', 'rules_query_logical_error');\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-01: Listar regras Ativo (page)',\n        operation_name: 'list_fin01_rules_by_phase',\n        pipe_id: '306662125',\n        phase_id: '341313813',\n        entity_type: 'rule',\n        graphql_call_index: callIndex,\n        error_message: clean(errors[0]?.message || 'graphql_error'),\n        query_excerpt: 'phase(id) { cards { edges { node { id title fields } } } }',\n        response_json: jsonString(input),\n      });\n      return [{ json: { ctx, after: null, hasNext: false, fatal: true } }];\n    }\n    const cards = input.data?.phase?.cards;\n    const edges = Array.isArray(cards?.edges) ? cards.edges : [];\n    for (const edge of edges) {\n      if (edge?.node?.id) ctx.rules.push(edge.node);\n    }\n    return [{\n      json: {\n        ctx,\n        after: cards?.pageInfo?.endCursor ?? null,\n        hasNext: cards?.pageInfo?.hasNextPage === true,\n        fatal: false,\n      }\n    }];"
       },
       "position": [
-        -608,
-        -336
+        -380,
+        -200
       ],
       "type": "n8n-nodes-base.code",
       "typeVersion": 2
     },
     {
-      "id": "9d9a532a-9f56-4114-8162-0ad86c8b7f11",
-      "name": "Há próxima página?",
+      "id": "c4f60739-4e4d-4716-9c34-2f7e69ddf364",
+      "name": "Ha proxima pagina de regras?",
       "parameters": {
         "conditions": {
           "combinator": "and",
           "conditions": [
             {
-              "id": "b1b4b2b2-2d05-4b35-bc4b-7a7f5e1a1d7b",
-              "leftValue": "={{ $json.hasNextPage === true }}",
+              "leftValue": "={{ $json.hasNext === true && $json.fatal !== true }}",
               "operator": {
                 "operation": "true",
                 "singleValue": true,
@@ -214,37 +203,11 @@
         "options": {}
       },
       "position": [
-        -384,
-        -256
+        -140,
+        -200
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2
-    },
-    {
-      "id": "2f063411-cf21-4f1b-98d1-463120b3942f",
-      "name": "Build regras elegíveis",
-      "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst state=sd.prepRuns?.[execId];\nif(!state){\n  throw new Error('Missing state for execution '+execId);\n}\n\nconst runContext=state.runContext;\nrunContext.metrics=runContext.metrics || {};\nrunContext.logs=Array.isArray(runContext.logs) ? runContext.logs : [];\nrunContext.errors=Array.isArray(runContext.errors) ? runContext.errors : [];\n\nconst rules=Array.isArray(state.rules) ? state.rules : [];\nrunContext.metrics.rulesTotal=rules.length;\n\nconst todayDay=Number(runContext.todayDay);\nconst existing=state.existingRuleIds || {};\nconst eligibleRules=[];\nconst ineligibleRules=[];\nconst log=(obj)=>runContext.logs.push({ts:new Date().toISOString(),...obj});\nconst isBlankToken=(value)=>{\n  const s=String(value ?? '').trim().toLowerCase();\n  return s==='' || s==='null' || s==='undefined' || s==='nan';\n};\nconst normalizeBillingDay=(value)=>{\n  if(value===undefined || value===null) return null;\n  if(typeof value==='number' && Number.isFinite(value)){\n    const normalized=Math.trunc(value);\n    return (normalized>=1 && normalized<=31) ? normalized : null;\n  }\n  const s=String(value).trim();\n  if(!s) return null;\n  const matches=s.match(/[0-9]+/g);\n  if(!matches) return null;\n  for(let idx=matches.length-1; idx>=0; idx-=1){\n    const normalized=Number(matches[idx]);\n    if(Number.isInteger(normalized) && normalized>=1 && normalized<=31){\n      return normalized;\n    }\n  }\n  return null;\n};\n\nconst counters={\n  skippedDay:0,\n  skippedExisting:0,\n  invalidRuleId:0,\n  emptyItemTemplates:0\n};\nconst ineligibleByReason={};\nconst countIneligibleReason=(reason)=>{\n  const key=String(reason || 'unknown_reason');\n  ineligibleByReason[key]=Number(ineligibleByReason[key] || 0) + 1;\n};\n\nconst fieldMap=(fields)=>{\n  const m={};\n  for(const f of (fields || [])){\n    const fid=f&&f.field ? f.field.id : null;\n    if(fid) m[fid]=f;\n  }\n  return m;\n};\nconst pickScalar=(f)=>{\n  if(!f) return null;\n  const rv=f.report_value;\n  return (rv!==undefined && rv!==null && String(rv).trim()!=='') ? rv : f.value;\n};\nconst extractIds=(f)=>{\n  if(!f) return [];\n  const av=f.array_value;\n  const ids=[];\n  const push=(x)=>{\n    if(x===undefined || x===null) return;\n    if(typeof x==='object'){\n      if(x.id!=null) ids.push(String(x.id));\n      else if(x.value!=null) ids.push(String(x.value));\n      else if(x.label!=null) ids.push(String(x.label));\n      else ids.push(JSON.stringify(x));\n    }else{\n      ids.push(String(x));\n    }\n  };\n\n  if(Array.isArray(av)){\n    for(const x of av) push(x);\n  }else{\n    const v=pickScalar(f);\n    if(Array.isArray(v)){\n      for(const x of v) push(x);\n    }else if(typeof v==='string'){\n      const ms=v.match(/[0-9]+/g);\n      if(ms) for(const x of ms) ids.push(String(x));\n      else if(v.trim()!=='') ids.push(v.trim());\n    }else if(v!=null){\n      push(v);\n    }\n  }\n\n  return Array.from(new Set(ids.filter((s)=>s && String(s).trim()!==''))).map(String);\n};\n\nconst registerIneligible=(payload)=>{\n  const reason=String(payload?.reason || 'unknown_reason');\n  countIneligibleReason(reason);\n  ineligibleRules.push({\n    ...payload,\n    reason,\n    competenciaYMD:runContext.competenciaYMD,\n    compStart:runContext.compStart,\n    compEnd:runContext.compEnd\n  });\n};\n\nfor(const r of rules){\n  const ridRaw=String(r?.id ?? '').trim();\n  const ruleTitle=String(r?.title || '');\n\n  if(isBlankToken(ridRaw)){\n    counters.invalidRuleId += 1;\n    runContext.metrics.rulesInvalid=Number(runContext.metrics.rulesInvalid || 0) + 1;\n    runContext.errors.push({\n      event:'rule_invalid_id',\n      reason:'missing_rule_id',\n      details:{ruleTitle}\n    });\n    log({\n      level:'error',\n      event:'rule_skip_invalid_id',\n      reason:'missing_rule_id',\n      ruleTitle\n    });\n    registerIneligible({\n      ruleId:null,\n      ruleTitle,\n      diaGeracao:null,\n      reason:'missing_rule_id',\n      reasonDetail:{ruleIdRaw:ridRaw || null},\n      prefetchDecision:'invalid_rule'\n    });\n    continue;\n  }\n\n  const rid=String(ridRaw);\n  const fm=fieldMap(r.fields);\n  const rawDiaGeracao=pickScalar(fm['dia_de_gera_o_da_fatura']);\n  const normalizedDiaGeracao=normalizeBillingDay(rawDiaGeracao);\n  const diaGeracao=(normalizedDiaGeracao!==null)\n    ? String(normalizedDiaGeracao)\n    : String(rawDiaGeracao ?? '').trim();\n  if(normalizedDiaGeracao!==todayDay){\n    counters.skippedDay += 1;\n    runContext.metrics.rulesSkippedDay=Number(runContext.metrics.rulesSkippedDay || 0) + 1;\n    log({\n      level:'info',\n      event:'rule_skip_day',\n      ruleId:rid,\n      diaGeracao,\n      rawDiaGeracao:rawDiaGeracao ?? null,\n      normalizedDiaGeracao,\n      expectedDay:todayDay,\n      reason:'billing_day_mismatch'\n    });\n    registerIneligible({\n      ruleId:rid,\n      ruleTitle,\n      diaGeracao,\n      reason:'billing_day_mismatch',\n      reasonDetail:{expectedDay:todayDay,actualDay:normalizedDiaGeracao,rawDiaGeracao:rawDiaGeracao ?? null},\n      prefetchDecision:'billing_day_mismatch'\n    });\n    continue;\n  }\n\n  if(existing[rid]){\n    counters.skippedExisting += 1;\n    runContext.metrics.rulesSkippedExisting=Number(runContext.metrics.rulesSkippedExisting || 0) + 1;\n    log({level:'info',event:'rule_skip_existing_invoice',ruleId:rid,competenciaYMD:runContext.competenciaYMD,prefetchDecision:'already_has_invoice',reason:'prefetch_found_invoice'});\n    registerIneligible({\n      ruleId:rid,\n      ruleTitle,\n      diaGeracao,\n      reason:'prefetch_found_invoice',\n      reasonDetail:{competenciaYMD:runContext.competenciaYMD},\n      existingInvoiceId:existing[rid] ?? null,\n      prefetchDecision:'already_has_invoice'\n    });\n    continue;\n  }\n\n  const itemIds=extractIds(fm['itens_da_fatura']);\n  if(itemIds.length===0){\n    counters.emptyItemTemplates += 1;\n    log({level:'warn',event:'rule_no_item_templates',ruleId:rid,reason:'empty_item_template_list'});\n  }\n\n  eligibleRules.push({\n    ruleId:rid,\n    ruleTitle,\n    diaGeracao,\n    itemTemplateIds:itemIds,\n    ruleFields:fm,\n    competenciaYMD:runContext.competenciaYMD,\n    compStart:runContext.compStart,\n    compEnd:runContext.compEnd,\n    prefetchDecision:'new_rule_candidate'\n  });\n}\n\nrunContext.metrics.rulesEligible=eligibleRules.length;\nrunContext.metrics.rulesIneligible=ineligibleRules.length;\nlog({\n  level:'info',\n  event:'rules_classified',\n  eligible:eligibleRules.length,\n  ineligible:ineligibleRules.length,\n  totalRules:rules.length,\n  counters,\n  ineligibleByReason\n});\n\nif(eligibleRules.length===0){\n  runContext.logs.push({\n    ts:new Date().toISOString(),\n    level:'info',\n    event:'prep_completed_no_eligible_rules',\n    reason:'no_rule_eligible_after_filters',\n    counters,\n    ineligibleByReason\n  });\n}\n\nreturn [{json:{\n  kind:'prep_classification',\n  eligibleRules,\n  ineligibleRules,\n  counters,\n  ineligibleByReason\n}}];"
-      },
-      "position": [
-        -160,
-        -256
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "id": "508544dd-08e5-4687-a233-0f7ad775cfe7",
-      "name": "Emit runContext + rule",
-      "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst state=sd.prepRuns?.[execId];\nif(!state){\n  throw new Error('Missing state for execution '+execId);\n}\n\nconst runContext=state.runContext || {};\nrunContext.logs=Array.isArray(runContext.logs) ? runContext.logs : [];\nrunContext.errors=Array.isArray(runContext.errors) ? runContext.errors : [];\n\nconst items=$input.all();\nconst payloadItem=items.find((it)=>it && it.json && typeof it.json==='object' && !Array.isArray(it.json));\nconst payload=(payloadItem && payloadItem.json && typeof payloadItem.json==='object' && !Array.isArray(payloadItem.json)) ? payloadItem.json : {};\nconst eligibleRules=Array.isArray(payload.eligibleRules) ? payload.eligibleRules : [];\nconst ineligibleRules=Array.isArray(payload.ineligibleRules) ? payload.ineligibleRules : [];\n\nconst derivedIneligibleByReason={};\nfor(const rule of ineligibleRules){\n  const reason=String(rule?.reason || 'unknown_reason');\n  derivedIneligibleByReason[reason]=Number(derivedIneligibleByReason[reason] || 0) + 1;\n}\nconst providedIneligibleByReason=(payload.ineligibleByReason && typeof payload.ineligibleByReason==='object' && !Array.isArray(payload.ineligibleByReason)) ? payload.ineligibleByReason : null;\nconst ineligibleByReason=providedIneligibleByReason || derivedIneligibleByReason;\n\nconst eligibleCount=Number(runContext.metrics?.rulesEligible || eligibleRules.length || 0);\nconst ineligibleCount=Number(runContext.metrics?.rulesIneligible || ineligibleRules.length || 0);\nconst rulesTotal=Number(runContext.metrics?.rulesTotal || (eligibleCount + ineligibleCount));\nconst errorCount=runContext.errors.length;\nconst metricsSnapshot=JSON.parse(JSON.stringify((runContext.metrics && typeof runContext.metrics==='object' && !Array.isArray(runContext.metrics)) ? runContext.metrics : {}));\nconst finishedAt=new Date().toISOString();\nconst startedMs=Date.parse(runContext.startedAt || '');\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\n\nconst prepContext={\n  eligibleCount,\n  ineligibleCount,\n  ineligibleByReason,\n  rulesTotal,\n  errorCount,\n  metrics:metricsSnapshot\n};\n\nconst baseTrace={\n  parentExecutionId:state.prepMeta?.callerExecutionId != null ? String(state.prepMeta.callerExecutionId) : null,\n  workflowExecutionId:execId,\n  ruleExecutionKey:null\n};\n\nconst baseRun={\n  executionId:runContext.executionId ?? baseTrace.parentExecutionId ?? null,\n  competenciaYMD:runContext.competenciaYMD ?? null,\n  compStart:runContext.compStart ?? null,\n  compEnd:runContext.compEnd ?? null,\n  todayDay:runContext.todayDay ?? null\n};\n\nconst out=[];\nout.push({\n  json:{\n    contractVersion:'fin_v3',\n    itemType:'prep_summary',\n    trace:{...baseTrace},\n    result:{\n      status:'processed',\n      reason:'prep_summary',\n      prepContext,\n      metrics:metricsSnapshot,\n      metricsDelta:{},\n      timings:{\n        startedAt:runContext.startedAt || null,\n        finishedAt,\n        durationMs\n      },\n      failures:[]\n    }\n  }\n});\n\nfor(const rule of eligibleRules){\n  out.push({\n    json:{\n      contractVersion:'fin_v3',\n      itemType:'rule_input',\n      trace:{...baseTrace},\n      run:{...baseRun},\n      rule:{\n        ruleId:rule?.ruleId ?? null,\n        ruleTitle:rule?.ruleTitle ?? null,\n        diaGeracao:rule?.diaGeracao ?? null,\n        itemTemplateIds:Array.isArray(rule?.itemTemplateIds) ? rule.itemTemplateIds : [],\n        ruleFields:rule?.ruleFields ?? {},\n        competenciaYMD:rule?.competenciaYMD ?? baseRun.competenciaYMD ?? null,\n        compStart:rule?.compStart ?? baseRun.compStart ?? null,\n        compEnd:rule?.compEnd ?? baseRun.compEnd ?? null,\n        prefetchDecision:rule?.prefetchDecision ?? 'new_rule_candidate'\n      }\n    }\n  });\n}\n\nfor(const rule of ineligibleRules){\n  const reason=String(rule?.reason || 'prep_ineligible');\n  out.push({\n    json:{\n      contractVersion:'fin_v3',\n      itemType:'rule_result',\n      trace:{...baseTrace},\n      rule:{\n        ruleId:rule?.ruleId ?? null,\n        ruleTitle:rule?.ruleTitle ?? null,\n        prefetchDecision:rule?.prefetchDecision ?? null\n      },\n      result:{\n        status:'skipped',\n        reason,\n        invoiceId:null,\n        existingInvoiceId:rule?.existingInvoiceId ?? null,\n        createdItemIds:[],\n        totals:{brl:0,usd:0},\n        metricsDelta:{},\n        timings:{startedAt:null,finishedAt,durationMs:null},\n        failures:[]\n      }\n    }\n  });\n}\n\ndelete sd.prepRuns[execId];\nreturn out;"
-      },
-      "position": [
-        80,
-        -256
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
     },
     {
       "credentials": {
@@ -253,18 +216,19 @@
           "name": "Pipefy OAuth2 API"
         }
       },
-      "id": "a807a1ba-3eb0-44e5-9443-1b1ec952a796",
+      "id": "54e33991-b859-4f64-87f8-95e52a93bf21",
       "maxTries": 5,
-      "name": "FIN-03: Prefetch faturas (competência)",
+      "name": "FIN-03: Prefetch faturas (competencia)",
+      "onError": "continueErrorOutput",
       "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
-        "query": "query FindInvoicesByCompetencia($pipeId: ID!, $fieldId: String!, $competencia: String!, $first: Int!, $after: String) { findCards(pipeId: $pipeId, first: $first, after: $after, search: { fieldId: $fieldId, fieldValue: $competencia }) { edges { node { id title fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
-        "variables": "={{ { pipeId: $node['Init Run'].json.prepConfig.invoicesPipeId, fieldId: $node['Init Run'].json.prepConfig.competenciaFieldId, competencia: $node['Init Run'].json.runContext.competenciaYMD, first: Number($node['Init Run'].json.runContext.flags.prefetchPageSize || 200), after: (() => { const a = ($json.prefetchAfter ?? null); if (a === null) return null; const s = String(a).trim(); if (!s || s.toLowerCase() === 'null') return null; return s; })() } }}"
+        "query": "query PrefetchInvoices($pipeId: ID!, $fieldId: String!, $competencia: String!, $first: Int!, $after: String) { findCards(pipeId: $pipeId, first: $first, after: $after, search: { fieldId: $fieldId, fieldValue: $competencia }) { edges { node { id fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
+        "variables": "={{ { pipeId: '306859731', fieldId: 'data_de_compet_ncia', competencia: $node['Parse rules page'].json.ctx.run.competenceYMD, first: 100, after: (() => { const v = $json.prefetchAfter; return v ? String(v) : null; })() } }}"
       },
       "position": [
-        -1504,
-        -256
+        120,
+        -60
       ],
       "retryOnFail": true,
       "type": "n8n-nodes-base.graphql",
@@ -272,28 +236,27 @@
       "waitBetweenTries": 2000
     },
     {
-      "id": "ad361405-18b3-4cf4-a3f5-6e182645822f",
+      "id": "2609760a-4fe1-4d92-aa78-4d0fbb52bc40",
       "name": "Parse prefetch",
       "parameters": {
-        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst execId=String($execution.id ?? 'manual');\nconst state=sd.prepRuns?.[execId];\nif(!state){\n  throw new Error('Missing state for execution '+execId);\n}\n\nconst runContext=state.runContext;\nrunContext.metrics=runContext.metrics || {};\nrunContext.logs=Array.isArray(runContext.logs) ? runContext.logs : [];\nrunContext.errors=Array.isArray(runContext.errors) ? runContext.errors : [];\nrunContext.metrics.invoicesPrefetchCalls=Number(runContext.metrics.invoicesPrefetchCalls || 0);\nrunContext.metrics.invoicesPrefetchCount=Number(runContext.metrics.invoicesPrefetchCount || 0);\nrunContext.metrics.prefetchInvoicesMissingRuleLink=Number(runContext.metrics.prefetchInvoicesMissingRuleLink || 0);\n\nconst nowIso=new Date().toISOString();\nconst gqlErrors=Array.isArray($json.errors) ? $json.errors : [];\nif(gqlErrors.length>0){\n  runContext.errors.push({event:'prefetch_query_error',reason:'graphql_errors',errors:gqlErrors});\n  throw new Error('Prefetch query returned GraphQL errors: '+JSON.stringify(gqlErrors));\n}\n\nconst find=$json.data?.findCards;\nif(!find || !Array.isArray(find.edges) || typeof find.pageInfo!=='object' || find.pageInfo===null){\n  runContext.errors.push({event:'prefetch_query_error',reason:'invalid_shape',details:$json.data ?? null});\n  throw new Error('Invalid GraphQL shape for invoice prefetch');\n}\n\nconst edges=find.edges;\nconst pageInfo=find.pageInfo;\nconst sanitizeCursor=(c)=>{\n  if(c===undefined || c===null) return null;\n  const s=String(c).trim();\n  if(!s || s.toLowerCase()==='null') return null;\n  return s;\n};\n\nconst existing=state.existingRuleIds || {};\nconst getField=(fields,id)=>{ for(const f of (fields || [])) if(f?.field?.id===id) return f; return null; };\nconst pick=(f)=>{ if(!f) return null; const rv=f.report_value; return (rv!==undefined && rv!==null && String(rv).trim()!=='') ? rv : f.value; };\nconst toId=(v)=>{ if(v==null) return null; const s=String(v); const m=s.match(/[0-9]+/); return m ? m[0] : s.trim(); };\n\nlet missingRuleLinks=0;\nconst ruleLinkFieldId=String(state.prepConfig?.ruleLinkFieldId || 'id_da_regra_de_faturamento');\nfor(const e of edges){\n  const node=e?.node ?? null;\n  if(!node){\n    missingRuleLinks += 1;\n    continue;\n  }\n  const f=getField(node.fields,ruleLinkFieldId);\n  const rid=toId(pick(f));\n  if(rid){\n    existing[rid]=String(node.id);\n  }else{\n    missingRuleLinks += 1;\n  }\n}\nstate.existingRuleIds=existing;\nif(missingRuleLinks>0){\n  runContext.metrics.prefetchInvoicesMissingRuleLink += missingRuleLinks;\n}\n\nlet hasNextPage=pageInfo.hasNextPage===true;\nlet endCursor=sanitizeCursor(pageInfo.endCursor);\nlet stopReason=null;\n\nconst MAX_PAGES=Math.max(1,Number(runContext.flags?.maxPrefetchPages || 50));\nconst callNum=runContext.metrics.invoicesPrefetchCalls + 1;\nrunContext.metrics.invoicesPrefetchCalls=callNum;\nrunContext.metrics.invoicesPrefetchCount += edges.length;\n\nif(edges.length===0){\n  hasNextPage=false;\n  stopReason='empty_page';\n}\n\nconst lastCursor=runContext.lastInvoicesPrefetchCursor ?? null;\nif(hasNextPage && endCursor===null){\n  hasNextPage=false;\n  stopReason='missing_end_cursor';\n}else if(hasNextPage && lastCursor!==null && String(endCursor)===String(lastCursor)){\n  hasNextPage=false;\n  stopReason='stuck_cursor';\n}\nrunContext.lastInvoicesPrefetchCursor=endCursor;\n\nif(callNum>=MAX_PAGES && hasNextPage){\n  hasNextPage=false;\n  stopReason='max_pages_reached';\n}\n\nreturn [{json:{\n  prefetchAfter:(hasNextPage ? endCursor : null),\n  prefetchHasNextPage:hasNextPage,\n  prefetchStopReason:stopReason\n}}];"
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const ctx = ensureLogState(clone(asObj($node['Parse rules page'].json.ctx)));\n    const callIndex = nextGraphqlIndex(ctx);\n    if (input.error) {\n      addFailure(ctx, 'FIN-03: Prefetch faturas (competência)', 'invoice_prefetch_transport_error');\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-03: Prefetch faturas (competência)',\n        operation_name: 'prefetch_fin03_by_competence',\n        pipe_id: '306859731',\n        entity_type: 'invoice',\n        graphql_call_index: callIndex,\n        error_message: clean(input.error?.message || 'transport_error'),\n        query_excerpt: 'findCards(pipeId, search: competence)',\n        response_json: jsonString(input),\n      });\n      return [{ json: { ctx, prefetchAfter: null, hasNext: false, fatal: true } }];\n    }\n    const errors = Array.isArray(input.errors) ? input.errors : [];\n    if (errors.length > 0) {\n      addFailure(ctx, 'FIN-03: Prefetch faturas (competência)', 'invoice_prefetch_logical_error');\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-03: Prefetch faturas (competência)',\n        operation_name: 'prefetch_fin03_by_competence',\n        pipe_id: '306859731',\n        entity_type: 'invoice',\n        graphql_call_index: callIndex,\n        error_message: clean(errors[0]?.message || 'graphql_error'),\n        query_excerpt: 'findCards(pipeId, search: competence)',\n        response_json: jsonString(input),\n      });\n      return [{ json: { ctx, prefetchAfter: null, hasNext: false, fatal: true } }];\n    }\n    const find = input.data?.findCards;\n    const edges = Array.isArray(find?.edges) ? find.edges : [];\n    for (const edge of edges) {\n      const node = edge?.node;\n      if (!node) continue;\n      const fields = fieldMap(node.fields || []);\n      const ruleId = toId(pickScalar(fields['id_da_regra_de_faturamento']));\n      const comp = clean(pickScalar(fields['data_de_compet_ncia'])).slice(0, 10);\n      if (ruleId && comp === clean(ctx.run.competenceYMD)) {\n        ctx.existingRuleIds[ruleId] = String(node.id);\n      }\n    }\n    return [{\n      json: {\n        ctx,\n        prefetchAfter: find?.pageInfo?.endCursor ?? null,\n        hasNext: find?.pageInfo?.hasNextPage === true,\n        fatal: false,\n      }\n    }];"
       },
       "position": [
-        -1280,
-        -336
+        360,
+        -60
       ],
       "type": "n8n-nodes-base.code",
       "typeVersion": 2
     },
     {
-      "id": "3c2c469f-89d3-464e-9e8c-ac9625876097",
-      "name": "Prefetch: Há próxima página?",
+      "id": "98989642-3596-410c-bbd2-e5495e4a39e8",
+      "name": "Ha proxima pagina de prefetch?",
       "parameters": {
         "conditions": {
           "combinator": "and",
           "conditions": [
             {
-              "id": "11a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
-              "leftValue": "={{ $json.prefetchHasNextPage === true }}",
+              "leftValue": "={{ $json.hasNext === true && $json.fatal !== true }}",
               "operator": {
                 "operation": "true",
                 "singleValue": true,
@@ -312,11 +275,24 @@
         "options": {}
       },
       "position": [
-        -1056,
-        -256
+        600,
+        -60
       ],
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2
+    },
+    {
+      "id": "342258e9-9c92-4d49-bffa-0671a547376e",
+      "name": "Build regras elegiveis",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const pageCtx = ensureLogState(clone(asObj($node['Parse prefetch'].json.ctx)));\n    const rules = Array.isArray(pageCtx.rules) ? pageCtx.rules : [];\n    const eligibleRules = [];\n    const results = [];\n    const normalizeBillingDay = (value) => {\n      if (value === undefined || value === null) return null;\n      const match = String(value).match(/[0-9]+/g);\n      if (!match) return null;\n      const n = Number(match[match.length - 1]);\n      return Number.isInteger(n) && n >= 1 && n <= 31 ? n : null;\n    };\n    for (const rule of rules) {\n      const fm = fieldMap(rule.fields || []);\n      const ruleId = clean(rule.id);\n      const billingDay = normalizeBillingDay(pickScalar(fm['dia_de_gera_o_da_fatura']));\n      if (!ruleId) {\n        addEntityLog(pageCtx, {\n          node_name: 'Build regras elegiveis',\n          entity_type: 'rule',\n          entity_id: null,\n          action: 'classify_rule',\n          status: 'failed',\n          failure_reason: 'missing_rule_id',\n          dedupe_key: null,\n        });\n        results.push({\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: pageCtx.trace,\n          run: pageCtx.run,\n          rule: { ruleId: null, ruleTitle: clean(rule.title), prefetchDecision: 'invalid_rule' },\n          result: {\n            status: 'failed',\n            reason: 'missing_rule_id',\n            invoiceId: null,\n            existingInvoiceId: null,\n            createdItemIds: [],\n            totals: { brl: 0, usd: 0 },\n            metricsDelta: {},\n            failures: [{ node: 'Build regras elegiveis', reason: 'missing_rule_id', pipefyCardIds: [] }],\n          },\n          logs: { workflowLogs: [], entityLogs: clone(pageCtx.entityLogs), graphqlLogs: clone(pageCtx.graphqlLogs) },\n          failures: [{ node: 'Build regras elegiveis', reason: 'missing_rule_id', pipefyCardIds: [] }],\n        });\n        pageCtx.entityLogs = [];\n        pageCtx.graphqlLogs = [];\n        continue;\n      }\n      if (billingDay !== Number(pageCtx.run.todayDay || 0)) {\n        addEntityLog(pageCtx, {\n          node_name: 'Build regras elegiveis',\n          entity_type: 'rule',\n          entity_id: ruleId,\n          action: 'classify_rule',\n          status: 'skipped',\n          failure_reason: 'billing_day_mismatch',\n          dedupe_key: `${ruleId}|${pageCtx.run.competenceYMD}`,\n          details_json: jsonString({ billingDay, expectedDay: pageCtx.run.todayDay }),\n        });\n        results.push({\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: pageCtx.trace,\n          run: pageCtx.run,\n          rule: { ruleId, ruleTitle: clean(rule.title), prefetchDecision: 'billing_day_mismatch' },\n          result: {\n            status: 'skipped',\n            reason: 'billing_day_mismatch',\n            invoiceId: null,\n            existingInvoiceId: null,\n            createdItemIds: [],\n            totals: { brl: 0, usd: 0 },\n            metricsDelta: {},\n            failures: [],\n          },\n          logs: { workflowLogs: [], entityLogs: clone(pageCtx.entityLogs), graphqlLogs: clone(pageCtx.graphqlLogs) },\n          failures: [],\n        });\n        pageCtx.entityLogs = [];\n        pageCtx.graphqlLogs = [];\n        continue;\n      }\n      if (pageCtx.existingRuleIds[ruleId]) {\n        addEntityLog(pageCtx, {\n          node_name: 'Build regras elegiveis',\n          entity_type: 'rule',\n          entity_id: ruleId,\n          action: 'dedupe_rule',\n          status: 'blocked',\n          failure_reason: 'invoice_already_exists',\n          invoice_id: pageCtx.existingRuleIds[ruleId],\n          dedupe_key: `${ruleId}|${pageCtx.run.competenceYMD}`,\n        });\n        results.push({\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: pageCtx.trace,\n          run: pageCtx.run,\n          rule: { ruleId, ruleTitle: clean(rule.title), prefetchDecision: 'invoice_already_exists' },\n          result: {\n            status: 'failed',\n            reason: 'invoice_already_exists',\n            invoiceId: pageCtx.existingRuleIds[ruleId],\n            existingInvoiceId: pageCtx.existingRuleIds[ruleId],\n            createdItemIds: [],\n            totals: { brl: 0, usd: 0 },\n            metricsDelta: { duplicateInvoicesBlocked: 1 },\n            failures: [{ node: 'Build regras elegiveis', reason: 'invoice_already_exists', pipefyCardIds: [ruleId, pageCtx.existingRuleIds[ruleId]] }],\n          },\n          logs: { workflowLogs: [], entityLogs: clone(pageCtx.entityLogs), graphqlLogs: clone(pageCtx.graphqlLogs) },\n          failures: [{ node: 'Build regras elegiveis', reason: 'invoice_already_exists', pipefyCardIds: [ruleId, pageCtx.existingRuleIds[ruleId]] }],\n        });\n        pageCtx.entityLogs = [];\n        pageCtx.graphqlLogs = [];\n        continue;\n      }\n      eligibleRules.push({\n        contractVersion: 'fin_v3',\n        itemType: 'rule_input',\n        trace: pageCtx.trace,\n        run: pageCtx.run,\n        rule: {\n          ruleId,\n          ruleTitle: clean(rule.title),\n          itemTemplateIds: extractIds(fm['itens_da_fatura']),\n          ruleFields: fm,\n          prefetchDecision: 'new_rule_candidate',\n        },\n        logs: { workflowLogs: [], entityLogs: [], graphqlLogs: [] },\n      });\n    }\n    addWorkflowLog(pageCtx, {\n      status: pageCtx.failures.length > 0 ? 'failed' : 'success',\n      failure_reason: pageCtx.failures[0]?.reason ?? null,\n      rules_found: rules.length,\n      rules_eligible: eligibleRules.length,\n      rules_processed: 0,\n      rules_failed: results.filter((x) => x.itemType === 'rule_result' && x.result.status === 'failed').length,\n      duplicate_invoices_blocked: results.filter((x) => x.result.reason === 'invoice_already_exists').length,\n      summary_json: jsonString({ rulesFound: rules.length, rulesEligible: eligibleRules.length }),\n    });\n    const prepSummary = {\n      contractVersion: 'fin_v3',\n      itemType: 'prep_summary',\n      trace: pageCtx.trace,\n      run: pageCtx.run,\n      result: {\n        status: pageCtx.failures.length > 0 ? 'failed' : 'processed',\n        reason: pageCtx.failures.length > 0 ? pageCtx.failures[0].reason : 'prep_rules_completed',\n        prepContext: {\n          rulesFound: rules.length,\n          rulesEligible: eligibleRules.length,\n          rulesFailed: results.filter((x) => x.itemType === 'rule_result' && x.result.status === 'failed').length,\n        },\n        metricsDelta: {\n          rulesFound: rules.length,\n          rulesEligible: eligibleRules.length,\n        },\n        failures: pageCtx.failures,\n      },\n      logs: {\n        workflowLogs: pageCtx.workflowLogs,\n        entityLogs: pageCtx.entityLogs,\n        graphqlLogs: pageCtx.graphqlLogs,\n      },\n      failures: pageCtx.failures,\n    };\n    return [{ json: prepSummary }, ...eligibleRules, ...results.map((x) => ({ json: x }))];"
+      },
+      "position": [
+        840,
+        -60
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
     }
   ],
   "pinData": {},
@@ -328,7 +304,7 @@
   },
   "shared": [
     {
-      "createdAt": "2026-02-27T19:57:51.163Z",
+      "createdAt": "2026-03-10T18:30:27Z",
       "project": {
         "createdAt": "2025-10-27T18:38:08.229Z",
         "description": null,
@@ -378,345 +354,11 @@
       },
       "projectId": "MxRYCPypQDED18DI",
       "role": "workflow:owner",
-      "updatedAt": "2026-02-27T19:57:51.163Z",
+      "updatedAt": "2026-03-10T18:30:27Z",
       "workflowId": "KRYkEmSTkuVD8Nsn"
     }
   ],
-  "staticData": {
-    "global": {
-      "existingRuleIds": {},
-      "finV3Runs": {
-        "9511": {
-          "acc": {
-            "contractVersion": "fin_v3",
-            "failures": [],
-            "malformedResults": 0,
-            "metrics": {
-              "createInvoices": 0,
-              "createItems": 0,
-              "invoicesPrefetchCalls": 0,
-              "invoicesPrefetchCount": 0,
-              "itemBatchQueries": 0,
-              "itemsFetched": 0,
-              "prefetchInvoicesMissingRuleLink": 0,
-              "rulesEligible": 0,
-              "rulesIneligible": 0,
-              "rulesInvalid": 0,
-              "rulesPages": 0,
-              "rulesSkippedDay": 0,
-              "rulesSkippedExisting": 0,
-              "rulesTotal": 0,
-              "unexpectedStateErrors": 0,
-              "updateItemInvoiceLinks": 0,
-              "updateParcelasPagas": 0
-            },
-            "prepSummaryCount": 0,
-            "prepSummarySeen": false,
-            "results": [],
-            "ruleResultsReceived": 0,
-            "skippedReasons": {},
-            "statusCounts": {
-              "failed": 0,
-              "processed": 0,
-              "skipped": 0
-            }
-          },
-          "runInit": {
-            "competenciaYMD": "2026-02-01",
-            "executionId": "9511",
-            "metrics": {
-              "createInvoices": 0,
-              "createItems": 0,
-              "invoicesPrefetchCalls": 0,
-              "invoicesPrefetchCount": 0,
-              "itemBatchQueries": 0,
-              "itemsFetched": 0,
-              "prefetchInvoicesMissingRuleLink": 0,
-              "rulesEligible": 0,
-              "rulesIneligible": 0,
-              "rulesInvalid": 0,
-              "rulesPages": 0,
-              "rulesSkippedDay": 0,
-              "rulesSkippedExisting": 0,
-              "rulesTotal": 0,
-              "unexpectedStateErrors": 0,
-              "updateItemInvoiceLinks": 0,
-              "updateParcelasPagas": 0
-            },
-            "startedAt": "2026-03-09T12:57:14.605Z"
-          }
-        }
-      },
-      "prepRuns": {},
-      "ruleTmp": null,
-      "rules": [
-        {
-          "fields": [
-            {
-              "array_value": null,
-              "field": {
-                "id": "auto_historico_de_clientes",
-                "label": "[Auto] Historico de clientes",
-                "type": "long_text"
-              },
-              "report_value": "1259910277",
-              "value": "1259910277"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "identificador_fiscal_na_fatura",
-                "label": "Identificador fiscal na fatura",
-                "type": "short_text"
-              },
-              "report_value": "85.939.685/0001-99",
-              "value": "85.939.685/0001-99"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "tipo_de_cliente_final",
-                "label": "Tipo de cliente faturado",
-                "type": "radio_horizontal"
-              },
-              "report_value": "Afiliados e independentes",
-              "value": "Afiliados e independentes"
-            },
-            {
-              "array_value": [
-                "1259910277"
-              ],
-              "field": {
-                "id": "clientes_na_fatura",
-                "label": "Clientes na fatura",
-                "type": "connector"
-              },
-              "report_value": "teste",
-              "value": "[\"teste\"]"
-            },
-            {
-              "array_value": [
-                "1259912347"
-              ],
-              "field": {
-                "id": "contatos_que_receber_o_a_fatura",
-                "label": "Contato",
-                "type": "connector"
-              },
-              "report_value": "teste",
-              "value": "[\"teste\"]"
-            },
-            {
-              "array_value": [
-                "PIX"
-              ],
-              "field": {
-                "id": "forma_de_pagamento",
-                "label": "Condições de pagamento",
-                "type": "checklist_horizontal"
-              },
-              "report_value": "PIX",
-              "value": "[\"PIX\"]"
-            },
-            {
-              "array_value": [
-                "1300499159"
-              ],
-              "field": {
-                "id": "itens_da_fatura",
-                "label": "Itens da fatura",
-                "type": "connector"
-              },
-              "report_value": "Ajustes de fatura",
-              "value": "[\"Ajustes de fatura\"]"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "dia_de_gera_o_da_fatura",
-                "label": "Dia de geração da fatura",
-                "type": "radio_horizontal"
-              },
-              "report_value": "2",
-              "value": "2"
-            }
-          ],
-          "id": "1300499186",
-          "title": "85.939.685/0001-99"
-        },
-        {
-          "fields": [
-            {
-              "array_value": null,
-              "field": {
-                "id": "identificador_fiscal_na_fatura",
-                "label": "Identificador fiscal na fatura",
-                "type": "short_text"
-              },
-              "report_value": "02.286.568/0001-46",
-              "value": "02.286.568/0001-46"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "tipo_de_cliente_final",
-                "label": "Tipo de cliente faturado",
-                "type": "radio_horizontal"
-              },
-              "report_value": "Afiliados e independentes",
-              "value": "Afiliados e independentes"
-            },
-            {
-              "array_value": [
-                "1165155968"
-              ],
-              "field": {
-                "id": "clientes_na_fatura",
-                "label": "Clientes na fatura",
-                "type": "connector"
-              },
-              "report_value": "Unique Garden",
-              "value": "[\"Unique Garden\"]"
-            },
-            {
-              "array_value": [
-                "1223592611"
-              ],
-              "field": {
-                "id": "contatos_que_receber_o_a_fatura",
-                "label": "Contato",
-                "type": "connector"
-              },
-              "report_value": "João Bezerra",
-              "value": "[\"João Bezerra\"]"
-            },
-            {
-              "array_value": [
-                "PIX"
-              ],
-              "field": {
-                "id": "forma_de_pagamento",
-                "label": "Condições de pagamento",
-                "type": "checklist_horizontal"
-              },
-              "report_value": "PIX",
-              "value": "[\"PIX\"]"
-            },
-            {
-              "array_value": [
-                "BRL"
-              ],
-              "field": {
-                "id": "moeda_do_teto_de_faturamento",
-                "label": "Moeda do teto de faturamento",
-                "type": "checklist_horizontal"
-              },
-              "report_value": "BRL",
-              "value": "[\"BRL\"]"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "teto_de_faturamento_brl",
-                "label": "Teto de faturamento (BRL)",
-                "type": "currency"
-              },
-              "report_value": "1,400.00",
-              "value": "1,400.00"
-            },
-            {
-              "array_value": [
-                "1301644943"
-              ],
-              "field": {
-                "id": "itens_da_fatura",
-                "label": "Itens da fatura",
-                "type": "connector"
-              },
-              "report_value": "Produto",
-              "value": "[\"Produto\"]"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "auto_historico_de_clientes",
-                "label": "[Auto] Historico de clientes",
-                "type": "long_text"
-              },
-              "report_value": "1165155968",
-              "value": "1165155968"
-            },
-            {
-              "array_value": null,
-              "field": {
-                "id": "dia_de_gera_o_da_fatura",
-                "label": "Dia de geração da fatura",
-                "type": "radio_horizontal"
-              },
-              "report_value": "2",
-              "value": "2"
-            }
-          ],
-          "id": "1301645310",
-          "title": "02.286.568/0001-46"
-        }
-      ],
-      "run": {
-        "compEnd": "2026-02-28",
-        "compStart": "2026-02-01",
-        "competenciaYMD": "2026-02-01",
-        "errors": [],
-        "flags": {},
-        "lastInvoicesPrefetchCursor": null,
-        "lastRulesCursor": "WzEzMDE2NDUzMTBd",
-        "logs": [
-          {
-            "compEnd": "2026-02-28",
-            "compStart": "2026-02-01",
-            "competenciaYMD": "2026-02-01",
-            "event": "run_init",
-            "level": "info",
-            "todayDay": 2,
-            "ts": "2026-03-02T15:14:52.706Z"
-          },
-          {
-            "competenciaYMD": "2026-02-01",
-            "count": 0,
-            "endCursor": null,
-            "event": "prefetch_invoices",
-            "hasNextPage": false,
-            "level": "info",
-            "ts": "2026-03-02T15:14:53.010Z",
-            "uniqueRules": 0
-          },
-          {
-            "eligible": 2,
-            "event": "rules_eligible_built",
-            "level": "info",
-            "ts": "2026-03-02T15:14:53.329Z"
-          }
-        ],
-        "metrics": {
-          "createInvoices": 0,
-          "createItems": 0,
-          "invoicesPrefetchCalls": 1,
-          "invoicesPrefetchCount": 0,
-          "itemBatchQueries": 0,
-          "itemsFetched": 0,
-          "rulesEligible": 2,
-          "rulesPages": 1,
-          "rulesSkippedDay": 0,
-          "rulesSkippedExisting": 0,
-          "rulesTotal": 2,
-          "updateInvoiceConnectors": 0,
-          "updateParcelasPagas": 0
-        },
-        "startedAt": "2026-03-02T15:14:52.706Z",
-        "timezone": "America/Sao_Paulo",
-        "todayDay": 2
-      }
-    }
-  },
+  "staticData": null,
   "tags": [
     {
       "createdAt": "2025-10-28T14:26:57.025Z",
@@ -732,6 +374,6 @@
     }
   ],
   "triggerCount": 0,
-  "updatedAt": "2026-03-09T12:58:44.624Z",
-  "versionId": "eeb5c5cd-9662-409b-9eb4-d4ea91cb07a0"
+  "updatedAt": "2026-03-10T18:30:27Z",
+  "versionId": "c0041db4-9ab7-41c7-a1f5-376dbda52d6d"
 }

@@ -1,0 +1,1047 @@
+{
+  "active": false,
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Init finalizacao",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Init finalizacao": {
+      "main": [
+        [
+          {
+            "node": "Pode iniciar finalizacao?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pode iniciar finalizacao?": {
+      "main": [
+        [
+          {
+            "node": "FIN-03 Recheck fatura existente",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge recheck invoice",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-03 Recheck fatura existente": {
+      "main": [
+        [
+          {
+            "node": "Merge recheck invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge recheck invoice": {
+      "main": [
+        [
+          {
+            "node": "Parse recheck invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse recheck invoice": {
+      "main": [
+        [
+          {
+            "node": "Pode criar invoice?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge criacao invoice",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Pode criar invoice?": {
+      "main": [
+        [
+          {
+            "node": "FIN-03 Criar fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge criacao invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FIN-03 Criar fatura": {
+      "main": [
+        [
+          {
+            "node": "Merge criacao invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge criacao invoice": {
+      "main": [
+        [
+          {
+            "node": "Parse criacao invoice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse criacao invoice": {
+      "main": [
+        [
+          {
+            "node": "Pode vincular itens FIN-04?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pode vincular itens FIN-04?": {
+      "main": [
+        [
+          {
+            "node": "Set pares link updates",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set pares link updates": {
+      "main": [
+        [
+          {
+            "node": "Split Out link updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out link updates": {
+      "main": [
+        [
+          {
+            "node": "FIN-04 Vincular id_da_fatura",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge retorno link",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "FIN-04 Vincular id_da_fatura": {
+      "main": [
+        [
+          {
+            "node": "Merge retorno link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge retorno link": {
+      "main": [
+        [
+          {
+            "node": "Consolidar vinculos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar vinculos": {
+      "main": [
+        [
+          {
+            "node": "Ha parcelas para atualizar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ha parcelas para atualizar?": {
+      "main": [
+        [
+          {
+            "node": "Set pares parcelas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set pares parcelas": {
+      "main": [
+        [
+          {
+            "node": "Split Out parcelas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out parcelas": {
+      "main": [
+        [
+          {
+            "node": "FIN-02 Atualizar parcelas_pagas",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge retorno parcelas",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "FIN-02 Atualizar parcelas_pagas": {
+      "main": [
+        [
+          {
+            "node": "Merge retorno parcelas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge retorno parcelas": {
+      "main": [
+        [
+          {
+            "node": "Consolidar update parcelas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar update parcelas": {
+      "main": [
+        [
+          {
+            "node": "Ha status para atualizar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ha status para atualizar?": {
+      "main": [
+        [
+          {
+            "node": "Set pares status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set pares status": {
+      "main": [
+        [
+          {
+            "node": "Split Out status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out status": {
+      "main": [
+        [
+          {
+            "node": "FIN-02 Atualizar status",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge retorno status",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "FIN-02 Atualizar status": {
+      "main": [
+        [
+          {
+            "node": "Merge retorno status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge retorno status": {
+      "main": [
+        [
+          {
+            "node": "Consolidar update status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar update status": {
+      "main": [
+        [
+          {
+            "node": "Finalizar rule_result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-10T18:30:27Z",
+  "id": "fN6rJ3wUz8YhL5cP",
+  "isArchived": false,
+  "meta": null,
+  "name": "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
+  "nodes": [
+    {
+      "id": "ddc51387-5316-4586-b082-8d4eb175464f",
+      "name": "Execute Workflow Trigger",
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"contractVersion\": \"fin_v3\",\n  \"itemType\": \"fin04_items_ready\"\n}"
+      },
+      "position": [
+        -1420,
+        -60
+      ],
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1
+    },
+    {
+      "id": "f9b4bd1e-f2fa-4c75-abfc-14f8af504b30",
+      "name": "Init finalizacao",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const ctx = ensureLogState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: asObj(input.trace).workflowExecutionId ?? asObj(input.trace).parentExecutionId ?? null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02',\n      },\n      run: clone(asObj(input.run)),\n      rule: clone(asObj(input.rule)),\n      itemPlan: clone(asObj(input.itemPlan)),\n      createdItemIds: Array.isArray(input.createdItemIds) ? input.createdItemIds : [],\n      parcelUpdates: Array.isArray(input.parcelUpdates) ? input.parcelUpdates : [],\n      invoiceId: null,\n      terminal: { done: false, status: null, reason: null },\n      metrics: {},\n    });\n    ctx.workflowLogs = Array.isArray(input.logs?.workflowLogs) ? input.logs.workflowLogs : [];\n    ctx.entityLogs = Array.isArray(input.logs?.entityLogs) ? input.logs.entityLogs : [];\n    ctx.graphqlLogs = Array.isArray(input.logs?.graphqlLogs) ? input.logs.graphqlLogs : [];\n    ctx.failures = Array.isArray(input.failures) ? input.failures : [];\n    if (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'fin04_items_ready') {\n      addFailure(ctx, 'Init finalizacao', 'unexpected_payload_shape', ctx.rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n    }\n    if (!ctx.terminal.done && ctx.createdItemIds.length === 0) {\n      addFailure(ctx, 'Init finalizacao', 'no_items_ready_for_invoice', ctx.rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'no_items_ready_for_invoice' };\n    }\n    return [{ json: ctx }];"
+      },
+      "position": [
+        -1180,
+        -60
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "73d76162-ca0f-4a89-9ad5-63a4d3c7fdff",
+      "name": "Pode iniciar finalizacao?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.createdItemIds) && $json.createdItemIds.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -1060,
+        -60
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "e4de1ef6-a341-4bbf-beeb-1ced3d1ab005",
+      "maxTries": 5,
+      "name": "FIN-03 Recheck fatura existente",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "query FindInvoicesForRule($pipeId: ID!, $fieldId: String!, $ruleId: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $ruleId }) { edges { node { id fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
+        "variables": "={{ { pipeId: '306859731', fieldId: 'id_da_regra_de_faturamento', ruleId: String($json.rule.ruleId), first: 100 } }}"
+      },
+      "position": [
+        -940,
+        -180
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "10c67fe4-66fa-4a7b-9dc6-73d04d388654",
+      "name": "Merge recheck invoice",
+      "parameters": {
+        "combineBy": "combineByPosition",
+        "mode": "combine",
+        "options": {}
+      },
+      "position": [
+        -700,
+        -180
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "id": "be48f1a1-2e9c-4726-adf1-0f992f888902",
+      "name": "Parse recheck invoice",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const merged = asObj($json);\n    const ctx = ensureLogState(clone(asObj(merged.ctx || merged)));\n    const response = asObj(merged.recheckResponse || merged);\n    const callIndex = nextGraphqlIndex(ctx);\n    if (ctx.terminal?.done === true) return [{ json: ctx }];\n    if (response.error) {\n      addFailure(ctx, 'FIN-03 Recheck fatura existente', 'invoice_recheck_transport_error', ctx.rule.ruleId, ctx.createdItemIds);\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-03 Recheck fatura existente',\n        operation_name: 'recheck_fin03_by_rule_competence',\n        pipe_id: '306859731',\n        entity_type: 'invoice',\n        entity_id: ctx.rule.ruleId,\n        graphql_call_index: callIndex,\n        error_message: clean(response.error?.message || 'transport_error'),\n        query_excerpt: 'findCards(pipeId, search: competence)',\n        response_json: jsonString(response),\n      });\n      ctx.terminal = { done: true, status: 'failed', reason: 'invoice_recheck_transport_error' };\n      return [{ json: ctx }];\n    }\n    const errors = Array.isArray(response.errors) ? response.errors : [];\n    if (errors.length > 0) {\n      addFailure(ctx, 'FIN-03 Recheck fatura existente', 'invoice_recheck_logical_error', ctx.rule.ruleId, ctx.createdItemIds);\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-03 Recheck fatura existente',\n        operation_name: 'recheck_fin03_by_rule_competence',\n        pipe_id: '306859731',\n        entity_type: 'invoice',\n        entity_id: ctx.rule.ruleId,\n        graphql_call_index: callIndex,\n        error_message: clean(errors[0]?.message || 'graphql_error'),\n        query_excerpt: 'findCards(pipeId, search: competence)',\n        response_json: jsonString(response),\n      });\n      ctx.terminal = { done: true, status: 'failed', reason: 'invoice_recheck_logical_error' };\n      return [{ json: ctx }];\n    }\n    if (response.data?.findCards?.pageInfo?.hasNextPage === true) {\n      addFailure(ctx, 'FIN-03 Recheck fatura existente', 'invoice_recheck_requires_pagination', ctx.rule.ruleId, ctx.createdItemIds);\n      ctx.terminal = { done: true, status: 'failed', reason: 'invoice_recheck_requires_pagination' };\n      return [{ json: ctx }];\n    }\n    const edges = Array.isArray(response.data?.findCards?.edges) ? response.data.findCards.edges : [];\n    for (const edge of edges) {\n      const node = edge?.node;\n      if (!node) continue;\n      const fm = fieldMap(node.fields || []);\n      const ruleId = clean(pickScalar(fm['id_da_regra_de_faturamento']));\n      const comp = clean(pickScalar(fm['data_de_compet_ncia'])).slice(0, 10);\n      if (ruleId === clean(ctx.rule.ruleId) && comp === clean(ctx.run.competenceYMD)) {\n        addFailure(ctx, 'FIN-03 Recheck fatura existente', 'invoice_already_exists', ctx.rule.ruleId, node.id);\n        addEntityLog(ctx, {\n          node_name: 'Parse recheck de invoice',\n          entity_type: 'invoice',\n          entity_id: clean(node.id),\n          invoice_id: clean(node.id),\n          action: 'recheck_invoice',\n          status: 'blocked',\n          failure_reason: 'invoice_already_exists',\n          dedupe_key: `${clean(ctx.rule.ruleId)}|${clean(ctx.run.competenceYMD)}`,\n        });\n        ctx.terminal = { done: true, status: 'failed', reason: 'invoice_already_exists' };\n        ctx.invoiceId = clean(node.id);\n        return [{ json: ctx }];\n      }\n    }\n    const invoiceInput = clone(asObj(ctx.itemPlan.invoiceInputBase));\n    invoiceInput.pipe_id = 306859731;\n    invoiceInput.phase_id = 341350484;\n    invoiceInput.fields_attributes = Array.isArray(invoiceInput.fields_attributes) ? invoiceInput.fields_attributes.slice() : [];\n    invoiceInput.fields_attributes.push({ field_id: 'itens_da_fatura', field_value: ctx.createdItemIds });\n    ctx.invoiceInput = invoiceInput;\n    ctx.createInvoiceGraphqlCallIndex = nextGraphqlIndex(ctx);\n    return [{ json: ctx }];"
+      },
+      "position": [
+        -460,
+        -180
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "58b1ac45-b078-4759-b9d1-55790f4d6cc2",
+      "name": "Pode criar invoice?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && !!$json.invoiceInput }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -340,
+        -180
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "81d26336-36c6-4dc4-9b8d-382c423f0162",
+      "maxTries": 5,
+      "name": "FIN-03 Criar fatura",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation CreateFin03($input: CreateCardInput!) { createCard(input: $input) { card { id title url } } }",
+        "variables": "={{ { input: $json.invoiceInput } }}"
+      },
+      "position": [
+        -100,
+        -320
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "d25e78c0-1805-4aa5-a0a8-6aa85b21da1f",
+      "name": "Merge criacao invoice",
+      "parameters": {
+        "combineBy": "combineByPosition",
+        "mode": "combine",
+        "options": {}
+      },
+      "position": [
+        20,
+        -180
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "id": "6342278a-5f77-4be0-bd56-99e2474b4372",
+      "name": "Parse criacao invoice",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const merged = asObj($json);\n    const ctx = ensureLogState(clone(asObj(merged.ctx || merged)));\n    const response = asObj(merged.createInvoiceResponse || merged);\n    if (ctx.terminal?.done === true) return [{ json: ctx }];\n    if (response.error) {\n      addFailure(ctx, 'FIN-03 Criar fatura', 'failed_invoice_stage', ctx.rule.ruleId, ctx.createdItemIds);\n      addGraphqlErrorLog(ctx, {\n        node_name: 'FIN-03 Criar fatura',\n        operation_name: 'create_fin03_invoice',\n        pipe_id: '306859731',\n        phase_id: '341350484',\n        entity_type: 'invoice',\n        entity_id: ctx.rule.ruleId,\n        graphql_call_index: Number(ctx.createInvoiceGraphqlCallIndex || 0),\n        error_message: clean(response.error?.message || 'transport_error'),\n        query_excerpt: 'mutation CreateFin03',\n        response_json: jsonString(response),\n      });\n      ctx.terminal = { done: true, status: 'failed', reason: 'failed_invoice_stage' };\n      return [{ json: ctx }];\n    }\n    const errors = Array.isArray(response.errors) ? response.errors : [];\n    const invoiceId = clean(response.data?.createCard?.card?.id);\n    if (errors.length > 0 || !invoiceId) {\n      addFailure(ctx, 'FIN-03 Criar fatura', 'failed_invoice_stage', ctx.rule.ruleId, ctx.createdItemIds);\n      if (errors.length > 0) {\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-03 Criar fatura',\n          operation_name: 'create_fin03_invoice',\n          pipe_id: '306859731',\n          phase_id: '341350484',\n          entity_type: 'invoice',\n          entity_id: ctx.rule.ruleId,\n          graphql_call_index: Number(ctx.createInvoiceGraphqlCallIndex || 0),\n          error_message: clean(errors[0]?.message || 'graphql_error'),\n          query_excerpt: 'mutation CreateFin03',\n          response_json: jsonString(response),\n        });\n      }\n      ctx.terminal = { done: true, status: 'failed', reason: 'failed_invoice_stage' };\n      return [{ json: ctx }];\n    }\n    ctx.invoiceId = invoiceId;\n    ctx.linkUpdates = ctx.createdItemIds.map((itemId) => ({\n      itemId: clean(itemId),\n      invoiceId,\n      dedupeKey: `${clean(itemId)}|${clean(ctx.run.competenceYMD)}`,\n      graphqlCallIndex: nextGraphqlIndex(ctx),\n    }));\n    addEntityLog(ctx, {\n      node_name: 'Parse criacao de invoice',\n      entity_type: 'invoice',\n      entity_id: invoiceId,\n      invoice_id: invoiceId,\n      action: 'create_invoice',\n      status: 'success',\n      dedupe_key: `${clean(ctx.rule.ruleId)}|${clean(ctx.run.competenceYMD)}`,\n      graphql_calls_delta: 1,\n    });\n    return [{ json: ctx }];"
+      },
+      "position": [
+        260,
+        -180
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "8b0d6290-c84f-4a06-8554-80e17401c132",
+      "name": "Pode vincular itens FIN-04?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.linkUpdates) && $json.linkUpdates.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        380,
+        -180
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "b3f942fe-b210-4a05-94f3-1a3404df04f6",
+      "name": "Set pares link updates",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1edc140f-7bf9-470b-86cf-db047139112c",
+              "name": "emitLinkPairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.linkUpdates) ? $json.linkUpdates : []).map((linkReq) => ({ ctx: $json, linkReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        500,
+        -180
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "6d360581-4dd7-46e6-912e-8160362365d4",
+      "name": "Split Out link updates",
+      "parameters": {
+        "fieldToSplitOut": "emitLinkPairs",
+        "options": {}
+      },
+      "position": [
+        740,
+        -180
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "d04c5ac2-6e07-4918-a8e8-4e5179407a12",
+      "maxTries": 5,
+      "name": "FIN-04 Vincular id_da_fatura",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation LinkInvoiceOnFin04($itemId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $itemId, values: [{ fieldId: \\\"id_da_fatura\\\", value: $value }] }) { success } }",
+        "variables": "={{ { itemId: String($json.linkReq.itemId), value: [String($json.linkReq.invoiceId)] } }}"
+      },
+      "position": [
+        980,
+        -320
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "f21c94c5-3947-4fef-84f4-7415caeae05e",
+      "name": "Merge retorno link",
+      "parameters": {
+        "combineBy": "combineByPosition",
+        "mode": "combine",
+        "options": {}
+      },
+      "position": [
+        1220,
+        -320
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "id": "3bc129e3-ab0f-4b3e-93c5-ae72c96f4d0f",
+      "name": "Consolidar vinculos",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const items = $input.all().map((item) => asObj(item.json));\n    if (items.length === 0) throw new Error('No link update items');\n    const ctx = ensureLogState(clone(asObj(items[0].ctx || items[0])));\n    let hasFailure = false;\n    for (const item of items) {\n      const req = asObj(item.linkReq);\n      const response = asObj(item.linkResponse || item);\n      if (response.error) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-04 Vincular id_da_fatura', 'failed_invoice_stage', req.itemId, req.invoiceId);\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-04 Vincular id_da_fatura',\n          operation_name: 'link_invoice_on_fin04',\n          pipe_id: '306859915',\n          entity_type: 'fin04_item',\n          entity_id: req.itemId ?? null,\n          card_id: req.itemId ?? null,\n          graphql_call_index: Number(req.graphqlCallIndex || 0),\n          error_message: clean(response.error?.message || 'transport_error'),\n          query_excerpt: 'mutation LinkInvoiceOnFin04',\n          response_json: jsonString(response),\n        });\n        addEntityLog(ctx, {\n          node_name: 'Consolidar vinculos',\n          entity_type: 'fin04_item',\n          entity_id: req.itemId ?? null,\n          fin04_item_id: req.itemId ?? null,\n          invoice_id: req.invoiceId ?? null,\n          action: 'update_item_invoice_id',\n          status: 'failed',\n          failure_reason: 'failed_invoice_stage',\n          dedupe_key: req.dedupeKey ?? null,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      const errors = Array.isArray(response.errors) ? response.errors : [];\n      const success = response.data?.updateFieldsValues?.success === true && errors.length === 0;\n      if (!success) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-04 Vincular id_da_fatura', 'failed_invoice_stage', req.itemId, req.invoiceId);\n        if (errors.length > 0) {\n          addGraphqlErrorLog(ctx, {\n            node_name: 'FIN-04 Vincular id_da_fatura',\n            operation_name: 'link_invoice_on_fin04',\n            pipe_id: '306859915',\n            entity_type: 'fin04_item',\n            entity_id: req.itemId ?? null,\n            card_id: req.itemId ?? null,\n            graphql_call_index: Number(req.graphqlCallIndex || 0),\n            error_message: clean(errors[0]?.message || 'graphql_error'),\n            query_excerpt: 'mutation LinkInvoiceOnFin04',\n            response_json: jsonString(response),\n          });\n        }\n        addEntityLog(ctx, {\n          node_name: 'Consolidar vinculos',\n          entity_type: 'fin04_item',\n          entity_id: req.itemId ?? null,\n          fin04_item_id: req.itemId ?? null,\n          invoice_id: req.invoiceId ?? null,\n          action: 'update_item_invoice_id',\n          status: 'failed',\n          failure_reason: 'failed_invoice_stage',\n          dedupe_key: req.dedupeKey ?? null,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      addEntityLog(ctx, {\n        node_name: 'Consolidar vinculos',\n        entity_type: 'fin04_item',\n        entity_id: req.itemId ?? null,\n        fin04_item_id: req.itemId ?? null,\n        invoice_id: req.invoiceId ?? null,\n        action: 'update_item_invoice_id',\n        status: 'success',\n        dedupe_key: req.dedupeKey ?? null,\n        graphql_calls_delta: 1,\n      });\n    }\n    if (!hasFailure) {\n      ctx.parcelUpdates = (Array.isArray(ctx.parcelUpdates) ? ctx.parcelUpdates : []).map((updateReq) => ({\n        ...updateReq,\n        graphqlCallIndex: nextGraphqlIndex(ctx),\n      }));\n    }\n    if (hasFailure) ctx.terminal = { done: true, status: 'failed', reason: 'failed_invoice_stage' };\n    return [{ json: ctx }];"
+      },
+      "position": [
+        1460,
+        -320
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "09bf59a8-a488-482c-83a0-4ba6e27cb998",
+      "name": "Ha parcelas para atualizar?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.parcelUpdates) && $json.parcelUpdates.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        1580,
+        -320
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "58005c46-8b98-4a1a-a84f-1af4daf36b78",
+      "name": "Set pares parcelas",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "445ab437-1905-4a12-a029-856bc8a0cd61",
+              "name": "emitParcelaPairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.parcelUpdates) ? $json.parcelUpdates : []).map((updateReq) => ({ ctx: $json, updateReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        1700,
+        -320
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "36d6b91b-6abb-4be5-b211-e0cd8816778c",
+      "name": "Split Out parcelas",
+      "parameters": {
+        "fieldToSplitOut": "emitParcelaPairs",
+        "options": {}
+      },
+      "position": [
+        1940,
+        -320
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "823fe7dc-2eba-4d57-89ad-75307187b7b5",
+      "maxTries": 5,
+      "name": "FIN-02 Atualizar parcelas_pagas",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation UpdateParcelasPagas($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \\\"parcelas_pagas\\\", value: $value }] }) { success } }",
+        "variables": "={{ { cardId: String($json.updateReq.templateItemId), value: [Number($json.updateReq.newParcelasPagas)] } }}"
+      },
+      "position": [
+        2180,
+        -460
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "0a15c336-3e7b-45e2-83a0-929ac36efdd7",
+      "name": "Merge retorno parcelas",
+      "parameters": {
+        "combineBy": "combineByPosition",
+        "mode": "combine",
+        "options": {}
+      },
+      "position": [
+        2420,
+        -460
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "id": "ed032670-14dd-424c-a4c5-b4d7c7da0e97",
+      "name": "Consolidar update parcelas",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const items = $input.all().map((item) => asObj(item.json));\n    if (items.length === 0) throw new Error('No parcelas items');\n    const ctx = ensureLogState(clone(asObj(items[0].ctx || items[0])));\n    ctx.statusUpdates = [];\n    let hasFailure = false;\n    for (const item of items) {\n      const req = asObj(item.updateReq);\n      const response = asObj(item.updateResponse || item);\n      if (response.error) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-02 Atualizar parcelas_pagas', 'failed_invoice_stage', req.templateItemId);\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-02 Atualizar parcelas_pagas',\n          operation_name: 'update_fin02_parcelas_pagas',\n          pipe_id: '306852209',\n          entity_type: 'fin02_parent_item',\n          entity_id: req.templateItemId ?? null,\n          card_id: req.templateItemId ?? null,\n          graphql_call_index: Number(req.graphqlCallIndex || 0),\n          error_message: clean(response.error?.message || 'transport_error'),\n          query_excerpt: 'mutation UpdateParcelasPagas',\n          response_json: jsonString(response),\n        });\n        continue;\n      }\n      const errors = Array.isArray(response.errors) ? response.errors : [];\n      const success = response.data?.updateFieldsValues?.success === true && errors.length === 0;\n      if (!success) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-02 Atualizar parcelas_pagas', 'failed_invoice_stage', req.templateItemId);\n        if (errors.length > 0) {\n          addGraphqlErrorLog(ctx, {\n            node_name: 'FIN-02 Atualizar parcelas_pagas',\n            operation_name: 'update_fin02_parcelas_pagas',\n            pipe_id: '306852209',\n            entity_type: 'fin02_parent_item',\n            entity_id: req.templateItemId ?? null,\n            card_id: req.templateItemId ?? null,\n            graphql_call_index: Number(req.graphqlCallIndex || 0),\n            error_message: clean(errors[0]?.message || 'graphql_error'),\n            query_excerpt: 'mutation UpdateParcelasPagas',\n            response_json: jsonString(response),\n          });\n        }\n        continue;\n      }\n      addEntityLog(ctx, {\n        node_name: 'Consolidar update parcelas',\n        entity_type: 'fin02_parent_item',\n        entity_id: req.templateItemId ?? null,\n        fin02_parent_item_id: req.templateItemId ?? null,\n        action: 'increment_installment_counter',\n        status: 'success',\n        dedupe_key: req.dedupeKey ?? null,\n        graphql_calls_delta: 1,\n      });\n      if (req.shouldInactivateParent === true) {\n        ctx.statusUpdates.push({\n          templateItemId: req.templateItemId,\n          dedupeKey: req.dedupeKey,\n          value: ['Inativo'],\n          graphqlCallIndex: nextGraphqlIndex(ctx),\n        });\n      }\n    }\n    if (hasFailure) ctx.terminal = { done: true, status: 'failed', reason: 'failed_invoice_stage' };\n    return [{ json: ctx }];"
+      },
+      "position": [
+        2660,
+        -460
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "6ffeffff-621f-4cd9-9dd8-a8c230526d4b",
+      "name": "Ha status para atualizar?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.terminal?.done !== true && Array.isArray($json.statusUpdates) && $json.statusUpdates.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        2780,
+        -460
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "6b4c525a-02e0-47ae-9f0d-9257bde95e35",
+      "name": "Set pares status",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3689bca6-d24b-428c-9c86-4cbd93903ae4",
+              "name": "emitStatusPairs",
+              "type": "json",
+              "value": "={{ (Array.isArray($json.statusUpdates) ? $json.statusUpdates : []).map((statusReq) => ({ ctx: $json, statusReq })) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        2900,
+        -460
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "6c138076-b721-4a8f-99dc-28692ff9d8bd",
+      "name": "Split Out status",
+      "parameters": {
+        "fieldToSplitOut": "emitStatusPairs",
+        "options": {}
+      },
+      "position": [
+        3140,
+        -460
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "743d73d7-c5e1-46a5-90b7-090168964286",
+      "maxTries": 5,
+      "name": "FIN-02 Atualizar status",
+      "onError": "continueErrorOutput",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation UpdateFin02Status($cardId: ID!, $value: [UndefinedInput!]!) { updateFieldsValues(input: { nodeId: $cardId, values: [{ fieldId: \\\"status\\\", value: $value }] }) { success } }",
+        "variables": "={{ { cardId: String($json.statusReq.templateItemId), value: $json.statusReq.value } }}"
+      },
+      "position": [
+        3380,
+        -600
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "6e99043f-3860-4fc8-8b17-07df4f0696a8",
+      "name": "Merge retorno status",
+      "parameters": {
+        "combineBy": "combineByPosition",
+        "mode": "combine",
+        "options": {}
+      },
+      "position": [
+        3620,
+        -600
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "id": "760523f6-1038-4d0a-949e-21303eb3a5de",
+      "name": "Consolidar update status",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const items = $input.all().map((item) => asObj(item.json));\n    if (items.length === 0) throw new Error('No status items');\n    const ctx = ensureLogState(clone(asObj(items[0].ctx || items[0])));\n    let hasFailure = false;\n    for (const item of items) {\n      const req = asObj(item.statusReq);\n      const response = asObj(item.statusResponse || item);\n      if (response.error) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-02 Atualizar status', 'failed_invoice_stage', req.templateItemId);\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-02 Atualizar status',\n          operation_name: 'update_fin02_status',\n          pipe_id: '306852209',\n          entity_type: 'fin02_parent_item',\n          entity_id: req.templateItemId ?? null,\n          card_id: req.templateItemId ?? null,\n          graphql_call_index: Number(req.graphqlCallIndex || 0),\n          error_message: clean(response.error?.message || 'transport_error'),\n          query_excerpt: 'mutation UpdateFin02Status',\n          response_json: jsonString(response),\n        });\n        continue;\n      }\n      const errors = Array.isArray(response.errors) ? response.errors : [];\n      const success = response.data?.updateFieldsValues?.success === true && errors.length === 0;\n      if (!success) {\n        hasFailure = true;\n        addFailure(ctx, 'FIN-02 Atualizar status', 'failed_invoice_stage', req.templateItemId);\n        if (errors.length > 0) {\n          addGraphqlErrorLog(ctx, {\n            node_name: 'FIN-02 Atualizar status',\n            operation_name: 'update_fin02_status',\n            pipe_id: '306852209',\n            entity_type: 'fin02_parent_item',\n            entity_id: req.templateItemId ?? null,\n            card_id: req.templateItemId ?? null,\n            graphql_call_index: Number(req.graphqlCallIndex || 0),\n            error_message: clean(errors[0]?.message || 'graphql_error'),\n            query_excerpt: 'mutation UpdateFin02Status',\n            response_json: jsonString(response),\n          });\n        }\n        continue;\n      }\n      addEntityLog(ctx, {\n        node_name: 'Consolidar update status',\n        entity_type: 'fin02_parent_item',\n        entity_id: req.templateItemId ?? null,\n        fin02_parent_item_id: req.templateItemId ?? null,\n        action: 'inactivate_parent_item',\n        status: 'success',\n        dedupe_key: req.dedupeKey ?? null,\n        graphql_calls_delta: 1,\n      });\n    }\n    if (hasFailure) ctx.terminal = { done: true, status: 'failed', reason: 'failed_invoice_stage' };\n    return [{ json: ctx }];"
+      },
+      "position": [
+        3860,
+        -600
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "5ee01ccb-25e6-47cc-a50a-a2ad72bd5a3d",
+      "name": "Finalizar rule_result",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const ctx = ensureLogState(clone(asObj($json)));\n    const reason = ctx.terminal?.reason || (ctx.failures[0]?.reason || 'unexpected_payload_shape');\n    addWorkflowLog(ctx, {\n      status: ctx.terminal?.done === true ? 'failed' : 'success',\n      failure_reason: ctx.terminal?.done === true ? reason : null,\n      rules_processed: 1,\n      rules_failed: ctx.terminal?.done === true ? 1 : 0,\n      items_created: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n      items_updated: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n      invoices_created: ctx.invoiceId ? 1 : 0,\n      installments_incremented: Array.isArray(ctx.parcelUpdates) ? ctx.parcelUpdates.length : 0,\n      parent_items_inactivated: Array.isArray(ctx.statusUpdates) ? ctx.statusUpdates.length : 0,\n      summary_json: jsonString({ invoiceId: ctx.invoiceId ?? null, createdItemIds: ctx.createdItemIds ?? [] }),\n    });\n    const status = ctx.terminal?.done === true ? 'failed' : 'processed';\n    const outReason = ctx.terminal?.done === true ? reason : 'invoice_created_and_finalized';\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'rule_result',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n        result: {\n          status,\n          reason: outReason,\n          invoiceId: ctx.invoiceId ?? null,\n          existingInvoiceId: reason === 'invoice_already_exists' ? (ctx.invoiceId ?? null) : null,\n          createdItemIds: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds : [],\n          totals: asObj(ctx.itemPlan?.totals),\n          metricsDelta: {\n            createInvoices: ctx.invoiceId ? 1 : 0,\n            createItems: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n            updateItemInvoiceLinks: Array.isArray(ctx.createdItemIds) ? ctx.createdItemIds.length : 0,\n            updateParcelasPagas: Array.isArray(ctx.parcelUpdates) ? ctx.parcelUpdates.length : 0,\n            parentItemsInactivated: Array.isArray(ctx.statusUpdates) ? ctx.statusUpdates.length : 0,\n          },\n          failures: ctx.failures,\n        },\n        logs: { workflowLogs: ctx.workflowLogs, entityLogs: ctx.entityLogs, graphqlLogs: ctx.graphqlLogs },\n        failures: ctx.failures,\n      }\n    }];"
+      },
+      "position": [
+        4100,
+        -320
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-03-10T18:30:27Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "projectRelations": [
+          {
+            "createdAt": "2025-10-27T18:38:08.229Z",
+            "projectId": "MxRYCPypQDED18DI",
+            "updatedAt": "2025-10-27T18:38:08.229Z",
+            "user": {
+              "createdAt": "2025-10-27T18:38:08.229Z",
+              "disabled": false,
+              "email": "jtarrega@evnt.com.br",
+              "firstName": "João",
+              "id": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+              "isPending": false,
+              "lastActiveAt": "2026-03-09",
+              "lastName": "Tarrega",
+              "mfaEnabled": true,
+              "personalizationAnswers": {
+                "companyIndustryExtended": [
+                  "it-industry"
+                ],
+                "companyType": "other",
+                "personalization_survey_n8n_version": "1.116.2",
+                "personalization_survey_submitted_at": "2025-10-27T18:41:49.819Z",
+                "version": "v4"
+              },
+              "settings": {
+                "firstSuccessfulWorkflowId": "DimCvyUk7mhpRK7O",
+                "npsSurvey": {
+                  "lastShownAt": 1762550473483,
+                  "responded": true
+                },
+                "userActivated": true,
+                "userActivatedAt": 1762272334672
+              },
+              "updatedAt": "2026-03-09T11:15:52.534Z"
+            },
+            "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e"
+          }
+        ],
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-03-10T18:30:27Z",
+      "workflowId": "fN6rJ3wUz8YhL5cP"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-10T18:30:27Z",
+  "versionId": "b4f32db4-e9de-4f35-a738-d0f214d092e7"
+}
