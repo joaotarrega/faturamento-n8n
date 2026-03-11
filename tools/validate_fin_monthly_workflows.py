@@ -16,6 +16,24 @@ EXPECTED = [
     "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
 ]
 
+TRIGGER_INPUT_EXAMPLE_TOKENS = {
+    "[FIN] 1.1 Preparar regras elegiveis": ["runContext", "trace"],
+    "[FIN] 1.2 Preparar itens elegiveis da regra": ["contractVersion", "itemType", "trace", "run", "rule"],
+    "[FIN] 1.3 Materializar itens FIN-04": ["contractVersion", "itemType", "trace", "run", "rule", "itemPlan", "logs", "failures"],
+    "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": [
+        "contractVersion",
+        "itemType",
+        "trace",
+        "run",
+        "rule",
+        "itemPlan",
+        "createdItemIds",
+        "parcelUpdates",
+        "logs",
+        "failures",
+    ],
+}
+
 GRAPHQL_EXPECTATIONS = {
     "[FIN] 1.1 Preparar regras elegiveis": {
         "FIN-01: Listar regras Ativo (page)": ["341313813"],
@@ -120,6 +138,18 @@ def validate_orchestrator(workflow: dict) -> None:
         assert_true(required in node_names, f"orchestrator missing node {required}")
     text = json.dumps(workflow, ensure_ascii=False)
     assert_contains(text, "competence_date", "orchestrator missing competence_date tracking")
+    connections = workflow.get("connections", {})
+    if_branches = (connections.get("Loop: item e rule_input?") or {}).get("main") or []
+    true_targets = [item.get("node") for item in (if_branches[0] if len(if_branches) > 0 else [])]
+    false_targets = [item.get("node") for item in (if_branches[1] if len(if_branches) > 1 else [])]
+    assert_true(
+        true_targets == ["Preparar itens elegiveis da regra"],
+        f"orchestrator Loop: item e rule_input? true branch expected ['Preparar itens elegiveis da regra'] but found {true_targets}",
+    )
+    assert_true(
+        false_targets == ["Accumulate results"],
+        f"orchestrator Loop: item e rule_input? false branch expected ['Accumulate results'] but found {false_targets}",
+    )
 
 
 def get_node(workflow: dict, node_name: str) -> dict:
@@ -170,6 +200,19 @@ def validate_code_node_return_contracts(workflow_name: str, workflow: dict) -> N
     )
 
 
+def validate_execute_workflow_trigger_examples(workflow_name: str, workflow: dict) -> None:
+    tokens = TRIGGER_INPUT_EXAMPLE_TOKENS.get(workflow_name)
+    if not tokens:
+        return
+    json_example = get_node(workflow, "Execute Workflow Trigger").get("parameters", {}).get("jsonExample", "")
+    for token in tokens:
+        assert_contains(
+            json_example,
+            f'"{token}"',
+            f"{workflow_name}:Execute Workflow Trigger jsonExample missing key {token}",
+        )
+
+
 def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     for forbidden in ["parent_ids", "Faturas associadas", "Itens associados"]:
@@ -213,6 +256,7 @@ def main() -> None:
         validate_graphql_nodes(workflow_name, workflow)
         validate_pagination_context(workflow_name, workflow)
         validate_code_node_return_contracts(workflow_name, workflow)
+        validate_execute_workflow_trigger_examples(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
