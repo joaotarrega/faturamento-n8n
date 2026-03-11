@@ -155,6 +155,21 @@ def validate_pagination_context(workflow_name: str, workflow: dict) -> None:
             assert_true(token not in js_code, f"{workflow_name}:{node_name} contains stale token {token}")
 
 
+def validate_code_node_return_contracts(workflow_name: str, workflow: dict) -> None:
+    if workflow_name != "[FIN] 1.1 Preparar regras elegiveis":
+        return
+    js_code = get_node(workflow, "Build regras elegiveis").get("parameters", {}).get("jsCode", "")
+    assert_contains(
+        js_code,
+        "...eligibleRules.map((x) => ({ json: x }))",
+        f"{workflow_name}:Build regras elegiveis must wrap eligibleRules in json envelopes",
+    )
+    assert_true(
+        "...eligibleRules," not in js_code,
+        f"{workflow_name}:Build regras elegiveis contains raw eligibleRules return spread",
+    )
+
+
 def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     for forbidden in ["parent_ids", "Faturas associadas", "Itens associados"]:
@@ -197,6 +212,7 @@ def main() -> None:
         assert_true(workflow["name"] == workflow_name, f"{workflow_name} has unexpected name {workflow['name']}")
         validate_graphql_nodes(workflow_name, workflow)
         validate_pagination_context(workflow_name, workflow)
+        validate_code_node_return_contracts(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
