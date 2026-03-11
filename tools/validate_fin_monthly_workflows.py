@@ -449,6 +449,9 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         "Tipo de item": "n8n-nodes-base.switch",
         "Merge requisitos modelo + tipo": "n8n-nodes-base.merge",
         "Merge requisitos + desconto": "n8n-nodes-base.merge",
+        "Append guardas iniciais item_plan": "n8n-nodes-base.merge",
+        "Append conflitos FIN-04 item_plan": "n8n-nodes-base.merge",
+        "Append bloqueios de inicio item_plan": "n8n-nodes-base.merge",
         "Append decisões item_plan": "n8n-nodes-base.merge",
         "Condições de início": "n8n-nodes-base.set",
         "Dimensões comerciais do item": "n8n-nodes-base.set",
@@ -492,11 +495,29 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         merge_discount.get("combineBy") == "combineByPosition",
         f"{workflow_name}:Merge requisitos + desconto must combine by position",
     )
+    merge_guardrails = get_node(workflow, "Append guardas iniciais item_plan").get("parameters", {})
+    assert_true(merge_guardrails.get("mode") == "append", f"{workflow_name}:Append guardas iniciais item_plan must use append mode")
+    assert_true(
+        merge_guardrails.get("numberInputs") == 4,
+        f"{workflow_name}:Append guardas iniciais item_plan must keep 4 inputs",
+    )
+    merge_conflicts = get_node(workflow, "Append conflitos FIN-04 item_plan").get("parameters", {})
+    assert_true(merge_conflicts.get("mode") == "append", f"{workflow_name}:Append conflitos FIN-04 item_plan must use append mode")
+    assert_true(
+        merge_conflicts.get("numberInputs") == 2,
+        f"{workflow_name}:Append conflitos FIN-04 item_plan must keep 2 inputs",
+    )
+    merge_blocks = get_node(workflow, "Append bloqueios de inicio item_plan").get("parameters", {})
+    assert_true(merge_blocks.get("mode") == "append", f"{workflow_name}:Append bloqueios de inicio item_plan must use append mode")
+    assert_true(
+        merge_blocks.get("numberInputs") == 4,
+        f"{workflow_name}:Append bloqueios de inicio item_plan must keep 4 inputs",
+    )
     merge_append = get_node(workflow, "Append decisões item_plan").get("parameters", {})
     assert_true(merge_append.get("mode") == "append", f"{workflow_name}:Append decisões item_plan must use append mode")
     assert_true(
-        merge_append.get("numberInputs") == 11,
-        f"{workflow_name}:Append decisões item_plan must keep 11 inputs",
+        merge_append.get("numberInputs") == 4,
+        f"{workflow_name}:Append decisões item_plan must keep 4 inputs",
     )
 
     connections = workflow.get("connections", {})
@@ -593,6 +614,9 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         ("Merge requisitos modelo + tipo", "Merge requisitos + desconto"),
         ("Merge requisitos + desconto", "Consolidar campos obrigatórios visíveis"),
         ("Consolidar campos obrigatórios visíveis", "Append decisões item_plan"),
+        ("Append guardas iniciais item_plan", "Append decisões item_plan"),
+        ("Append conflitos FIN-04 item_plan", "Append decisões item_plan"),
+        ("Append bloqueios de inicio item_plan", "Append decisões item_plan"),
         ("Append decisões item_plan", "Consolidar elegibilidade e planos"),
     ]:
         assert_true(branch_targets(source) == [target], f"{workflow_name} {source} must flow into {target}")
@@ -663,6 +687,31 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
     assert_branch("Desconto percentual?", 1, ["Desconto por categorias?"])
     assert_branch("Desconto por categorias?", 0, ["Campos desconto por categorias SaaS"])
     assert_branch("Desconto por categorias?", 1, ["Merge requisitos + desconto"])
+    assert_true(
+        incoming_sources("Append guardas iniciais item_plan") == sorted([
+            ("Definir conflict_fin04_query_error", 0, 1),
+            ("Definir conflict_fin04_query_requires_pagination", 0, 2),
+            ("Definir fetch_template_item_error", 0, 0),
+            ("Definir inactive_template_phase", 0, 3),
+        ]),
+        f"{workflow_name} Append guardas iniciais item_plan has unexpected inputs {incoming_sources('Append guardas iniciais item_plan')}",
+    )
+    assert_true(
+        incoming_sources("Append conflitos FIN-04 item_plan") == sorted([
+            ("Definir existing_fin04_conflict", 0, 0),
+            ("Definir orphan_fin04_exists_for_rule_competence", 0, 1),
+        ]),
+        f"{workflow_name} Append conflitos FIN-04 item_plan has unexpected inputs {incoming_sources('Append conflitos FIN-04 item_plan')}",
+    )
+    assert_true(
+        incoming_sources("Append bloqueios de inicio item_plan") == sorted([
+            ("Definir blocked_missing_external_signal_onboarding_training", 0, 2),
+            ("Definir blocked_missing_external_signal_setup_payment", 0, 3),
+            ("Definir specific_date_finished", 0, 1),
+            ("Definir specific_date_not_ready", 0, 0),
+        ]),
+        f"{workflow_name} Append bloqueios de inicio item_plan has unexpected inputs {incoming_sources('Append bloqueios de inicio item_plan')}",
+    )
 
     assert_true(
         incoming_sources("Merge requisitos modelo + tipo") == sorted([
@@ -688,17 +737,10 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
     )
     assert_true(
         incoming_sources("Append decisões item_plan") == sorted([
+            ("Append bloqueios de inicio item_plan", 0, 3),
+            ("Append conflitos FIN-04 item_plan", 0, 2),
+            ("Append guardas iniciais item_plan", 0, 1),
             ("Consolidar campos obrigatórios visíveis", 0, 0),
-            ("Definir blocked_missing_external_signal_onboarding_training", 0, 9),
-            ("Definir blocked_missing_external_signal_setup_payment", 0, 10),
-            ("Definir conflict_fin04_query_error", 0, 2),
-            ("Definir conflict_fin04_query_requires_pagination", 0, 3),
-            ("Definir existing_fin04_conflict", 0, 5),
-            ("Definir fetch_template_item_error", 0, 1),
-            ("Definir inactive_template_phase", 0, 4),
-            ("Definir orphan_fin04_exists_for_rule_competence", 0, 6),
-            ("Definir specific_date_finished", 0, 8),
-            ("Definir specific_date_not_ready", 0, 7),
         ]),
         f"{workflow_name} Append decisões item_plan has unexpected inputs {incoming_sources('Append decisões item_plan')}",
     )
