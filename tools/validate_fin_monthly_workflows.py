@@ -393,8 +393,22 @@ def validate_entity_log_lifecycle_contract(workflow_name: str, workflow: dict) -
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             assert_contains(
                 js_code,
-                "consolidateEntityLogs(ctx, ctx.entityLogs, resultList)",
-                f"{workflow_name}:{node_name} missing final entity log consolidator",
+                "run_success_summary",
+                f"{workflow_name}:{node_name} missing consolidated success entity type",
+            )
+            assert_contains(
+                js_code,
+                "consolidated_success",
+                f"{workflow_name}:{node_name} missing consolidated success action",
+            )
+            assert_contains(
+                js_code,
+                "entityLogRows: buildEntityLogRows(ctx)",
+                f"{workflow_name}:{node_name} must emit consolidated entity log rows",
+            )
+            assert_true(
+                "entityLogRows: ctx.entityLogs" not in js_code,
+                f"{workflow_name}:{node_name} still emits raw success entity rows in final output",
             )
 
 
