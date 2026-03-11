@@ -8,7 +8,7 @@ The current canonical implementation surface is the named 5-workflow suite under
 
 ## Canonical Files
 
-- `raw/n8n/workflows/[FIN] 1 Orquestrar faturamento mensal.json`
+- `raw/n8n/workflows/[FIN] 1.0 Orquestrar faturamento mensal.json`
 - `raw/n8n/workflows/[FIN] 1.1 Preparar regras elegiveis.json`
 - `raw/n8n/workflows/[FIN] 1.2 Preparar itens elegiveis da regra.json`
 - `raw/n8n/workflows/[FIN] 1.3 Materializar itens FIN-04.json`

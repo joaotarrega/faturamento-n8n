@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const input = asObj($json);\n    const asStructuredObject = (value) => {\n      if (value && typeof value === 'object' && !Array.isArray(value)) return value;\n      if (typeof value !== 'string') return {};\n      const s = value.trim();\n      if (!s) return {};\n      try {\n        const parsed = JSON.parse(s);\n        return (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};\n      } catch (_err) {\n        return {};\n      }\n    };\n    const run = clone(asStructuredObject(input.run));\n    const traceIn = clone(asStructuredObject(input.trace));\n    const rule = clone(asStructuredObject(input.rule));\n    const ctx = ensureLogState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: traceIn.workflowExecutionId ?? traceIn.parentExecutionId ?? null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1.2 Preparar itens elegiveis da regra',\n      },\n      run,\n      rule,\n      metrics: {},\n      config: {\n        fin02ActivePhaseId: '341306826',\n        fin04PipeId: '306859915',\n        fin04PhaseId: '341351580',\n        rulePhaseId: '341313813',\n      },\n      plannedItems: [],\n      invoiceInputBase: null,\n      terminal: { done: false, status: null, reason: null },\n    });\n    if (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'rule_input') {\n      addFailure(ctx, 'Init contexto item_plan', 'unexpected_payload_shape', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n    }\n    if (!ctx.terminal.done && (!rule.ruleId || !Array.isArray(rule.itemTemplateIds))) {\n      addFailure(ctx, 'Init contexto item_plan', 'invalid_rule_input', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'invalid_rule_input' };\n    }\n    if (!ctx.terminal.done && rule.itemTemplateIds.length === 0) {\n      addFailure(ctx, 'Init contexto item_plan', 'no_items_ready_for_invoice', rule.ruleId ?? null);\n      ctx.terminal = { done: true, status: 'failed', reason: 'no_items_ready_for_invoice' };\n    }\n    return [{ json: ctx }];"
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (value) => (value && typeof value === 'object' && !Array.isArray(value)) ? value : {};\nconst clone = (value) => JSON.parse(JSON.stringify(value ?? null));\nconst clean = (value) => String(value ?? '').trim();\nconst asStructuredObject = (value) => {\n  if (value && typeof value === 'object' && !Array.isArray(value)) return value;\n  if (typeof value !== 'string') return {};\n  const source = value.trim();\n  if (!source) return {};\n  try {\n    const parsed = JSON.parse(source);\n    return (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};\n  } catch (_err) {\n    return {};\n  }\n};\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const source = String(value).trim();\n    if (source) out.push(source);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst addFailure = (ctx, reason, ...ids) => {\n  ctx.failures.push({\n    node: 'Init contexto item_plan',\n    reason,\n    pipefyCardIds: collectIds(...ids),\n  });\n};\n\nconst input = asObj($json);\nconst run = clone(asStructuredObject(input.run));\nconst traceIn = clone(asStructuredObject(input.trace));\nconst rule = clone(asStructuredObject(input.rule));\nrule.itemTemplateIds = Array.isArray(rule.itemTemplateIds)\n  ? rule.itemTemplateIds.map((value) => String(value ?? '').trim()).filter(Boolean)\n  : rule.itemTemplateIds;\n\nconst ctx = {\n  startedAt: nowIso,\n  trace: {\n    parentExecutionId: traceIn.workflowExecutionId ?? traceIn.parentExecutionId ?? null,\n    workflowExecutionId: String($execution.id ?? 'manual'),\n    workflowName: '[FIN] 1.2 Preparar itens elegiveis da regra',\n  },\n  run,\n  rule,\n  failures: [],\n  metrics: {},\n  config: {\n    fin02ActivePhaseId: '341306826',\n    fin04PipeId: '306859915',\n    fin04PhaseId: '341351580',\n    rulePhaseId: '341313813',\n  },\n  plannedItems: [],\n  invoiceInputBase: null,\n  terminal: { done: false, status: null, reason: null },\n};\n\nif (String(input.contractVersion || '') !== 'fin_v3' || String(input.itemType || '') !== 'rule_input') {\n  addFailure(ctx, 'unexpected_payload_shape', rule.ruleId ?? null);\n  ctx.terminal = { done: true, status: 'failed', reason: 'unexpected_payload_shape' };\n}\nif (!ctx.terminal.done && (!rule.ruleId || !Array.isArray(rule.itemTemplateIds))) {\n  addFailure(ctx, 'invalid_rule_input', rule.ruleId ?? null);\n  ctx.terminal = { done: true, status: 'failed', reason: 'invalid_rule_input' };\n}\nif (!ctx.terminal.done && rule.itemTemplateIds.length === 0) {\n  addFailure(ctx, 'no_items_ready_for_invoice', rule.ruleId ?? null);\n  ctx.terminal = { done: true, status: 'failed', reason: 'no_items_ready_for_invoice' };\n}\n\nreturn [{ json: ctx }];"
       },
       "id": "fd36b6c5-3572-4a6e-856e-ade42323fb95",
       "name": "Init contexto item_plan",
@@ -63,7 +63,54 @@
     },
     {
       "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const ctx = ensureLogState(clone(asObj($json)));\n    const reason = ctx.terminal?.reason || (ctx.failures[0]?.reason || 'no_items_ready_for_invoice');\n    addWorkflowLog(ctx, {\n      status: 'failed',\n      failure_reason: reason,\n      rules_processed: 1,\n      rules_failed: 1,\n      summary_json: jsonString({ directResult: true, reason }),\n    });\n    return [{\n      json: {\n        contractVersion: 'fin_v3',\n        itemType: 'rule_result',\n        trace: ctx.trace,\n        run: ctx.run,\n        rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n        result: {\n          status: 'failed',\n          reason,\n          invoiceId: null,\n          existingInvoiceId: null,\n          createdItemIds: [],\n          totals: { brl: 0, usd: 0 },\n          metricsDelta: {},\n          failures: ctx.failures,\n          startedAt: ctx.startedAt ?? nowIso,\n          finishedAt: nowIso,\n        },\n        failures: ctx.failures,\n      }\n    }];"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "658fd9a1-dd0b-445c-8050-49eff5054883",
+              "name": "contractVersion",
+              "type": "string",
+              "value": "fin_v3"
+            },
+            {
+              "id": "117fc066-01d4-4ad6-b515-15d51c164f49",
+              "name": "itemType",
+              "type": "string",
+              "value": "rule_result"
+            },
+            {
+              "id": "aee69257-50f5-4e3b-b019-bd109af23fd9",
+              "name": "trace",
+              "type": "json",
+              "value": "={{ $json.trace || {} }}"
+            },
+            {
+              "id": "0002bf78-77ad-4187-aed1-19c2b00e0864",
+              "name": "run",
+              "type": "json",
+              "value": "={{ $json.run || {} }}"
+            },
+            {
+              "id": "6fdb4d06-a149-496f-90f5-43d32aa1b121",
+              "name": "rule",
+              "type": "json",
+              "value": "={{ ({\n  ruleId: $json.rule?.ruleId ?? null,\n  ruleTitle: $json.rule?.ruleTitle ?? null,\n  prefetchDecision: $json.rule?.prefetchDecision ?? null,\n}) }}"
+            },
+            {
+              "id": "6a9ccf17-933a-4888-9e9f-7f5c7b566c6a",
+              "name": "result",
+              "type": "json",
+              "value": "={{ (() => {\n  const nowIso = new Date().toISOString();\n  const reason = $json.terminal?.reason || ($json.failures?.[0]?.reason ?? 'no_items_ready_for_invoice');\n  return {\n    status: 'failed',\n    reason,\n    invoiceId: null,\n    existingInvoiceId: null,\n    createdItemIds: [],\n    totals: { brl: 0, usd: 0 },\n    metricsDelta: {},\n    failures: Array.isArray($json.failures) ? $json.failures : [],\n    startedAt: $json.startedAt || nowIso,\n    finishedAt: nowIso,\n  };\n})() }}"
+            },
+            {
+              "id": "c7e622fc-52b9-4297-bb98-63900f1a1ce6",
+              "name": "failures",
+              "type": "json",
+              "value": "={{ Array.isArray($json.failures) ? $json.failures : [] }}"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
       },
       "id": "c410d5d4-7d75-4b0e-aabe-f1436e1ebb84",
       "name": "Emitir rule_result direto",
@@ -71,8 +118,8 @@
         -288,
         432
       ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
     },
     {
       "parameters": {
@@ -139,6 +186,123 @@
     },
     {
       "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b2e35936-96ae-4b95-82a2-8fce8d9f8bb7",
+              "name": "ctx",
+              "type": "json",
+              "value": "={{ $(\"Split Out template IDs\").item.json.ctx || $json.ctx || {} }}"
+            },
+            {
+              "id": "f9bb9cba-1211-4e29-aad3-beb59427624d",
+              "name": "templateItemId",
+              "type": "string",
+              "value": "={{ String($(\"Split Out template IDs\").item.json.templateItemId || $json.templateItemId || $(\"Split Out template IDs\").item.json.ctx?.templateItemId || \"\") }}"
+            },
+            {
+              "id": "9ed8264f-e83e-45af-9b26-88285a2f5db8",
+              "name": "templateRequestMeta",
+              "type": "json",
+              "value": "={{ ({\n  request_node: 'FIN-02 Buscar item template',\n  template_item_id: String($(\"Split Out template IDs\").item.json.templateItemId || $json.templateItemId || $(\"Split Out template IDs\").item.json.ctx?.templateItemId || ''),\n}) }}"
+            },
+            {
+              "id": "186b3257-d72f-4502-827b-05ada1b0a267",
+              "name": "templateResponse",
+              "type": "json",
+              "value": "={{ (() => {\n  const response = $json || {};\n  const errorObj = response && typeof response.error === 'object' && !Array.isArray(response.error) ? response.error : {};\n  const errorMessage = String(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : '') || '').trim();\n  return errorMessage && Object.keys(errorObj).length === 0\n    ? { ...response, error: { message: errorMessage } }\n    : response;\n})() }}"
+            },
+            {
+              "id": "54145df7-a13a-4c6d-8031-3ba16e8f27e8",
+              "name": "templateFetchError",
+              "type": "boolean",
+              "value": "={{ (() => {\n  const response = $json || {};\n  const errorObj = response && typeof response.error === 'object' && !Array.isArray(response.error) ? response.error : {};\n  const errorMessage = String(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : '') || '').trim();\n  return Object.keys(response).length === 0 || Boolean(errorMessage);\n})() }}"
+            },
+            {
+              "id": "965779d7-f5db-4ef3-9199-8220f1f4ce0b",
+              "name": "templateFieldMap",
+              "type": "json",
+              "value": "={{ (() => {\n  const out = {};\n  const fields = Array.isArray($json.data?.card?.fields) ? $json.data.card.fields : [];\n  for (const field of fields) {\n    const id = field?.field?.id;\n    if (id) out[id] = field;\n  }\n  return out;\n})() }}"
+            },
+            {
+              "id": "74cc9d07-f3cd-452a-80b2-127d58b60339",
+              "name": "templatePhaseId",
+              "type": "string",
+              "value": "={{ String($json.data?.card?.current_phase?.id || \"\") }}"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "6946f777-bdd1-4e95-8815-f7f238661f66",
+      "name": "Normalizar retorno template",
+      "position": [
+        384,
+        240
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ !$json.templateFetchError && !!$json.templateResponse?.data?.card?.id }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "88d7874f-9053-4adf-a8b0-9fb74a50f26c",
+      "name": "Template retornou?",
+      "position": [
+        608,
+        240
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e8f8555f-280b-4083-b2cf-c2a950577000",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const clean = (value) => String(value ?? '').trim();\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  const response = $json.templateResponse || {};\n  const errors = Array.isArray(response.errors) ? response.errors : [];\n  return {\n    ...prev,\n    status: 'failed',\n    reason: 'fetch_template_item_error',\n    templateFetch: {\n      ok: false,\n      errorMessage: clean(response.error?.message || errors[0]?.message || 'template_not_found_or_transport_error'),\n    },\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "14c21bf1-2890-40ad-b126-0c65f2fef1f6",
+      "name": "Definir fetch_template_item_error",
+      "position": [
+        832,
+        432
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
         "authentication": "oAuth2",
         "endpoint": "https://api.pipefy.com/graphql",
         "query": "query FindFin04ByTemplate($pipeId: ID!, $fieldId: String!, $templateId: String!, $first: Int!) { findCards(pipeId: $pipeId, first: $first, search: { fieldId: $fieldId, fieldValue: $templateId }) { edges { node { id fields { field { id label type } value report_value array_value } } } pageInfo { hasNextPage endCursor } } }",
@@ -165,38 +329,1387 @@
     },
     {
       "parameters": {
-        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst STATUS_PRIORITY = {\n  success: 0,\n  skipped: 1,\n  blocked: 2,\n  failed: 3,\n};\nconst parseDetailsObject = (value) => {\n  if (value && typeof value === 'object' && !Array.isArray(value)) return clone(value);\n  const s = clean(value);\n  if (!s || s === 'null') return {};\n  try {\n    const parsed = JSON.parse(s);\n    return (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};\n  } catch (_err) {\n    return {};\n  }\n};\nconst uniqueStrings = (values) => {\n  const out = [];\n  const seen = new Set();\n  for (const value of (values || [])) {\n    const s = clean(value);\n    if (!s || seen.has(s)) continue;\n    seen.add(s);\n    out.push(s);\n  }\n  return out;\n};\nconst uniqueObjects = (values) => {\n  const out = [];\n  const seen = new Set();\n  for (const value of (values || [])) {\n    const fingerprint = jsonString(value ?? null);\n    if (seen.has(fingerprint)) continue;\n    seen.add(fingerprint);\n    out.push(value);\n  }\n  return out;\n};\nconst minTime = (current, incoming) => {\n  const a = clean(current);\n  const b = clean(incoming);\n  if (!a) return b || null;\n  if (!b) return a || null;\n  return a <= b ? a : b;\n};\nconst maxTime = (current, incoming) => {\n  const a = clean(current);\n  const b = clean(incoming);\n  if (!a) return b || null;\n  if (!b) return a || null;\n  return a >= b ? a : b;\n};\nconst rawEntityType = (payload) => clean(payload.entity_type);\nconst resolveRuleId = (ctx, payload) => clean(payload.rule_id ?? ctx.rule?.ruleId ?? (rawEntityType(payload) === 'rule' ? payload.entity_id : '')) || null;\nconst resolveTemplateItemId = (payload) => clean(payload.template_item_id ?? payload.fin02_parent_item_id ?? (rawEntityType(payload) === 'template_item' ? payload.entity_id : '')) || null;\nconst resolveFin04ItemId = (payload) => clean(payload.fin04_item_id ?? (rawEntityType(payload) === 'fin04_item' ? payload.entity_id : '')) || null;\nconst ensureEntityLifecycleState = (ctx) => {\n  ctx.entityLifecycle = asObj(ctx.entityLifecycle);\n  ctx.entityLifecycle.items = asObj(ctx.entityLifecycle.items);\n  ctx.entityLifecycle.invoices = asObj(ctx.entityLifecycle.invoices);\n  ctx.entityLifecycle.aliasByFin04 = asObj(ctx.entityLifecycle.aliasByFin04);\n  ctx.entityLifecycle.syntheticInvoiceCounter = Number(ctx.entityLifecycle.syntheticInvoiceCounter || 0);\n  ctx.entityLifecycle.syntheticItemCounter = Number(ctx.entityLifecycle.syntheticItemCounter || 0);\n  return ctx.entityLifecycle;\n};\nconst syncEntityLogs = (ctx) => {\n  const state = ensureEntityLifecycleState(ctx);\n  const sortRows = (rows) => rows.sort((left, right) => {\n    const leftKey = clean(left.dedupe_key) || clean(left.entity_id) || clean(left.rule_id);\n    const rightKey = clean(right.dedupe_key) || clean(right.entity_id) || clean(right.rule_id);\n    return leftKey.localeCompare(rightKey);\n  });\n  ctx.entityLogs = [\n    ...sortRows(Object.values(state.invoices)),\n    ...sortRows(Object.values(state.items)),\n  ];\n  return ctx.entityLogs;\n};\nconst lifecycleKind = (payload) => {\n  const type = rawEntityType(payload);\n  if (type === 'rule' || type === 'invoice') return 'invoice';\n  return 'item';\n};\nconst invoiceLifecycleKey = (ctx, payload, state) => {\n  const ruleId = resolveRuleId(ctx, payload);\n  const dedupeKey = clean(payload.dedupe_key);\n  if (!ruleId && dedupeKey.startsWith('missing_rule:')) return dedupeKey;\n  const competence = clean(payload.competence_date).slice(0, 10) || clean(ctx.run?.competenceYMD);\n  if (ruleId) return `${ruleId}|${competence}`;\n  state.syntheticInvoiceCounter = Number(state.syntheticInvoiceCounter || 0) + 1;\n  return `missing_rule:${state.syntheticInvoiceCounter}|${competence}`;\n};\nconst itemLifecycleKey = (ctx, payload, state) => {\n  const competence = clean(payload.competence_date).slice(0, 10) || clean(ctx.run?.competenceYMD);\n  const ruleId = resolveRuleId(ctx, payload) || 'missing_rule';\n  const templateItemId = resolveTemplateItemId(payload);\n  const fin04ItemId = resolveFin04ItemId(payload);\n  if (templateItemId) {\n    if (fin04ItemId && clean(state.aliasByFin04[fin04ItemId])) return clean(state.aliasByFin04[fin04ItemId]);\n    const key = `${ruleId}|${templateItemId}|${competence}`;\n    if (fin04ItemId) state.aliasByFin04[fin04ItemId] = key;\n    return key;\n  }\n  if (fin04ItemId && clean(state.aliasByFin04[fin04ItemId])) return clean(state.aliasByFin04[fin04ItemId]);\n  if (fin04ItemId) {\n    const key = `${ruleId}|fin04:${fin04ItemId}|${competence}`;\n    state.aliasByFin04[fin04ItemId] = key;\n    return key;\n  }\n  const dedupeKey = clean(payload.dedupe_key);\n  if (dedupeKey) return `${ruleId}|dedupe:${dedupeKey}|${competence}`;\n  state.syntheticItemCounter = Number(state.syntheticItemCounter || 0) + 1;\n  return `${ruleId}|missing_item:${state.syntheticItemCounter}|${competence}`;\n};\nconst lifecycleIdentity = (ctx, payload, state) => {\n  const kind = lifecycleKind(payload);\n  return {\n    kind,\n    key: kind === 'invoice' ? invoiceLifecycleKey(ctx, payload, state) : itemLifecycleKey(ctx, payload, state),\n  };\n};\nconst lifecycleBaseRow = (ctx, payload, kind, key) => {\n  const ruleId = resolveRuleId(ctx, payload);\n  const templateItemId = resolveTemplateItemId(payload);\n  const fin04ItemId = resolveFin04ItemId(payload);\n  const invoiceId = clean(payload.invoice_id) || null;\n  const competenceDate = payload.competence_date ?? timeWithOffset(ctx.run?.competenceYMD);\n  return {\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name ?? null,\n    entity_type: kind,\n    entity_id: kind === 'invoice' ? (invoiceId || ruleId) : (fin04ItemId || templateItemId),\n    rule_id: ruleId,\n    template_item_id: templateItemId,\n    fin02_parent_item_id: clean(payload.fin02_parent_item_id) || templateItemId || null,\n    invoice_id: invoiceId,\n    fin04_item_id: fin04ItemId,\n    competence_date: competenceDate,\n    action: kind === 'invoice' ? 'invoice_lifecycle' : 'item_lifecycle',\n    status: null,\n    failure_reason: null,\n    dedupe_key: key,\n    graphql_calls_delta: 0,\n    started_at: null,\n    finished_at: null,\n    details_json: 'null',\n  };\n};\nconst mergeLifecycleDetails = (row, payload) => {\n  const details = parseDetailsObject(row.details_json);\n  const stageDetails = parseDetailsObject(payload.details_json);\n  const stage = {\n    node_name: payload.node_name ?? null,\n    action: clean(payload.action) || null,\n    status: clean(payload.status) || null,\n    failure_reason: clean(payload.failure_reason) || null,\n  };\n  details.stages = uniqueObjects([\n    ...(Array.isArray(details.stages) ? details.stages : []),\n    stage,\n  ].filter((value) => value.node_name || value.action || value.status || value.failure_reason));\n  details.raw_actions = uniqueStrings([\n    ...(Array.isArray(details.raw_actions) ? details.raw_actions : []),\n    payload.action,\n  ]);\n  details.failure_reasons = uniqueStrings([\n    ...(Array.isArray(details.failure_reasons) ? details.failure_reasons : []),\n    payload.failure_reason,\n  ]);\n  details.stage_details = uniqueObjects([\n    ...(Array.isArray(details.stage_details) ? details.stage_details : []),\n    ...(Object.keys(stageDetails).length > 0 ? [stageDetails] : []),\n  ]);\n  if (clean(payload.action) === 'create_item' && clean(payload.status) === 'success') details.created_item = true;\n  if (clean(payload.action) === 'update_item_invoice_id' && clean(payload.status) === 'success') details.invoice_linked = true;\n  if (clean(payload.action) === 'increment_installment_counter' && clean(payload.status) === 'success') details.parcelas_incremented = true;\n  if (clean(payload.action) === 'inactivate_parent_item' && clean(payload.status) === 'success') details.parent_inactivated = true;\n  if (clean(payload.action) === 'create_invoice' && clean(payload.status) === 'success') details.invoice_created = true;\n  if (clean(payload.failure_reason) === 'invoice_already_exists') details.invoice_preexisting = true;\n  row.details_json = jsonString(details);\n};\nconst mergeLifecycleRow = (ctx, current, payload, kind, key) => {\n  const row = current ? clone(current) : lifecycleBaseRow(ctx, payload, kind, key);\n  const incomingStatus = clean(payload.status) || 'success';\n  const incomingRank = STATUS_PRIORITY[incomingStatus] ?? -1;\n  const currentRank = STATUS_PRIORITY[clean(row.status)] ?? -1;\n  row.run_id = row.run_id ?? ctx.run?.runId ?? null;\n  row.workflow_execution_id = row.workflow_execution_id ?? ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual');\n  row.parent_execution_id = row.parent_execution_id ?? ctx.trace?.parentExecutionId ?? null;\n  row.workflow_name = row.workflow_name ?? ctx.trace?.workflowName ?? null;\n  row.rule_id = row.rule_id || resolveRuleId(ctx, payload);\n  row.template_item_id = row.template_item_id || resolveTemplateItemId(payload);\n  row.fin02_parent_item_id = row.fin02_parent_item_id || clean(payload.fin02_parent_item_id) || row.template_item_id || null;\n  row.invoice_id = row.invoice_id || clean(payload.invoice_id) || null;\n  row.fin04_item_id = row.fin04_item_id || resolveFin04ItemId(payload);\n  row.entity_type = kind;\n  row.action = kind === 'invoice' ? 'invoice_lifecycle' : 'item_lifecycle';\n  row.dedupe_key = key;\n  row.graphql_calls_delta = Number(row.graphql_calls_delta || 0) + Number(payload.graphql_calls_delta || 0);\n  row.started_at = minTime(row.started_at, payload.started_at ?? ctx.startedAt ?? nowIso);\n  row.finished_at = maxTime(row.finished_at, payload.finished_at ?? nowIso);\n  if (incomingRank >= currentRank) {\n    row.status = incomingStatus;\n    row.node_name = payload.node_name ?? row.node_name;\n    if (clean(payload.failure_reason)) row.failure_reason = clean(payload.failure_reason);\n  }\n  if (!clean(row.failure_reason) && clean(payload.failure_reason)) row.failure_reason = clean(payload.failure_reason);\n  row.entity_id = kind === 'invoice' ? (row.invoice_id || row.rule_id || row.entity_id || null) : (row.fin04_item_id || row.template_item_id || row.entity_id || null);\n  mergeLifecycleDetails(row, payload);\n  return row;\n};\nconst rehydrateEntityLifecycle = (ctx) => {\n  const state = ensureEntityLifecycleState(ctx);\n  if (!Array.isArray(ctx.entityLogs) || ctx.entityLogs.length === 0) return;\n  if (Object.keys(state.items).length > 0 || Object.keys(state.invoices).length > 0) return;\n  const existingRows = ctx.entityLogs.slice();\n  ctx.entityLogs = [];\n  for (const row of existingRows) {\n    const identity = lifecycleIdentity(ctx, row, state);\n    const bucket = identity.kind === 'invoice' ? state.invoices : state.items;\n    const current = bucket[identity.key] ? asObj(bucket[identity.key]) : null;\n    const merged = mergeLifecycleRow(ctx, current, row, identity.kind, identity.key);\n    bucket[identity.key] = merged;\n    if (clean(merged.fin04_item_id)) state.aliasByFin04[clean(merged.fin04_item_id)] = identity.key;\n  }\n  syncEntityLogs(ctx);\n};\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  ensureEntityLifecycleState(ctx);\n  rehydrateEntityLifecycle(ctx);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  const state = ensureEntityLifecycleState(ctx);\n  const identity = lifecycleIdentity(ctx, payload, state);\n  const bucket = identity.kind === 'invoice' ? state.invoices : state.items;\n  const current = bucket[identity.key] ? asObj(bucket[identity.key]) : null;\n  const merged = mergeLifecycleRow(ctx, current, payload, identity.kind, identity.key);\n  bucket[identity.key] = merged;\n  if (clean(merged.fin04_item_id)) state.aliasByFin04[clean(merged.fin04_item_id)] = identity.key;\n  syncEntityLogs(ctx);\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const merged = $input.all().map((item) => asObj(item.json));\n    if (merged.length === 0) {\n      throw new Error('No merged template items to consolidate');\n    }\n    const baseCtx = ensureLogState(clone(asObj(merged[0].ctx || merged[0])));\n    const ctx = baseCtx;\n    const ZERO_WHITELIST = new Set([\n      'valor_de_base_brl',\n      'valor_de_base_usd',\n      'valor_base_saas_categoria_a_b_brl',\n      'valor_base_saas_categoria_a_b_usd',\n      'valor_base_saas_categoria_e_s_brl',\n      'valor_base_saas_categoria_e_s_usd',\n      'valor_base_saas_categoria_espa_os_brl',\n      'valor_base_saas_categoria_espa_os_usd',\n      'valor_base_saas_categoria_hospedagem_brl',\n      'valor_base_saas_categoria_hospedagem_usd',\n      'valor_base_saas_categoria_outros_brl',\n      'valor_base_saas_categoria_outros_usd',\n    ]);\n    const DISCOUNT_TYPE_PERCENT = '1260337139';\n    const DISCOUNT_TYPE_LOCAL_TAX = '1260337296';\n    const BASE_PERCENTUAL_SAAS = '1268890278';\n    const COND_ONBOARDING = '1258585767';\n    const COND_SPECIFIC_DATE = '1258585802';\n    const COND_SETUP = '1258585836';\n    const targetMap = {\n      produto: 'produto',\n      tipo_de_item: 'tipo_de_item',\n      modelo_de_cobran_a: 'modelo_de_cobran_a',\n      moeda_da_fatura: 'moeda_da_fatura',\n      base_do_c_lculo_percentual: 'base_do_c_lculo_percentual',\n      percentual_a_ser_aplicado_na_base: 'percentual_a_ser_aplicado_na_base',\n      unidade_de_cobran_a: 'unidade_de_cobran_a',\n      quantidade: 'quantidade',\n      afiliados_que_comp_em_a_cobran_a: 'afiliados_que_comp_em_a_cobran_a',\n      id_backoffice_do_afiliado: 'id_backoffice_do_afiliado',\n      h_algum_desconto_nesse_item: 'h_algum_desconto_nesse_item',\n      tipo_de_desconto_no_item_1: 'tipo_de_desconto_no_item',\n      percentual_de_desconto_a_ser_aplicado: 'percentual_de_desconto_a_ser_aplicado',\n      valor_nominal_a_ser_descontado_brl: 'valor_nominal_a_ser_descontado_brl',\n      valor_nominal_a_ser_descontado_usd: 'valor_nominal_a_ser_descontado_usd',\n      categorias_do_saas_isentas_ou_com_desconto: 'categorias_do_saas_isentas_ou_com_desconto',\n      observa_es_sobre_descontos_e_isen_es: 'observa_es_sobre_descontos_e_isen_es',\n      tipo_de_desconto_a_b_1: 'tipo_de_desconto_a_b_1',\n      tipo_de_desconto_e_s: 'tipo_de_desconto_e_s',\n      tipo_de_desconto_hospedagem: 'tipo_de_desconto_hospedagem',\n      tipo_de_desconto_espa_os: 'tipo_de_desconto_espa_os',\n      tipo_de_desconto_outros: 'tipo_de_desconto_outros',\n      desconto_no_valor_vari_vel_do_saas_para_a_b: 'desconto_no_valor_vari_vel_do_saas_para_a_b',\n      valor_do_imposto_a_ser_isento_a_b: 'valor_do_imposto_a_ser_isento_a_b',\n      desconto_no_valor_vari_vel_do_saas_para_e_s: 'desconto_no_valor_vari_vel_do_saas_para_e_s',\n      valor_do_imposto_a_ser_isento_e_s: 'valor_do_imposto_a_ser_isento_e_s',\n      desconto_no_valor_vari_vel_do_saas_para_hospedagem: 'desconto_no_valor_vari_vel_do_saas_para_hospedagem',\n      valor_do_imposto_a_ser_isento_hospedagem: 'valor_do_imposto_a_ser_isento_hospedagem',\n      desconto_no_valor_vari_vel_do_saas_para_espa_os: 'desconto_no_valor_vari_vel_do_saas_para_espa_os',\n      valor_do_imposto_a_ser_isento_espa_os: 'valor_do_imposto_a_ser_isento_espa_os',\n      desconto_no_valor_vari_vel_do_saas_para_outros: 'desconto_no_valor_vari_vel_do_saas_para_outros',\n      valor_do_imposto_a_ser_isento_outros: 'valor_do_imposto_a_ser_isento_outros',\n      valor_unit_rio_brl: 'valor_unit_rio_brl',\n      valor_unit_rio_usd: 'valor_unit_rio_usd',\n      subtotal_do_item_brl: 'valor_total_do_item_brl',\n      subtotal_do_item_usd: 'valor_total_do_item_usd',\n      valor_total_do_item_com_descontos_brl: 'valor_total_do_item_com_descontos_brl',\n      valor_total_do_item_com_descontos_usd: 'valor_total_do_item_com_descontos_usd',\n    };\n    const addMappedValue = (fieldAttrs, target, value) => {\n      if (value === undefined || value === null) return;\n      if (Array.isArray(value) && value.length === 0) return;\n      if (typeof value === 'string' && !value.trim()) return;\n      fieldAttrs.push({ field_id: target, field_value: value });\n    };\n    let duplicateItemsBlocked = 0;\n    let totalBrl = 0;\n    let totalUsd = 0;\n    for (const item of merged) {\n      const templateId = clean(item.templateItemId || item.templateItem?.templateItemId || item.ctx?.templateItemId || '');\n      const fetchCallIndex = nextGraphqlIndex(ctx);\n      const conflictCallIndex = nextGraphqlIndex(ctx);\n      const fetchResp = asObj(item.templateResponse || item);\n      const conflictResp = asObj(item.conflictResponse || item);\n      const fetchErrors = Array.isArray(fetchResp.errors) ? fetchResp.errors : [];\n      const conflictErrors = Array.isArray(conflictResp.fin04ConflictErrors) ? conflictResp.fin04ConflictErrors : (Array.isArray(conflictResp.errors) ? conflictResp.errors : []);\n      if (fetchResp.templateFetchError || fetchErrors.length > 0 || !fetchResp.data?.card?.id) {\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-02 Buscar item template',\n          operation_name: 'fetch_fin02_template_item',\n          pipe_id: '306852209',\n          phase_id: '341306826',\n          entity_type: 'template_item',\n          entity_id: templateId || null,\n          card_id: templateId || null,\n          graphql_call_index: fetchCallIndex,\n          error_message: clean(fetchResp.error?.message || fetchErrors[0]?.message || 'template_not_found_or_transport_error'),\n          query_excerpt: 'query GetTemplateItem',\n          response_json: jsonString(fetchResp),\n        });\n        addFailure(ctx, 'FIN-02 Buscar item template', 'fetch_template_item_error', ctx.rule.ruleId, templateId || null);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId || null,\n          template_item_id: templateId || null,\n          action: 'prepare_template_item',\n          status: 'failed',\n          failure_reason: 'fetch_template_item_error',\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n        });\n        continue;\n      }\n      if (item.fin04ConflictError || conflictErrors.length > 0) {\n        addGraphqlErrorLog(ctx, {\n          node_name: 'FIN-04 Verificar conflitos por competencia',\n          operation_name: 'recheck_fin04_conflict_by_template',\n          pipe_id: '306859915',\n          phase_id: '341351580',\n          entity_type: 'fin04_item',\n          entity_id: templateId || null,\n          card_id: templateId || null,\n          graphql_call_index: conflictCallIndex,\n          error_message: clean(conflictResp.error?.message || conflictErrors[0]?.message || 'graphql_error'),\n          query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n          response_json: jsonString(conflictResp),\n        });\n        addFailure(ctx, 'FIN-04 Verificar conflitos por competencia', 'conflict_fin04_query_error', ctx.rule.ruleId, templateId || null);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId || null,\n          template_item_id: templateId || null,\n          action: 'check_fin04_conflict',\n          status: 'failed',\n          failure_reason: 'conflict_fin04_query_error',\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n        });\n        continue;\n      }\n      if (conflictResp.data?.findCards?.pageInfo?.hasNextPage === true) {\n        addFailure(ctx, 'FIN-04 Verificar conflitos por competencia', 'conflict_fin04_query_requires_pagination', ctx.rule.ruleId, templateId || null);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId || null,\n          template_item_id: templateId || null,\n          action: 'check_fin04_conflict',\n          status: 'failed',\n          failure_reason: 'conflict_fin04_query_requires_pagination',\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n        });\n        continue;\n      }\n      const card = fetchResp.data.card;\n      const phaseId = clean(card.current_phase?.id);\n      const fm = fieldMap(card.fields || []);\n      if (phaseId !== clean(ctx.config.fin02ActivePhaseId)) {\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId,\n          template_item_id: templateId,\n          action: 'evaluate_template_item',\n          status: 'skipped',\n          failure_reason: 'inactive_template_phase',\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n        });\n        continue;\n      }\n      const conflictEdges = Array.isArray(conflictResp.data?.findCards?.edges) ? conflictResp.data.findCards.edges : [];\n      let conflict = null;\n      for (const edge of conflictEdges) {\n        const node = edge?.node;\n        if (!node) continue;\n        const fields = fieldMap(node.fields || []);\n        const sameTemplate = clean(pickScalar(fields['id_do_item_usado_como_template_fin_02'])) === templateId;\n        const sameCompetence = clean(pickScalar(fields['data_de_compet_ncia'])).slice(0, 10) === clean(ctx.run.competenceYMD);\n        if (sameTemplate && sameCompetence) {\n          conflict = {\n            id: clean(node.id),\n            invoiceId: clean(pickScalar(fields['id_da_fatura']) || ''),\n          };\n          break;\n        }\n      }\n      if (conflict) {\n        duplicateItemsBlocked += 1;\n        const conflictReason = conflict.invoiceId ? 'existing_fin04_conflict' : 'orphan_fin04_exists_for_rule_competence';\n        addFailure(ctx, 'Consolidar elegibilidade e planos', conflictReason, ctx.rule.ruleId, templateId, conflict.id);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId,\n          template_item_id: templateId,\n          fin04_item_id: conflict.id,\n          invoice_id: conflict.invoiceId || null,\n          action: 'check_fin04_conflict',\n          status: 'blocked',\n          failure_reason: conflictReason,\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n          graphql_calls_delta: 1,\n        });\n        continue;\n      }\n      const conditions = extractIds(fm['condi_es_exigidas_para_iniciar_o_faturamento_do_item']);\n      const specificStart = clean(pickScalar(fm['data_de_in_cio_do_faturamento'])).slice(0, 10);\n      const specificEnd = clean(pickScalar(fm['data_de_fim_do_faturamento'])).slice(0, 10);\n      const blockingReasons = [];\n      if (conditions.includes(COND_SPECIFIC_DATE)) {\n        if (!specificStart || specificStart > clean(ctx.run.competenceEnd)) {\n          blockingReasons.push('specific_date_not_ready');\n        }\n        if (specificEnd && specificEnd < clean(ctx.run.competenceYMD)) {\n          blockingReasons.push('specific_date_finished');\n        }\n      }\n      if (conditions.includes(COND_ONBOARDING)) {\n        blockingReasons.push('blocked_missing_external_signal_onboarding_training');\n      }\n      if (conditions.includes(COND_SETUP)) {\n        blockingReasons.push('blocked_missing_external_signal_setup_payment');\n      }\n      if (blockingReasons.length > 0) {\n        addFailure(ctx, 'Consolidar elegibilidade e planos', blockingReasons[0], ctx.rule.ruleId, templateId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId,\n          template_item_id: templateId,\n          action: 'evaluate_start_conditions',\n          status: 'blocked',\n          failure_reason: blockingReasons[0],\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n          details_json: jsonString({ conditions, specificStart, specificEnd, blockingReasons }),\n        });\n        continue;\n      }\n      const currency = clean(pickScalar(fm['moeda_da_fatura']));\n      const model = clean(pickScalar(fm['modelo_de_cobran_a']));\n      const type = clean(pickScalar(fm['tipo_de_item']));\n      const hasDiscount = clean(pickScalar(fm['h_algum_desconto_nesse_item']));\n      const baseCalc = extractIds(fm['base_do_c_lculo_percentual']);\n      const selectedDiscountTypes = extractIds(fm['tipo_de_desconto_no_item_1']);\n      const selectedCategories = extractList(fm['categorias_do_saas_isentas_ou_com_desconto']);\n      const discountTypeByCategory = {\n        'A&B': extractIds(fm['tipo_de_desconto_a_b_1']),\n        'E&S': extractIds(fm['tipo_de_desconto_e_s']),\n        'Hospedagem': extractIds(fm['tipo_de_desconto_hospedagem']),\n        'Espaços': extractIds(fm['tipo_de_desconto_espa_os']),\n        'Outros': extractIds(fm['tipo_de_desconto_outros']),\n      };\n      const visibleRequired = new Set(['tipo_de_item', 'moeda_da_fatura', 'modelo_de_cobran_a', 'h_algum_desconto_nesse_item']);\n      if (type === 'Produto') visibleRequired.add('produto');\n      if (model === 'Percentual sobre base') {\n        visibleRequired.add('base_do_c_lculo_percentual');\n        visibleRequired.add('percentual_a_ser_aplicado_na_base');\n        if (currency === 'BRL - R$') visibleRequired.add('valor_de_base_brl');\n        if (currency === 'USD - $') visibleRequired.add('valor_de_base_usd');\n        if (baseCalc.includes(BASE_PERCENTUAL_SAAS)) {\n          if (currency === 'BRL - R$') {\n            visibleRequired.add('valor_base_saas_categoria_a_b_brl');\n            visibleRequired.add('valor_base_saas_categoria_e_s_brl');\n            visibleRequired.add('valor_base_saas_categoria_espa_os_brl');\n            visibleRequired.add('valor_base_saas_categoria_hospedagem_brl');\n            visibleRequired.add('valor_base_saas_categoria_outros_brl');\n          }\n          if (currency === 'USD - $') {\n            visibleRequired.add('valor_base_saas_categoria_a_b_usd');\n            visibleRequired.add('valor_base_saas_categoria_e_s_usd');\n            visibleRequired.add('valor_base_saas_categoria_espa_os_usd');\n            visibleRequired.add('valor_base_saas_categoria_hospedagem_usd');\n            visibleRequired.add('valor_base_saas_categoria_outros_usd');\n          }\n        }\n      }\n      if (model === 'Por unidade') {\n        visibleRequired.add('unidade_de_cobran_a');\n        visibleRequired.add('quantidade');\n        if (currency === 'BRL - R$') visibleRequired.add('valor_unit_rio_brl');\n        if (currency === 'USD - $') visibleRequired.add('valor_unit_rio_usd');\n        if (clean(pickScalar(fm['unidade_de_cobran_a'])) === 'Afiliados') visibleRequired.add('afiliados_que_comp_em_a_cobran_a');\n      }\n      if (model === 'Fixo' || model === 'Por unidade') {\n        if (currency === 'BRL - R$') visibleRequired.add('subtotal_do_item_brl');\n        if (currency === 'USD - $') visibleRequired.add('subtotal_do_item_usd');\n      }\n      if (type === 'Ajustes de fatura') {\n        if (currency === 'BRL - R$') visibleRequired.add('valor_total_do_item_com_descontos_brl');\n        if (currency === 'USD - $') visibleRequired.add('valor_total_do_item_com_descontos_usd');\n      }\n      if (hasDiscount === 'Sim') {\n        visibleRequired.add('tipo_de_desconto_no_item_1');\n        if (selectedDiscountTypes.includes('Nominal')) {\n          if (currency === 'BRL - R$') visibleRequired.add('valor_nominal_a_ser_descontado_brl');\n          if (currency === 'USD - $') visibleRequired.add('valor_nominal_a_ser_descontado_usd');\n        }\n        if (selectedDiscountTypes.includes('Percentual')) {\n          visibleRequired.add('percentual_de_desconto_a_ser_aplicado');\n        }\n        if (selectedDiscountTypes.includes('Categorias de propostas') && model === 'Percentual sobre base' && baseCalc.includes(BASE_PERCENTUAL_SAAS)) {\n          visibleRequired.add('categorias_do_saas_isentas_ou_com_desconto');\n          for (const category of selectedCategories) {\n            if (category === 'A&B') visibleRequired.add('tipo_de_desconto_a_b_1');\n            if (category === 'E&S') visibleRequired.add('tipo_de_desconto_e_s');\n            if (category === 'Hospedagem') visibleRequired.add('tipo_de_desconto_hospedagem');\n            if (category === 'Espaços') visibleRequired.add('tipo_de_desconto_espa_os');\n            if (category === 'Outros') visibleRequired.add('tipo_de_desconto_outros');\n            const chosen = discountTypeByCategory[category] || [];\n            const targetSuffix = category === 'A&B' ? 'a_b' : category === 'E&S' ? 'e_s' : category === 'Hospedagem' ? 'hospedagem' : category === 'Espaços' ? 'espa_os' : 'outros';\n            if (chosen.includes(DISCOUNT_TYPE_PERCENT)) visibleRequired.add(`desconto_no_valor_vari_vel_do_saas_para_${targetSuffix}`);\n            if (chosen.includes(DISCOUNT_TYPE_LOCAL_TAX)) visibleRequired.add(`valor_do_imposto_a_ser_isento_${targetSuffix}`);\n          }\n        }\n      }\n      const fieldAttrs = [\n        { field_id: 'data_de_compet_ncia', field_value: clean(ctx.run.competenceYMD) },\n        { field_id: 'id_do_item_usado_como_template_fin_02', field_value: templateId },\n      ];\n      const validationErrors = [];\n      for (const [source, target] of Object.entries(targetMap)) {\n        const sourceField = fm[source];\n        let value = null;\n        if (sourceField?.field?.type === 'connector' || sourceField?.field?.type?.includes('checklist')) {\n          value = sourceField?.field?.type === 'connector' ? extractIds(sourceField) : extractList(sourceField);\n        } else {\n          value = pickScalar(sourceField);\n        }\n        if ((value === null || value === undefined || (typeof value === 'string' && !value.trim()) || (Array.isArray(value) && value.length === 0)) && visibleRequired.has(source)) {\n          if (ZERO_WHITELIST.has(target)) {\n            value = 0;\n          } else {\n            validationErrors.push({ field_id: target, source_field_id: source });\n          }\n        }\n        addMappedValue(fieldAttrs, target, value);\n      }\n      if (validationErrors.length > 0) {\n        addFailure(ctx, 'Consolidar elegibilidade e planos', 'missing_required_nonzero_field', ctx.rule.ruleId, templateId);\n        addEntityLog(ctx, {\n          node_name: 'Consolidar elegibilidade e planos',\n          entity_type: 'template_item',\n          entity_id: templateId,\n          template_item_id: templateId,\n          action: 'validate_fin04_payload',\n          status: 'failed',\n          failure_reason: 'missing_required_nonzero_field',\n          dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n          details_json: jsonString({ validationErrors, visibleRequired: Array.from(visibleRequired).sort() }),\n        });\n        continue;\n      }\n      const totalItemBrl = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']));\n      const totalItemUsd = parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']));\n      totalBrl += totalItemBrl;\n      totalUsd += totalItemUsd;\n      const periodicidade = clean(pickScalar(fm['periodicidade']));\n      const parcelasPagas = Number(parseNum(pickScalar(fm['parcelas_pagas'])));\n      const parcelasTotais = Number(parseNum(pickScalar(fm['quantidade_de_parcelas_totais'])));\n      const planned = {\n        templateItemId: templateId,\n        dedupeKey: `${templateId}|${ctx.run.competenceYMD}`,\n        totalItemBrl,\n        totalItemUsd,\n        periodicidade,\n        parcelasPagas,\n        parcelasTotais,\n        shouldUpdateParcelas: periodicidade === 'Parcelado',\n        newParcelasPagas: periodicidade === 'Parcelado' ? parcelasPagas + 1 : null,\n        shouldInactivateParent: periodicidade === 'Parcelado' && parcelasTotais > 0 && (parcelasPagas + 1) >= parcelasTotais,\n        createInput: {\n          pipe_id: Number(ctx.config.fin04PipeId),\n          phase_id: Number(ctx.config.fin04PhaseId),\n          title: `FIN-04 ${clean(ctx.run.competenceYMD).slice(0, 7)} - ${templateId}`,\n          fields_attributes: fieldAttrs,\n        },\n      };\n      ctx.plannedItems.push(planned);\n      addEntityLog(ctx, {\n        node_name: 'Consolidar elegibilidade e planos',\n        entity_type: 'template_item',\n        entity_id: templateId,\n        template_item_id: templateId,\n        action: 'prepare_template_item',\n        status: 'success',\n        dedupe_key: planned.dedupeKey,\n        details_json: jsonString({ periodicidade, model, currency }),\n      });\n    }\n    const rf = fieldMap(Object.values(asObj(ctx.rule.ruleFields)));\n    const invoiceFields = [];\n    const pushInvoiceField = (field_id, value) => {\n      if (value === undefined || value === null) return;\n      if (Array.isArray(value) && value.length === 0) return;\n      if (typeof value === 'string' && !value.trim()) return;\n      invoiceFields.push({ field_id, field_value: value });\n    };\n    pushInvoiceField('clientes_na_fatura', extractIds(rf['clientes_na_fatura']));\n    pushInvoiceField('contatos_que_receber_o_a_fatura', extractIds(rf['contatos_que_receber_o_a_fatura']));\n    pushInvoiceField('identificador_fiscal_na_fatura', clean(pickScalar(rf['identificador_fiscal_na_fatura'])));\n    pushInvoiceField('tipo_de_cliente_final', clean(pickScalar(rf['tipo_de_cliente_final'])));\n    pushInvoiceField('rede_na_fatura', extractIds(rf['rede_na_fatura']));\n    pushInvoiceField('forma_de_pagamento', extractList(rf['forma_de_pagamento']));\n    pushInvoiceField('moeda_do_teto_de_faturamento', extractList(rf['moeda_do_teto_de_faturamento']));\n    pushInvoiceField('teto_de_faturamento_brl', parseNum(pickScalar(rf['teto_de_faturamento_brl'])));\n    pushInvoiceField('teto_de_faturamento_usd', parseNum(pickScalar(rf['teto_de_faturamento_usd'])));\n    pushInvoiceField('id_da_regra_de_faturamento', clean(ctx.rule.ruleId));\n    pushInvoiceField('data_de_compet_ncia', clean(ctx.run.competenceYMD));\n    pushInvoiceField('valor_total_da_fatura_brl', totalBrl);\n    pushInvoiceField('valor_total_da_fatura_usd', totalUsd);\n    ctx.invoiceInputBase = {\n      pipe_id: 306859731,\n      title: `FIN-03 ${clean(ctx.run.competenceYMD).slice(0, 7)} - Regra ${clean(ctx.rule.ruleId)}`,\n      fields_attributes: invoiceFields,\n    };\n    ctx.metrics.duplicateItemsBlocked = duplicateItemsBlocked;\n    if (ctx.plannedItems.length === 0) {\n      const reason = ctx.failures[0]?.reason || 'no_items_ready_for_invoice';\n      ctx.terminal = { done: true, status: 'failed', reason };\n    }\n    addWorkflowLog(ctx, {\n      status: ctx.terminal.done ? 'failed' : 'success',\n      failure_reason: ctx.terminal.done ? ctx.terminal.reason : null,\n      rules_processed: 1,\n      rules_failed: ctx.terminal.done ? 1 : 0,\n      duplicate_items_blocked: duplicateItemsBlocked,\n      summary_json: jsonString({ plannedItems: ctx.plannedItems.length }),\n    });\n    const payload = ctx.terminal.done\n      ? {\n          contractVersion: 'fin_v3',\n          itemType: 'rule_result',\n          trace: ctx.trace,\n          run: ctx.run,\n          rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n          result: {\n            status: 'failed',\n            reason: ctx.terminal.reason,\n            invoiceId: null,\n            existingInvoiceId: null,\n            createdItemIds: [],\n            totals: { brl: totalBrl, usd: totalUsd },\n            metricsDelta: { duplicateItemsBlocked },\n            failures: ctx.failures,\n            startedAt: ctx.startedAt ?? nowIso,\n            finishedAt: nowIso,\n          },\n          failures: ctx.failures,\n        }\n      : {\n          contractVersion: 'fin_v3',\n          itemType: 'item_plan',\n          trace: ctx.trace,\n          run: ctx.run,\n          rule: ctx.rule,\n          itemPlan: {\n            plannedItems: ctx.plannedItems,\n            totals: { brl: totalBrl, usd: totalUsd },\n            invoiceInputBase: ctx.invoiceInputBase,\n          },\n          failures: ctx.failures,\n        };\n    return [{ json: payload }];"
-      },
-      "id": "d3204e31-e034-44ba-8839-1934b5e1e12c",
-      "name": "Consolidar elegibilidade e planos",
-      "position": [
-        1056,
-        240
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "jsCode": "const asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst linkedJson = (nodeName) => {\n  try {\n    return asObj($(nodeName).item.json);\n  } catch (_err) {\n    return {};\n  }\n};\nconst current = asObj($json);\nconst pair = linkedJson('Split Out template IDs');\nconst response = clone(current);\nconst errorObj = asObj(response.error);\nconst errorMessage = clean(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : ''));\nif (errorMessage && Object.keys(errorObj).length === 0) {\n  response.error = { message: errorMessage };\n}\nreturn [{\n  json: {\n    ctx: clone(asObj(pair.ctx || current.ctx)),\n    templateItemId: clean(pair.templateItemId || current.templateItemId || pair.ctx?.templateItemId || ''),\n    templateRequestMeta: {\n      request_node: 'FIN-02 Buscar item template',\n      template_item_id: clean(pair.templateItemId || current.templateItemId || pair.ctx?.templateItemId || ''),\n    },\n    templateResponse: response,\n    templateFetchError: Object.keys(response).length === 0 || Boolean(errorMessage),\n  }\n}];"
-      },
-      "id": "6946f777-bdd1-4e95-8815-f7f238661f66",
-      "name": "Normalizar retorno template",
-      "position": [
-        384,
-        0
-      ],
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2
-    },
-    {
-      "parameters": {
-        "jsCode": "const asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst linkedJson = (nodeName) => {\n  try {\n    return asObj($(nodeName).item.json);\n  } catch (_err) {\n    return {};\n  }\n};\nconst current = asObj($json);\nconst base = linkedJson('Normalizar retorno template');\nconst response = clone(current);\nconst errorObj = asObj(response.error);\nconst errorMessage = clean(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : ''));\nif (errorMessage && Object.keys(errorObj).length === 0) {\n  response.error = { message: errorMessage };\n}\nreturn [{\n  json: {\n    ctx: clone(asObj(base.ctx || current.ctx)),\n    templateItemId: clean(base.templateItemId || current.templateItemId || ''),\n    templateRequestMeta: clone(asObj(base.templateRequestMeta)),\n    templateResponse: clone(asObj(base.templateResponse)),\n    conflictRequestMeta: {\n      request_node: 'FIN-04 Verificar conflitos por competencia',\n      template_item_id: clean(base.templateItemId || current.templateItemId || ''),\n      pipe_id: '306859915',\n      search_field_id: 'id_do_item_usado_como_template_fin_02',\n    },\n    conflictResponse: response,\n    fin04ConflictError: Object.keys(response).length === 0 || Boolean(errorMessage),\n  }\n}];"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1492c1c5-be5e-4b41-a415-ccb42bc16248",
+              "name": "ctx",
+              "type": "json",
+              "value": "={{ $(\"Normalizar retorno template\").item.json.ctx || $json.ctx || {} }}"
+            },
+            {
+              "id": "a94204bb-009f-40a9-8d1f-b2af90c7e717",
+              "name": "templateItemId",
+              "type": "string",
+              "value": "={{ String($(\"Normalizar retorno template\").item.json.templateItemId || $json.templateItemId || \"\") }}"
+            },
+            {
+              "id": "b0422b2f-f037-44b2-9808-80064a82b2e5",
+              "name": "templateRequestMeta",
+              "type": "json",
+              "value": "={{ $(\"Normalizar retorno template\").item.json.templateRequestMeta || {} }}"
+            },
+            {
+              "id": "3c2003e2-39a7-490d-b96b-776afbba5be1",
+              "name": "templateResponse",
+              "type": "json",
+              "value": "={{ $(\"Normalizar retorno template\").item.json.templateResponse || {} }}"
+            },
+            {
+              "id": "5d1dd99b-0c2a-40f7-9951-aca70fa50f82",
+              "name": "templateFieldMap",
+              "type": "json",
+              "value": "={{ $(\"Normalizar retorno template\").item.json.templateFieldMap || {} }}"
+            },
+            {
+              "id": "845361ce-84f6-492e-b1c3-eeb2b460b64a",
+              "name": "templatePhaseId",
+              "type": "string",
+              "value": "={{ String($(\"Normalizar retorno template\").item.json.templatePhaseId || \"\") }}"
+            },
+            {
+              "id": "b4a656a9-4774-4e48-a18a-be4d6fcb1b5e",
+              "name": "conflictRequestMeta",
+              "type": "json",
+              "value": "={{ ({\n  request_node: 'FIN-04 Verificar conflitos por competencia',\n  template_item_id: String($(\"Normalizar retorno template\").item.json.templateItemId || $json.templateItemId || ''),\n  pipe_id: '306859915',\n  search_field_id: 'id_do_item_usado_como_template_fin_02',\n}) }}"
+            },
+            {
+              "id": "854bc880-6bfd-4edb-8c6e-68f596b2d56a",
+              "name": "conflictResponse",
+              "type": "json",
+              "value": "={{ (() => {\n  const response = $json || {};\n  const errorObj = response && typeof response.error === 'object' && !Array.isArray(response.error) ? response.error : {};\n  const errorMessage = String(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : '') || '').trim();\n  return errorMessage && Object.keys(errorObj).length === 0\n    ? { ...response, error: { message: errorMessage } }\n    : response;\n})() }}"
+            },
+            {
+              "id": "0926dc9b-3b18-40c8-89c2-e383866b3359",
+              "name": "fin04ConflictError",
+              "type": "boolean",
+              "value": "={{ (() => {\n  const response = $json || {};\n  const errorObj = response && typeof response.error === 'object' && !Array.isArray(response.error) ? response.error : {};\n  const errorMessage = String(errorObj.message || response.message || response.description || (typeof response.error === 'string' ? response.error : '') || '').trim();\n  return Object.keys(response).length === 0 || Boolean(errorMessage);\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
       },
       "id": "ffda5ef2-9c97-4aa5-a0c5-c532f86a5146",
       "name": "Normalizar retorno conflitos",
       "position": [
-        832,
+        1280,
+        128
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ !$json.fin04ConflictError && !(Array.isArray($json.conflictResponse?.errors) && $json.conflictResponse.errors.length > 0) && !(Array.isArray($json.conflictResponse?.fin04ConflictErrors) && $json.conflictResponse.fin04ConflictErrors.length > 0) }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "a53b8f59-d8dd-4419-b745-b0c8348baede",
+      "name": "Consulta de conflitos retornou?",
+      "position": [
+        1504,
+        128
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9177fac4-0770-427d-8220-e56be70c98d6",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const clean = (value) => String(value ?? '').trim();\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  const response = $json.conflictResponse || {};\n  const errors = Array.isArray(response.fin04ConflictErrors)\n    ? response.fin04ConflictErrors\n    : (Array.isArray(response.errors) ? response.errors : []);\n  return {\n    ...prev,\n    status: 'failed',\n    reason: 'conflict_fin04_query_error',\n    conflictQuery: {\n      ok: false,\n      errorMessage: clean(response.error?.message || errors[0]?.message || 'graphql_error'),\n      hasPagination: response.data?.findCards?.pageInfo?.hasNextPage === true,\n    },\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "e64a1c6c-1280-492d-bb33-e4edad5e3a5c",
+      "name": "Definir conflict_fin04_query_error",
+      "position": [
+        1728,
+        336
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.conflictResponse?.data?.findCards?.pageInfo?.hasNextPage === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "c07f8236-9d26-4084-9de0-f11d9e0cafa8",
+      "name": "Consulta de conflitos paginou?",
+      "position": [
+        1952,
+        128
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "94d6c1d4-4a56-4e7c-b359-504f679ba57e",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  return {\n    ...prev,\n    status: 'failed',\n    reason: 'conflict_fin04_query_requires_pagination',\n    conflictQuery: {\n      ...(prev.conflictQuery || {}),\n      hasPagination: true,\n    },\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "3488171f-2181-4b54-9c11-d34483104cee",
+      "name": "Definir conflict_fin04_query_requires_pagination",
+      "position": [
+        2176,
+        336
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ String($json.templatePhaseId || \"\") === \"341306826\" }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "6c7c21fb-07c0-4456-9121-3104864c4cd7",
+      "name": "Template está Ativo?",
+      "position": [
+        2400,
+        128
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce0fbc2e-92fe-4e3b-b7c7-a4e30de6a946",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ ({\n  status: 'skipped',\n  reason: 'inactive_template_phase',\n  templatePhase: {\n    phaseId: String($json.templatePhaseId || ''),\n    isActive: false,\n  },\n}) }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "90a6b45d-e702-46ad-bf5b-48c9140362f0",
+      "name": "Definir inactive_template_phase",
+      "position": [
+        2624,
+        336
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0fdffb1f-8f2c-4203-aafb-893eb297464d",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const clean = (value) => String(value ?? '').trim();\n  const pickScalar = (field) => {\n    if (!field) return null;\n    const reportValue = field.report_value;\n    return (reportValue !== undefined && reportValue !== null && String(reportValue).trim() !== '') ? reportValue : field.value;\n  };\n  const fieldMap = (fields) => {\n    const out = {};\n    for (const field of (fields || [])) {\n      const id = field?.field?.id;\n      if (id) out[id] = field;\n    }\n    return out;\n  };\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  let conflict = { hasConflict: false, id: null, invoiceId: null, kind: null };\n  const edges = Array.isArray($json.conflictResponse?.data?.findCards?.edges) ? $json.conflictResponse.data.findCards.edges : [];\n  for (const edge of edges) {\n    const node = edge?.node;\n    if (!node) continue;\n    const fields = fieldMap(node.fields || []);\n    const sameTemplate = clean(pickScalar(fields['id_do_item_usado_como_template_fin_02'])) === clean($json.templateItemId || '');\n    const sameCompetence = clean(pickScalar(fields['data_de_compet_ncia'])).slice(0, 10) === clean($json.ctx?.run?.competenceYMD || '');\n    if (!sameTemplate || !sameCompetence) continue;\n    const invoiceId = clean(pickScalar(fields['id_da_fatura']) || '');\n    conflict = {\n      hasConflict: true,\n      id: clean(node.id || ''),\n      invoiceId,\n      kind: invoiceId ? 'existing_fin04_conflict' : 'orphan_fin04_exists_for_rule_competence',\n    };\n    break;\n  }\n  return {\n    ...prev,\n    conflict,\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "ac57736b-d572-4524-b26c-5f62479b13a1",
+      "name": "Mapear conflito FIN-04",
+      "position": [
+        2848,
+        128
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.conflict?.hasConflict === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "77349850-48c5-4363-b191-210ea1088256",
+      "name": "Há FIN-04 na competência?",
+      "position": [
+        3072,
+        128
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.conflict?.kind || \"\") }}",
+                    "rightValue": "existing_fin04_conflict",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "existing_fin04_conflict"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.conflict?.kind || \"\") }}",
+                    "rightValue": "orphan_fin04_exists_for_rule_competence",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "orphan_fin04_exists_for_rule_competence"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "efd5230f-fd80-430f-a6f2-05d592576d14",
+      "name": "Tipo de conflito FIN-04",
+      "position": [
+        3296,
+        128
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6347b66e-8e36-4642-89fa-f0b946739190",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ ({ ...($json.decision || {}), status: \"blocked\", reason: \"existing_fin04_conflict\" }) }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d6c011f7-a98d-4cf0-ad3b-2584e18e69cb",
+      "name": "Definir existing_fin04_conflict",
+      "position": [
+        3520,
+        48
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5bcb16bb-05de-487c-8a30-a9214d42d80d",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ ({ ...($json.decision || {}), status: \"blocked\", reason: \"orphan_fin04_exists_for_rule_competence\" }) }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "0c7f3a0f-87ff-47ea-8954-20d35417e7e1",
+      "name": "Definir orphan_fin04_exists_for_rule_competence",
+      "position": [
+        3520,
+        208
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c5c6c71-f0da-417d-be30-108409656040",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const clean = (value) => String(value ?? '').trim();\n  const pickScalar = (field) => {\n    if (!field) return null;\n    const reportValue = field.report_value;\n    return (reportValue !== undefined && reportValue !== null && String(reportValue).trim() !== '') ? reportValue : field.value;\n  };\n  const extractIds = (field) => {\n    if (!field) return [];\n    const out = [];\n    const push = (value) => {\n      if (value === undefined || value === null) return;\n      if (typeof value === 'object') {\n        if (value.id != null) out.push(String(value.id));\n        else if (value.value != null) out.push(String(value.value));\n        else if (value.label != null) out.push(String(value.label));\n      } else {\n        out.push(String(value));\n      }\n    };\n    if (Array.isArray(field.array_value)) {\n      for (const value of field.array_value) push(value);\n    } else {\n      const value = pickScalar(field);\n      if (Array.isArray(value)) {\n        for (const item of value) push(item);\n      } else if (typeof value === 'string') {\n        const matches = value.match(/[0-9]+/g);\n        if (matches) {\n          for (const item of matches) out.push(String(item));\n        } else if (value.trim()) {\n          out.push(value.trim());\n        }\n      } else if (value != null) {\n        push(value);\n      }\n    }\n    return Array.from(new Set(out.filter(Boolean)));\n  };\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  const fm = ($json.templateFieldMap && typeof $json.templateFieldMap === 'object' && !Array.isArray($json.templateFieldMap)) ? $json.templateFieldMap : {};\n  const conditions = extractIds(fm['condi_es_exigidas_para_iniciar_o_faturamento_do_item']);\n  const specificStart = clean(pickScalar(fm['data_de_in_cio_do_faturamento'])).slice(0, 10);\n  const specificEnd = clean(pickScalar(fm['data_de_fim_do_faturamento'])).slice(0, 10);\n  const blockingReasons = [];\n  if (conditions.includes('1258585802')) {\n    if (!specificStart || specificStart > clean($json.ctx?.run?.competenceEnd || '')) blockingReasons.push('specific_date_not_ready');\n    if (specificEnd && specificEnd < clean($json.ctx?.run?.competenceYMD || '')) blockingReasons.push('specific_date_finished');\n  }\n  if (conditions.includes('1258585767')) blockingReasons.push('blocked_missing_external_signal_onboarding_training');\n  if (conditions.includes('1258585836')) blockingReasons.push('blocked_missing_external_signal_setup_payment');\n  return {\n    ...prev,\n    startConditions: {\n      conditions,\n      specificStart,\n      specificEnd,\n      blockingReasons,\n      primaryReason: blockingReasons[0] || null,\n      hasBlockingReason: blockingReasons.length > 0,\n    },\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "8fb98fcc-3730-42f8-9276-69abfee164ea",
+      "name": "Condições de início",
+      "position": [
+        3296,
+        336
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.startConditions?.hasBlockingReason === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "2efd2351-ffb9-4454-978c-770dfb203dd2",
+      "name": "Há bloqueio de início?",
+      "position": [
+        3520,
+        336
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.startConditions?.primaryReason || \"\") }}",
+                    "rightValue": "specific_date_not_ready",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "specific_date_not_ready"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.startConditions?.primaryReason || \"\") }}",
+                    "rightValue": "specific_date_finished",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "specific_date_finished"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.startConditions?.primaryReason || \"\") }}",
+                    "rightValue": "blocked_missing_external_signal_onboarding_training",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "blocked_missing_external_signal_onboarding_training"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.startConditions?.primaryReason || \"\") }}",
+                    "rightValue": "blocked_missing_external_signal_setup_payment",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "blocked_missing_external_signal_setup_payment"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "a9b619dd-817e-4b08-a70e-4d01495ff18f",
+      "name": "Motivo de bloqueio de início",
+      "position": [
+        3744,
+        336
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a95822bb-624a-4d07-b10d-03fe1e9e0de4",
+              "name": "decision",
+              "type": "json",
+              "value": "={ ({ ...($json.decision || {}), status: \"blocked\", reason: \"specific_date_not_ready\" }) }"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "b258232d-edfe-4a29-9afc-844a7378a380",
+      "name": "Definir specific_date_not_ready",
+      "position": [
+        3968,
+        240
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92c8a9f9-ee31-458d-81a2-b81799c574cf",
+              "name": "decision",
+              "type": "json",
+              "value": "={ ({ ...($json.decision || {}), status: \"blocked\", reason: \"specific_date_finished\" }) }"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "38709cbc-62f9-4d5c-8217-e88737b367e4",
+      "name": "Definir specific_date_finished",
+      "position": [
+        3968,
+        320
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1c70a6d-d5aa-4c26-8fb5-49d1f36fed66",
+              "name": "decision",
+              "type": "json",
+              "value": "={ ({ ...($json.decision || {}), status: \"blocked\", reason: \"blocked_missing_external_signal_onboarding_training\" }) }"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "c007ab50-b7b3-4de0-85f2-dce65c7b1185",
+      "name": "Definir blocked_missing_external_signal_onboarding_training",
+      "position": [
+        3968,
+        400
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d190b068-d23b-4829-8ef3-c9220ad4051c",
+              "name": "decision",
+              "type": "json",
+              "value": "={ ({ ...($json.decision || {}), status: \"blocked\", reason: \"blocked_missing_external_signal_setup_payment\" }) }"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d32fafa3-8c0b-4099-88e8-d3de15d359bf",
+      "name": "Definir blocked_missing_external_signal_setup_payment",
+      "position": [
+        3968,
+        480
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fde74591-eda9-482a-a83d-5a7a37b65e89",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const clean = (value) => String(value ?? '').trim();\n  const pickScalar = (field) => {\n    if (!field) return null;\n    const reportValue = field.report_value;\n    return (reportValue !== undefined && reportValue !== null && String(reportValue).trim() !== '') ? reportValue : field.value;\n  };\n  const parseNum = (value) => {\n    if (value === undefined || value === null) return 0;\n    if (typeof value === 'number' && Number.isFinite(value)) return value;\n    let source = String(value).trim();\n    if (!source) return 0;\n    source = source.replace(/[^0-9,.-]/g, '');\n    if (!source) return 0;\n    if (source.includes(',') && source.includes('.')) {\n      if (source.lastIndexOf(',') > source.lastIndexOf('.')) {\n        source = source.replace(/\\./g, '').replace(',', '.');\n      } else {\n        source = source.replace(/,/g, '');\n      }\n    } else if (source.includes(',')) {\n      source = source.replace(',', '.');\n    }\n    const parsed = Number(source);\n    return Number.isFinite(parsed) ? parsed : 0;\n  };\n  const extractIds = (field) => {\n    if (!field) return [];\n    const out = [];\n    const push = (value) => {\n      if (value === undefined || value === null) return;\n      if (typeof value === 'object') {\n        if (value.id != null) out.push(String(value.id));\n        else if (value.value != null) out.push(String(value.value));\n        else if (value.label != null) out.push(String(value.label));\n      } else {\n        out.push(String(value));\n      }\n    };\n    if (Array.isArray(field.array_value)) {\n      for (const value of field.array_value) push(value);\n    } else {\n      const value = pickScalar(field);\n      if (Array.isArray(value)) {\n        for (const item of value) push(item);\n      } else if (typeof value === 'string') {\n        const matches = value.match(/[0-9]+/g);\n        if (matches) {\n          for (const item of matches) out.push(String(item));\n        } else if (value.trim()) {\n          out.push(value.trim());\n        }\n      } else if (value != null) {\n        push(value);\n      }\n    }\n    return Array.from(new Set(out.filter(Boolean)));\n  };\n  const extractList = (field) => {\n    if (!field) return [];\n    const out = [];\n    const push = (value) => {\n      if (value === undefined || value === null) return;\n      const source = String(value).trim();\n      if (source) out.push(source);\n    };\n    if (Array.isArray(field.array_value)) {\n      for (const value of field.array_value) push(value);\n    } else {\n      const value = pickScalar(field);\n      if (Array.isArray(value)) {\n        for (const item of value) push(item);\n      } else if (typeof value === 'string') {\n        const source = value.trim();\n        if (source.startsWith('[')) {\n          try {\n            const parsed = JSON.parse(source);\n            if (Array.isArray(parsed)) {\n              for (const item of parsed) push(item);\n            } else {\n              push(parsed);\n            }\n          } catch (_err) {\n            for (const item of source.split(',')) push(item);\n          }\n        } else {\n          for (const item of source.split(',')) push(item);\n        }\n      } else if (value != null) {\n        push(value);\n      }\n    }\n    return Array.from(new Set(out));\n  };\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  const fm = ($json.templateFieldMap && typeof $json.templateFieldMap === 'object' && !Array.isArray($json.templateFieldMap)) ? $json.templateFieldMap : {};\n  const currency = clean(pickScalar(fm['moeda_da_fatura']));\n  const model = clean(pickScalar(fm['modelo_de_cobran_a']));\n  const type = clean(pickScalar(fm['tipo_de_item']));\n  const hasDiscountRaw = clean(pickScalar(fm['h_algum_desconto_nesse_item']));\n  const baseCalc = extractIds(fm['base_do_c_lculo_percentual']);\n  const selectedDiscountTypes = extractIds(fm['tipo_de_desconto_no_item_1']);\n  const selectedCategories = extractList(fm['categorias_do_saas_isentas_ou_com_desconto']);\n  const discountTypeByCategory = {\n    'A&B': extractIds(fm['tipo_de_desconto_a_b_1']),\n    'E&S': extractIds(fm['tipo_de_desconto_e_s']),\n    'Hospedagem': extractIds(fm['tipo_de_desconto_hospedagem']),\n    'Espaços': extractIds(fm['tipo_de_desconto_espa_os']),\n    'Outros': extractIds(fm['tipo_de_desconto_outros']),\n  };\n  const isPercentualBaseSaas = model === 'Percentual sobre base' && baseCalc.includes('1268890278');\n  return {\n    ...prev,\n    commercial: {\n      currency,\n      model,\n      type,\n      hasDiscount: hasDiscountRaw === 'Sim',\n      hasDiscountNominal: selectedDiscountTypes.includes('Nominal'),\n      hasDiscountPercent: selectedDiscountTypes.includes('Percentual'),\n      hasDiscountCategories: selectedDiscountTypes.includes('Categorias de propostas') && isPercentualBaseSaas,\n      baseCalc,\n      selectedDiscountTypes,\n      selectedCategories,\n      discountTypeByCategory,\n      isPercentualBaseSaas,\n      billingUnit: clean(pickScalar(fm['unidade_de_cobran_a'])),\n      isAfiliadosUnit: model === 'Por unidade' && clean(pickScalar(fm['unidade_de_cobran_a'])) === 'Afiliados',\n      periodicidade: clean(pickScalar(fm['periodicidade'])),\n      parcelasPagas: Number(parseNum(pickScalar(fm['parcelas_pagas']))),\n      parcelasTotais: Number(parseNum(pickScalar(fm['quantidade_de_parcelas_totais']))),\n      totalItemBrl: Number(parseNum(pickScalar(fm['valor_total_do_item_com_descontos_brl']) ?? pickScalar(fm['subtotal_do_item_brl']))),\n      totalItemUsd: Number(parseNum(pickScalar(fm['valor_total_do_item_com_descontos_usd']) ?? pickScalar(fm['subtotal_do_item_usd']))),\n    },\n  };\n})() }}"
+            },
+            {
+              "id": "0e48a286-da69-47a9-a6f5-d7a45651436b",
+              "name": "requiredBase",
+              "type": "json",
+              "value": "={{ [\"tipo_de_item\", \"moeda_da_fatura\", \"modelo_de_cobran_a\", \"h_algum_desconto_nesse_item\"] }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "cfc4333d-b606-4cb1-a77a-c2a5ea7d4510",
+      "name": "Dimensões comerciais do item",
+      "position": [
+        3968,
+        128
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.commercial?.model || \"\") }}",
+                    "rightValue": "Percentual sobre base",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "Percentual sobre base"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.commercial?.model || \"\") }}",
+                    "rightValue": "Por unidade",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "Por unidade"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false,
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Fixo/Outros"
+        }
+      },
+      "id": "ebf50e74-0190-407f-8565-093913254021",
+      "name": "Modelo de cobrança",
+      "position": [
+        4192,
+        48
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40ee83f7-d940-4165-993f-7157345bf9c7",
+              "name": "requiredByModel",
+              "type": "json",
+              "value": "={{ (() => {\n  const currency = String($json.decision?.commercial?.currency || '');\n  const required = ['base_do_c_lculo_percentual', 'percentual_a_ser_aplicado_na_base'];\n  if (currency === 'BRL - R$') required.push('valor_de_base_brl');\n  if (currency === 'USD - $') required.push('valor_de_base_usd');\n  return required;\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "a35acc79-0d0a-4adb-840d-bfbb606f9c3e",
+      "name": "Campos modelo percentual base",
+      "position": [
+        4416,
+        -64
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.isPercentualBaseSaas === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "09b66a5f-e65b-4dbb-bb55-0876ff8655c0",
+      "name": "Base percentual é SaaS?",
+      "position": [
+        4640,
+        -64
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "600738e8-757e-4a7a-b44a-b5219a819cc7",
+              "name": "requiredByModel",
+              "type": "json",
+              "value": "={{ (() => {\n  const required = Array.isArray($json.requiredByModel) ? [...$json.requiredByModel] : [];\n  const currency = String($json.decision?.commercial?.currency || '');\n  if (currency === 'BRL - R$') {\n    required.push('valor_base_saas_categoria_a_b_brl', 'valor_base_saas_categoria_e_s_brl', 'valor_base_saas_categoria_espa_os_brl', 'valor_base_saas_categoria_hospedagem_brl', 'valor_base_saas_categoria_outros_brl');\n  }\n  if (currency === 'USD - $') {\n    required.push('valor_base_saas_categoria_a_b_usd', 'valor_base_saas_categoria_e_s_usd', 'valor_base_saas_categoria_espa_os_usd', 'valor_base_saas_categoria_hospedagem_usd', 'valor_base_saas_categoria_outros_usd');\n  }\n  return required;\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d1f0724c-873a-4d94-96c5-163b15630bc4",
+      "name": "Campos modelo percentual SaaS",
+      "position": [
+        4864,
+        -144
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "795cdb58-e93c-417b-84aa-9c23314f2841",
+              "name": "requiredByModel",
+              "type": "json",
+              "value": "={{ (() => {\n  const currency = String($json.decision?.commercial?.currency || '');\n  const required = ['unidade_de_cobran_a', 'quantidade'];\n  if (currency === 'BRL - R$') {\n    required.push('valor_unit_rio_brl', 'subtotal_do_item_brl');\n  }\n  if (currency === 'USD - $') {\n    required.push('valor_unit_rio_usd', 'subtotal_do_item_usd');\n  }\n  return required;\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "379e2966-f06a-497f-95c5-a76ae5c7d2f1",
+      "name": "Campos modelo por unidade base",
+      "position": [
+        4416,
+        96
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.isAfiliadosUnit === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "a0472ecd-d815-4fa2-b84b-1bd5bef2ea30",
+      "name": "Unidade é Afiliados?",
+      "position": [
+        4640,
+        96
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2e2a31be-5625-4050-a2f8-9182429eb567",
+              "name": "requiredByModel",
+              "type": "json",
+              "value": "={{ [...(Array.isArray($json.requiredByModel) ? $json.requiredByModel : []), \"afiliados_que_comp_em_a_cobran_a\"] }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "7753a653-d9ff-4a8a-b9bd-659caed1a3e6",
+      "name": "Campos modelo por unidade afiliados",
+      "position": [
+        4864,
+        16
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7a0fc4b-c9b4-4fbe-a624-eb3e8e561600",
+              "name": "requiredByModel",
+              "type": "json",
+              "value": "={{ (() => {\n  const currency = String($json.decision?.commercial?.currency || '');\n  if (String($json.decision?.commercial?.model || '') !== 'Fixo') return [];\n  if (currency === 'BRL - R$') return ['subtotal_do_item_brl'];\n  if (currency === 'USD - $') return ['subtotal_do_item_usd'];\n  return [];\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "84c79c90-6add-44b2-b3e0-5e95b3aff5a7",
+      "name": "Campos modelo fixo/outros",
+      "position": [
+        4416,
+        256
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.commercial?.type || \"\") }}",
+                    "rightValue": "Produto",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "Produto"
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ String($json.decision?.commercial?.type || \"\") }}",
+                    "rightValue": "Ajustes de fatura",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "renameOutput": true,
+              "outputKey": "Ajustes de fatura"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": false,
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Default"
+        }
+      },
+      "id": "7a72507e-bca7-405d-a6cc-c315e2e31d02",
+      "name": "Tipo de item",
+      "position": [
+        4192,
+        256
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "162ac311-cfcf-4f34-b795-85efd04b67f6",
+              "name": "requiredByType",
+              "type": "json",
+              "value": "={{ [\"produto\"] }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "e9f2e17f-45e3-4985-bb57-7a5674e64e1b",
+      "name": "Campos tipo produto",
+      "position": [
+        4416,
+        336
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7ea84f38-e5da-489a-868a-5a4e559b18bc",
+              "name": "requiredByType",
+              "type": "json",
+              "value": "={{ (() => {\n  const currency = String($json.decision?.commercial?.currency || '');\n  if (currency === 'BRL - R$') return ['valor_total_do_item_com_descontos_brl'];\n  if (currency === 'USD - $') return ['valor_total_do_item_com_descontos_usd'];\n  return [];\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "4436726d-8a16-4046-b018-60c8af524d35",
+      "name": "Campos tipo ajuste",
+      "position": [
+        4416,
+        416
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "4644d0c0-1cab-4bb7-bcf0-eb6f388a9a37",
+      "name": "Merge requisitos modelo + tipo",
+      "position": [
+        5312,
+        240
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.hasDiscount === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "857c54b8-7fe9-4699-9f1c-8b9bdd366e42",
+      "name": "Há desconto?",
+      "position": [
+        4192,
+        464
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73dfdc9e-d675-44a8-8d2a-955e7e425b3d",
+              "name": "requiredByDiscount",
+              "type": "json",
+              "value": "={{ [\"tipo_de_desconto_no_item_1\"] }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "fdf0c07f-af63-405d-b419-450ba9067d5a",
+      "name": "Campos desconto base",
+      "position": [
+        4416,
+        544
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.hasDiscountNominal === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "d4c72eca-bac5-4b38-aa5f-c94e65313a97",
+      "name": "Desconto nominal?",
+      "position": [
+        4640,
+        544
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa9898a8-09d5-430c-b771-02b73c732b8e",
+              "name": "requiredByDiscount",
+              "type": "json",
+              "value": "={{ (() => {\n  const required = Array.isArray($json.requiredByDiscount) ? [...$json.requiredByDiscount] : [];\n  const currency = String($json.decision?.commercial?.currency || '');\n  if (currency === 'BRL - R$') required.push('valor_nominal_a_ser_descontado_brl');\n  if (currency === 'USD - $') required.push('valor_nominal_a_ser_descontado_usd');\n  return required;\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6234de9f-337f-4258-8201-d6cee0f47c7a",
+      "name": "Campos desconto nominal",
+      "position": [
+        4864,
+        464
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.hasDiscountPercent === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "8e2268d9-b471-4a2a-b8a1-ba71f450bbf8",
+      "name": "Desconto percentual?",
+      "position": [
+        5088,
+        544
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2872f7ae-43a7-4b41-8bac-0453a1402546",
+              "name": "requiredByDiscount",
+              "type": "json",
+              "value": "={{ [...(Array.isArray($json.requiredByDiscount) ? $json.requiredByDiscount : []), \"percentual_de_desconto_a_ser_aplicado\"] }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "a29316cd-6574-48f0-836d-51e3683ace69",
+      "name": "Campos desconto percentual",
+      "position": [
+        5312,
+        464
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.decision?.commercial?.hasDiscountCategories === true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "id": "57aa335e-b362-49f0-afe5-ba5883d684be",
+      "name": "Desconto por categorias?",
+      "position": [
+        5536,
+        544
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ddf61128-9adb-4559-96d8-397618cd0621",
+              "name": "requiredByDiscount",
+              "type": "json",
+              "value": "={{ (() => {\n  const required = Array.isArray($json.requiredByDiscount) ? [...$json.requiredByDiscount] : [];\n  const commercial = ($json.decision?.commercial && typeof $json.decision.commercial === 'object' && !Array.isArray($json.decision.commercial)) ? $json.decision.commercial : {};\n  required.push('categorias_do_saas_isentas_ou_com_desconto');\n  for (const category of (Array.isArray(commercial.selectedCategories) ? commercial.selectedCategories : [])) {\n    if (category === 'A&B') required.push('tipo_de_desconto_a_b_1');\n    if (category === 'E&S') required.push('tipo_de_desconto_e_s');\n    if (category === 'Hospedagem') required.push('tipo_de_desconto_hospedagem');\n    if (category === 'Espaços') required.push('tipo_de_desconto_espa_os');\n    if (category === 'Outros') required.push('tipo_de_desconto_outros');\n    const chosen = Array.isArray(commercial.discountTypeByCategory?.[category]) ? commercial.discountTypeByCategory[category] : [];\n    const suffix = category === 'A&B' ? 'a_b' : category === 'E&S' ? 'e_s' : category === 'Hospedagem' ? 'hospedagem' : category === 'Espaços' ? 'espa_os' : 'outros';\n    if (chosen.includes('1260337139')) required.push(`desconto_no_valor_vari_vel_do_saas_para_${suffix}`);\n    if (chosen.includes('1260337296')) required.push(`valor_do_imposto_a_ser_isento_${suffix}`);\n  }\n  return required;\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "61ccd937-0b2a-4b54-9f5d-bec28e3033ac",
+      "name": "Campos desconto por categorias SaaS",
+      "position": [
+        5760,
+        464
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "b979ed3e-b1d1-436d-ad98-c28105724c87",
+      "name": "Merge requisitos + desconto",
+      "position": [
+        5984,
+        240
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "63ccaf59-4da4-4e01-8a8a-2014adc6ad55",
+              "name": "decision",
+              "type": "json",
+              "value": "={{ (() => {\n  const unique = (values) => Array.from(new Set((Array.isArray(values) ? values : []).map((value) => String(value ?? '').trim()).filter(Boolean))).sort();\n  const prev = ($json.decision && typeof $json.decision === 'object' && !Array.isArray($json.decision)) ? $json.decision : {};\n  return {\n    ...prev,\n    visibleRequired: unique([\n      ...(Array.isArray($json.requiredBase) ? $json.requiredBase : []),\n      ...(Array.isArray($json.requiredByModel) ? $json.requiredByModel : []),\n      ...(Array.isArray($json.requiredByType) ? $json.requiredByType : []),\n      ...(Array.isArray($json.requiredByDiscount) ? $json.requiredByDiscount : []),\n    ]),\n    status: prev.status || 'ready',\n    reason: prev.reason || null,\n  };\n})() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "9605402e-7384-4ec9-82df-92556935c35b",
+      "name": "Consolidar campos obrigatórios visíveis",
+      "position": [
+        6208,
+        240
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "numberInputs": 11
+      },
+      "id": "c61bd22d-df08-409e-9a7b-42f8307e54b4",
+      "name": "Append decisões item_plan",
+      "position": [
+        6432,
+        240
+      ],
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst STATUS_PRIORITY = {\n  success: 0,\n  skipped: 1,\n  blocked: 2,\n  failed: 3,\n};\nconst parseDetailsObject = (value) => {\n  if (value && typeof value === 'object' && !Array.isArray(value)) return clone(value);\n  const s = clean(value);\n  if (!s || s === 'null') return {};\n  try {\n    const parsed = JSON.parse(s);\n    return (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};\n  } catch (_err) {\n    return {};\n  }\n};\nconst uniqueStrings = (values) => {\n  const out = [];\n  const seen = new Set();\n  for (const value of (values || [])) {\n    const s = clean(value);\n    if (!s || seen.has(s)) continue;\n    seen.add(s);\n    out.push(s);\n  }\n  return out;\n};\nconst uniqueObjects = (values) => {\n  const out = [];\n  const seen = new Set();\n  for (const value of (values || [])) {\n    const fingerprint = jsonString(value ?? null);\n    if (seen.has(fingerprint)) continue;\n    seen.add(fingerprint);\n    out.push(value);\n  }\n  return out;\n};\nconst minTime = (current, incoming) => {\n  const a = clean(current);\n  const b = clean(incoming);\n  if (!a) return b || null;\n  if (!b) return a || null;\n  return a <= b ? a : b;\n};\nconst maxTime = (current, incoming) => {\n  const a = clean(current);\n  const b = clean(incoming);\n  if (!a) return b || null;\n  if (!b) return a || null;\n  return a >= b ? a : b;\n};\nconst rawEntityType = (payload) => clean(payload.entity_type);\nconst resolveRuleId = (ctx, payload) => clean(payload.rule_id ?? ctx.rule?.ruleId ?? (rawEntityType(payload) === 'rule' ? payload.entity_id : '')) || null;\nconst resolveTemplateItemId = (payload) => clean(payload.template_item_id ?? payload.fin02_parent_item_id ?? (rawEntityType(payload) === 'template_item' ? payload.entity_id : '')) || null;\nconst resolveFin04ItemId = (payload) => clean(payload.fin04_item_id ?? (rawEntityType(payload) === 'fin04_item' ? payload.entity_id : '')) || null;\nconst ensureEntityLifecycleState = (ctx) => {\n  ctx.entityLifecycle = asObj(ctx.entityLifecycle);\n  ctx.entityLifecycle.items = asObj(ctx.entityLifecycle.items);\n  ctx.entityLifecycle.invoices = asObj(ctx.entityLifecycle.invoices);\n  ctx.entityLifecycle.aliasByFin04 = asObj(ctx.entityLifecycle.aliasByFin04);\n  ctx.entityLifecycle.syntheticInvoiceCounter = Number(ctx.entityLifecycle.syntheticInvoiceCounter || 0);\n  ctx.entityLifecycle.syntheticItemCounter = Number(ctx.entityLifecycle.syntheticItemCounter || 0);\n  return ctx.entityLifecycle;\n};\nconst syncEntityLogs = (ctx) => {\n  const state = ensureEntityLifecycleState(ctx);\n  const sortRows = (rows) => rows.sort((left, right) => {\n    const leftKey = clean(left.dedupe_key) || clean(left.entity_id) || clean(left.rule_id);\n    const rightKey = clean(right.dedupe_key) || clean(right.entity_id) || clean(right.rule_id);\n    return leftKey.localeCompare(rightKey);\n  });\n  ctx.entityLogs = [\n    ...sortRows(Object.values(state.invoices)),\n    ...sortRows(Object.values(state.items)),\n  ];\n  return ctx.entityLogs;\n};\nconst lifecycleKind = (payload) => {\n  const type = rawEntityType(payload);\n  if (type === 'rule' || type === 'invoice') return 'invoice';\n  return 'item';\n};\nconst invoiceLifecycleKey = (ctx, payload, state) => {\n  const ruleId = resolveRuleId(ctx, payload);\n  const dedupeKey = clean(payload.dedupe_key);\n  if (!ruleId && dedupeKey.startsWith('missing_rule:')) return dedupeKey;\n  const competence = clean(payload.competence_date).slice(0, 10) || clean(ctx.run?.competenceYMD);\n  if (ruleId) return `${ruleId}|${competence}`;\n  state.syntheticInvoiceCounter = Number(state.syntheticInvoiceCounter || 0) + 1;\n  return `missing_rule:${state.syntheticInvoiceCounter}|${competence}`;\n};\nconst itemLifecycleKey = (ctx, payload, state) => {\n  const competence = clean(payload.competence_date).slice(0, 10) || clean(ctx.run?.competenceYMD);\n  const ruleId = resolveRuleId(ctx, payload) || 'missing_rule';\n  const templateItemId = resolveTemplateItemId(payload);\n  const fin04ItemId = resolveFin04ItemId(payload);\n  if (templateItemId) {\n    if (fin04ItemId && clean(state.aliasByFin04[fin04ItemId])) return clean(state.aliasByFin04[fin04ItemId]);\n    const key = `${ruleId}|${templateItemId}|${competence}`;\n    if (fin04ItemId) state.aliasByFin04[fin04ItemId] = key;\n    return key;\n  }\n  if (fin04ItemId && clean(state.aliasByFin04[fin04ItemId])) return clean(state.aliasByFin04[fin04ItemId]);\n  if (fin04ItemId) {\n    const key = `${ruleId}|fin04:${fin04ItemId}|${competence}`;\n    state.aliasByFin04[fin04ItemId] = key;\n    return key;\n  }\n  const dedupeKey = clean(payload.dedupe_key);\n  if (dedupeKey) return `${ruleId}|dedupe:${dedupeKey}|${competence}`;\n  state.syntheticItemCounter = Number(state.syntheticItemCounter || 0) + 1;\n  return `${ruleId}|missing_item:${state.syntheticItemCounter}|${competence}`;\n};\nconst lifecycleIdentity = (ctx, payload, state) => {\n  const kind = lifecycleKind(payload);\n  return {\n    kind,\n    key: kind === 'invoice' ? invoiceLifecycleKey(ctx, payload, state) : itemLifecycleKey(ctx, payload, state),\n  };\n};\nconst lifecycleBaseRow = (ctx, payload, kind, key) => {\n  const ruleId = resolveRuleId(ctx, payload);\n  const templateItemId = resolveTemplateItemId(payload);\n  const fin04ItemId = resolveFin04ItemId(payload);\n  const invoiceId = clean(payload.invoice_id) || null;\n  const competenceDate = payload.competence_date ?? timeWithOffset(ctx.run?.competenceYMD);\n  return {\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name ?? null,\n    entity_type: kind,\n    entity_id: kind === 'invoice' ? (invoiceId || ruleId) : (fin04ItemId || templateItemId),\n    rule_id: ruleId,\n    template_item_id: templateItemId,\n    fin02_parent_item_id: clean(payload.fin02_parent_item_id) || templateItemId || null,\n    invoice_id: invoiceId,\n    fin04_item_id: fin04ItemId,\n    competence_date: competenceDate,\n    action: kind === 'invoice' ? 'invoice_lifecycle' : 'item_lifecycle',\n    status: null,\n    failure_reason: null,\n    dedupe_key: key,\n    graphql_calls_delta: 0,\n    started_at: null,\n    finished_at: null,\n    details_json: 'null',\n  };\n};\nconst mergeLifecycleDetails = (row, payload) => {\n  const details = parseDetailsObject(row.details_json);\n  const stageDetails = parseDetailsObject(payload.details_json);\n  const stage = {\n    node_name: payload.node_name ?? null,\n    action: clean(payload.action) || null,\n    status: clean(payload.status) || null,\n    failure_reason: clean(payload.failure_reason) || null,\n  };\n  details.stages = uniqueObjects([\n    ...(Array.isArray(details.stages) ? details.stages : []),\n    stage,\n  ].filter((value) => value.node_name || value.action || value.status || value.failure_reason));\n  details.raw_actions = uniqueStrings([\n    ...(Array.isArray(details.raw_actions) ? details.raw_actions : []),\n    payload.action,\n  ]);\n  details.failure_reasons = uniqueStrings([\n    ...(Array.isArray(details.failure_reasons) ? details.failure_reasons : []),\n    payload.failure_reason,\n  ]);\n  details.stage_details = uniqueObjects([\n    ...(Array.isArray(details.stage_details) ? details.stage_details : []),\n    ...(Object.keys(stageDetails).length > 0 ? [stageDetails] : []),\n  ]);\n  if (clean(payload.action) === 'create_item' && clean(payload.status) === 'success') details.created_item = true;\n  if (clean(payload.action) === 'update_item_invoice_id' && clean(payload.status) === 'success') details.invoice_linked = true;\n  if (clean(payload.action) === 'increment_installment_counter' && clean(payload.status) === 'success') details.parcelas_incremented = true;\n  if (clean(payload.action) === 'inactivate_parent_item' && clean(payload.status) === 'success') details.parent_inactivated = true;\n  if (clean(payload.action) === 'create_invoice' && clean(payload.status) === 'success') details.invoice_created = true;\n  if (clean(payload.failure_reason) === 'invoice_already_exists') details.invoice_preexisting = true;\n  row.details_json = jsonString(details);\n};\nconst mergeLifecycleRow = (ctx, current, payload, kind, key) => {\n  const row = current ? clone(current) : lifecycleBaseRow(ctx, payload, kind, key);\n  const incomingStatus = clean(payload.status) || 'success';\n  const incomingRank = STATUS_PRIORITY[incomingStatus] ?? -1;\n  const currentRank = STATUS_PRIORITY[clean(row.status)] ?? -1;\n  row.run_id = row.run_id ?? ctx.run?.runId ?? null;\n  row.workflow_execution_id = row.workflow_execution_id ?? ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual');\n  row.parent_execution_id = row.parent_execution_id ?? ctx.trace?.parentExecutionId ?? null;\n  row.workflow_name = row.workflow_name ?? ctx.trace?.workflowName ?? null;\n  row.rule_id = row.rule_id || resolveRuleId(ctx, payload);\n  row.template_item_id = row.template_item_id || resolveTemplateItemId(payload);\n  row.fin02_parent_item_id = row.fin02_parent_item_id || clean(payload.fin02_parent_item_id) || row.template_item_id || null;\n  row.invoice_id = row.invoice_id || clean(payload.invoice_id) || null;\n  row.fin04_item_id = row.fin04_item_id || resolveFin04ItemId(payload);\n  row.entity_type = kind;\n  row.action = kind === 'invoice' ? 'invoice_lifecycle' : 'item_lifecycle';\n  row.dedupe_key = key;\n  row.graphql_calls_delta = Number(row.graphql_calls_delta || 0) + Number(payload.graphql_calls_delta || 0);\n  row.started_at = minTime(row.started_at, payload.started_at ?? ctx.startedAt ?? nowIso);\n  row.finished_at = maxTime(row.finished_at, payload.finished_at ?? nowIso);\n  if (incomingRank >= currentRank) {\n    row.status = incomingStatus;\n    row.node_name = payload.node_name ?? row.node_name;\n    if (clean(payload.failure_reason)) row.failure_reason = clean(payload.failure_reason);\n  }\n  if (!clean(row.failure_reason) && clean(payload.failure_reason)) row.failure_reason = clean(payload.failure_reason);\n  row.entity_id = kind === 'invoice' ? (row.invoice_id || row.rule_id || row.entity_id || null) : (row.fin04_item_id || row.template_item_id || row.entity_id || null);\n  mergeLifecycleDetails(row, payload);\n  return row;\n};\nconst rehydrateEntityLifecycle = (ctx) => {\n  const state = ensureEntityLifecycleState(ctx);\n  if (!Array.isArray(ctx.entityLogs) || ctx.entityLogs.length === 0) return;\n  if (Object.keys(state.items).length > 0 || Object.keys(state.invoices).length > 0) return;\n  const existingRows = ctx.entityLogs.slice();\n  ctx.entityLogs = [];\n  for (const row of existingRows) {\n    const identity = lifecycleIdentity(ctx, row, state);\n    const bucket = identity.kind === 'invoice' ? state.invoices : state.items;\n    const current = bucket[identity.key] ? asObj(bucket[identity.key]) : null;\n    const merged = mergeLifecycleRow(ctx, current, row, identity.kind, identity.key);\n    bucket[identity.key] = merged;\n    if (clean(merged.fin04_item_id)) state.aliasByFin04[clean(merged.fin04_item_id)] = identity.key;\n  }\n  syncEntityLogs(ctx);\n};\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  ensureEntityLifecycleState(ctx);\n  rehydrateEntityLifecycle(ctx);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  const state = ensureEntityLifecycleState(ctx);\n  const identity = lifecycleIdentity(ctx, payload, state);\n  const bucket = identity.kind === 'invoice' ? state.invoices : state.items;\n  const current = bucket[identity.key] ? asObj(bucket[identity.key]) : null;\n  const merged = mergeLifecycleRow(ctx, current, payload, identity.kind, identity.key);\n  bucket[identity.key] = merged;\n  if (clean(merged.fin04_item_id)) state.aliasByFin04[clean(merged.fin04_item_id)] = identity.key;\n  syncEntityLogs(ctx);\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\nconst merged = $input.all().map((item) => asObj(item.json));\nif (merged.length === 0) {\n  throw new Error('No merged template items to consolidate');\n}\nconst ctx = ensureLogState(clone(asObj(merged[0].ctx || merged[0])));\nconst ZERO_WHITELIST = new Set([\n  'valor_de_base_brl',\n  'valor_de_base_usd',\n  'valor_base_saas_categoria_a_b_brl',\n  'valor_base_saas_categoria_a_b_usd',\n  'valor_base_saas_categoria_e_s_brl',\n  'valor_base_saas_categoria_e_s_usd',\n  'valor_base_saas_categoria_espa_os_brl',\n  'valor_base_saas_categoria_espa_os_usd',\n  'valor_base_saas_categoria_hospedagem_brl',\n  'valor_base_saas_categoria_hospedagem_usd',\n  'valor_base_saas_categoria_outros_brl',\n  'valor_base_saas_categoria_outros_usd',\n]);\nconst targetMap = {\n  produto: 'produto',\n  tipo_de_item: 'tipo_de_item',\n  modelo_de_cobran_a: 'modelo_de_cobran_a',\n  moeda_da_fatura: 'moeda_da_fatura',\n  base_do_c_lculo_percentual: 'base_do_c_lculo_percentual',\n  percentual_a_ser_aplicado_na_base: 'percentual_a_ser_aplicado_na_base',\n  unidade_de_cobran_a: 'unidade_de_cobran_a',\n  quantidade: 'quantidade',\n  afiliados_que_comp_em_a_cobran_a: 'afiliados_que_comp_em_a_cobran_a',\n  id_backoffice_do_afiliado: 'id_backoffice_do_afiliado',\n  h_algum_desconto_nesse_item: 'h_algum_desconto_nesse_item',\n  tipo_de_desconto_no_item_1: 'tipo_de_desconto_no_item',\n  percentual_de_desconto_a_ser_aplicado: 'percentual_de_desconto_a_ser_aplicado',\n  valor_nominal_a_ser_descontado_brl: 'valor_nominal_a_ser_descontado_brl',\n  valor_nominal_a_ser_descontado_usd: 'valor_nominal_a_ser_descontado_usd',\n  categorias_do_saas_isentas_ou_com_desconto: 'categorias_do_saas_isentas_ou_com_desconto',\n  observa_es_sobre_descontos_e_isen_es: 'observa_es_sobre_descontos_e_isen_es',\n  tipo_de_desconto_a_b_1: 'tipo_de_desconto_a_b_1',\n  tipo_de_desconto_e_s: 'tipo_de_desconto_e_s',\n  tipo_de_desconto_hospedagem: 'tipo_de_desconto_hospedagem',\n  tipo_de_desconto_espa_os: 'tipo_de_desconto_espa_os',\n  tipo_de_desconto_outros: 'tipo_de_desconto_outros',\n  desconto_no_valor_vari_vel_do_saas_para_a_b: 'desconto_no_valor_vari_vel_do_saas_para_a_b',\n  valor_do_imposto_a_ser_isento_a_b: 'valor_do_imposto_a_ser_isento_a_b',\n  desconto_no_valor_vari_vel_do_saas_para_e_s: 'desconto_no_valor_vari_vel_do_saas_para_e_s',\n  valor_do_imposto_a_ser_isento_e_s: 'valor_do_imposto_a_ser_isento_e_s',\n  desconto_no_valor_vari_vel_do_saas_para_hospedagem: 'desconto_no_valor_vari_vel_do_saas_para_hospedagem',\n  valor_do_imposto_a_ser_isento_hospedagem: 'valor_do_imposto_a_ser_isento_hospedagem',\n  desconto_no_valor_vari_vel_do_saas_para_espa_os: 'desconto_no_valor_vari_vel_do_saas_para_espa_os',\n  valor_do_imposto_a_ser_isento_espa_os: 'valor_do_imposto_a_ser_isento_espa_os',\n  desconto_no_valor_vari_vel_do_saas_para_outros: 'desconto_no_valor_vari_vel_do_saas_para_outros',\n  valor_do_imposto_a_ser_isento_outros: 'valor_do_imposto_a_ser_isento_outros',\n  valor_unit_rio_brl: 'valor_unit_rio_brl',\n  valor_unit_rio_usd: 'valor_unit_rio_usd',\n  subtotal_do_item_brl: 'valor_total_do_item_brl',\n  subtotal_do_item_usd: 'valor_total_do_item_usd',\n  valor_total_do_item_com_descontos_brl: 'valor_total_do_item_com_descontos_brl',\n  valor_total_do_item_com_descontos_usd: 'valor_total_do_item_com_descontos_usd',\n};\nconst addMappedValue = (fieldAttrs, target, value) => {\n  if (value === undefined || value === null) return;\n  if (Array.isArray(value) && value.length === 0) return;\n  if (typeof value === 'string' && !value.trim()) return;\n  fieldAttrs.push({ field_id: target, field_value: value });\n};\nlet duplicateItemsBlocked = 0;\nlet totalBrl = 0;\nlet totalUsd = 0;\n\nfor (const item of merged) {\n  const templateId = clean(item.templateItemId || item.templateItem?.templateItemId || item.ctx?.templateItemId || '');\n  const fetchCallIndex = nextGraphqlIndex(ctx);\n  const conflictCallIndex = nextGraphqlIndex(ctx);\n  const fetchResp = asObj(item.templateResponse || item);\n  const conflictResp = asObj(item.conflictResponse || item);\n  const decision = asObj(item.decision);\n  const commercial = asObj(decision.commercial);\n  const startConditions = asObj(decision.startConditions);\n  const conflict = asObj(decision.conflict);\n  const reason = clean(decision.reason);\n  const status = clean(decision.status) || 'failed';\n\n  if (reason === 'fetch_template_item_error') {\n    addGraphqlErrorLog(ctx, {\n      node_name: 'FIN-02 Buscar item template',\n      operation_name: 'fetch_fin02_template_item',\n      pipe_id: '306852209',\n      phase_id: '341306826',\n      entity_type: 'template_item',\n      entity_id: templateId || null,\n      card_id: templateId || null,\n      graphql_call_index: fetchCallIndex,\n      error_message: clean(asObj(decision.templateFetch).errorMessage || fetchResp.error?.message || 'template_not_found_or_transport_error'),\n      query_excerpt: 'query GetTemplateItem',\n      response_json: jsonString(fetchResp),\n    });\n    addFailure(ctx, 'FIN-02 Buscar item template', 'fetch_template_item_error', ctx.rule.ruleId, templateId || null);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId || null,\n      template_item_id: templateId || null,\n      action: 'prepare_template_item',\n      status: 'failed',\n      failure_reason: 'fetch_template_item_error',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n    });\n    continue;\n  }\n\n  if (reason === 'conflict_fin04_query_error') {\n    addGraphqlErrorLog(ctx, {\n      node_name: 'FIN-04 Verificar conflitos por competencia',\n      operation_name: 'recheck_fin04_conflict_by_template',\n      pipe_id: '306859915',\n      phase_id: '341351580',\n      entity_type: 'fin04_item',\n      entity_id: templateId || null,\n      card_id: templateId || null,\n      graphql_call_index: conflictCallIndex,\n      error_message: clean(asObj(decision.conflictQuery).errorMessage || conflictResp.error?.message || 'graphql_error'),\n      query_excerpt: 'findCards(pipeId, search: template_fin02_id)',\n      response_json: jsonString(conflictResp),\n    });\n    addFailure(ctx, 'FIN-04 Verificar conflitos por competencia', 'conflict_fin04_query_error', ctx.rule.ruleId, templateId || null);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId || null,\n      template_item_id: templateId || null,\n      action: 'check_fin04_conflict',\n      status: 'failed',\n      failure_reason: 'conflict_fin04_query_error',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n    });\n    continue;\n  }\n\n  if (reason == 'conflict_fin04_query_requires_pagination') {\n    addFailure(ctx, 'FIN-04 Verificar conflitos por competencia', 'conflict_fin04_query_requires_pagination', ctx.rule.ruleId, templateId || null);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId || null,\n      template_item_id: templateId || null,\n      action: 'check_fin04_conflict',\n      status: 'failed',\n      failure_reason: 'conflict_fin04_query_requires_pagination',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n    });\n    continue;\n  }\n\n  if (reason === 'inactive_template_phase') {\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId,\n      template_item_id: templateId,\n      action: 'evaluate_template_item',\n      status: 'skipped',\n      failure_reason: 'inactive_template_phase',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n      details_json: jsonString({ phaseId: clean(decision.templatePhase?.phaseId || '') }),\n    });\n    continue;\n  }\n\n  if (reason === 'existing_fin04_conflict' || reason === 'orphan_fin04_exists_for_rule_competence') {\n    duplicateItemsBlocked += 1;\n    addFailure(ctx, 'Consolidar elegibilidade e planos', reason, ctx.rule.ruleId, templateId, conflict.id || null);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId,\n      template_item_id: templateId,\n      fin04_item_id: clean(conflict.id) || null,\n      invoice_id: clean(conflict.invoiceId) || null,\n      action: 'check_fin04_conflict',\n      status: 'blocked',\n      failure_reason: reason,\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n      graphql_calls_delta: 1,\n      details_json: jsonString(conflict),\n    });\n    continue;\n  }\n\n  if (reason === 'specific_date_not_ready' || reason === 'specific_date_finished' || reason === 'blocked_missing_external_signal_onboarding_training' || reason === 'blocked_missing_external_signal_setup_payment') {\n    addFailure(ctx, 'Consolidar elegibilidade e planos', reason, ctx.rule.ruleId, templateId);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId,\n      template_item_id: templateId,\n      action: 'evaluate_start_conditions',\n      status: 'blocked',\n      failure_reason: reason,\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n      details_json: jsonString(startConditions),\n    });\n    continue;\n  }\n\n  if (status !== 'ready') {\n    addFailure(ctx, 'Consolidar elegibilidade e planos', reason || 'unexpected_payload_shape', ctx.rule.ruleId, templateId);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId || null,\n      template_item_id: templateId || null,\n      action: 'prepare_template_item',\n      status: 'failed',\n      failure_reason: reason || 'unexpected_payload_shape',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n      details_json: jsonString({ decision }),\n    });\n    continue;\n  }\n\n  const fm = asObj(item.templateFieldMap);\n  const fieldAttrs = [\n    { field_id: 'data_de_compet_ncia', field_value: clean(ctx.run.competenceYMD) },\n    { field_id: 'id_do_item_usado_como_template_fin_02', field_value: templateId },\n  ];\n  const validationErrors = [];\n  const visibleRequired = new Set(Array.isArray(decision.visibleRequired) ? decision.visibleRequired.map((value) => clean(value)).filter(Boolean) : []);\n  for (const [source, target] of Object.entries(targetMap)) {\n    const sourceField = fm[source];\n    let value = null;\n    if (sourceField?.field?.type === 'connector' || sourceField?.field?.type?.includes('checklist')) {\n      value = sourceField?.field?.type === 'connector' ? extractIds(sourceField) : extractList(sourceField);\n    } else {\n      value = pickScalar(sourceField);\n    }\n    if ((value === null || value === undefined || (typeof value === 'string' && !value.trim()) || (Array.isArray(value) && value.length === 0)) && visibleRequired.has(source)) {\n      if (ZERO_WHITELIST.has(target)) {\n        value = 0;\n      } else {\n        validationErrors.push({ field_id: target, source_field_id: source });\n      }\n    }\n    addMappedValue(fieldAttrs, target, value);\n  }\n\n  if (validationErrors.length > 0) {\n    addFailure(ctx, 'Consolidar elegibilidade e planos', 'missing_required_nonzero_field', ctx.rule.ruleId, templateId);\n    addEntityLog(ctx, {\n      node_name: 'Consolidar elegibilidade e planos',\n      entity_type: 'template_item',\n      entity_id: templateId,\n      template_item_id: templateId,\n      action: 'validate_fin04_payload',\n      status: 'failed',\n      failure_reason: 'missing_required_nonzero_field',\n      dedupe_key: `${templateId}|${ctx.run.competenceYMD}`,\n      details_json: jsonString({ validationErrors, visibleRequired: Array.from(visibleRequired).sort() }),\n    });\n    continue;\n  }\n\n  const totalItemBrl = Number(parseNum(commercial.totalItemBrl));\n  const totalItemUsd = Number(parseNum(commercial.totalItemUsd));\n  totalBrl += totalItemBrl;\n  totalUsd += totalItemUsd;\n  const periodicidade = clean(commercial.periodicidade);\n  const parcelasPagas = Number(parseNum(commercial.parcelasPagas));\n  const parcelasTotais = Number(parseNum(commercial.parcelasTotais));\n  const planned = {\n    templateItemId: templateId,\n    dedupeKey: `${templateId}|${ctx.run.competenceYMD}`,\n    totalItemBrl,\n    totalItemUsd,\n    periodicidade,\n    parcelasPagas,\n    parcelasTotais,\n    shouldUpdateParcelas: periodicidade === 'Parcelado',\n    newParcelasPagas: periodicidade === 'Parcelado' ? parcelasPagas + 1 : null,\n    shouldInactivateParent: periodicidade === 'Parcelado' && parcelasTotais > 0 && (parcelasPagas + 1) >= parcelasTotais,\n    createInput: {\n      pipe_id: Number(ctx.config.fin04PipeId),\n      phase_id: Number(ctx.config.fin04PhaseId),\n      title: `FIN-04 ${clean(ctx.run.competenceYMD).slice(0, 7)} - ${templateId}`,\n      fields_attributes: fieldAttrs,\n    },\n  };\n  ctx.plannedItems.push(planned);\n  addEntityLog(ctx, {\n    node_name: 'Consolidar elegibilidade e planos',\n    entity_type: 'template_item',\n    entity_id: templateId,\n    template_item_id: templateId,\n    action: 'prepare_template_item',\n    status: 'success',\n    dedupe_key: planned.dedupeKey,\n    details_json: jsonString({\n      periodicidade,\n      model: clean(commercial.model),\n      currency: clean(commercial.currency),\n      visibleRequired: Array.isArray(decision.visibleRequired) ? decision.visibleRequired : [],\n    }),\n  });\n}\n\nconst rf = fieldMap(Object.values(asObj(ctx.rule.ruleFields)));\nconst invoiceFields = [];\nconst pushInvoiceField = (field_id, value) => {\n  if (value === undefined || value === null) return;\n  if (Array.isArray(value) && value.length === 0) return;\n  if (typeof value === 'string' && !value.trim()) return;\n  invoiceFields.push({ field_id, field_value: value });\n};\npushInvoiceField('clientes_na_fatura', extractIds(rf['clientes_na_fatura']));\npushInvoiceField('contatos_que_receber_o_a_fatura', extractIds(rf['contatos_que_receber_o_a_fatura']));\npushInvoiceField('identificador_fiscal_na_fatura', clean(pickScalar(rf['identificador_fiscal_na_fatura'])));\npushInvoiceField('tipo_de_cliente_final', clean(pickScalar(rf['tipo_de_cliente_final'])));\npushInvoiceField('rede_na_fatura', extractIds(rf['rede_na_fatura']));\npushInvoiceField('forma_de_pagamento', extractList(rf['forma_de_pagamento']));\npushInvoiceField('moeda_do_teto_de_faturamento', extractList(rf['moeda_do_teto_de_faturamento']));\npushInvoiceField('teto_de_faturamento_brl', parseNum(pickScalar(rf['teto_de_faturamento_brl'])));\npushInvoiceField('teto_de_faturamento_usd', parseNum(pickScalar(rf['teto_de_faturamento_usd'])));\npushInvoiceField('id_da_regra_de_faturamento', clean(ctx.rule.ruleId));\npushInvoiceField('data_de_compet_ncia', clean(ctx.run.competenceYMD));\npushInvoiceField('valor_total_da_fatura_brl', totalBrl);\npushInvoiceField('valor_total_da_fatura_usd', totalUsd);\nctx.invoiceInputBase = {\n  pipe_id: 306859731,\n  title: `FIN-03 ${clean(ctx.run.competenceYMD).slice(0, 7)} - Regra ${clean(ctx.rule.ruleId)}`,\n  fields_attributes: invoiceFields,\n};\nctx.metrics.duplicateItemsBlocked = duplicateItemsBlocked;\nif (ctx.plannedItems.length === 0) {\n  const reason = ctx.failures[0]?.reason || 'no_items_ready_for_invoice';\n  ctx.terminal = { done: true, status: 'failed', reason };\n}\naddWorkflowLog(ctx, {\n  status: ctx.terminal.done ? 'failed' : 'success',\n  failure_reason: ctx.terminal.done ? ctx.terminal.reason : null,\n  rules_processed: 1,\n  rules_failed: ctx.terminal.done ? 1 : 0,\n  duplicate_items_blocked: duplicateItemsBlocked,\n  summary_json: jsonString({ plannedItems: ctx.plannedItems.length }),\n});\nconst payload = ctx.terminal.done\n  ? {\n      contractVersion: 'fin_v3',\n      itemType: 'rule_result',\n      trace: ctx.trace,\n      run: ctx.run,\n      rule: { ruleId: ctx.rule.ruleId, ruleTitle: ctx.rule.ruleTitle, prefetchDecision: ctx.rule.prefetchDecision ?? null },\n      result: {\n        status: 'failed',\n        reason: ctx.terminal.reason,\n        invoiceId: null,\n        existingInvoiceId: null,\n        createdItemIds: [],\n        totals: { brl: totalBrl, usd: totalUsd },\n        metricsDelta: { duplicateItemsBlocked },\n        failures: ctx.failures,\n        startedAt: ctx.startedAt ?? nowIso,\n        finishedAt: nowIso,\n      },\n      failures: ctx.failures,\n    }\n  : {\n      contractVersion: 'fin_v3',\n      itemType: 'item_plan',\n      trace: ctx.trace,\n      run: ctx.run,\n      rule: ctx.rule,\n      itemPlan: {\n        plannedItems: ctx.plannedItems,\n        totals: { brl: totalBrl, usd: totalUsd },\n        invoiceInputBase: ctx.invoiceInputBase,\n      },\n      failures: ctx.failures,\n    };\nreturn [{ json: payload }];\n"
+      },
+      "id": "d3204e31-e034-44ba-8839-1934b5e1e12c",
+      "name": "Consolidar elegibilidade e planos",
+      "position": [
+        6656,
         240
       ],
       "type": "n8n-nodes-base.code",
@@ -278,6 +1791,35 @@
         ]
       ]
     },
+    "Template retornou?": {
+      "main": [
+        [
+          {
+            "node": "FIN-04 Verificar conflitos por competencia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir fetch_template_item_error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar retorno template": {
+      "main": [
+        [
+          {
+            "node": "Template retornou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "FIN-04 Verificar conflitos por competencia": {
       "main": [
         [
@@ -289,11 +1831,18 @@
         ]
       ]
     },
-    "Normalizar retorno template": {
+    "Consulta de conflitos retornou?": {
       "main": [
         [
           {
-            "node": "FIN-04 Verificar conflitos por competencia",
+            "node": "Consulta de conflitos paginou?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir conflict_fin04_query_error",
             "type": "main",
             "index": 0
           }
@@ -301,6 +1850,604 @@
       ]
     },
     "Normalizar retorno conflitos": {
+      "main": [
+        [
+          {
+            "node": "Consulta de conflitos retornou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consulta de conflitos paginou?": {
+      "main": [
+        [
+          {
+            "node": "Definir conflict_fin04_query_requires_pagination",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Template está Ativo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template está Ativo?": {
+      "main": [
+        [
+          {
+            "node": "Mapear conflito FIN-04",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir inactive_template_phase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapear conflito FIN-04": {
+      "main": [
+        [
+          {
+            "node": "Há FIN-04 na competência?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Há FIN-04 na competência?": {
+      "main": [
+        [
+          {
+            "node": "Tipo de conflito FIN-04",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Condições de início",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo de conflito FIN-04": {
+      "main": [
+        [
+          {
+            "node": "Definir existing_fin04_conflict",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir orphan_fin04_exists_for_rule_competence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Condições de início": {
+      "main": [
+        [
+          {
+            "node": "Há bloqueio de início?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Há bloqueio de início?": {
+      "main": [
+        [
+          {
+            "node": "Motivo de bloqueio de início",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dimensões comerciais do item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Motivo de bloqueio de início": {
+      "main": [
+        [
+          {
+            "node": "Definir specific_date_not_ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir specific_date_finished",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir blocked_missing_external_signal_onboarding_training",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Definir blocked_missing_external_signal_setup_payment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dimensões comerciais do item": {
+      "main": [
+        [
+          {
+            "node": "Modelo de cobrança",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Tipo de item",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Há desconto?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Modelo de cobrança": {
+      "main": [
+        [
+          {
+            "node": "Campos modelo percentual base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Campos modelo por unidade base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Campos modelo fixo/outros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos modelo percentual base": {
+      "main": [
+        [
+          {
+            "node": "Base percentual é SaaS?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base percentual é SaaS?": {
+      "main": [
+        [
+          {
+            "node": "Campos modelo percentual SaaS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos modelo percentual SaaS": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos modelo por unidade base": {
+      "main": [
+        [
+          {
+            "node": "Unidade é Afiliados?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unidade é Afiliados?": {
+      "main": [
+        [
+          {
+            "node": "Campos modelo por unidade afiliados",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos modelo por unidade afiliados": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos modelo fixo/outros": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tipo de item": {
+      "main": [
+        [
+          {
+            "node": "Campos tipo produto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Campos tipo ajuste",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Campos tipo produto": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Campos tipo ajuste": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos modelo + tipo",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Há desconto?": {
+      "main": [
+        [
+          {
+            "node": "Campos desconto base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge requisitos + desconto",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Campos desconto base": {
+      "main": [
+        [
+          {
+            "node": "Desconto nominal?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desconto nominal?": {
+      "main": [
+        [
+          {
+            "node": "Campos desconto nominal",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Desconto percentual?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos desconto nominal": {
+      "main": [
+        [
+          {
+            "node": "Desconto percentual?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desconto percentual?": {
+      "main": [
+        [
+          {
+            "node": "Campos desconto percentual",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Desconto por categorias?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campos desconto percentual": {
+      "main": [
+        [
+          {
+            "node": "Desconto por categorias?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desconto por categorias?": {
+      "main": [
+        [
+          {
+            "node": "Campos desconto por categorias SaaS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge requisitos + desconto",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Campos desconto por categorias SaaS": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos + desconto",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge requisitos modelo + tipo": {
+      "main": [
+        [
+          {
+            "node": "Merge requisitos + desconto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge requisitos + desconto": {
+      "main": [
+        [
+          {
+            "node": "Consolidar campos obrigatórios visíveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar campos obrigatórios visíveis": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Definir fetch_template_item_error": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Definir conflict_fin04_query_error": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Definir conflict_fin04_query_requires_pagination": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Definir inactive_template_phase": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Definir existing_fin04_conflict": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Definir orphan_fin04_exists_for_rule_competence": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Definir specific_date_not_ready": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 7
+          }
+        ]
+      ]
+    },
+    "Definir specific_date_finished": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 8
+          }
+        ]
+      ]
+    },
+    "Definir blocked_missing_external_signal_onboarding_training": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 9
+          }
+        ]
+      ]
+    },
+    "Definir blocked_missing_external_signal_setup_payment": {
+      "main": [
+        [
+          {
+            "node": "Append decisões item_plan",
+            "type": "main",
+            "index": 10
+          }
+        ]
+      ]
+    },
+    "Append decisões item_plan": {
       "main": [
         [
           {
