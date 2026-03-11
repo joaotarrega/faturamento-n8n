@@ -19,7 +19,7 @@ EXPECTED = [
 TRIGGER_INPUT_EXAMPLE_TOKENS = {
     "[FIN] 1.1 Preparar regras elegiveis": ["runContext", "trace"],
     "[FIN] 1.2 Preparar itens elegiveis da regra": ["contractVersion", "itemType", "trace", "run", "rule"],
-    "[FIN] 1.3 Materializar itens FIN-04": ["contractVersion", "itemType", "trace", "run", "rule", "itemPlan", "logs", "failures"],
+    "[FIN] 1.3 Materializar itens FIN-04": ["contractVersion", "itemType", "trace", "run", "rule", "itemPlan", "failures"],
     "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": [
         "contractVersion",
         "itemType",
@@ -29,7 +29,6 @@ TRIGGER_INPUT_EXAMPLE_TOKENS = {
         "itemPlan",
         "createdItemIds",
         "parcelUpdates",
-        "logs",
         "failures",
     ],
 }
@@ -131,14 +130,23 @@ def validate_orchestrator(workflow: dict) -> None:
         "Normalizar retorno materializacao",
         "Criar fatura FIN-03 e concluir regra",
         "Normalizar retorno finalizacao",
+        "Emit rule logs",
+        "Ha rule logs?",
+        "Split rule logs",
+        "Persistir fin_billing_rule_log",
+    ]:
+        assert_true(required in node_names, f"orchestrator missing node {required}")
+    for removed in [
         "Emit workflow run logs",
         "Persistir fin_billing_run_log",
+        "Emit entity logs",
         "Ha entity logs?",
         "Persistir fin_billing_entity_log",
+        "Emit graphql logs",
         "Ha graphql logs?",
         "Persistir fin_billing_graphql_log",
     ]:
-        assert_true(required in node_names, f"orchestrator missing node {required}")
+        assert_true(removed not in node_names, f"orchestrator still contains stale node {removed}")
     text = json.dumps(workflow, ensure_ascii=False)
     assert_contains(text, "competence_date", "orchestrator missing competence_date tracking")
     connections = workflow.get("connections", {})
@@ -207,6 +215,36 @@ def validate_orchestrator(workflow: dict) -> None:
         branch_targets("Normalizar retorno finalizacao") == ["Accumulate results"],
         "orchestrator Normalizar retorno finalizacao must flow into Accumulate results",
     )
+    assert_true(
+        branch_targets("Finalize summary") == ["Emit rule logs"],
+        "orchestrator Finalize summary must flow into Emit rule logs",
+    )
+    assert_true(
+        branch_targets("Emit rule logs") == ["Ha rule logs?"],
+        "orchestrator Emit rule logs must flow into Ha rule logs?",
+    )
+    assert_true(
+        branch_targets("Ha rule logs?", 0) == ["Split rule logs"],
+        "orchestrator Ha rule logs? true branch must flow into Split rule logs",
+    )
+    assert_true(
+        branch_targets("Ha rule logs?", 1) == ["Restaurar summary final"],
+        "orchestrator Ha rule logs? false branch must flow into Restaurar summary final",
+    )
+    assert_true(
+        branch_targets("Split rule logs") == ["Persistir fin_billing_rule_log"],
+        "orchestrator Split rule logs must flow into Persistir fin_billing_rule_log",
+    )
+    assert_true(
+        branch_targets("Persistir fin_billing_rule_log") == ["Restaurar summary final"],
+        "orchestrator Persistir fin_billing_rule_log must flow into Restaurar summary final",
+    )
+    for node_name in ["Materializar itens FIN-04", "Criar fatura FIN-03 e concluir regra"]:
+        params = get_node(workflow, node_name).get("parameters", {}).get("workflowInputs", {})
+        schema_ids = {col.get("id") for col in params.get("schema", [])}
+        value_keys = set(params.get("value", {}).keys())
+        assert_true("logs" not in schema_ids, f"orchestrator {node_name} still exposes logs in workflowInputs schema")
+        assert_true("logs" not in value_keys, f"orchestrator {node_name} still maps logs into child workflow inputs")
 
 
 def get_node(workflow: dict, node_name: str) -> dict:
@@ -282,6 +320,10 @@ def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
             "child_workflow_returned_no_items",
             "failed_prepare_items_stage",
             "failed_materialize_items_stage",
+            "ruleLogRows",
+            "Persistir fin_billing_rule_log",
+            "created_item_ids_json",
+            "failures_json",
         ]:
             assert_contains(text, token, f"{workflow_name} missing token {token}")
     if workflow_name == "[FIN] 1.1 Preparar regras elegiveis":
@@ -367,49 +409,41 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
     )
 
 
-def validate_entity_log_lifecycle_contract(workflow_name: str, workflow: dict) -> None:
-    targeted_nodes = {
-        "[FIN] 1.1 Preparar regras elegiveis": ["Build regras elegiveis"],
-        "[FIN] 1.2 Preparar itens elegiveis da regra": ["Consolidar elegibilidade e planos"],
-        "[FIN] 1.3 Materializar itens FIN-04": ["Consolidar materializacao"],
-        "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": [
-            "Parse recheck invoice",
-            "Parse criacao invoice",
-            "Consolidar vinculos",
-            "Consolidar update parcelas",
-            "Consolidar update status",
+def validate_rule_log_contract(workflow_name: str, workflow: dict) -> None:
+    output_nodes = {
+        "[FIN] 1.2 Preparar itens elegiveis da regra": [
+            "Emitir rule_result direto",
+            "Consolidar elegibilidade e planos",
         ],
-        "[FIN] 1 Orquestrar faturamento mensal": ["Finalize summary"],
+        "[FIN] 1.3 Materializar itens FIN-04": [
+            "Emitir rule_result direto",
+            "Consolidar materializacao",
+        ],
+        "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": [
+            "Finalizar rule_result",
+        ],
     }
-    for node_name in targeted_nodes.get(workflow_name, []):
+    for node_name in output_nodes.get(workflow_name, []):
         js_code = get_node(workflow, node_name).get("parameters", {}).get("jsCode", "")
-        assert_contains(js_code, "ctx.entityLifecycle", f"{workflow_name}:{node_name} missing entityLifecycle accumulator")
-        assert_contains(js_code, "invoice_lifecycle", f"{workflow_name}:{node_name} missing invoice_lifecycle token")
-        assert_contains(js_code, "item_lifecycle", f"{workflow_name}:{node_name} missing item_lifecycle token")
-        assert_true(
-            "ctx.entityLogs.push({" not in js_code,
-            f"{workflow_name}:{node_name} still pushes raw entity log rows directly",
-        )
-        if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
-            assert_contains(
-                js_code,
-                "run_success_summary",
-                f"{workflow_name}:{node_name} missing consolidated success entity type",
-            )
-            assert_contains(
-                js_code,
-                "consolidated_success",
-                f"{workflow_name}:{node_name} missing consolidated success action",
-            )
-            assert_contains(
-                js_code,
-                "entityLogRows: buildEntityLogRows(ctx)",
-                f"{workflow_name}:{node_name} must emit consolidated entity log rows",
-            )
-            assert_true(
-                "entityLogRows: ctx.entityLogs" not in js_code,
-                f"{workflow_name}:{node_name} still emits raw success entity rows in final output",
-            )
+        assert_true("logs: {" not in js_code, f"{workflow_name}:{node_name} still emits logs in fin_v3 payloads")
+        assert_contains(js_code, "startedAt", f"{workflow_name}:{node_name} missing rule_result startedAt")
+        assert_contains(js_code, "finishedAt", f"{workflow_name}:{node_name} missing rule_result finishedAt")
+    if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+        for node_name in [
+            "Accumulate results",
+            "Finalize summary",
+            "Normalizar retorno preparar itens",
+            "Normalizar retorno materializacao",
+            "Normalizar retorno finalizacao",
+        ]:
+            js_code = get_node(workflow, node_name).get("parameters", {}).get("jsCode", "")
+            assert_true("workflowLogs" not in js_code, f"{workflow_name}:{node_name} still references workflowLogs")
+            assert_true("entityLogs" not in js_code, f"{workflow_name}:{node_name} still references entityLogs")
+            assert_true("graphqlLogs" not in js_code, f"{workflow_name}:{node_name} still references graphqlLogs")
+        finalize_js = get_node(workflow, "Finalize summary").get("parameters", {}).get("jsCode", "")
+        assert_contains(finalize_js, "ruleLogRows", f"{workflow_name}:Finalize summary must emit ruleLogRows")
+        assert_contains(finalize_js, "failed_nodes", f"{workflow_name}:Finalize summary missing failed_nodes aggregation")
+        assert_contains(finalize_js, "failures_json", f"{workflow_name}:Finalize summary missing failures_json aggregation")
 
 
 def main() -> None:
@@ -423,7 +457,7 @@ def main() -> None:
         validate_execute_workflow_trigger_examples(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
         validate_item_prep_pipeline(workflow_name, workflow)
-        validate_entity_log_lifecycle_contract(workflow_name, workflow)
+        validate_rule_log_contract(workflow_name, workflow)
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
     print("fin_monthly_workflows_ok")

@@ -54,11 +54,16 @@ The current canonical implementation surface is the named 5-workflow suite under
 
 - n8n Data Tables here should use only `string`, `number`, and `dateTime`.
 - Structured payloads such as summaries, details, variables, and responses should be serialized into string columns.
-- The orchestrator uses three Data Table log streams:
-  - `fin_billing_run_log`
-  - `fin_billing_entity_log`
-  - `fin_billing_graphql_log`
-- Before importing into n8n, replace the `PLACEHOLDER_FIN_BILLING_*` table IDs in the orchestrator.
+- The orchestrator now persists only one Data Table log stream:
+  - `fin_billing_rule_log`
+- The rule-log schema is one row per `rule_result`, with:
+  - `run_id`, `workflow_execution_id`, `competence_date`
+  - `rule_id`, `rule_title`
+  - `status`, `reason`, `failure_count`
+  - `failed_nodes`, `failed_reasons`, `pipefy_card_ids`
+  - `invoice_id`, `created_item_ids_json`, `failures_json`
+  - `started_at`, `finished_at`
+- Current workspace mapping uses Data Table ID `5CPaGUez5Ex8tJHi` for `fin_billing_rule_log`; replace it only when importing into another n8n environment.
 
 ## Failure And Blocking Semantics
 
@@ -103,6 +108,9 @@ What it currently validates:
 - GraphQL nodes keep retry and `continueErrorOutput` settings
 - `jsCode` blocks compile with Node
 - pagination-context recovery tokens are still present
+- child-workflow payloads no longer emit `logs` in the `fin_v3` contract
+- the orchestrator no longer passes `logs` into child workflow inputs
+- the orchestrator persists only `fin_billing_rule_log`
 - critical contract tokens remain in the correct workflow
 
 There is currently no `tests/` directory on `main`. Do not assume old Python artifact tests still exist.
