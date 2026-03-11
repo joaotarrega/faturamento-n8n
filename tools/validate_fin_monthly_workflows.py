@@ -126,8 +126,11 @@ def validate_orchestrator(workflow: dict) -> None:
         "Manual Trigger",
         "Preparar regras elegiveis",
         "Preparar itens elegiveis da regra",
+        "Normalizar retorno preparar itens",
         "Materializar itens FIN-04",
+        "Normalizar retorno materializacao",
         "Criar fatura FIN-03 e concluir regra",
+        "Normalizar retorno finalizacao",
         "Emit workflow run logs",
         "Persistir fin_billing_run_log",
         "Ha entity logs?",
@@ -139,6 +142,20 @@ def validate_orchestrator(workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     assert_contains(text, "competence_date", "orchestrator missing competence_date tracking")
     connections = workflow.get("connections", {})
+
+    for node_name in [
+        "Preparar itens elegiveis da regra",
+        "Materializar itens FIN-04",
+        "Criar fatura FIN-03 e concluir regra",
+    ]:
+        node = get_node(workflow, node_name)
+        assert_true(node.get("alwaysOutputData") is True, f"orchestrator {node_name} must use alwaysOutputData")
+
+    def branch_targets(node_name: str, branch_index: int = 0) -> list[str]:
+        branches = (connections.get(node_name) or {}).get("main") or []
+        branch = branches[branch_index] if len(branches) > branch_index else []
+        return [item.get("node") for item in branch]
+
     if_branches = (connections.get("Loop: item e rule_input?") or {}).get("main") or []
     true_targets = [item.get("node") for item in (if_branches[0] if len(if_branches) > 0 else [])]
     false_targets = [item.get("node") for item in (if_branches[1] if len(if_branches) > 1 else [])]
@@ -149,6 +166,46 @@ def validate_orchestrator(workflow: dict) -> None:
     assert_true(
         false_targets == ["Accumulate results"],
         f"orchestrator Loop: item e rule_input? false branch expected ['Accumulate results'] but found {false_targets}",
+    )
+    assert_true(
+        branch_targets("Preparar itens elegiveis da regra") == ["Normalizar retorno preparar itens"],
+        "orchestrator Preparar itens elegiveis da regra must flow into Normalizar retorno preparar itens",
+    )
+    assert_true(
+        branch_targets("Normalizar retorno preparar itens") == ["Loop: item e item_plan?"],
+        "orchestrator Normalizar retorno preparar itens must flow into Loop: item e item_plan?",
+    )
+    assert_true(
+        branch_targets("Loop: item e item_plan?", 0) == ["Materializar itens FIN-04"],
+        "orchestrator Loop: item e item_plan? true branch must flow into Materializar itens FIN-04",
+    )
+    assert_true(
+        branch_targets("Loop: item e item_plan?", 1) == ["Accumulate results"],
+        "orchestrator Loop: item e item_plan? false branch must flow into Accumulate results",
+    )
+    assert_true(
+        branch_targets("Materializar itens FIN-04") == ["Normalizar retorno materializacao"],
+        "orchestrator Materializar itens FIN-04 must flow into Normalizar retorno materializacao",
+    )
+    assert_true(
+        branch_targets("Normalizar retorno materializacao") == ["Loop: item e fin04_items_ready?"],
+        "orchestrator Normalizar retorno materializacao must flow into Loop: item e fin04_items_ready?",
+    )
+    assert_true(
+        branch_targets("Loop: item e fin04_items_ready?", 0) == ["Criar fatura FIN-03 e concluir regra"],
+        "orchestrator Loop: item e fin04_items_ready? true branch must flow into Criar fatura FIN-03 e concluir regra",
+    )
+    assert_true(
+        branch_targets("Loop: item e fin04_items_ready?", 1) == ["Accumulate results"],
+        "orchestrator Loop: item e fin04_items_ready? false branch must flow into Accumulate results",
+    )
+    assert_true(
+        branch_targets("Criar fatura FIN-03 e concluir regra") == ["Normalizar retorno finalizacao"],
+        "orchestrator Criar fatura FIN-03 e concluir regra must flow into Normalizar retorno finalizacao",
+    )
+    assert_true(
+        branch_targets("Normalizar retorno finalizacao") == ["Accumulate results"],
+        "orchestrator Normalizar retorno finalizacao must flow into Accumulate results",
     )
 
 
@@ -217,6 +274,16 @@ def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     for forbidden in ["parent_ids", "Faturas associadas", "Itens associados"]:
         assert_true(forbidden not in text, f"{workflow_name} contains forbidden token {forbidden}")
+    if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+        for token in [
+            "Normalizar retorno preparar itens",
+            "Normalizar retorno materializacao",
+            "Normalizar retorno finalizacao",
+            "child_workflow_returned_no_items",
+            "failed_prepare_items_stage",
+            "failed_materialize_items_stage",
+        ]:
+            assert_contains(text, token, f"{workflow_name} missing token {token}")
     if workflow_name == "[FIN] 1.1 Preparar regras elegiveis":
         for token in ["341313813", "itens_da_fatura", "invoice_already_exists"]:
             assert_contains(text, token, f"{workflow_name} missing token {token}")
@@ -228,6 +295,10 @@ def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
             "existing_fin04_conflict",
             "blocked_missing_external_signal_onboarding_training",
             "blocked_missing_external_signal_setup_payment",
+            "Normalizar retorno template",
+            "Normalizar retorno conflitos",
+            "templateFetchError",
+            "fin04ConflictError",
         ]:
             assert_contains(text, token, f"{workflow_name} missing token {token}")
     if workflow_name == "[FIN] 1.3 Materializar itens FIN-04":
@@ -248,6 +319,54 @@ def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
             assert_contains(text, token, f"{workflow_name} missing token {token}")
 
 
+def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
+    if workflow_name != "[FIN] 1.2 Preparar itens elegiveis da regra":
+        return
+    node_names = {node["name"] for node in workflow["nodes"]}
+    for missing in [
+        "Normalizar retorno template",
+        "Normalizar retorno conflitos",
+    ]:
+        assert_true(missing in node_names, f"{workflow_name} missing node {missing}")
+    for removed in [
+        "Embalar retorno template",
+        "Merge retorno template",
+        "Embalar retorno conflitos",
+        "Merge retorno conflitos",
+    ]:
+        assert_true(removed not in node_names, f"{workflow_name} still contains stale node {removed}")
+    text = json.dumps(workflow, ensure_ascii=False)
+    assert_true("combineByPosition" not in text, f"{workflow_name} still contains combineByPosition")
+
+    connections = workflow.get("connections", {})
+
+    def branch_targets(node_name: str, branch_index: int = 0) -> list[str]:
+        branches = (connections.get(node_name) or {}).get("main") or []
+        branch = branches[branch_index] if len(branches) > branch_index else []
+        return [item.get("node") for item in branch]
+
+    assert_true(
+        branch_targets("Split Out template IDs") == ["FIN-02 Buscar item template"],
+        f"{workflow_name} Split Out template IDs must flow only into FIN-02 Buscar item template",
+    )
+    assert_true(
+        branch_targets("FIN-02 Buscar item template") == ["Normalizar retorno template"],
+        f"{workflow_name} FIN-02 Buscar item template must flow into Normalizar retorno template",
+    )
+    assert_true(
+        branch_targets("Normalizar retorno template") == ["FIN-04 Verificar conflitos por competencia"],
+        f"{workflow_name} Normalizar retorno template must flow into FIN-04 Verificar conflitos por competencia",
+    )
+    assert_true(
+        branch_targets("FIN-04 Verificar conflitos por competencia") == ["Normalizar retorno conflitos"],
+        f"{workflow_name} FIN-04 Verificar conflitos por competencia must flow into Normalizar retorno conflitos",
+    )
+    assert_true(
+        branch_targets("Normalizar retorno conflitos") == ["Consolidar elegibilidade e planos"],
+        f"{workflow_name} Normalizar retorno conflitos must flow into Consolidar elegibilidade e planos",
+    )
+
+
 def main() -> None:
     validate_expected_exports()
     for workflow_name in EXPECTED:
@@ -258,6 +377,7 @@ def main() -> None:
         validate_code_node_return_contracts(workflow_name, workflow)
         validate_execute_workflow_trigger_examples(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
+        validate_item_prep_pipeline(workflow_name, workflow)
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
     print("fin_monthly_workflows_ok")
