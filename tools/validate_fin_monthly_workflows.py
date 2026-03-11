@@ -367,6 +367,37 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
     )
 
 
+def validate_entity_log_lifecycle_contract(workflow_name: str, workflow: dict) -> None:
+    targeted_nodes = {
+        "[FIN] 1.1 Preparar regras elegiveis": ["Build regras elegiveis"],
+        "[FIN] 1.2 Preparar itens elegiveis da regra": ["Consolidar elegibilidade e planos"],
+        "[FIN] 1.3 Materializar itens FIN-04": ["Consolidar materializacao"],
+        "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02": [
+            "Parse recheck invoice",
+            "Parse criacao invoice",
+            "Consolidar vinculos",
+            "Consolidar update parcelas",
+            "Consolidar update status",
+        ],
+        "[FIN] 1 Orquestrar faturamento mensal": ["Finalize summary"],
+    }
+    for node_name in targeted_nodes.get(workflow_name, []):
+        js_code = get_node(workflow, node_name).get("parameters", {}).get("jsCode", "")
+        assert_contains(js_code, "ctx.entityLifecycle", f"{workflow_name}:{node_name} missing entityLifecycle accumulator")
+        assert_contains(js_code, "invoice_lifecycle", f"{workflow_name}:{node_name} missing invoice_lifecycle token")
+        assert_contains(js_code, "item_lifecycle", f"{workflow_name}:{node_name} missing item_lifecycle token")
+        assert_true(
+            "ctx.entityLogs.push({" not in js_code,
+            f"{workflow_name}:{node_name} still pushes raw entity log rows directly",
+        )
+        if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+            assert_contains(
+                js_code,
+                "consolidateEntityLogs(ctx, ctx.entityLogs, resultList)",
+                f"{workflow_name}:{node_name} missing final entity log consolidator",
+            )
+
+
 def main() -> None:
     validate_expected_exports()
     for workflow_name in EXPECTED:
@@ -378,6 +409,7 @@ def main() -> None:
         validate_execute_workflow_trigger_examples(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
         validate_item_prep_pipeline(workflow_name, workflow)
+        validate_entity_log_lifecycle_contract(workflow_name, workflow)
         if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
     print("fin_monthly_workflows_ok")
