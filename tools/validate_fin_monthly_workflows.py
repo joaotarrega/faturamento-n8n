@@ -3,13 +3,14 @@ import json
 import pathlib
 import subprocess
 import tempfile
+from typing import Optional
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 WORKFLOWS_DIR = ROOT / "raw" / "n8n" / "workflows"
 
 EXPECTED = [
-    "[FIN] 1 Orquestrar faturamento mensal",
+    "[FIN] 1.0 Orquestrar faturamento mensal",
     "[FIN] 1.1 Preparar regras elegiveis",
     "[FIN] 1.2 Preparar itens elegiveis da regra",
     "[FIN] 1.3 Materializar itens FIN-04",
@@ -110,6 +111,32 @@ def compile_js(js_code: str, label: str) -> None:
         tmp_path.unlink(missing_ok=True)
     if proc.returncode != 0:
         fail(f"js syntax invalid for {label}: {proc.stderr.strip()}")
+
+
+def compile_expression(expression: str, label: str) -> None:
+    wrapped = "new Function(" + json.dumps(f"return ({expression});") + ");\n"
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tmp:
+        tmp.write(wrapped)
+        tmp_path = pathlib.Path(tmp.name)
+    try:
+        proc = subprocess.run(["node", str(tmp_path)], capture_output=True, text=True)
+    finally:
+        tmp_path.unlink(missing_ok=True)
+    if proc.returncode != 0:
+        fail(f"expression syntax invalid for {label}: {proc.stderr.strip()}")
+
+
+def iter_expressions(value, path: str = ""):
+    if isinstance(value, dict):
+        for key, nested in value.items():
+            next_path = f"{path}.{key}" if path else str(key)
+            yield from iter_expressions(nested, next_path)
+    elif isinstance(value, list):
+        for index, nested in enumerate(value):
+            next_path = f"{path}[{index}]" if path else f"[{index}]"
+            yield from iter_expressions(nested, next_path)
+    elif isinstance(value, str) and value.startswith("={{") and value.endswith("}}"):
+        yield path or "<root>", value[3:-2]
 
 
 def validate_expected_exports() -> None:
@@ -308,11 +335,16 @@ def validate_execute_workflow_trigger_examples(workflow_name: str, workflow: dic
         )
 
 
+def validate_expression_syntax(workflow_name: str, workflow: dict) -> None:
+    for path, expression in iter_expressions(workflow, workflow_name):
+        compile_expression(expression, path)
+
+
 def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
     text = json.dumps(workflow, ensure_ascii=False)
     for forbidden in ["parent_ids", "Faturas associadas", "Itens associados"]:
         assert_true(forbidden not in text, f"{workflow_name} contains forbidden token {forbidden}")
-    if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+    if workflow_name == "[FIN] 1.0 Orquestrar faturamento mensal":
         for token in [
             "Normalizar retorno preparar itens",
             "Normalizar retorno materializacao",
@@ -335,10 +367,20 @@ def validate_contract_tokens(workflow_name: str, workflow: dict) -> None:
             "341351580",
             "missing_required_nonzero_field",
             "existing_fin04_conflict",
+            "orphan_fin04_exists_for_rule_competence",
+            "specific_date_not_ready",
+            "specific_date_finished",
             "blocked_missing_external_signal_onboarding_training",
             "blocked_missing_external_signal_setup_payment",
             "Normalizar retorno template",
             "Normalizar retorno conflitos",
+            "Template retornou?",
+            "Tipo de conflito FIN-04",
+            "Motivo de bloqueio de início",
+            "Consolidar campos obrigatórios visíveis",
+            "Merge requisitos modelo + tipo",
+            "Merge requisitos + desconto",
+            "Append decisões item_plan",
             "templateFetchError",
             "fin04ConflictError",
         ]:
@@ -365,20 +407,118 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
     if workflow_name != "[FIN] 1.2 Preparar itens elegiveis da regra":
         return
     node_names = {node["name"] for node in workflow["nodes"]}
-    for missing in [
-        "Normalizar retorno template",
-        "Normalizar retorno conflitos",
-    ]:
-        assert_true(missing in node_names, f"{workflow_name} missing node {missing}")
+    expected_type_versions = {
+        "n8n-nodes-base.executeWorkflowTrigger": 1.1,
+        "n8n-nodes-base.code": 2,
+        "n8n-nodes-base.graphql": 1.1,
+        "n8n-nodes-base.if": 2.2,
+        "n8n-nodes-base.set": 3.4,
+        "n8n-nodes-base.switch": 3.3,
+        "n8n-nodes-base.merge": 3.2,
+        "n8n-nodes-base.splitOut": 1,
+    }
+    for node in workflow["nodes"]:
+        expected_type_version = expected_type_versions.get(node.get("type"))
+        if expected_type_version is None:
+            continue
+        assert_true(
+            node.get("typeVersion") == expected_type_version,
+            f"{workflow_name}:{node['name']} must use typeVersion {expected_type_version} for {node['type']}",
+        )
+    required_types = {
+        "Emitir rule_result direto": "n8n-nodes-base.set",
+        "Normalizar retorno template": "n8n-nodes-base.set",
+        "Normalizar retorno conflitos": "n8n-nodes-base.set",
+        "Init contexto item_plan": "n8n-nodes-base.code",
+        "Consolidar elegibilidade e planos": "n8n-nodes-base.code",
+        "Template retornou?": "n8n-nodes-base.if",
+        "Consulta de conflitos retornou?": "n8n-nodes-base.if",
+        "Consulta de conflitos paginou?": "n8n-nodes-base.if",
+        "Template está Ativo?": "n8n-nodes-base.if",
+        "Há FIN-04 na competência?": "n8n-nodes-base.if",
+        "Há bloqueio de início?": "n8n-nodes-base.if",
+        "Base percentual é SaaS?": "n8n-nodes-base.if",
+        "Unidade é Afiliados?": "n8n-nodes-base.if",
+        "Há desconto?": "n8n-nodes-base.if",
+        "Desconto nominal?": "n8n-nodes-base.if",
+        "Desconto percentual?": "n8n-nodes-base.if",
+        "Desconto por categorias?": "n8n-nodes-base.if",
+        "Tipo de conflito FIN-04": "n8n-nodes-base.switch",
+        "Motivo de bloqueio de início": "n8n-nodes-base.switch",
+        "Modelo de cobrança": "n8n-nodes-base.switch",
+        "Tipo de item": "n8n-nodes-base.switch",
+        "Merge requisitos modelo + tipo": "n8n-nodes-base.merge",
+        "Merge requisitos + desconto": "n8n-nodes-base.merge",
+        "Append guardas iniciais item_plan": "n8n-nodes-base.merge",
+        "Append conflitos FIN-04 item_plan": "n8n-nodes-base.merge",
+        "Append bloqueios de inicio item_plan": "n8n-nodes-base.merge",
+        "Append decisões item_plan": "n8n-nodes-base.merge",
+        "Condições de início": "n8n-nodes-base.set",
+        "Dimensões comerciais do item": "n8n-nodes-base.set",
+        "Consolidar campos obrigatórios visíveis": "n8n-nodes-base.set",
+        "Definir fetch_template_item_error": "n8n-nodes-base.set",
+        "Definir conflict_fin04_query_error": "n8n-nodes-base.set",
+        "Definir conflict_fin04_query_requires_pagination": "n8n-nodes-base.set",
+        "Definir inactive_template_phase": "n8n-nodes-base.set",
+        "Definir existing_fin04_conflict": "n8n-nodes-base.set",
+        "Definir orphan_fin04_exists_for_rule_competence": "n8n-nodes-base.set",
+        "Definir specific_date_not_ready": "n8n-nodes-base.set",
+        "Definir specific_date_finished": "n8n-nodes-base.set",
+        "Definir blocked_missing_external_signal_onboarding_training": "n8n-nodes-base.set",
+        "Definir blocked_missing_external_signal_setup_payment": "n8n-nodes-base.set",
+    }
+    for node_name, expected_type in required_types.items():
+        assert_true(node_name in node_names, f"{workflow_name} missing node {node_name}")
+        assert_true(
+            get_node(workflow, node_name).get("type") == expected_type,
+            f"{workflow_name}:{node_name} must be {expected_type}",
+        )
     for removed in [
         "Embalar retorno template",
         "Merge retorno template",
         "Embalar retorno conflitos",
         "Merge retorno conflitos",
+        "Tipo de desconto",
+        "Campos obrigatórios visíveis",
     ]:
         assert_true(removed not in node_names, f"{workflow_name} still contains stale node {removed}")
-    text = json.dumps(workflow, ensure_ascii=False)
-    assert_true("combineByPosition" not in text, f"{workflow_name} still contains combineByPosition")
+
+    merge_model = get_node(workflow, "Merge requisitos modelo + tipo").get("parameters", {})
+    assert_true(merge_model.get("mode") == "combine", f"{workflow_name}:Merge requisitos modelo + tipo must use combine mode")
+    assert_true(
+        merge_model.get("combineBy") == "combineByPosition",
+        f"{workflow_name}:Merge requisitos modelo + tipo must combine by position",
+    )
+    merge_discount = get_node(workflow, "Merge requisitos + desconto").get("parameters", {})
+    assert_true(merge_discount.get("mode") == "combine", f"{workflow_name}:Merge requisitos + desconto must use combine mode")
+    assert_true(
+        merge_discount.get("combineBy") == "combineByPosition",
+        f"{workflow_name}:Merge requisitos + desconto must combine by position",
+    )
+    merge_guardrails = get_node(workflow, "Append guardas iniciais item_plan").get("parameters", {})
+    assert_true(merge_guardrails.get("mode") == "append", f"{workflow_name}:Append guardas iniciais item_plan must use append mode")
+    assert_true(
+        merge_guardrails.get("numberInputs") == 4,
+        f"{workflow_name}:Append guardas iniciais item_plan must keep 4 inputs",
+    )
+    merge_conflicts = get_node(workflow, "Append conflitos FIN-04 item_plan").get("parameters", {})
+    assert_true(merge_conflicts.get("mode") == "append", f"{workflow_name}:Append conflitos FIN-04 item_plan must use append mode")
+    assert_true(
+        merge_conflicts.get("numberInputs") == 2,
+        f"{workflow_name}:Append conflitos FIN-04 item_plan must keep 2 inputs",
+    )
+    merge_blocks = get_node(workflow, "Append bloqueios de inicio item_plan").get("parameters", {})
+    assert_true(merge_blocks.get("mode") == "append", f"{workflow_name}:Append bloqueios de inicio item_plan must use append mode")
+    assert_true(
+        merge_blocks.get("numberInputs") == 4,
+        f"{workflow_name}:Append bloqueios de inicio item_plan must keep 4 inputs",
+    )
+    merge_append = get_node(workflow, "Append decisões item_plan").get("parameters", {})
+    assert_true(merge_append.get("mode") == "append", f"{workflow_name}:Append decisões item_plan must use append mode")
+    assert_true(
+        merge_append.get("numberInputs") == 4,
+        f"{workflow_name}:Append decisões item_plan must keep 4 inputs",
+    )
 
     connections = workflow.get("connections", {})
 
@@ -387,25 +527,222 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         branch = branches[branch_index] if len(branches) > branch_index else []
         return [item.get("node") for item in branch]
 
+    def incoming_sources(target_name: str) -> list[tuple[str, int, int]]:
+        found = []
+        for source_name, source_connections in connections.items():
+            for branch_index, branch in enumerate((source_connections.get("main") or [])):
+                for item in branch:
+                    if item.get("node") == target_name:
+                        found.append((source_name, branch_index, int(item.get("index", 0))))
+        return sorted(found)
+
+    def assert_branch(node_name: str, branch_index: int, expected: list[str]) -> None:
+        actual = branch_targets(node_name, branch_index)
+        assert_true(
+            actual == expected,
+            f"{workflow_name} {node_name} branch {branch_index} expected {expected} but found {actual}",
+        )
+
+    def validate_switch_node(node_name: str, expected_output_keys: list[str], fallback_output_name: Optional[str]) -> None:
+        node = get_node(workflow, node_name)
+        params = node.get("parameters", {})
+        rules = ((params.get("rules") or {}).get("values")) or []
+        options = params.get("options") or {}
+        branches = (connections.get(node_name) or {}).get("main") or []
+        assert_true(params.get("mode") == "rules", f"{workflow_name}:{node_name} must use Switch rules mode")
+        assert_true("output" not in params, f"{workflow_name}:{node_name} must not include expression-mode output")
+        assert_true("numberOutputs" not in params, f"{workflow_name}:{node_name} must not include expression-mode numberOutputs")
+        assert_true(options.get("ignoreCase") is False, f"{workflow_name}:{node_name} must keep ignoreCase=false")
+        assert_true(
+            len(rules) == len(expected_output_keys),
+            f"{workflow_name}:{node_name} expected {len(expected_output_keys)} rules but found {len(rules)}",
+        )
+        actual_output_keys = []
+        for index, rule in enumerate(rules):
+            actual_output_keys.append(rule.get("outputKey"))
+            assert_true(rule.get("renameOutput") is True, f"{workflow_name}:{node_name} rule {index} must rename output")
+            assert_true(
+                bool(str(rule.get("outputKey") or "").strip()),
+                f"{workflow_name}:{node_name} rule {index} must define outputKey",
+            )
+            condition_block = rule.get("conditions") or {}
+            assert_true(
+                condition_block.get("combinator") == "and",
+                f"{workflow_name}:{node_name} rule {index} must use combinator=and",
+            )
+            conditions = condition_block.get("conditions") or []
+            assert_true(
+                isinstance(conditions, list) and len(conditions) >= 1,
+                f"{workflow_name}:{node_name} rule {index} must define at least one condition",
+            )
+        assert_true(
+            actual_output_keys == expected_output_keys,
+            f"{workflow_name}:{node_name} expected output keys {expected_output_keys} but found {actual_output_keys}",
+        )
+        expected_branches = len(expected_output_keys) + (1 if fallback_output_name else 0)
+        assert_true(
+            len(branches) == expected_branches,
+            f"{workflow_name}:{node_name} expected {expected_branches} output branches but found {len(branches)}",
+        )
+        if fallback_output_name:
+            assert_true(
+                options.get("fallbackOutput") == "extra",
+                f"{workflow_name}:{node_name} must use fallbackOutput='extra'",
+            )
+            assert_true(
+                options.get("renameFallbackOutput") == fallback_output_name,
+                f"{workflow_name}:{node_name} fallback must be named {fallback_output_name}",
+            )
+        else:
+            assert_true(
+                options.get("fallbackOutput") != "extra",
+                f"{workflow_name}:{node_name} must not add fallback output",
+            )
+
+    for source, target in [
+        ("Split Out template IDs", "FIN-02 Buscar item template"),
+        ("FIN-02 Buscar item template", "Normalizar retorno template"),
+        ("Normalizar retorno template", "Template retornou?"),
+        ("FIN-04 Verificar conflitos por competencia", "Normalizar retorno conflitos"),
+        ("Normalizar retorno conflitos", "Consulta de conflitos retornou?"),
+        ("Condições de início", "Há bloqueio de início?"),
+        ("Campos modelo percentual base", "Base percentual é SaaS?"),
+        ("Campos modelo por unidade base", "Unidade é Afiliados?"),
+        ("Campos desconto base", "Desconto nominal?"),
+        ("Campos desconto nominal", "Desconto percentual?"),
+        ("Campos desconto percentual", "Desconto por categorias?"),
+        ("Merge requisitos modelo + tipo", "Merge requisitos + desconto"),
+        ("Merge requisitos + desconto", "Consolidar campos obrigatórios visíveis"),
+        ("Consolidar campos obrigatórios visíveis", "Append decisões item_plan"),
+        ("Append guardas iniciais item_plan", "Append decisões item_plan"),
+        ("Append conflitos FIN-04 item_plan", "Append decisões item_plan"),
+        ("Append bloqueios de inicio item_plan", "Append decisões item_plan"),
+        ("Append decisões item_plan", "Consolidar elegibilidade e planos"),
+    ]:
+        assert_true(branch_targets(source) == [target], f"{workflow_name} {source} must flow into {target}")
+
+    validate_switch_node(
+        "Modelo de cobrança",
+        ["Percentual sobre base", "Por unidade"],
+        "Fixo/Outros",
+    )
+    validate_switch_node(
+        "Tipo de item",
+        ["Produto", "Ajustes de fatura"],
+        "Default",
+    )
+    validate_switch_node(
+        "Tipo de conflito FIN-04",
+        ["existing_fin04_conflict", "orphan_fin04_exists_for_rule_competence"],
+        None,
+    )
+    validate_switch_node(
+        "Motivo de bloqueio de início",
+        [
+            "specific_date_not_ready",
+            "specific_date_finished",
+            "blocked_missing_external_signal_onboarding_training",
+            "blocked_missing_external_signal_setup_payment",
+        ],
+        None,
+    )
+
+    assert_branch("Pode preparar itens?", 0, ["Set pares template IDs"])
+    assert_branch("Pode preparar itens?", 1, ["Emitir rule_result direto"])
+    assert_branch("Template retornou?", 0, ["FIN-04 Verificar conflitos por competencia"])
+    assert_branch("Template retornou?", 1, ["Definir fetch_template_item_error"])
+    assert_branch("Consulta de conflitos retornou?", 0, ["Consulta de conflitos paginou?"])
+    assert_branch("Consulta de conflitos retornou?", 1, ["Definir conflict_fin04_query_error"])
+    assert_branch("Consulta de conflitos paginou?", 0, ["Definir conflict_fin04_query_requires_pagination"])
+    assert_branch("Consulta de conflitos paginou?", 1, ["Template está Ativo?"])
+    assert_branch("Template está Ativo?", 0, ["Mapear conflito FIN-04"])
+    assert_branch("Template está Ativo?", 1, ["Definir inactive_template_phase"])
+    assert_true(branch_targets("Mapear conflito FIN-04") == ["Há FIN-04 na competência?"], f"{workflow_name} Mapear conflito FIN-04 must flow into Há FIN-04 na competência?")
+    assert_branch("Há FIN-04 na competência?", 0, ["Tipo de conflito FIN-04"])
+    assert_branch("Há FIN-04 na competência?", 1, ["Condições de início"])
+    assert_branch("Tipo de conflito FIN-04", 0, ["Definir existing_fin04_conflict"])
+    assert_branch("Tipo de conflito FIN-04", 1, ["Definir orphan_fin04_exists_for_rule_competence"])
+    assert_branch("Há bloqueio de início?", 0, ["Motivo de bloqueio de início"])
+    assert_branch("Há bloqueio de início?", 1, ["Dimensões comerciais do item"])
+    assert_branch("Motivo de bloqueio de início", 0, ["Definir specific_date_not_ready"])
+    assert_branch("Motivo de bloqueio de início", 1, ["Definir specific_date_finished"])
+    assert_branch("Motivo de bloqueio de início", 2, ["Definir blocked_missing_external_signal_onboarding_training"])
+    assert_branch("Motivo de bloqueio de início", 3, ["Definir blocked_missing_external_signal_setup_payment"])
+    assert_branch("Dimensões comerciais do item", 0, ["Modelo de cobrança", "Tipo de item", "Há desconto?"])
+    assert_branch("Modelo de cobrança", 0, ["Campos modelo percentual base"])
+    assert_branch("Modelo de cobrança", 1, ["Campos modelo por unidade base"])
+    assert_branch("Modelo de cobrança", 2, ["Campos modelo fixo/outros"])
+    assert_branch("Base percentual é SaaS?", 0, ["Campos modelo percentual SaaS"])
+    assert_branch("Base percentual é SaaS?", 1, ["Merge requisitos modelo + tipo"])
+    assert_branch("Unidade é Afiliados?", 0, ["Campos modelo por unidade afiliados"])
+    assert_branch("Unidade é Afiliados?", 1, ["Merge requisitos modelo + tipo"])
+    assert_branch("Tipo de item", 0, ["Campos tipo produto"])
+    assert_branch("Tipo de item", 1, ["Campos tipo ajuste"])
+    assert_branch("Tipo de item", 2, ["Merge requisitos modelo + tipo"])
+    assert_branch("Há desconto?", 0, ["Campos desconto base"])
+    assert_branch("Há desconto?", 1, ["Merge requisitos + desconto"])
+    assert_branch("Desconto nominal?", 0, ["Campos desconto nominal"])
+    assert_branch("Desconto nominal?", 1, ["Desconto percentual?"])
+    assert_branch("Desconto percentual?", 0, ["Campos desconto percentual"])
+    assert_branch("Desconto percentual?", 1, ["Desconto por categorias?"])
+    assert_branch("Desconto por categorias?", 0, ["Campos desconto por categorias SaaS"])
+    assert_branch("Desconto por categorias?", 1, ["Merge requisitos + desconto"])
     assert_true(
-        branch_targets("Split Out template IDs") == ["FIN-02 Buscar item template"],
-        f"{workflow_name} Split Out template IDs must flow only into FIN-02 Buscar item template",
+        incoming_sources("Append guardas iniciais item_plan") == sorted([
+            ("Definir conflict_fin04_query_error", 0, 1),
+            ("Definir conflict_fin04_query_requires_pagination", 0, 2),
+            ("Definir fetch_template_item_error", 0, 0),
+            ("Definir inactive_template_phase", 0, 3),
+        ]),
+        f"{workflow_name} Append guardas iniciais item_plan has unexpected inputs {incoming_sources('Append guardas iniciais item_plan')}",
     )
     assert_true(
-        branch_targets("FIN-02 Buscar item template") == ["Normalizar retorno template"],
-        f"{workflow_name} FIN-02 Buscar item template must flow into Normalizar retorno template",
+        incoming_sources("Append conflitos FIN-04 item_plan") == sorted([
+            ("Definir existing_fin04_conflict", 0, 0),
+            ("Definir orphan_fin04_exists_for_rule_competence", 0, 1),
+        ]),
+        f"{workflow_name} Append conflitos FIN-04 item_plan has unexpected inputs {incoming_sources('Append conflitos FIN-04 item_plan')}",
     )
     assert_true(
-        branch_targets("Normalizar retorno template") == ["FIN-04 Verificar conflitos por competencia"],
-        f"{workflow_name} Normalizar retorno template must flow into FIN-04 Verificar conflitos por competencia",
+        incoming_sources("Append bloqueios de inicio item_plan") == sorted([
+            ("Definir blocked_missing_external_signal_onboarding_training", 0, 2),
+            ("Definir blocked_missing_external_signal_setup_payment", 0, 3),
+            ("Definir specific_date_finished", 0, 1),
+            ("Definir specific_date_not_ready", 0, 0),
+        ]),
+        f"{workflow_name} Append bloqueios de inicio item_plan has unexpected inputs {incoming_sources('Append bloqueios de inicio item_plan')}",
+    )
+
+    assert_true(
+        incoming_sources("Merge requisitos modelo + tipo") == sorted([
+            ("Base percentual é SaaS?", 1, 0),
+            ("Campos modelo fixo/outros", 0, 0),
+            ("Campos modelo percentual SaaS", 0, 0),
+            ("Campos modelo por unidade afiliados", 0, 0),
+            ("Campos tipo ajuste", 0, 1),
+            ("Campos tipo produto", 0, 1),
+            ("Tipo de item", 2, 1),
+            ("Unidade é Afiliados?", 1, 0),
+        ]),
+        f"{workflow_name} Merge requisitos modelo + tipo has unexpected inputs {incoming_sources('Merge requisitos modelo + tipo')}",
     )
     assert_true(
-        branch_targets("FIN-04 Verificar conflitos por competencia") == ["Normalizar retorno conflitos"],
-        f"{workflow_name} FIN-04 Verificar conflitos por competencia must flow into Normalizar retorno conflitos",
+        incoming_sources("Merge requisitos + desconto") == sorted([
+            ("Campos desconto por categorias SaaS", 0, 1),
+            ("Desconto por categorias?", 1, 1),
+            ("Há desconto?", 1, 1),
+            ("Merge requisitos modelo + tipo", 0, 0),
+        ]),
+        f"{workflow_name} Merge requisitos + desconto has unexpected inputs {incoming_sources('Merge requisitos + desconto')}",
     )
     assert_true(
-        branch_targets("Normalizar retorno conflitos") == ["Consolidar elegibilidade e planos"],
-        f"{workflow_name} Normalizar retorno conflitos must flow into Consolidar elegibilidade e planos",
+        incoming_sources("Append decisões item_plan") == sorted([
+            ("Append bloqueios de inicio item_plan", 0, 3),
+            ("Append conflitos FIN-04 item_plan", 0, 2),
+            ("Append guardas iniciais item_plan", 0, 1),
+            ("Consolidar campos obrigatórios visíveis", 0, 0),
+        ]),
+        f"{workflow_name} Append decisões item_plan has unexpected inputs {incoming_sources('Append decisões item_plan')}",
     )
 
 
@@ -424,11 +761,11 @@ def validate_rule_log_contract(workflow_name: str, workflow: dict) -> None:
         ],
     }
     for node_name in output_nodes.get(workflow_name, []):
-        js_code = get_node(workflow, node_name).get("parameters", {}).get("jsCode", "")
-        assert_true("logs: {" not in js_code, f"{workflow_name}:{node_name} still emits logs in fin_v3 payloads")
-        assert_contains(js_code, "startedAt", f"{workflow_name}:{node_name} missing rule_result startedAt")
-        assert_contains(js_code, "finishedAt", f"{workflow_name}:{node_name} missing rule_result finishedAt")
-    if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+        node_text = json.dumps(get_node(workflow, node_name), ensure_ascii=False)
+        assert_true("logs: {" not in node_text, f"{workflow_name}:{node_name} still emits logs in fin_v3 payloads")
+        assert_contains(node_text, "startedAt", f"{workflow_name}:{node_name} missing rule_result startedAt")
+        assert_contains(node_text, "finishedAt", f"{workflow_name}:{node_name} missing rule_result finishedAt")
+    if workflow_name == "[FIN] 1.0 Orquestrar faturamento mensal":
         for node_name in [
             "Accumulate results",
             "Finalize summary",
@@ -455,10 +792,11 @@ def main() -> None:
         validate_pagination_context(workflow_name, workflow)
         validate_code_node_return_contracts(workflow_name, workflow)
         validate_execute_workflow_trigger_examples(workflow_name, workflow)
+        validate_expression_syntax(workflow_name, workflow)
         validate_contract_tokens(workflow_name, workflow)
         validate_item_prep_pipeline(workflow_name, workflow)
         validate_rule_log_contract(workflow_name, workflow)
-        if workflow_name == "[FIN] 1 Orquestrar faturamento mensal":
+        if workflow_name == "[FIN] 1.0 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
     print("fin_monthly_workflows_ok")
 
