@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "categorias_do_saas_isentas_ou_com_desconto",
+      "internal_id": "422751352",
+      "label": "Categorias do SaaS Spaces com desconto na cobrança percentual",
+      "options": [
+        "A&B",
+        "E&S",
+        "Hospedagem",
+        "Espaços",
+        "Outros"
+      ],
+      "required": true,
+      "type": "checklist_vertical",
+      "uuid": "03696da6-e1cf-40da-841a-5722610fb49f"
+    }
+  },
+  "meta": {
+    "field_id": "categorias_do_saas_isentas_ou_com_desconto",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

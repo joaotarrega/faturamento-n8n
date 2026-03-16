@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "subtotal_do_item_brl",
+      "internal_id": "425112111",
+      "label": "Subtotal do item (BRL)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+    }
+  },
+  "meta": {
+    "field_id": "subtotal_do_item_brl",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

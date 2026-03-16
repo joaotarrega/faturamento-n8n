@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327555492",
+          "phaseField": {
+            "id": "afiliados_que_comp_em_a_cobran_a",
+            "internal_id": "422909763",
+            "label": "Afiliados que compõem a cobrança",
+            "uuid": "6de28242-c295-4c7a-9f8f-33a81961994a"
+          },
+          "phaseFieldId": "422909763",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909762",
+            "id": "315437631",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Afiliados"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312934831"
+      },
+      "id": "306491841",
+      "name": "Unidade de cobrança != Afiliados",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306491841"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306491841",
+    "scope": "start_form"
+  }
+}

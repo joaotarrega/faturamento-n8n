@@ -1,0 +1,51 @@
+{
+  "fields_by_phase_id": {
+    "340203253": [
+      "indique_o_motivo",
+      "motivo_de_inativa_o"
+    ],
+    "341313813": [
+      "statement_1b37c4af_b6de_443b_a252_a1e21beb22ab"
+    ]
+  },
+  "ids": [
+    "auto_historico_de_clientes",
+    "auto_historico_de_redes",
+    "clientes_na_fatura",
+    "contatos_que_receber_o_a_fatura",
+    "dia_de_gera_o_da_fatura",
+    "etiquetas",
+    "forma_de_pagamento",
+    "identificador_fiscal_na_fatura",
+    "indique_o_motivo",
+    "itens_da_fatura",
+    "moeda_do_teto_de_faturamento",
+    "motivo_de_inativa_o",
+    "rede_na_fatura",
+    "statement_1b37c4af_b6de_443b_a252_a1e21beb22ab",
+    "teto_de_faturamento_brl",
+    "teto_de_faturamento_usd",
+    "tipo_de_cliente_final"
+  ],
+  "meta": {
+    "kind": "fields",
+    "pipe_id": "306662125",
+    "source": "pipe_snapshot"
+  },
+  "start_form_field_ids": [
+    "auto_historico_de_clientes",
+    "auto_historico_de_redes",
+    "clientes_na_fatura",
+    "contatos_que_receber_o_a_fatura",
+    "dia_de_gera_o_da_fatura",
+    "etiquetas",
+    "forma_de_pagamento",
+    "identificador_fiscal_na_fatura",
+    "itens_da_fatura",
+    "moeda_do_teto_de_faturamento",
+    "rede_na_fatura",
+    "teto_de_faturamento_brl",
+    "teto_de_faturamento_usd",
+    "tipo_de_cliente_final"
+  ]
+}

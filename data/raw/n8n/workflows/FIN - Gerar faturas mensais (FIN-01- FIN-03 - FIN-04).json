@@ -1,0 +1,704 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Accumulate results": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop regras",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Cron (dias 1-5 07:00)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Init Run",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Finalize summary": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Persistir logs (Data Table)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Init Run": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Preparação: regras elegíveis",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop regras": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Finalize summary",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Loop: É rule_input?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop: É rule_input?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Processar regra",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Init Run",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Persistir logs (Data Table)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Restaurar summary (pós-log)",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Preparação: regras elegíveis": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop regras",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Processar regra": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Restaurar summary (pós-log)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Run: tem erros?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Run: tem erros?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Run: Stop and Error",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Run: Success output",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-27T13:58:57.694Z",
+  "description": null,
+  "id": "sbjuPdz4ipegrKh2",
+  "isArchived": false,
+  "meta": null,
+  "name": "FIN - Gerar faturas mensais (FIN-01→FIN-03/FIN-04)",
+  "nodes": [
+    {
+      "id": "863c2b0f-1757-4616-868e-bb960060eaf1",
+      "name": "Cron (dias 1-5 07:00)",
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "cronExpression": "0 7 1-5 * *",
+              "mode": "custom"
+            }
+          ]
+        }
+      },
+      "position": [
+        -2752,
+        688
+      ],
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1
+    },
+    {
+      "id": "797752ef-8fa5-43b8-8312-e85a976d617a",
+      "name": "Manual Trigger",
+      "parameters": {},
+      "position": [
+        -2752,
+        880
+      ],
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1
+    },
+    {
+      "id": "ace54298-cb68-4c8b-b1a6-a2d64de86fa4",
+      "name": "Init Run",
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\n\nconst executionId=String($execution.id ?? 'manual');\nconst TZ='America/Sao_Paulo';\nconst now=new Date();\nconst nowIso=now.toISOString();\nconst parts=new Intl.DateTimeFormat('en-CA',{\n  timeZone:TZ,\n  year:'numeric',\n  month:'2-digit',\n  day:'2-digit'\n}).formatToParts(now);\nconst m={};\nfor(const p of parts){\n  m[p.type]=p.value;\n}\n\nconst year=Number(m.year);\nconst month=Number(m.month);\nconst day=Number(m.day);\nlet compYear=year;\nlet compMonth=month-1;\nif(compMonth===0){\n  compMonth=12;\n  compYear=year-1;\n}\n\nconst mm=String(compMonth).padStart(2,'0');\nconst competenciaYMD=compYear+'-'+mm+'-01';\nconst daysInCompMonth=new Date(Date.UTC(compYear,compMonth,0)).getUTCDate();\nconst compStart=competenciaYMD;\nconst compEnd=compYear+'-'+mm+'-'+String(daysInCompMonth).padStart(2,'0');\n\nconst metrics={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runContext={\n  executionId,\n  startedAt:nowIso,\n  timezone:TZ,\n  todayDay:day,\n  competenciaYMD,\n  compStart,\n  compEnd,\n  flags:{\n    maxRulesPages:50,\n    maxPrefetchPages:50,\n    rulesPageSize:50,\n    prefetchPageSize:200\n  },\n  metrics,\n  logs:[],\n  errors:[]\n};\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nfor(const [key,state] of Object.entries(sd.finV3Runs)){\n  const startedAt=state?.runInit?.startedAt || null;\n  const ageMs=startedAt ? (Date.now()-Date.parse(startedAt)) : Number.POSITIVE_INFINITY;\n  if(!Number.isFinite(ageMs) || ageMs > 24*60*60*1000){\n    delete sd.finV3Runs[key];\n  }\n}\n\nsd.finV3Runs[executionId]={\n  runInit:{\n    executionId,\n    startedAt:runContext.startedAt,\n    competenciaYMD:runContext.competenciaYMD,\n    metrics:{...runContext.metrics}\n  },\n  acc:{\n    contractVersion:'fin_v3',\n    metrics:{...runContext.metrics},\n    failures:[],\n    results:[],\n    statusCounts:{processed:0,skipped:0,failed:0},\n    skippedReasons:{},\n    prepSummarySeen:false,\n    prepSummaryCount:0,\n    ruleResultsReceived:0,\n    malformedResults:0\n  }\n};\n\nreturn [{json:{runContext}}];"
+      },
+      "position": [
+        -2304,
+        784
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "94733b3f-e854-4ced-8f18-7b2f866a39f3",
+      "name": "Preparação: regras elegíveis",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "FIN - Preparação regras elegíveis (faturamento mensal)",
+          "cachedResultUrl": "/workflow/KRYkEmSTkuVD8Nsn",
+          "mode": "list",
+          "value": "KRYkEmSTkuVD8Nsn"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "runContext",
+              "id": "runContext",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "caller",
+              "id": "caller",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "prepConfig",
+              "id": "prepConfig",
+              "required": false,
+              "type": "object"
+            }
+          ],
+          "value": {
+            "caller": "={{ { workflowId: $workflow.id, workflowName: $workflow.name, executionId: String($execution.id) } }}",
+            "prepConfig": "={{ { rulesPhaseId: 341313813, invoicesPipeId: 306859731, competenciaFieldId: \"data_de_compet_ncia\", ruleLinkFieldId: \"id_da_regra_de_faturamento\" } }}",
+            "runContext": "={{ $json.runContext }}"
+          }
+        }
+      },
+      "position": [
+        -2080,
+        784
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "d8a4f162-a1ec-4ab7-bab0-c84279fa6859",
+      "name": "Loop regras",
+      "parameters": {
+        "options": {}
+      },
+      "position": [
+        -1856,
+        784
+      ],
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3
+    },
+    {
+      "id": "ff971ae8-1c98-47b0-8f08-60541d07afbd",
+      "name": "Processar regra",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "FIN - Processar regra faturamento mensal (corrigido anti-loop)",
+          "cachedResultUrl": "/workflow/0nUKP2OUpRLgMSxq",
+          "mode": "list",
+          "value": "0nUKP2OUpRLgMSxq"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "contractVersion",
+              "id": "contractVersion",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemType",
+              "id": "itemType",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "trace",
+              "id": "trace",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "run",
+              "id": "run",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule",
+              "id": "rule",
+              "required": false,
+              "type": "object"
+            }
+          ],
+          "value": {
+            "contractVersion": "={{ $json.contractVersion }}",
+            "itemType": "={{ $json.itemType }}",
+            "rule": "={{ $json.rule }}",
+            "run": "={{ $json.run }}",
+            "trace": "={{ $json.trace }}"
+          }
+        }
+      },
+      "position": [
+        -1408,
+        688
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "ec4a42ce-2a8f-4570-b357-f700619abcd2",
+      "name": "Accumulate results",
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nif(!sd.finV3Runs[executionId]){\n  sd.finV3Runs[executionId]={\n    runInit:{executionId,startedAt:new Date().toISOString(),competenciaYMD:null,metrics:{}},\n    acc:{\n      contractVersion:'fin_v3',\n      metrics:{},\n      failures:[],\n      results:[],\n      statusCounts:{processed:0,skipped:0,failed:0},\n      skippedReasons:{},\n      prepSummarySeen:false,\n      prepSummaryCount:0,\n      ruleResultsReceived:0,\n      malformedResults:0\n    }\n  };\n}\n\nconst state=sd.finV3Runs[executionId];\nconst acc=state.acc;\nconst allowedStatus=new Set(['processed','skipped','failed']);\nconst collectIds=(...values)=>{\n  const out=[];\n  const visit=(value)=>{\n    if(value===undefined || value===null) return;\n    if(Array.isArray(value)){\n      for(const item of value) visit(item);\n      return;\n    }\n    const s=String(value).trim();\n    if(s) out.push(s);\n  };\n  for(const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst normalizeFailure=(failure,fallbackReason,...extraIds)=>({\n  node:String(failure?.node || 'Accumulate results'),\n  reason:String(failure?.reason || fallbackReason || 'unexpected_payload_shape'),\n  pipefyCardIds:collectIds(failure?.pipefyCardIds, extraIds)\n});\nconst pushSyntheticFailure=(reason,...ids)=>{\n  acc.failures.push({\n    node:'Accumulate results',\n    reason:String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds:collectIds(...ids)\n  });\n};\n\nfor(const it of $input.all()){\n  const j=(it && it.json && typeof it.json==='object' && !Array.isArray(it.json)) ? it.json : {};\n  const rule=(j.rule && typeof j.rule==='object' && !Array.isArray(j.rule)) ? j.rule : {};\n  const res=(j.result && typeof j.result==='object' && !Array.isArray(j.result)) ? j.result : {};\n  const fallbackIds=collectIds(rule.ruleId ?? null, res.invoiceId ?? null, res.existingInvoiceId ?? null, res.createdItemIds ?? null);\n\n  if(String(j.contractVersion || '')!=='fin_v3'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('invalid_contract_version', fallbackIds);\n    continue;\n  }\n\n  const itemType=String(j.itemType || '');\n  if(itemType==='prep_summary'){\n    acc.prepSummarySeen=true;\n    acc.prepSummaryCount=Number(acc.prepSummaryCount || 0) + 1;\n    const prepMetrics=(res.metrics && typeof res.metrics==='object' && !Array.isArray(res.metrics))\n      ? res.metrics\n      : ((res.prepContext?.metrics && typeof res.prepContext.metrics==='object' && !Array.isArray(res.prepContext.metrics)) ? res.prepContext.metrics : {});\n    for(const [k,v] of Object.entries(prepMetrics)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=n;\n      }\n    }\n    const prepFailures=Array.isArray(res.failures) ? res.failures : [];\n    for(const failure of prepFailures){\n      acc.failures.push(normalizeFailure(failure, 'unexpected_payload_shape', fallbackIds));\n    }\n    continue;\n  }\n\n  if(itemType!=='rule_result'){\n    acc.malformedResults += 1;\n    pushSyntheticFailure('unexpected_item_type', fallbackIds);\n    continue;\n  }\n\n  let status=String(res.status || 'failed');\n  let reason=String(res.reason || 'unexpected_payload_shape');\n  if(!allowedStatus.has(status)){\n    status='failed';\n    reason='unexpected_payload_shape';\n    acc.malformedResults += 1;\n  }\n\n  if(res.metricsDelta && typeof res.metricsDelta==='object' && !Array.isArray(res.metricsDelta)){\n    for(const [k,v] of Object.entries(res.metricsDelta)){\n      const n=Number(v);\n      if(Number.isFinite(n)){\n        acc.metrics[k]=(Number(acc.metrics[k]) || 0) + n;\n      }\n    }\n  }\n\n  const normalizedFailures=[];\n  const incomingFailures=Array.isArray(res.failures) ? res.failures : [];\n  for(const failure of incomingFailures){\n    normalizedFailures.push(normalizeFailure(failure, reason, fallbackIds));\n  }\n  if(status==='failed' && normalizedFailures.length===0){\n    normalizedFailures.push({\n      node:'Accumulate results',\n      reason,\n      pipefyCardIds:fallbackIds\n    });\n  }\n  if(normalizedFailures.length>0){\n    acc.failures.push(...normalizedFailures);\n  }\n\n  const createdCount=Array.isArray(res.createdItemIds) ? res.createdItemIds.length : 0;\n\n  acc.ruleResultsReceived += 1;\n  acc.statusCounts[status]=Number(acc.statusCounts[status] || 0) + 1;\n  if(status==='skipped'){\n    acc.skippedReasons[reason]=Number(acc.skippedReasons[reason] || 0) + 1;\n  }\n\n  acc.results.push({\n    ruleId:rule.ruleId ?? null,\n    status,\n    reason,\n    invoiceId:res.invoiceId ?? null,\n    existingInvoiceId:res.existingInvoiceId ?? null,\n    createdCount,\n    timings:res.timings ?? null,\n    prefetchDecision:rule.prefetchDecision ?? null,\n    failureCount:normalizedFailures.length\n  });\n}\n\nreturn $input.all();"
+      },
+      "position": [
+        -1184,
+        880
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "707dc756-ab6d-4e26-a7fe-b0d12cb679c5",
+      "name": "Finalize summary",
+      "parameters": {
+        "jsCode": "const sd=$getWorkflowStaticData('global');\nconst executionId=String($execution.id ?? 'manual');\n\nsd.finV3Runs=(sd.finV3Runs && typeof sd.finV3Runs==='object' && !Array.isArray(sd.finV3Runs)) ? sd.finV3Runs : {};\nconst state=sd.finV3Runs[executionId];\n\nconst defaults={\"rulesPages\":0,\"rulesTotal\":0,\"rulesEligible\":0,\"rulesIneligible\":0,\"rulesInvalid\":0,\"rulesSkippedDay\":0,\"rulesSkippedExisting\":0,\"invoicesPrefetchCalls\":0,\"invoicesPrefetchCount\":0,\"prefetchInvoicesMissingRuleLink\":0,\"itemBatchQueries\":0,\"itemsFetched\":0,\"createInvoices\":0,\"createItems\":0,\"updateItemInvoiceLinks\":0,\"updateParcelasPagas\":0,\"unexpectedStateErrors\":0};\n\nconst runInit=(state?.runInit && typeof state.runInit==='object' && !Array.isArray(state.runInit)) ? state.runInit : {executionId,startedAt:null,competenciaYMD:null,metrics:{...defaults}};\nconst acc=(state?.acc && typeof state.acc==='object' && !Array.isArray(state.acc)) ? state.acc : {\n  contractVersion:'fin_v3',\n  metrics:{...defaults},\n  failures:[],\n  results:[],\n  statusCounts:{processed:0,skipped:0,failed:0},\n  skippedReasons:{},\n  prepSummarySeen:false,\n  prepSummaryCount:0,\n  ruleResultsReceived:0,\n  malformedResults:0\n};\n\nconst metrics={...defaults};\nif(runInit.metrics && typeof runInit.metrics==='object' && !Array.isArray(runInit.metrics)){\n  for(const [k,v] of Object.entries(runInit.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\nif(acc.metrics && typeof acc.metrics==='object' && !Array.isArray(acc.metrics)){\n  for(const [k,v] of Object.entries(acc.metrics)){\n    const n=Number(v);\n    if(Number.isFinite(n)) metrics[k]=n;\n  }\n}\n\nconst sc={processed:0,skipped:0,failed:0,...(acc.statusCounts || {})};\nconst processedRules=Number(sc.processed || 0);\nconst skippedRules=Number(sc.skipped || 0);\nconst failedRules=Number(sc.failed || 0);\nconst failures=Array.isArray(acc.failures) ? acc.failures : [];\nconst ruleResultsReceived=Number(acc.ruleResultsReceived || 0);\nconst malformedResults=Number(acc.malformedResults || 0);\nconst prepSummarySeen=Boolean(acc.prepSummarySeen);\nconst prepSummaryCount=Number(acc.prepSummaryCount || 0);\n\nconst failedNodes={};\nconst failedReasons={};\nconst pipefyCardIds=[];\nconst pipefyCardSet=new Set();\nfor(const failure of failures){\n  const node=String(failure?.node || 'Accumulate results');\n  const reason=String(failure?.reason || 'unexpected_payload_shape');\n  failedNodes[node]=Number(failedNodes[node] || 0) + 1;\n  failedReasons[reason]=Number(failedReasons[reason] || 0) + 1;\n  const ids=Array.isArray(failure?.pipefyCardIds) ? failure.pipefyCardIds : [];\n  for(const rawId of ids){\n    const id=String(rawId || '').trim();\n    if(!id || pipefyCardSet.has(id)) continue;\n    pipefyCardSet.add(id);\n    pipefyCardIds.push(id);\n  }\n}\n\nconst expectedRuleResults=Number(metrics.rulesTotal || 0);\nconst integrityErrors=[];\nif(!prepSummarySeen){\n  integrityErrors.push('prep_summary_missing');\n}\nif(expectedRuleResults>0 && ruleResultsReceived!==expectedRuleResults){\n  integrityErrors.push('rule_results_mismatch_expected');\n}\n\nconst startedAt=runInit.startedAt || null;\nconst finishedAt=new Date().toISOString();\nconst startedMs=Date.parse(startedAt || '');\nconst finishedMs=Date.parse(finishedAt);\nconst durationMs=(Number.isFinite(startedMs) && Number.isFinite(finishedMs)) ? Math.max(0,finishedMs-startedMs) : null;\nconst failureCount=failures.length;\n\nconst summary={\n  contractVersion:'fin_v3',\n  executionId,\n  competenciaYMD:runInit.competenciaYMD || null,\n  startedAt,\n  finishedAt,\n  durationMs,\n  processedRules,\n  skippedRules,\n  failedRules,\n  totalRules:processedRules+skippedRules+failedRules,\n  ruleResultsReceived,\n  expectedRuleResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  malformedResults,\n  errorsCount:failureCount,\n  failureCount,\n  skippedReasons:(acc.skippedReasons && typeof acc.skippedReasons==='object' && !Array.isArray(acc.skippedReasons)) ? acc.skippedReasons : {},\n  failedNodes,\n  failedReasons,\n  pipefyCardIds,\n  integrityErrors,\n  metrics\n};\n\nconst ok=(failedRules===0) && (summary.failureCount===0) && (summary.malformedResults===0) && integrityErrors.length===0;\n\nconst run={\n  contractVersion:'fin_v3',\n  metrics,\n  failures,\n  results:Array.isArray(acc.results) ? acc.results : [],\n  statusCounts:sc,\n  skippedReasons:summary.skippedReasons,\n  failedNodes,\n  failedReasons,\n  malformedResults,\n  prepSummarySeen,\n  prepSummaryCount,\n  ruleResultsReceived,\n  failureCount\n};\n\nif(sd.finV3Runs && sd.finV3Runs[executionId]){\n  delete sd.finV3Runs[executionId];\n}\n\nreturn [{json:{summary,run,ok}}];"
+      },
+      "position": [
+        -1632,
+        496
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "continueOnFail": true,
+      "id": "a0160fcf-2114-48ab-a871-335d9fc642c1",
+      "name": "Persistir logs (Data Table)",
+      "parameters": {
+        "columns": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "runId",
+              "id": "runId",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "startedAt",
+              "id": "startedAt",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "dateTime"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "finishedAt",
+              "id": "finishedAt",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "dateTime"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "status",
+              "id": "status",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "competencia",
+              "id": "competencia",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "processed_rules",
+              "id": "processed_rules",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "errors_count",
+              "id": "errors_count",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "number"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rulesTotal",
+              "id": "rulesTotal",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "number"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rulesEligible",
+              "id": "rulesEligible",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "number"
+            }
+          ],
+          "value": {
+            "competencia": "={{ $json.summary.competenciaYMD }}",
+            "errors_count": "={{ $json.summary.failureCount }}",
+            "finishedAt": "={{ new Date().toISOString() }}",
+            "processed_rules": "={{ $json.summary.processedRules }}",
+            "rulesEligible": "={{ $json.summary.metrics.rulesEligible }}",
+            "rulesTotal": "={{ $json.summary.totalRules }}",
+            "runId": "={{ String($execution.id) }}",
+            "startedAt": "={{ $json.summary.startedAt }}",
+            "status": "={{ $json.ok === true ? 'success' : 'error' }}"
+          }
+        },
+        "dataTableId": {
+          "__rl": true,
+          "cachedResultName": "Logs - Geração de faturas financeiras",
+          "cachedResultUrl": "/projects/MxRYCPypQDED18DI/datatables/jBXqJ4hislRM8x31",
+          "mode": "list",
+          "value": "jBXqJ4hislRM8x31"
+        },
+        "options": {}
+      },
+      "position": [
+        -1408,
+        496
+      ],
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1
+    },
+    {
+      "id": "487bb55c-3ce9-4093-a406-d234a7d9793e",
+      "name": "Restaurar summary (pós-log)",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd0c1026-670b-4dd1-ad2d-297543a4b910",
+              "name": "summary",
+              "type": "json",
+              "value": "={{ $node['Finalize summary'].json.summary }}"
+            },
+            {
+              "id": "1f1adb65-8918-48ed-b400-f7c64b0088dc",
+              "name": "run",
+              "type": "json",
+              "value": "={{ $node['Finalize summary'].json.run }}"
+            },
+            {
+              "id": "52424fe1-ab2c-4dd2-b4ed-6daeaa8101e1",
+              "name": "ok",
+              "type": "boolean",
+              "value": "={{ $node['Finalize summary'].json.ok }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -1184,
+        496
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "d04e6104-090b-4a0e-a962-8c829153b81b",
+      "name": "Run: tem erros?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c9d0e1f2-a3b4-4c5d-8e6f-7a8b9c0d1e2f",
+              "leftValue": "={{ $json.ok !== true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -960,
+        496
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "e02f23c2-40ba-4073-844c-a19e99d55abb",
+      "name": "Run: Stop and Error",
+      "parameters": {
+        "errorMessage": "={{ 'FIN faturamento (fin_v3): execução com falhas. failureCount=' + String($json.summary?.failureCount || 0) + ', failedRules=' + String($json.summary?.failedRules || 0) + ', malformed=' + String($json.summary?.malformedResults || 0) + ', firstFailure=' + String($json.run?.failures?.[0]?.node || 'n/a') + ':' + String($json.run?.failures?.[0]?.reason || 'n/a') + ', integrity=' + String(Array.isArray($json.summary?.integrityErrors) ? $json.summary.integrityErrors.join('|') : '') + ', competencia=' + String($json.summary?.competenciaYMD || 'n/a') }}"
+      },
+      "position": [
+        -736,
+        400
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "1f7e8114-62cc-4e4e-9ab5-ef7db9e049e9",
+      "name": "Run: Success output",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa0e8aca-29e7-4675-9a81-b836e8ed20f9",
+              "name": "ok",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "99739def-ac83-45a3-9682-c4394282f3ba",
+              "name": "summary",
+              "type": "json",
+              "value": "={{ $json.summary }}"
+            },
+            {
+              "id": "13b83df2-e39d-4c86-b09d-5d2cf31de028",
+              "name": "run",
+              "type": "json",
+              "value": "={{ $json.run }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -736,
+        592
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "1e12b791-0304-41fb-97a8-86de8239a821",
+      "name": "Loop: É rule_input?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "d4a8f5d2-4d83-4f8c-bf58-a7f7ce1f9f7e",
+              "leftValue": "={{ $json.itemType === 'rule_input' }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -1632,
+        784
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-02-27T13:58:57.694Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "creatorId": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-02-27T13:58:57.694Z",
+      "workflowId": "sbjuPdz4ipegrKh2"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-16T13:16:44.422Z",
+  "versionCounter": 2,
+  "versionId": "9146c21e-18a1-462c-804a-1cb8a9457d2d"
+}

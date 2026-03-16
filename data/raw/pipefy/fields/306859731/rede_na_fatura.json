@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306533151",
+        "name": "[DB-02] Redes e grupos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306533151",
+        "name": "[DB-02] Redes e grupos"
+      },
+      "description": "",
+      "help": "",
+      "id": "rede_na_fatura",
+      "internal_id": "422905931",
+      "label": "Rede na fatura",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "a535bd8d-977e-49a1-86c4-3636edbfd7b3"
+    }
+  },
+  "meta": {
+    "field_id": "rede_na_fatura",
+    "pipe_id": "306859731",
+    "scope": "start_form"
+  }
+}

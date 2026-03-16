@@ -1,0 +1,81 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327014780",
+          "phaseField": {
+            "id": "unidade_de_cobran_a",
+            "internal_id": "422788621",
+            "label": "Unidade de cobrança",
+            "uuid": "914a0e94-ccd6-400f-b741-90821b39160f"
+          },
+          "phaseFieldId": "422788621",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327014781",
+          "phaseField": {
+            "id": "valor_unit_rio_brl",
+            "internal_id": "422788854",
+            "label": "Valor unitário (BRL)",
+            "uuid": "ce7d7629-d034-4d62-ba44-4ebe21c8d5cb"
+          },
+          "phaseFieldId": "422788854",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327014782",
+          "phaseField": {
+            "id": "valor_unit_rio_usd",
+            "internal_id": "422788842",
+            "label": "Valor unitário (USD)",
+            "uuid": "f6b3ca87-8ae2-4e61-a3ee-2677fa8c6865"
+          },
+          "phaseFieldId": "422788842",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327014783",
+          "phaseField": {
+            "id": "quantidade",
+            "internal_id": "422788692",
+            "label": "Quantidade",
+            "uuid": "0aebc3e3-d6e6-4c35-9146-02e02ef635a9"
+          },
+          "phaseFieldId": "422788692",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422779536",
+            "id": "315039275",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Por unidade"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312555750"
+      },
+      "id": "306374262",
+      "name": "Modelo != Por unidade",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306374262"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306374262",
+    "scope": "start_form"
+  }
+}

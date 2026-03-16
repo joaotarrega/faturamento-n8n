@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051375",
+          "phaseField": {
+            "id": "tipo_de_desconto_outros",
+            "internal_id": "422909781",
+            "label": "Tipo de desconto - Outros",
+            "uuid": "51b31202-5a97-4400-a46d-c5d5d532fee4"
+          },
+          "phaseFieldId": "422909781",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909775",
+            "id": "315064153",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Outros"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312579998"
+      },
+      "id": "306382055",
+      "name": "Desconto SaaS != Outros",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382055"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382055",
+    "scope": "start_form"
+  }
+}

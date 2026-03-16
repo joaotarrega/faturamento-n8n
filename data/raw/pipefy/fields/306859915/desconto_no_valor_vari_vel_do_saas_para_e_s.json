@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de cobrança, basta inserir 5.",
+      "help": null,
+      "id": "desconto_no_valor_vari_vel_do_saas_para_e_s",
+      "internal_id": "422909784",
+      "label": "Valor percentual de desconto SaaS - Categoria E&S",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "6e4abdec-1107-468a-be2d-e60ca23b798d"
+    }
+  },
+  "meta": {
+    "field_id": "desconto_no_valor_vari_vel_do_saas_para_e_s",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

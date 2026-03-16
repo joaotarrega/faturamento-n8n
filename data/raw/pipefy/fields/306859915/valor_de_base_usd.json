@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "OBS: Caso o produto seja o SaaS, esse valor é a soma das 5 categorias (A&B, E&S, Espaços, Hospedagem e Outros)",
+      "help": "",
+      "id": "valor_de_base_usd",
+      "internal_id": "422909760",
+      "label": "Valor base (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "f7b16e94-073c-4c62-af3b-3d3e291ecd32"
+    }
+  },
+  "meta": {
+    "field_id": "valor_de_base_usd",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

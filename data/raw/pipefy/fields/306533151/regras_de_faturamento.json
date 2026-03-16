@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306662125",
+        "name": "[FIN-01] Regras de faturamento"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306662125",
+        "name": "[FIN-01] Regras de faturamento"
+      },
+      "description": "",
+      "help": "",
+      "id": "regras_de_faturamento",
+      "internal_id": "424277603",
+      "label": "Regras de faturamento",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "b3f179d5-1ab0-4cb2-9eff-76322bfc328c"
+    }
+  },
+  "meta": {
+    "field_id": "regras_de_faturamento",
+    "pipe_id": "306533151",
+    "scope": "start_form"
+  }
+}

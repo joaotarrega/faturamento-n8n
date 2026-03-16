@@ -1,0 +1,35 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "motivo_de_inativa_o",
+      "index": 0.0,
+      "internal_id": "421670007",
+      "label": "Motivo de inativação",
+      "options": [
+        "Churn",
+        "Junção com outra regra de faturamento",
+        "Outro"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "bc8026a7-0c52-44e5-82db-e64571bded77"
+    }
+  },
+  "meta": {
+    "field_id": "motivo_de_inativa_o",
+    "phase": {
+      "id": "340203253",
+      "name": "Inativo",
+      "uuid": "b9f8962c-dd20-4414-8412-302fb1be5757"
+    },
+    "pipe_id": "306662125",
+    "scope": "phase"
+  }
+}

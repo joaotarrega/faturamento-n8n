@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "auto_historico_de_redes",
+      "internal_id": "424230967",
+      "label": "[Auto] Historico de redes",
+      "options": [],
+      "required": false,
+      "type": "long_text",
+      "uuid": "f4102de1-fcd5-4f62-8450-4a9b2a1e662b"
+    }
+  },
+  "meta": {
+    "field_id": "auto_historico_de_redes",
+    "pipe_id": "306662125",
+    "scope": "start_form"
+  }
+}

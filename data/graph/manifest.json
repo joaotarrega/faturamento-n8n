@@ -1,0 +1,99 @@
+{
+  "built_at": 1773669047.537805,
+  "bundle_kind": "fin_01_fin_04_context_subset",
+  "edge_type_counts": {
+    "automation_moves_phase": 4,
+    "automation_refs_field": 8,
+    "conditional_refs_field": 235,
+    "conditional_refs_phase": 1,
+    "contains": 458,
+    "field_connects_repo": 29,
+    "field_visibility_hides_field": 125,
+    "field_visibility_shows_field": 20,
+    "node_refs_field": 602,
+    "pipe_connects_repo": 39,
+    "pipe_relation": 14
+  },
+  "edges": 1535,
+  "node_type_counts": {
+    "automation": 4,
+    "conditional": 77,
+    "field": 145,
+    "node": 214,
+    "phase": 13,
+    "pipe": 8,
+    "table": 4,
+    "workflow": 10
+  },
+  "nodes": 475,
+  "selected_external_field_ids_by_pipe": {
+    "306441622": [
+      "regras_de_faturamento"
+    ],
+    "306533151": [
+      "regras_de_faturamento"
+    ]
+  },
+  "selected_pipe_ids": [
+    "306441622",
+    "306498227",
+    "306533151",
+    "306533221",
+    "306662125",
+    "306852209",
+    "306859731",
+    "306859915"
+  ],
+  "selected_table_ids": [
+    "KsEXACBL",
+    "jvn6AIAT",
+    "oSEdXvjs",
+    "zVQcD_kh"
+  ],
+  "selected_workflow_files_by_id": {
+    "4ftO9aWCz1UBQJKg": "[FIN] 1.0 Orquestrar faturamento mensal.json",
+    "7YnO0a1MG58lexEe": "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02.json",
+    "GTy8DnlpGb2ZXKwZ": "[Global] Sync de campos conectados com DB-01 e DB-02.json",
+    "HJNevahSs5CgzzVG": "[FIN] 1.1 Preparar regras elegiveis.json",
+    "K2P7z41zoYD5vLdh": "Faturamento clientes.json",
+    "QopNPbMmL97hjhfz": "[FIN] 1.3 Materializar itens FIN-04.json",
+    "aQeBDYAf8V7tNggB": "Gerar cenarios FIN-01 + FIN-02.json",
+    "e8exEEDF5NQXhhm1": "[FIN] 1.2 Preparar itens elegiveis da regra.json",
+    "hdN3L9fLauhvk6K8": "Webhooks FIN-02 e 04.json",
+    "sbjuPdz4ipegrKh2": "FIN - Gerar faturas mensais (FIN-01- FIN-03 - FIN-04).json"
+  },
+  "selected_workflow_ids": [
+    "4ftO9aWCz1UBQJKg",
+    "7YnO0a1MG58lexEe",
+    "GTy8DnlpGb2ZXKwZ",
+    "HJNevahSs5CgzzVG",
+    "K2P7z41zoYD5vLdh",
+    "QopNPbMmL97hjhfz",
+    "aQeBDYAf8V7tNggB",
+    "e8exEEDF5NQXhhm1",
+    "hdN3L9fLauhvk6K8",
+    "sbjuPdz4ipegrKh2"
+  ],
+  "selected_workflow_names_by_id": {
+    "4ftO9aWCz1UBQJKg": "[FIN] 1.0 Orquestrar faturamento mensal",
+    "7YnO0a1MG58lexEe": "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
+    "GTy8DnlpGb2ZXKwZ": "[Global] Sync de campos conectados com DB-01 e DB-02",
+    "HJNevahSs5CgzzVG": "[FIN] 1.1 Preparar regras elegiveis",
+    "K2P7z41zoYD5vLdh": "Faturamento clientes",
+    "QopNPbMmL97hjhfz": "[FIN] 1.3 Materializar itens FIN-04",
+    "aQeBDYAf8V7tNggB": "Gerar cenários FIN-01 + FIN-02",
+    "e8exEEDF5NQXhhm1": "[FIN] 1.2 Preparar itens elegiveis da regra",
+    "hdN3L9fLauhvk6K8": "Webhooks FIN-02 e 04",
+    "sbjuPdz4ipegrKh2": "FIN - Gerar faturas mensais (FIN-01→FIN-03/FIN-04)"
+  },
+  "source_graph_built_at": 1773667260.2730198,
+  "source_graph_counts": {
+    "edges": 5515,
+    "nodes": 1593
+  },
+  "source_graph_dir": "/Users/joao/Projetos/pipe-weaver/data/graph",
+  "source_graph_manifest_path": "/Users/joao/Projetos/pipe-weaver/data/graph/manifest.json",
+  "source_raw_dir": "/Users/joao/Projetos/pipe-weaver/data/raw",
+  "source_raw_manifest_path": "/Users/joao/Projetos/pipe-weaver/data/raw/manifest.json",
+  "source_raw_run_id": "2a92436641aa4314890734cc24efa702"
+}

@@ -1,0 +1,153 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327051352",
+          "phaseField": {
+            "id": "valor_de_base_usd",
+            "internal_id": "422909760",
+            "label": "Valor base (USD)",
+            "uuid": "f7b16e94-073c-4c62-af3b-3d3e291ecd32"
+          },
+          "phaseFieldId": "422909760",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327051353",
+          "phaseField": {
+            "id": "valor_unit_rio_usd",
+            "internal_id": "422909766",
+            "label": "Valor unitário (USD)",
+            "uuid": "32834511-d603-4905-8346-43076eb56cb6"
+          },
+          "phaseFieldId": "422909766",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327051354",
+          "phaseField": {
+            "id": "valor_total_do_item_usd",
+            "internal_id": "422909767",
+            "label": "Subtotal do item (USD)",
+            "uuid": "2d3002e8-213b-4379-9866-9972d803bce9"
+          },
+          "phaseFieldId": "422909767",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327051355",
+          "phaseField": {
+            "id": "valor_nominal_a_ser_descontado_usd",
+            "internal_id": "422909771",
+            "label": "Valor nominal a ser descontado (USD)",
+            "uuid": "62e354b2-81d2-4965-874d-80e15b112c94"
+          },
+          "phaseFieldId": "422909771",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052157",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_a_b_usd",
+            "internal_id": "422911863",
+            "label": "Valor base SaaS - Categoria A&B (USD)",
+            "uuid": "77a8829f-a064-4706-814e-cc0454d3e153"
+          },
+          "phaseFieldId": "422911863",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052158",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_e_s_usd",
+            "internal_id": "422911867",
+            "label": "Valor base SaaS - Categoria E&S (USD)",
+            "uuid": "0419cfc0-7dbc-44b3-8f20-f50e9082aaa3"
+          },
+          "phaseFieldId": "422911867",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052159",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_espa_os_usd",
+            "internal_id": "422911870",
+            "label": "Valor base SaaS - Categoria Espaços (USD)",
+            "uuid": "7dd4c12e-e02c-40dc-9ca6-ade4f14ac4d4"
+          },
+          "phaseFieldId": "422911870",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052160",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_hospedagem_usd",
+            "internal_id": "422911876",
+            "label": "Valor base SaaS - Categoria Hospedagem (USD)",
+            "uuid": "5b7858cd-887f-48a2-97a7-e7361f612035"
+          },
+          "phaseFieldId": "422911876",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052161",
+          "phaseField": {
+            "id": "valor_base_saas_categoria_outros_usd",
+            "internal_id": "422911880",
+            "label": "Valor base SaaS - Categoria Outros (USD)",
+            "uuid": "ff4dec4e-8a96-4e4c-9ff6-59d7f6217796"
+          },
+          "phaseFieldId": "422911880",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052162",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_usd",
+            "internal_id": "422909794",
+            "label": "Valor total do item com descontos (USD)",
+            "uuid": "b6482879-08cc-40d8-bc5b-9006e23a164b"
+          },
+          "phaseFieldId": "422909794",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909754",
+            "id": "315064140",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "USD - $"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312579985"
+      },
+      "id": "306382042",
+      "name": "Moeda != USD",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306382042"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306382042",
+    "scope": "start_form"
+  }
+}

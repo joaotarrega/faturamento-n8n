@@ -1,0 +1,273 @@
+{
+  "ids": [
+    "306295491",
+    "306295496",
+    "306295734",
+    "306381782",
+    "306381783",
+    "306434699"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306662125",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p19": {
+          "id": "306662125",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "341313813",
+              "name": "Ativo",
+              "uuid": "c796e763-65cb-4d3b-b32a-71c4ce4c3bfb"
+            },
+            {
+              "fieldConditions": [
+                {
+                  "actions": [
+                    {
+                      "actionId": "hide",
+                      "id": "326640659",
+                      "phaseField": {
+                        "id": "indique_o_motivo",
+                        "internal_id": "421670011",
+                        "label": "Indique o motivo",
+                        "uuid": "de66f1a7-763f-4fe3-9607-d84724b239af"
+                      },
+                      "phaseFieldId": "421670011",
+                      "whenEvaluator": true
+                    }
+                  ],
+                  "condition": {
+                    "expressions": [
+                      {
+                        "field_address": "421670007",
+                        "id": "314755485",
+                        "operation": "not_equals",
+                        "structure_id": "0",
+                        "value": "Outro"
+                      }
+                    ],
+                    "expressions_structure": [
+                      [
+                        "0"
+                      ]
+                    ],
+                    "id": "312302952"
+                  },
+                  "id": "306295734",
+                  "name": "Motivo != Outro",
+                  "url": "https://app.pipefy.com/pipes/306662125/settings/phases/340203253/conditionals/306295734"
+                }
+              ],
+              "id": "340203253",
+              "name": "Inativo",
+              "uuid": "b9f8962c-dd20-4414-8412-302fb1be5757"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327288530",
+                  "phaseField": {
+                    "id": "auto_historico_de_clientes",
+                    "internal_id": "424230965",
+                    "label": "[Auto] Historico de clientes",
+                    "uuid": "305b9a9b-2b69-4e14-9a85-00b84d4bd7b2"
+                  },
+                  "phaseFieldId": "424230965",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327288531",
+                  "phaseField": {
+                    "id": "auto_historico_de_redes",
+                    "internal_id": "424230967",
+                    "label": "[Auto] Historico de redes",
+                    "uuid": "f4102de1-fcd5-4f62-8450-4a9b2a1e662b"
+                  },
+                  "phaseFieldId": "424230967",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312747693"
+              },
+              "id": "306434699",
+              "name": "Escondidos",
+              "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306434699"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "326636140",
+                  "phaseField": {
+                    "id": "teto_de_faturamento_usd",
+                    "internal_id": "421663241",
+                    "label": "Teto de faturamento (USD)",
+                    "uuid": "2114f4f2-4547-40d7-aa91-4f7f7dc336b6"
+                  },
+                  "phaseFieldId": "421663241",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422754544",
+                    "id": "315063289",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "USD"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312302567"
+              },
+              "id": "306295496",
+              "name": "Moeda != USD",
+              "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306295496"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327050115",
+                  "phaseField": {
+                    "id": "teto_de_faturamento_brl",
+                    "internal_id": "422754713",
+                    "label": "Teto de faturamento (BRL)",
+                    "uuid": "86c752f2-b23b-4bad-ba16-01a0f6811e70"
+                  },
+                  "phaseFieldId": "422754713",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422754544",
+                    "id": "315063290",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "BRL"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312302560"
+              },
+              "id": "306295491",
+              "name": "Moeda != BRL",
+              "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306295491"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327050237",
+                  "phaseField": {
+                    "id": "clientes_na_fatura",
+                    "internal_id": "421662303",
+                    "label": "Clientes na fatura",
+                    "uuid": "f7fdb849-7388-46b0-8ce4-e8c489fdabc9"
+                  },
+                  "phaseFieldId": "421662303",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "421856856",
+                    "id": "315063417",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Afiliados e independentes"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312579253"
+              },
+              "id": "306381782",
+              "name": "Tipo de cliente != Afiliado/Independente",
+              "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306381782"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327050238",
+                  "phaseField": {
+                    "id": "rede_na_fatura",
+                    "internal_id": "422076542",
+                    "label": "Rede na fatura",
+                    "uuid": "ab1c4891-5a45-419a-b769-cf9702dc5540"
+                  },
+                  "phaseFieldId": "422076542",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "421856856",
+                    "id": "315063418",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Rede"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312579254"
+              },
+              "id": "306381783",
+              "name": "Tipo de cliente != Rede",
+              "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306381783"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {
+    "340203253": [
+      "306295734"
+    ]
+  },
+  "start_form_rule_ids": [
+    "306295491",
+    "306295496",
+    "306381782",
+    "306381783",
+    "306434699"
+  ]
+}

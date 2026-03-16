@@ -4,25 +4,25 @@
 
 This repository stores the current FIN monthly billing workflow family for n8n plus the Pipefy evidence used to justify those workflows.
 
-The current canonical implementation surface is the named 5-workflow suite under `raw/n8n/workflows/`.
+The current canonical implementation surface is the named 5-workflow suite under `data/raw/n8n/workflows/`.
 
 ## Canonical Files
 
-- `raw/n8n/workflows/[FIN] 1.0 Orquestrar faturamento mensal.json`
-- `raw/n8n/workflows/[FIN] 1.1 Preparar regras elegiveis.json`
-- `raw/n8n/workflows/[FIN] 1.2 Preparar itens elegiveis da regra.json`
-- `raw/n8n/workflows/[FIN] 1.3 Materializar itens FIN-04.json`
-- `raw/n8n/workflows/[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02.json`
+- `data/raw/n8n/workflows/[FIN] 1.0 Orquestrar faturamento mensal.json`
+- `data/raw/n8n/workflows/[FIN] 1.1 Preparar regras elegiveis.json`
+- `data/raw/n8n/workflows/[FIN] 1.2 Preparar itens elegiveis da regra.json`
+- `data/raw/n8n/workflows/[FIN] 1.3 Materializar itens FIN-04.json`
+- `data/raw/n8n/workflows/[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02.json`
 - `tools/validate_fin_monthly_workflows.py`
-- `graph/nodes.jsonl`
-- `graph/edges.jsonl`
-- `graph/manifest.json`
-- `index/pipe_field_to_refs.json`
+- `data/graph/nodes.jsonl`
+- `data/graph/edges.jsonl`
+- `data/graph/manifest.json`
+- `data/index/pipe_field_to_refs.json`
 
 ## Source Of Truth Rules
 
-- Edit the named workflow exports in `raw/n8n/workflows/` directly.
-- Treat `graph/` and `index/` as read-only evidence for IDs, dependencies, and field usage.
+- Edit the named workflow exports in `data/raw/n8n/workflows/` directly.
+- Treat `data/graph/` and `data/index/` as read-only evidence for IDs, dependencies, and field usage.
 - Anchor decisions to stable IDs when possible: pipe IDs, phase IDs, field IDs, and connector IDs.
 - Prefer current workflow JSON plus validator behavior over older notes if they disagree.
 

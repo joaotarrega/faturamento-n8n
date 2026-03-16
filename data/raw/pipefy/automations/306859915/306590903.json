@@ -1,0 +1,61 @@
+{
+  "data": {
+    "automation": {
+      "__typename": "Automation",
+      "action_id": "move_single_card",
+      "action_params": {
+        "__typename": "AutomationActionParams",
+        "authenticationAddTo": null,
+        "authenticationKey": null,
+        "authenticationType": null,
+        "body": null,
+        "card_id": null,
+        "email_template_id": null,
+        "field_map": null,
+        "fields_map_order": null,
+        "hasAuthenticationValue": false,
+        "headers": null,
+        "httpMethod": null,
+        "strategy": null,
+        "to_phase_id": "341351580",
+        "url": null
+      },
+      "active": true,
+      "condition": {
+        "__typename": "Condition",
+        "expressions": [
+          {
+            "__typename": "ConditionExpression",
+            "field_address": "425105007",
+            "id": "315595601",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Ativo"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "313071662"
+      },
+      "created_at": "2026-02-23 15:18:39 UTC",
+      "event_id": "field_updated",
+      "event_params": {
+        "__typename": "AutomationEventParams",
+        "fromPhaseId": null,
+        "inPhaseId": null,
+        "kindOfSla": null,
+        "to_phase_id": null,
+        "triggerAutomationId": null,
+        "triggerFieldIds": [
+          "425105007"
+        ]
+      },
+      "id": "306590903",
+      "name": "Status = Ativo -> Mover para fase Ativo",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/automations/306590903"
+    }
+  }
+}

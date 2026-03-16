@@ -1,0 +1,80 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "show",
+          "id": "327758595",
+          "phaseField": {
+            "id": "tipo_de_desconto_no_item",
+            "internal_id": "425631946",
+            "label": "Tipo de desconto no item",
+            "uuid": "28df275d-8164-408b-a24b-ef79bbcc8f40"
+          },
+          "phaseFieldId": "425631946",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "show",
+          "id": "327758596",
+          "phaseField": {
+            "id": "statement_4a274d3d_6286_453b_9e74_46b058076519",
+            "internal_id": "425631949",
+            "label": "Statement-4a274d3d-6286-453b-9e74-46b058076519",
+            "uuid": "9623b13c-ebee-45b1-a20c-52f3bc322f76"
+          },
+          "phaseFieldId": "425631949",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758597",
+          "phaseField": null,
+          "phaseFieldId": null,
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "425631946",
+            "id": "315594201",
+            "operation": "equals",
+            "structure_id": "0",
+            "value": "Categorias de propostas"
+          },
+          {
+            "field_address": "422909758",
+            "id": "315594202",
+            "operation": "not_equals",
+            "structure_id": "3",
+            "value": "1268890278"
+          },
+          {
+            "field_address": "422909757",
+            "id": "315594203",
+            "operation": "not_equals",
+            "structure_id": "5",
+            "value": "Percentual sobre base"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0",
+            "3",
+            "5"
+          ]
+        ],
+        "id": "313070793"
+      },
+      "id": "306535370",
+      "name": "Tipo de desconto inválido (categoria propostas saas)",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306535370"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306535370",
+    "scope": "start_form"
+  }
+}

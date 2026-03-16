@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "valor_total_do_item_com_descontos_usd",
+      "internal_id": "422904775",
+      "label": "Valor total do item com descontos (USD)",
+      "options": [],
+      "required": true,
+      "type": "currency",
+      "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+    }
+  },
+  "meta": {
+    "field_id": "valor_total_do_item_com_descontos_usd",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

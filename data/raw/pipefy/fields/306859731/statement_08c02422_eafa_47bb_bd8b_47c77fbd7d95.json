@@ -1,0 +1,31 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": null,
+      "canConnectMultiples": null,
+      "canCreateNewConnected": null,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "<p>add aqui nas automações:<br><br>- se nao tiver tag de relatório, enviar para emissão de NF</p>",
+      "help": null,
+      "id": "statement_08c02422_eafa_47bb_bd8b_47c77fbd7d95",
+      "index": 0.0,
+      "internal_id": "422909972",
+      "label": "Statement-08c02422-eafa-47bb-bd8b-47c77fbd7d95",
+      "options": [],
+      "required": null,
+      "type": "statement",
+      "uuid": "4c1a0592-925e-41a9-a300-a00fd58d4aad"
+    }
+  },
+  "meta": {
+    "field_id": "statement_08c02422_eafa_47bb_bd8b_47c77fbd7d95",
+    "phase": {
+      "id": "341350578",
+      "name": "Validação externa",
+      "uuid": "9ce73614-bddd-4fe1-b7d2-9541accdaec1"
+    },
+    "pipe_id": "306859731",
+    "scope": "phase"
+  }
+}

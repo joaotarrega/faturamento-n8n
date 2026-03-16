@@ -1,0 +1,129 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327555673",
+          "phaseField": {
+            "id": "id_da_fatura",
+            "internal_id": "425104988",
+            "label": "ID da fatura",
+            "uuid": "5fbd3ed8-71c2-4644-8c07-1ff2331b0b71"
+          },
+          "phaseFieldId": "425104988",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327555674",
+          "phaseField": {
+            "id": "id_do_item_usado_como_template_fin_02",
+            "internal_id": "425105573",
+            "label": "ID do item usado como template (FIN-02)",
+            "uuid": "8ba8c36e-5dc1-4884-a9a3-522a3dafecba"
+          },
+          "phaseFieldId": "425105573",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758682",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_usd",
+            "internal_id": "422909794",
+            "label": "Valor total do item com descontos (USD)",
+            "uuid": "b6482879-08cc-40d8-bc5b-9006e23a164b"
+          },
+          "phaseFieldId": "422909794",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758683",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_brl",
+            "internal_id": "422909795",
+            "label": "Valor total do item com descontos (BRL)",
+            "uuid": "fadc89bb-d04e-4538-8fdc-95fb6cf74b88"
+          },
+          "phaseFieldId": "422909795",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758684",
+          "phaseField": {
+            "id": "valor_total_do_item_usd",
+            "internal_id": "422909767",
+            "label": "Subtotal do item (USD)",
+            "uuid": "2d3002e8-213b-4379-9866-9972d803bce9"
+          },
+          "phaseFieldId": "422909767",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758685",
+          "phaseField": {
+            "id": "valor_total_do_item_brl",
+            "internal_id": "422909768",
+            "label": "Subtotal do item (BRL)",
+            "uuid": "159943fe-79f5-448c-83ea-0cb453d054d5"
+          },
+          "phaseFieldId": "422909768",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327758686",
+          "phaseField": {
+            "id": "statement_4a274d3d_6286_453b_9e74_46b058076519",
+            "internal_id": "425631949",
+            "label": "Statement-4a274d3d-6286-453b-9e74-46b058076519",
+            "uuid": "9623b13c-ebee-45b1-a20c-52f3bc322f76"
+          },
+          "phaseFieldId": "425631949",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327764720",
+          "phaseField": {
+            "id": "valor_de_base_brl",
+            "internal_id": "422909759",
+            "label": "Valor base (BRL)",
+            "uuid": "f0df5d87-12f4-4d32-ab6a-330d1d8f6c90"
+          },
+          "phaseFieldId": "422909759",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327764721",
+          "phaseField": {
+            "id": "valor_de_base_usd",
+            "internal_id": "422909760",
+            "label": "Valor base (USD)",
+            "uuid": "f7b16e94-073c-4c62-af3b-3d3e291ecd32"
+          },
+          "phaseFieldId": "422909760",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312934847"
+      },
+      "id": "306491849",
+      "name": "Campos escondidos",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306491849"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306491849",
+    "scope": "start_form"
+  }
+}

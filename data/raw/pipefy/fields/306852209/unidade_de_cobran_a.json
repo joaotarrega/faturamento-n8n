@@ -1,0 +1,27 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "unidade_de_cobran_a",
+      "internal_id": "422788621",
+      "label": "Unidade de cobrança",
+      "options": [
+        "Afiliados"
+      ],
+      "required": true,
+      "type": "radio_vertical",
+      "uuid": "914a0e94-ccd6-400f-b741-90821b39160f"
+    }
+  },
+  "meta": {
+    "field_id": "unidade_de_cobran_a",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

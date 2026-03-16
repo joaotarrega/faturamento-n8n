@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "Útil para casos em que um ajustes ou cobrança será feita até uma data específica, em acordo com o cliente.\n\nOBS: Para parcelamentos, utilize a opção de periodicidade adequada.",
+      "help": "",
+      "id": "data_de_fim_do_faturamento",
+      "internal_id": "422963134",
+      "label": "Data de fim do faturamento deste item",
+      "options": [],
+      "required": false,
+      "type": "date",
+      "uuid": "24adc0dc-921b-4cb9-b3f5-d1ce38e8ef44"
+    }
+  },
+  "meta": {
+    "field_id": "data_de_fim_do_faturamento",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

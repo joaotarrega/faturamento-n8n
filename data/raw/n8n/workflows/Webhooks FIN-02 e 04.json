@@ -1,0 +1,901 @@
+{
+  "active": true,
+  "activeVersion": {
+    "authors": "João Tarrega",
+    "autosaved": true,
+    "connections": {
+      "Ação": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Query - Moeda",
+              "type": "main"
+            }
+          ],
+          [
+            {
+              "index": 0,
+              "node": "Consultar card",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Consultar card": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Definir novo título",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Definir novo título": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Atualizar título do card",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Fields webhook": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Ação",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Query - Moeda": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Atualizar moeda no card",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Webhook FIN-02": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Fields webhook",
+              "type": "main"
+            }
+          ]
+        ]
+      },
+      "Webhook FIN-04": {
+        "main": [
+          [
+            {
+              "index": 0,
+              "node": "Fields webhook",
+              "type": "main"
+            }
+          ]
+        ]
+      }
+    },
+    "createdAt": "2026-03-12T16:40:27.869Z",
+    "description": "",
+    "name": "Version db56ea58",
+    "nodes": [
+      {
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "k0rDRzgBCkgdGEpt",
+            "name": "Pipefy Webhook Header"
+          }
+        },
+        "id": "20d246d9-e354-4705-a6f9-fe8a92c0e171",
+        "name": "Webhook FIN-02",
+        "parameters": {
+          "authentication": "headerAuth",
+          "httpMethod": "POST",
+          "options": {},
+          "path": "ee5114c8-69a5-4220-939e-800d4751afb9"
+        },
+        "position": [
+          0,
+          0
+        ],
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "webhookId": "17b99952-ca39-4b65-94d6-a7c02758fc3d"
+      },
+      {
+        "id": "bfc3aa10-a106-4055-9f5b-04af55ca98a5",
+        "name": "Fields webhook",
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "65a39fad-9b99-4a88-9101-b3c0593991ba",
+                "name": "webhookAction",
+                "type": "string",
+                "value": "={{ $json.body.data.action }}"
+              },
+              {
+                "id": "8528d31d-a643-410f-af57-7335367cd03c",
+                "name": "cardId",
+                "type": "string",
+                "value": "={{ $json.body.data.card.id }}"
+              },
+              {
+                "id": "de3e7e46-6400-439e-abcd-a20b2d447196",
+                "name": "pipeSuid",
+                "type": "string",
+                "value": "={{ $json.body.data.card.pipe_id }}"
+              },
+              {
+                "id": "2b8aa266-1157-4ee3-9e17-1dbf239d2608",
+                "name": "phaseId",
+                "type": "string",
+                "value": "={{ $json.body.data.on_phase.id }}"
+              },
+              {
+                "id": "f55be913-f7e2-453f-a78d-4093bbbe2a45",
+                "name": "updatedField",
+                "type": "string",
+                "value": "={{ $json.body.data.field.id }}"
+              },
+              {
+                "id": "06f1ee9c-49bd-4abe-b651-8efbc8769ccd",
+                "name": "newFieldValue",
+                "type": "string",
+                "value": "={{ $json.body.data.new_value }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "position": [
+          208,
+          96
+        ],
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4
+      },
+      {
+        "id": "1559610e-dc3e-429d-b12b-4e0f228d970b",
+        "name": "Query - Moeda",
+        "parameters": {
+          "jsCode": "// n8n - Code node (JavaScript)\n\nfunction pickFirst(...vals) {\n  for (const v of vals) {\n    if (v !== undefined && v !== null && String(v).trim() !== \"\") return v;\n  }\n  return undefined;\n}\n\nconst currency = String($node[\"Ação\"]?.json?.newFieldValue ?? \"\").trim();\n\nconst wh = $node[\"Fields webhook\"]?.json ?? {};\nconst cardId = pickFirst(\n  wh.cardId,\n  wh.card_id,\n  wh.card?.id,\n  wh.data?.card?.id,\n  wh.body?.card?.id,\n  wh.data?.cardId,\n  wh.data?.card_id\n);\n\nif (!cardId) {\n  throw new Error('cardId não encontrado no nó \"Fields webhook\".');\n}\n\nconst BRL_FIELDS = [\n  \"valor_base_saas_categoria_a_b_brl\",\n  \"valor_base_saas_categoria_e_s_brl\",\n  \"valor_base_saas_categoria_espa_os_brl\",\n  \"valor_base_saas_categoria_hospedagem_brl\",\n  \"valor_base_saas_categoria_outros_brl\",\n  \"valor_de_base_brl\",\n  \"valor_nominal_a_ser_descontado_brl\",\n  \"valor_total_do_item_brl\",\n  \"valor_total_do_item_com_descontos_brl\",\n  \"valor_unit_rio_brl\",\n];\n\nconst USD_FIELDS = [\n  \"valor_base_saas_categoria_a_b_usd\",\n  \"valor_base_saas_categoria_e_s_usd\",\n  \"valor_base_saas_categoria_espa_os_usd\",\n  \"valor_base_saas_categoria_hospedagem_usd\",\n  \"valor_base_saas_categoria_outros_usd\",\n  \"valor_de_base_usd\",\n  \"valor_nominal_a_ser_descontado_usd\",\n  \"valor_total_do_item_usd\",\n  \"valor_total_do_item_com_descontos_usd\",\n  \"valor_unit_rio_usd\",\n];\n\n// Regra: se escolheu USD, limpa BRL; se escolheu BRL, limpa USD\nlet fieldsToClear = [];\nif (currency === \"USD - $\") fieldsToClear = BRL_FIELDS;\nelse if (currency === \"BRL - R$\") fieldsToClear = USD_FIELDS;\n\nif (fieldsToClear.length === 0) {\n  return [{ json: { skip: true, reason: `newFieldValue inesperado: ${currency}`, cardId: String(cardId) } }];\n}\n\n// Para campos numéricos/moeda, \"\" costuma falhar; use 0.\n// value no Pipefy é LISTA ([UndefinedInput]) :contentReference[oaicite:1]{index=1}\nconst CLEAR_VALUE = [0];\n\nconst body = `\nmutation UpdateFieldsValues($nodeId: ID!, $values: [NodeFieldValueInput!]!) {\n  updateFieldsValues(input: { nodeId: $nodeId, values: $values }) {\n    success\n    userErrors { message }\n  }\n}\n`.trim();\n\nconst variables = {\n  nodeId: String(cardId),\n  values: fieldsToClear.map((fieldId) => ({\n    fieldId,       // slug do campo :contentReference[oaicite:2]{index=2}\n    value: CLEAR_VALUE,\n    // operation: \"replace\" // opcional (default é replace) :contentReference[oaicite:3]{index=3}\n  })),\n};\n\nreturn [\n  {\n    json: {\n      body,           // STRING da mutation (use isso no GraphQL node)\n      variables,      // objeto variables\n      requestBody: {  // JSON pronto (use isso no HTTP Request)\n        query: body,\n        variables,\n      },\n      debug: { currency, cardId: String(cardId), fieldsToClear, clearValueUsed: CLEAR_VALUE },\n    },\n  },\n];"
+        },
+        "position": [
+          624,
+          -128
+        ],
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2
+      },
+      {
+        "id": "1a9dd729-f259-4392-9d8c-58ff33d4a30f",
+        "name": "Ação",
+        "parameters": {
+          "options": {},
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "combinator": "and",
+                  "conditions": [
+                    {
+                      "id": "593c070b-ce03-4e77-b68c-30223567dc61",
+                      "leftValue": "={{ $json.updatedField }}",
+                      "operator": {
+                        "operation": "equals",
+                        "type": "string"
+                      },
+                      "rightValue": "moeda_da_fatura"
+                    }
+                  ],
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  }
+                },
+                "outputKey": "Att moeda",
+                "renameOutput": true
+              },
+              {
+                "conditions": {
+                  "combinator": "and",
+                  "conditions": [
+                    {
+                      "id": "0cf7daf0-70b8-4f47-bdb2-6a437d67155b",
+                      "leftValue": "={{ $json.webhookAction }}",
+                      "operator": {
+                        "name": "filter.operator.equals",
+                        "operation": "equals",
+                        "type": "string"
+                      },
+                      "rightValue": "card.create"
+                    }
+                  ],
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  }
+                },
+                "outputKey": "Att título",
+                "renameOutput": true
+              }
+            ]
+          }
+        },
+        "position": [
+          416,
+          96
+        ],
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3
+      },
+      {
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "k0rDRzgBCkgdGEpt",
+            "name": "Pipefy Webhook Header"
+          }
+        },
+        "id": "2cc21647-ce99-4ce2-a0a9-33cdcbff165f",
+        "name": "Webhook FIN-04",
+        "parameters": {
+          "authentication": "headerAuth",
+          "httpMethod": "POST",
+          "options": {},
+          "path": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+        },
+        "position": [
+          0,
+          176
+        ],
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "webhookId": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+      },
+      {
+        "credentials": {
+          "oAuth2Api": {
+            "id": "26uKvuUtjVempi2s",
+            "name": "Pipefy OAuth2 API"
+          }
+        },
+        "id": "714b072c-b721-422b-99fd-f0c468cc2820",
+        "maxTries": 5,
+        "name": "Consultar card",
+        "parameters": {
+          "authentication": "oAuth2",
+          "endpoint": "https://api.pipefy.com/graphql",
+          "operationName": "=",
+          "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    createdAt\n    title\n    pipe {\n      id\n    }\n    current_phase {\n      id\n      name\n    }\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value\n      report_value\n      native_value\n      array_value\n\n      connectedRepoItems {\n        __typename\n        ... on PublicTableRecord {\n          id\n          title\n          uuid\n          url\n        }\n      }\n    }\n  }\n}",
+          "variables": "={\n  \"cardId\": \"{{ $json.cardId }}\"\n}"
+        },
+        "position": [
+          704,
+          96
+        ],
+        "retryOnFail": true,
+        "type": "n8n-nodes-base.graphql",
+        "typeVersion": 1.1,
+        "waitBetweenTries": 2000
+      },
+      {
+        "credentials": {
+          "oAuth2Api": {
+            "id": "26uKvuUtjVempi2s",
+            "name": "Pipefy OAuth2 API"
+          }
+        },
+        "id": "7fc62dc5-bf19-40dc-a347-bb00f39964a2",
+        "maxTries": 3,
+        "name": "Atualizar moeda no card",
+        "parameters": {
+          "authentication": "oAuth2",
+          "endpoint": "https://api.pipefy.com/graphql",
+          "query": "={{ $json.body }}",
+          "variables": "={{ $json.variables }}"
+        },
+        "position": [
+          816,
+          -160
+        ],
+        "retryOnFail": true,
+        "type": "n8n-nodes-base.graphql",
+        "typeVersion": 1.1,
+        "waitBetweenTries": 2000
+      },
+      {
+        "id": "9921d8a8-b3ee-4185-a253-38c89a37511e",
+        "name": "Definir novo título",
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4f288d3f-8bc3-41df-98a1-2319786b4534",
+                "name": "=novoTituloCard",
+                "type": "string",
+                "value": "={{ (() => {\n  const fields = $json.data?.card?.fields ?? [];\n\n  const getFieldValue = (fieldId) => {\n    const field = fields.find(f => f.field?.id === fieldId);\n    return field?.value ?? field?.report_value ?? field?.native_value ?? '';\n  };\n\n  const repoItem = fields\n    .flatMap(f => f.connectedRepoItems ?? [])\n    .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');\n\n  const nomeProduto = repoItem?.title ?? getFieldValue('tipo_de_item');\n  const modeloCobranca = getFieldValue('modelo_de_cobran_a');\n  const nomeCliente = getFieldValue('clientes_na_fatura');\n\n  const createdAt = $json.data?.card?.createdAt;\n  let dataFatura = '';\n  if (createdAt) {\n    const date = new Date(createdAt);\n    const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });\n    const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });\n    dataFatura = `${mes}/${ano}`;\n  }\n\n  const pipeID = String($json.data?.card?.pipe?.id ?? '').trim();\n\n  if (pipeID === '306662125') {\n    return nomeCliente || $json.data?.card?.title || '';\n  }\n\n  if (pipeID === '306852209' || pipeID === '306859915') {\n    return [nomeProduto, modeloCobranca].filter(Boolean).join(' - ');\n  }\n\n  if (pipeID === '306859731') {\n    return [nomeCliente, dataFatura].filter(Boolean).join(' - ');\n  }\n\n  return `PIPE_NAO_MAPEADO: ${pipeID}`;\n})() }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "position": [
+          976,
+          80
+        ],
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4
+      },
+      {
+        "id": "70d8f0cf-243a-49be-bae4-02bb968b78d6",
+        "name": "Defs podem ser uteis",
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "4f288d3f-8bc3-41df-98a1-2319786b4534",
+                "name": "=novoTituloCard",
+                "type": "string",
+                "value": "={{ (() => {\n  const fields = $json.data?.card?.fields ?? [];\n\n  const getFieldValue = (fieldId) =>\n    fields.find(field => field.field?.id === fieldId)?.value ?? '';\n\n  const repoItem = fields\n    .flatMap(field => field.connectedRepoItems ?? [])\n    .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');\n\n  const nomeProduto = repoItem?.title ?? getFieldValue('tipo_de_item');\n  const modeloCobranca = getFieldValue('modelo_de_cobran_a');\n  const nomeCliente = getFieldValue('clientes_na_fatura');\n\n  const createdAt = $json.data?.card?.createdAt;\n  let dataFatura = '';\n  if (createdAt) {\n    const date = new Date(createdAt);\n    const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });\n    const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });\n    dataFatura = `${mes}/${ano}`;\n  }\n\n  const webhookJson = $('Fields webhook').first().json;\n  const pipeID = String(\n    webhookJson.pipeID ??\n    webhookJson.pipeId ??\n    webhookJson.data?.card?.pipe?.id ??\n    ''\n  );\n\n  if (pipeID === '306662125') {\n    return nomeCliente;\n  }\n\n  if (pipeID === '306852209' || pipeID === '306859915') {\n    return [nomeProduto, modeloCobranca].filter(Boolean).join(' - ');\n  }\n\n  if (pipeID === '306859731') {\n    return [nomeCliente, dataFatura].filter(Boolean).join(' - ');\n  }\n\n  return $json.data?.card?.title ?? '';\n})() }}"
+              },
+              {
+                "id": "cfe47d5e-23ff-40fc-8cde-8bff4f666926",
+                "name": "nomeProduto",
+                "type": "string",
+                "value": "={{ (() => {   const fields = $json.data?.card?.fields ?? [];    const repoItem = fields     .flatMap(field => field.connectedRepoItems ?? [])     .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');    if (repoItem?.title) {     return repoItem.title;   }    return fields.find(field => field.field?.id === 'tipo_de_item')?.value ?? ''; })() }}"
+              },
+              {
+                "id": "5b7abbdf-79b4-4c89-b7bc-cb506be245fa",
+                "name": "=modeloCobranca",
+                "type": "string",
+                "value": "={{ ($json.data?.card?.fields ?? []).find(field => field.field?.id === 'modelo_de_cobran_a')?.value ?? '' }}"
+              },
+              {
+                "id": "57008fd8-8dec-4d0f-971d-b4f37abfdce8",
+                "name": "nomeCliente",
+                "type": "string",
+                "value": "={{ ($json.data?.card?.fields ?? []).find(field => field.field?.id === 'clientes_na_fatura')?.value ?? '' }}"
+              },
+              {
+                "id": "5055a69a-80a9-4d29-a787-02778a3cb3be",
+                "name": "dataFatura",
+                "type": "string",
+                "value": "={{ (() => {   const createdAt = $json.data?.card?.createdAt;   if (!createdAt) return '';    const date = new Date(createdAt);   const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });   const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });    return `${mes}/${ano}`; })() }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "position": [
+          192,
+          -160
+        ],
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4
+      },
+      {
+        "credentials": {
+          "oAuth2Api": {
+            "id": "26uKvuUtjVempi2s",
+            "name": "Pipefy OAuth2 API"
+          }
+        },
+        "id": "5a0317da-2c45-4118-a4cd-e4dc67bfc491",
+        "maxTries": 3,
+        "name": "Atualizar título do card",
+        "parameters": {
+          "authentication": "oAuth2",
+          "endpoint": "https://api.pipefy.com/graphql",
+          "query": "mutation UpdateCardTitle($id: ID!, $title: String!) { updateCard(input: { id: $id, title: $title }) { card { id title updated_at } } }",
+          "variables": "={{ { id: $node[\"Fields webhook\"].json.cardId, title: $node[\"Definir novo título\"].json.novoTituloCard } }}"
+        },
+        "position": [
+          1216,
+          80
+        ],
+        "retryOnFail": true,
+        "type": "n8n-nodes-base.graphql",
+        "typeVersion": 1.1,
+        "waitBetweenTries": 2000
+      }
+    ],
+    "updatedAt": "2026-03-12T16:42:31.383Z",
+    "versionId": "db56ea58-202d-444c-aff9-216b640759be",
+    "workflowId": "hdN3L9fLauhvk6K8",
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-03-12T16:42:31.379Z",
+        "event": "activated",
+        "id": 22,
+        "userId": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+        "versionId": "db56ea58-202d-444c-aff9-216b640759be",
+        "workflowId": "hdN3L9fLauhvk6K8"
+      }
+    ]
+  },
+  "activeVersionId": "db56ea58-202d-444c-aff9-216b640759be",
+  "connections": {
+    "Ação": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Query - Moeda",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Consultar card",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Consultar card": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Definir novo título",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Definir novo título": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar título do card",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Fields webhook": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Ação",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Query - Moeda": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Atualizar moeda no card",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Webhook FIN-02": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Fields webhook",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Webhook FIN-04": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Fields webhook",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-11T21:55:42.399Z",
+  "description": null,
+  "id": "hdN3L9fLauhvk6K8",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Webhooks FIN-02 e 04",
+  "nodes": [
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "20d246d9-e354-4705-a6f9-fe8a92c0e171",
+      "name": "Webhook FIN-02",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "ee5114c8-69a5-4220-939e-800d4751afb9"
+      },
+      "position": [
+        0,
+        0
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "17b99952-ca39-4b65-94d6-a7c02758fc3d"
+    },
+    {
+      "id": "bfc3aa10-a106-4055-9f5b-04af55ca98a5",
+      "name": "Fields webhook",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "65a39fad-9b99-4a88-9101-b3c0593991ba",
+              "name": "webhookAction",
+              "type": "string",
+              "value": "={{ $json.body.data.action }}"
+            },
+            {
+              "id": "8528d31d-a643-410f-af57-7335367cd03c",
+              "name": "cardId",
+              "type": "string",
+              "value": "={{ $json.body.data.card.id }}"
+            },
+            {
+              "id": "de3e7e46-6400-439e-abcd-a20b2d447196",
+              "name": "pipeSuid",
+              "type": "string",
+              "value": "={{ $json.body.data.card.pipe_id }}"
+            },
+            {
+              "id": "2b8aa266-1157-4ee3-9e17-1dbf239d2608",
+              "name": "phaseId",
+              "type": "string",
+              "value": "={{ $json.body.data.on_phase.id }}"
+            },
+            {
+              "id": "f55be913-f7e2-453f-a78d-4093bbbe2a45",
+              "name": "updatedField",
+              "type": "string",
+              "value": "={{ $json.body.data.field.id }}"
+            },
+            {
+              "id": "06f1ee9c-49bd-4abe-b651-8efbc8769ccd",
+              "name": "newFieldValue",
+              "type": "string",
+              "value": "={{ $json.body.data.new_value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        208,
+        96
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "1559610e-dc3e-429d-b12b-4e0f228d970b",
+      "name": "Query - Moeda",
+      "parameters": {
+        "jsCode": "// n8n - Code node (JavaScript)\n\nfunction pickFirst(...vals) {\n  for (const v of vals) {\n    if (v !== undefined && v !== null && String(v).trim() !== \"\") return v;\n  }\n  return undefined;\n}\n\nconst currency = String($node[\"Ação\"]?.json?.newFieldValue ?? \"\").trim();\n\nconst wh = $node[\"Fields webhook\"]?.json ?? {};\nconst cardId = pickFirst(\n  wh.cardId,\n  wh.card_id,\n  wh.card?.id,\n  wh.data?.card?.id,\n  wh.body?.card?.id,\n  wh.data?.cardId,\n  wh.data?.card_id\n);\n\nif (!cardId) {\n  throw new Error('cardId não encontrado no nó \"Fields webhook\".');\n}\n\nconst BRL_FIELDS = [\n  \"valor_base_saas_categoria_a_b_brl\",\n  \"valor_base_saas_categoria_e_s_brl\",\n  \"valor_base_saas_categoria_espa_os_brl\",\n  \"valor_base_saas_categoria_hospedagem_brl\",\n  \"valor_base_saas_categoria_outros_brl\",\n  \"valor_de_base_brl\",\n  \"valor_nominal_a_ser_descontado_brl\",\n  \"valor_total_do_item_brl\",\n  \"valor_total_do_item_com_descontos_brl\",\n  \"valor_unit_rio_brl\",\n];\n\nconst USD_FIELDS = [\n  \"valor_base_saas_categoria_a_b_usd\",\n  \"valor_base_saas_categoria_e_s_usd\",\n  \"valor_base_saas_categoria_espa_os_usd\",\n  \"valor_base_saas_categoria_hospedagem_usd\",\n  \"valor_base_saas_categoria_outros_usd\",\n  \"valor_de_base_usd\",\n  \"valor_nominal_a_ser_descontado_usd\",\n  \"valor_total_do_item_usd\",\n  \"valor_total_do_item_com_descontos_usd\",\n  \"valor_unit_rio_usd\",\n];\n\n// Regra: se escolheu USD, limpa BRL; se escolheu BRL, limpa USD\nlet fieldsToClear = [];\nif (currency === \"USD - $\") fieldsToClear = BRL_FIELDS;\nelse if (currency === \"BRL - R$\") fieldsToClear = USD_FIELDS;\n\nif (fieldsToClear.length === 0) {\n  return [{ json: { skip: true, reason: `newFieldValue inesperado: ${currency}`, cardId: String(cardId) } }];\n}\n\n// Para campos numéricos/moeda, \"\" costuma falhar; use 0.\n// value no Pipefy é LISTA ([UndefinedInput]) :contentReference[oaicite:1]{index=1}\nconst CLEAR_VALUE = [0];\n\nconst body = `\nmutation UpdateFieldsValues($nodeId: ID!, $values: [NodeFieldValueInput!]!) {\n  updateFieldsValues(input: { nodeId: $nodeId, values: $values }) {\n    success\n    userErrors { message }\n  }\n}\n`.trim();\n\nconst variables = {\n  nodeId: String(cardId),\n  values: fieldsToClear.map((fieldId) => ({\n    fieldId,       // slug do campo :contentReference[oaicite:2]{index=2}\n    value: CLEAR_VALUE,\n    // operation: \"replace\" // opcional (default é replace) :contentReference[oaicite:3]{index=3}\n  })),\n};\n\nreturn [\n  {\n    json: {\n      body,           // STRING da mutation (use isso no GraphQL node)\n      variables,      // objeto variables\n      requestBody: {  // JSON pronto (use isso no HTTP Request)\n        query: body,\n        variables,\n      },\n      debug: { currency, cardId: String(cardId), fieldsToClear, clearValueUsed: CLEAR_VALUE },\n    },\n  },\n];"
+      },
+      "position": [
+        624,
+        -128
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "1a9dd729-f259-4392-9d8c-58ff33d4a30f",
+      "name": "Ação",
+      "parameters": {
+        "options": {},
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "593c070b-ce03-4e77-b68c-30223567dc61",
+                    "leftValue": "={{ $json.updatedField }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "moeda_da_fatura"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Att moeda",
+              "renameOutput": true
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "0cf7daf0-70b8-4f47-bdb2-6a437d67155b",
+                    "leftValue": "={{ $json.webhookAction }}",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "card.create"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                }
+              },
+              "outputKey": "Att título",
+              "renameOutput": true
+            }
+          ]
+        }
+      },
+      "position": [
+        416,
+        96
+      ],
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3
+    },
+    {
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "k0rDRzgBCkgdGEpt",
+          "name": "Pipefy Webhook Header"
+        }
+      },
+      "id": "2cc21647-ce99-4ce2-a0a9-33cdcbff165f",
+      "name": "Webhook FIN-04",
+      "parameters": {
+        "authentication": "headerAuth",
+        "httpMethod": "POST",
+        "options": {},
+        "path": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+      },
+      "position": [
+        0,
+        176
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "webhookId": "84b1c677-8fbd-4281-aded-4ad25ac71a52"
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "714b072c-b721-422b-99fd-f0c468cc2820",
+      "maxTries": 5,
+      "name": "Consultar card",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "operationName": "=",
+        "query": "query GetCardFields($cardId: ID!) {\n  card(id: $cardId) {\n    id\n    createdAt\n    title\n    pipe {\n      id\n    }\n    current_phase {\n      id\n      name\n    }\n    fields {\n      field {\n        id\n        label\n        type\n      }\n      value\n      report_value\n      native_value\n      array_value\n\n      connectedRepoItems {\n        __typename\n        ... on PublicTableRecord {\n          id\n          title\n          uuid\n          url\n        }\n      }\n    }\n  }\n}",
+        "variables": "={\n  \"cardId\": \"{{ $json.cardId }}\"\n}"
+      },
+      "position": [
+        704,
+        96
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "7fc62dc5-bf19-40dc-a347-bb00f39964a2",
+      "maxTries": 3,
+      "name": "Atualizar moeda no card",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "={{ $json.body }}",
+        "variables": "={{ $json.variables }}"
+      },
+      "position": [
+        816,
+        -160
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "9921d8a8-b3ee-4185-a253-38c89a37511e",
+      "name": "Definir novo título",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f288d3f-8bc3-41df-98a1-2319786b4534",
+              "name": "=novoTituloCard",
+              "type": "string",
+              "value": "={{ (() => {\n  const fields = $json.data?.card?.fields ?? [];\n\n  const getFieldValue = (fieldId) => {\n    const field = fields.find(f => f.field?.id === fieldId);\n    return field?.value ?? field?.report_value ?? field?.native_value ?? '';\n  };\n\n  const repoItem = fields\n    .flatMap(f => f.connectedRepoItems ?? [])\n    .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');\n\n  const nomeProduto = repoItem?.title ?? getFieldValue('tipo_de_item');\n  const modeloCobranca = getFieldValue('modelo_de_cobran_a');\n  const nomeCliente = getFieldValue('clientes_na_fatura');\n\n  const createdAt = $json.data?.card?.createdAt;\n  let dataFatura = '';\n  if (createdAt) {\n    const date = new Date(createdAt);\n    const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });\n    const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });\n    dataFatura = `${mes}/${ano}`;\n  }\n\n  const pipeID = String($json.data?.card?.pipe?.id ?? '').trim();\n\n  if (pipeID === '306662125') {\n    return nomeCliente || $json.data?.card?.title || '';\n  }\n\n  if (pipeID === '306852209' || pipeID === '306859915') {\n    return [nomeProduto, modeloCobranca].filter(Boolean).join(' - ');\n  }\n\n  if (pipeID === '306859731') {\n    return [nomeCliente, dataFatura].filter(Boolean).join(' - ');\n  }\n\n  return `PIPE_NAO_MAPEADO: ${pipeID}`;\n})() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        976,
+        80
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "credentials": {
+        "oAuth2Api": {
+          "id": "26uKvuUtjVempi2s",
+          "name": "Pipefy OAuth2 API"
+        }
+      },
+      "id": "5a0317da-2c45-4118-a4cd-e4dc67bfc491",
+      "maxTries": 3,
+      "name": "Atualizar título do card",
+      "parameters": {
+        "authentication": "oAuth2",
+        "endpoint": "https://api.pipefy.com/graphql",
+        "query": "mutation UpdateCardTitle($id: ID!, $title: String!) { updateCard(input: { id: $id, title: $title }) { card { id title updated_at } } }",
+        "variables": "={{ { id: $node[\"Fields webhook\"].json.cardId, title: $node[\"Definir novo título\"].json.novoTituloCard } }}"
+      },
+      "position": [
+        1216,
+        80
+      ],
+      "retryOnFail": true,
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "waitBetweenTries": 2000
+    },
+    {
+      "id": "70d8f0cf-243a-49be-bae4-02bb968b78d6",
+      "name": "Defs que podem ser uteis em nós futuros",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f288d3f-8bc3-41df-98a1-2319786b4534",
+              "name": "=novoTituloCard",
+              "type": "string",
+              "value": "={{ (() => {\n  const fields = $json.data?.card?.fields ?? [];\n\n  const getFieldValue = (fieldId) =>\n    fields.find(field => field.field?.id === fieldId)?.value ?? '';\n\n  const repoItem = fields\n    .flatMap(field => field.connectedRepoItems ?? [])\n    .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');\n\n  const nomeProduto = repoItem?.title ?? getFieldValue('tipo_de_item');\n  const modeloCobranca = getFieldValue('modelo_de_cobran_a');\n  const nomeCliente = getFieldValue('clientes_na_fatura');\n\n  const createdAt = $json.data?.card?.createdAt;\n  let dataFatura = '';\n  if (createdAt) {\n    const date = new Date(createdAt);\n    const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });\n    const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });\n    dataFatura = `${mes}/${ano}`;\n  }\n\n  const webhookJson = $('Fields webhook').first().json;\n  const pipeID = String(\n    webhookJson.pipeID ??\n    webhookJson.pipeId ??\n    webhookJson.data?.card?.pipe?.id ??\n    ''\n  );\n\n  if (pipeID === '306662125') {\n    return nomeCliente;\n  }\n\n  if (pipeID === '306852209' || pipeID === '306859915') {\n    return [nomeProduto, modeloCobranca].filter(Boolean).join(' - ');\n  }\n\n  if (pipeID === '306859731') {\n    return [nomeCliente, dataFatura].filter(Boolean).join(' - ');\n  }\n\n  return $json.data?.card?.title ?? '';\n})() }}"
+            },
+            {
+              "id": "cfe47d5e-23ff-40fc-8cde-8bff4f666926",
+              "name": "nomeProduto",
+              "type": "string",
+              "value": "={{ (() => {   const fields = $json.data?.card?.fields ?? [];    const repoItem = fields     .flatMap(field => field.connectedRepoItems ?? [])     .find(item => item?.url === 'https://app.pipefy.com/apollo_databases/306808931/records/1268859019');    if (repoItem?.title) {     return repoItem.title;   }    return fields.find(field => field.field?.id === 'tipo_de_item')?.value ?? ''; })() }}"
+            },
+            {
+              "id": "5b7abbdf-79b4-4c89-b7bc-cb506be245fa",
+              "name": "=modeloCobranca",
+              "type": "string",
+              "value": "={{ ($json.data?.card?.fields ?? []).find(field => field.field?.id === 'modelo_de_cobran_a')?.value ?? '' }}"
+            },
+            {
+              "id": "57008fd8-8dec-4d0f-971d-b4f37abfdce8",
+              "name": "nomeCliente",
+              "type": "string",
+              "value": "={{ ($json.data?.card?.fields ?? []).find(field => field.field?.id === 'clientes_na_fatura')?.value ?? '' }}"
+            },
+            {
+              "id": "5055a69a-80a9-4d29-a787-02778a3cb3be",
+              "name": "dataFatura",
+              "type": "string",
+              "value": "={{ (() => {   const createdAt = $json.data?.card?.createdAt;   if (!createdAt) return '';    const date = new Date(createdAt);   const mes = date.toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' });   const ano = date.toLocaleDateString('pt-BR', { year: 'numeric', timeZone: 'UTC' });    return `${mes}/${ano}`; })() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        208,
+        448
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-03-11T21:55:42.399Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "creatorId": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-03-11T21:55:42.399Z",
+      "workflowId": "hdN3L9fLauhvk6K8"
+    }
+  ],
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-10-28T14:26:57.025Z",
+      "id": "jWQLHyRjnHUkdCL1",
+      "name": "Pipefy",
+      "updatedAt": "2025-10-28T14:26:57.025Z"
+    },
+    {
+      "createdAt": "2025-11-10T13:15:26.055Z",
+      "id": "XyK45Idu3SHOnbVr",
+      "name": "Automação de pipe",
+      "updatedAt": "2025-11-10T13:15:58.540Z"
+    }
+  ],
+  "triggerCount": 2,
+  "updatedAt": "2026-03-16T13:15:11.043Z",
+  "versionCounter": 275,
+  "versionId": "64dc504d-cf17-4a02-8571-e1c206b2809f"
+}

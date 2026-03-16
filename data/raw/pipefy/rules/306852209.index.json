@@ -1,0 +1,1678 @@
+{
+  "ids": [
+    "306371329",
+    "306371330",
+    "306374237",
+    "306374256",
+    "306374262",
+    "306378994",
+    "306378997",
+    "306378999",
+    "306381375",
+    "306381376",
+    "306381381",
+    "306381386",
+    "306381393",
+    "306381396",
+    "306381445",
+    "306381447",
+    "306381448",
+    "306381456",
+    "306381458",
+    "306381461",
+    "306381500",
+    "306381552",
+    "306381555",
+    "306381575",
+    "306381687",
+    "306381742",
+    "306384186",
+    "306384221",
+    "306426669",
+    "306431115",
+    "306450894",
+    "306463170",
+    "306527198",
+    "306543045"
+  ],
+  "meta": {
+    "fields": [
+      "startFormFieldConditions",
+      "phases.fieldConditions"
+    ],
+    "kind": "rules",
+    "pipe_id": "306852209",
+    "query_root": "pipe"
+  },
+  "pages": [
+    {
+      "data": {
+        "p20": {
+          "id": "306852209",
+          "phases": [
+            {
+              "fieldConditions": [],
+              "id": "341306826",
+              "name": "Ativo",
+              "uuid": "c6a0faac-9325-499e-9ead-adbf8682de36"
+            },
+            {
+              "fieldConditions": [],
+              "id": "341306827",
+              "name": "Inativo",
+              "uuid": "2f640923-ba80-41c0-9016-6ba2346722d0"
+            }
+          ],
+          "startFormFieldConditions": [
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327273558",
+                  "phaseField": {
+                    "id": "id_da_regra",
+                    "internal_id": "424147593",
+                    "label": "ID da regra",
+                    "uuid": "b187ec84-df89-4968-8cf1-af540551a26c"
+                  },
+                  "phaseFieldId": "424147593",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327419597",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_usd",
+                    "internal_id": "422904775",
+                    "label": "Valor total do item com descontos (USD)",
+                    "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+                  },
+                  "phaseFieldId": "422904775",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327419598",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_brl",
+                    "internal_id": "422904778",
+                    "label": "Valor total do item com descontos (BRL)",
+                    "uuid": "087d66c3-ed71-4cb8-a464-6fd67bfce8f2"
+                  },
+                  "phaseFieldId": "422904778",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327719553",
+                  "phaseField": {
+                    "id": "statement_a1c6f3e5_63a6_4e42_9c1f_33efe925f224",
+                    "internal_id": "425563338",
+                    "label": "Statement-a1c6f3e5-63a6-4e42-9c1f-33efe925f224",
+                    "uuid": "1266a488-1b8b-4ac1-9131-24875af9e584"
+                  },
+                  "phaseFieldId": "425563338",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327720248",
+                  "phaseField": {
+                    "id": "subtotal_do_item_usd",
+                    "internal_id": "425112110",
+                    "label": "Subtotal do item (USD)",
+                    "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+                  },
+                  "phaseFieldId": "425112110",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327720249",
+                  "phaseField": {
+                    "id": "subtotal_do_item_brl",
+                    "internal_id": "425112111",
+                    "label": "Subtotal do item (BRL)",
+                    "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+                  },
+                  "phaseFieldId": "425112111",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [],
+                "expressions_structure": [],
+                "id": "312734785"
+              },
+              "id": "306431115",
+              "name": "Campos escondidos",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306431115"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327014638",
+                  "phaseField": {
+                    "id": "produto",
+                    "internal_id": "422775056",
+                    "label": "Produto",
+                    "uuid": "7b689ced-79f0-42ed-ad83-cabcd0a6d25a"
+                  },
+                  "phaseFieldId": "422775056",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327362715",
+                  "phaseField": {
+                    "id": "copy_of_statement_61cb583f_6602_4115_8b54_705db3c0f215",
+                    "internal_id": "424406239",
+                    "label": "Copy of Statement-61cb583f-6602-4115-8b54-705db3c0f215",
+                    "uuid": "704e287b-b432-455f-bb46-7a5e61d682c3"
+                  },
+                  "phaseFieldId": "424406239",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422775097",
+                    "id": "315039191",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Produto"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312555651"
+              },
+              "id": "306374237",
+              "name": "Tipo de item != Produto",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306374237"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327061069",
+                  "phaseField": {
+                    "id": "modelo_de_cobran_a",
+                    "internal_id": "422779536",
+                    "label": "Modelo de cobrança",
+                    "uuid": "93aa4f20-cc38-4d7c-b26b-ccd285e06c78"
+                  },
+                  "phaseFieldId": "422779536",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327061070",
+                  "phaseField": {
+                    "id": "h_algum_desconto_nesse_item",
+                    "internal_id": "422789270",
+                    "label": "Há algum desconto nesse item?",
+                    "uuid": "b8b12f7f-70a3-4257-87e5-8ddae99982b4"
+                  },
+                  "phaseFieldId": "422789270",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327362723",
+                  "phaseField": {
+                    "id": "statement_1780f08b_ca5c_43e2_87a6_917bbe2153a7",
+                    "internal_id": "424406276",
+                    "label": "Statement-1780f08b-ca5c-43e2-87a6-917bbe2153a7",
+                    "uuid": "d5cfca1b-26ff-4f86-ae75-637a08c37a4f"
+                  },
+                  "phaseFieldId": "424406276",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422775056",
+                    "id": "315071953",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312587540"
+              },
+              "id": "306384221",
+              "name": "Produto está vazio",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306384221"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327014750",
+                  "phaseField": {
+                    "id": "percentual_a_ser_aplicado_na_base",
+                    "internal_id": "422780587",
+                    "label": "Percentual a ser aplicado na base",
+                    "uuid": "66c0c8ef-141d-4ba2-b175-11da0ea325c2"
+                  },
+                  "phaseFieldId": "422780587",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327060826",
+                  "phaseField": {
+                    "id": "base_do_c_lculo_percentual",
+                    "internal_id": "422904895",
+                    "label": "Base do cálculo percentual",
+                    "uuid": "9da2b8a2-2193-4c97-b4dd-1a475ef7f2d0"
+                  },
+                  "phaseFieldId": "422904895",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422779536",
+                    "id": "315039233",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Percentual sobre base"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312555689"
+              },
+              "id": "306374256",
+              "name": "Modelo != Percentual de base",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306374256"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327014780",
+                  "phaseField": {
+                    "id": "unidade_de_cobran_a",
+                    "internal_id": "422788621",
+                    "label": "Unidade de cobrança",
+                    "uuid": "914a0e94-ccd6-400f-b741-90821b39160f"
+                  },
+                  "phaseFieldId": "422788621",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327014781",
+                  "phaseField": {
+                    "id": "valor_unit_rio_brl",
+                    "internal_id": "422788854",
+                    "label": "Valor unitário (BRL)",
+                    "uuid": "ce7d7629-d034-4d62-ba44-4ebe21c8d5cb"
+                  },
+                  "phaseFieldId": "422788854",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327014782",
+                  "phaseField": {
+                    "id": "valor_unit_rio_usd",
+                    "internal_id": "422788842",
+                    "label": "Valor unitário (USD)",
+                    "uuid": "f6b3ca87-8ae2-4e61-a3ee-2677fa8c6865"
+                  },
+                  "phaseFieldId": "422788842",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327014783",
+                  "phaseField": {
+                    "id": "quantidade",
+                    "internal_id": "422788692",
+                    "label": "Quantidade",
+                    "uuid": "0aebc3e3-d6e6-4c35-9146-02e02ef635a9"
+                  },
+                  "phaseFieldId": "422788692",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422779536",
+                    "id": "315039275",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Por unidade"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312555750"
+              },
+              "id": "306374262",
+              "name": "Modelo != Por unidade",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306374262"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327060856",
+                  "phaseField": {
+                    "id": "afiliados_que_comp_em_a_cobran_a",
+                    "internal_id": "422788666",
+                    "label": "Afiliados que compõem a cobrança",
+                    "uuid": "fb994e76-58c7-4ed2-bb53-f6d6cd22eba2"
+                  },
+                  "phaseFieldId": "422788666",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422788621",
+                    "id": "315071845",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Afiliados"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312587419"
+              },
+              "id": "306384186",
+              "name": "Unidade de cobrança != Afiliados",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306384186"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327060837",
+                  "phaseField": {
+                    "id": "observa_es_sobre_descontos_e_isen_es",
+                    "internal_id": "422751353",
+                    "label": "Observações sobre descontos e isenções",
+                    "uuid": "6d6d1dd7-2d0c-4a99-87fe-92d901eaec72"
+                  },
+                  "phaseFieldId": "422751353",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327712951",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_no_item_1",
+                    "internal_id": "425548238",
+                    "label": "Tipo de desconto no item",
+                    "uuid": "21261a13-e7b8-4f11-b2c4-03b10844656c"
+                  },
+                  "phaseFieldId": "425548238",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422789270",
+                    "id": "315055009",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Sim"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312571301"
+              },
+              "id": "306378999",
+              "name": "Desconto != Sim",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306378999"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327037083",
+                  "phaseField": {
+                    "id": "valor_nominal_a_ser_descontado_usd",
+                    "internal_id": "422869922",
+                    "label": "Valor nominal a ser descontado (USD)",
+                    "uuid": "4bad1fa1-92f0-4b8f-ae77-1de75c8e77d0"
+                  },
+                  "phaseFieldId": "422869922",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327037084",
+                  "phaseField": {
+                    "id": "valor_nominal_a_ser_descontado_brl",
+                    "internal_id": "422869959",
+                    "label": "Valor nominal a ser descontado (BRL)",
+                    "uuid": "ed987259-5f01-4467-ad17-1e65d1b06deb"
+                  },
+                  "phaseFieldId": "422869959",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "425548238",
+                    "id": "315055003",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Nominal"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312571295"
+              },
+              "id": "306378994",
+              "name": "Tipo de desconto != Nominal",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306378994"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327037093",
+                  "phaseField": {
+                    "id": "percentual_de_desconto_a_ser_aplicado",
+                    "internal_id": "422869998",
+                    "label": "Percentual de desconto a ser aplicado",
+                    "uuid": "50c8b016-9cf1-4b9b-b80f-dd5b62aaad76"
+                  },
+                  "phaseFieldId": "422869998",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "425548238",
+                    "id": "315055006",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Percentual"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312571299"
+              },
+              "id": "306378997",
+              "name": "Tipo de desconto != Percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306378997"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048405",
+                  "phaseField": {
+                    "id": "categorias_do_saas_isentas_ou_com_desconto",
+                    "internal_id": "422751352",
+                    "label": "Categorias do SaaS Spaces com desconto na cobrança percentual",
+                    "uuid": "03696da6-e1cf-40da-841a-5722610fb49f"
+                  },
+                  "phaseFieldId": "422751352",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422904895",
+                    "id": "315558857",
+                    "operation": "not_equals",
+                    "structure_id": "3",
+                    "value": "1268890278"
+                  },
+                  {
+                    "field_address": "425548238",
+                    "id": "315062168",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Categorias de propostas"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "3"
+                  ],
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312577915"
+              },
+              "id": "306381375",
+              "name": "Desconto != Categorias das propostas",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381375"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048410",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_a_b_1",
+                    "internal_id": "422751354",
+                    "label": "Tipo de desconto - A&B",
+                    "uuid": "a5733ea4-65ea-400a-ba30-2eb440217fbd"
+                  },
+                  "phaseFieldId": "422751354",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751352",
+                    "id": "315062172",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "A&B"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312577918"
+              },
+              "id": "306381376",
+              "name": "Desconto SaaS != A&B",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381376"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048426",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_e_s",
+                    "internal_id": "422900627",
+                    "label": "Tipo de desconto - E&S",
+                    "uuid": "50006d1d-5b87-4f14-9dd6-009eed7c4c01"
+                  },
+                  "phaseFieldId": "422900627",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751352",
+                    "id": "315062201",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "E&S"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312577944"
+              },
+              "id": "306381381",
+              "name": "Desconto SaaS != E&S",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381381"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048448",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_hospedagem",
+                    "internal_id": "422900689",
+                    "label": "Tipo de desconto - Hospedagem",
+                    "uuid": "8ea45c79-69dc-4679-8323-3a5639812b1d"
+                  },
+                  "phaseFieldId": "422900689",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751352",
+                    "id": "315062216",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Hospedagem"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312577967"
+              },
+              "id": "306381386",
+              "name": "Desconto SaaS != Hospedagem",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381386"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048475",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_espa_os",
+                    "internal_id": "422900783",
+                    "label": "Tipo de desconto - Espaços",
+                    "uuid": "f382522f-8c4b-4e1c-a2d2-d2b9927dd1c2"
+                  },
+                  "phaseFieldId": "422900783",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751352",
+                    "id": "315062262",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Espaços"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578044"
+              },
+              "id": "306381393",
+              "name": "Desconto SaaS != Espaços",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381393"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048481",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_outros",
+                    "internal_id": "422900785",
+                    "label": "Tipo de desconto - Outros",
+                    "uuid": "f55809ce-d648-4f9b-a905-70015076c380"
+                  },
+                  "phaseFieldId": "422900785",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751352",
+                    "id": "315062268",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Outros"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578053"
+              },
+              "id": "306381396",
+              "name": "Desconto SaaS != Outros",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381396"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048693",
+                  "phaseField": {
+                    "id": "desconto_no_valor_vari_vel_do_saas_para_a_b",
+                    "internal_id": "422751359",
+                    "label": "Valor percentual de desconto SaaS - Categoria A&B",
+                    "uuid": "2aa4d950-f945-4a92-8482-0e1601a7ffe1"
+                  },
+                  "phaseFieldId": "422751359",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751354",
+                    "id": "315062483",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337139"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578341"
+              },
+              "id": "306381445",
+              "name": "Tipo de desconto A&B != Valor percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381445"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048704",
+                  "phaseField": {
+                    "id": "valor_do_imposto_a_ser_isento_a_b",
+                    "internal_id": "422751360",
+                    "label": "Valor percentual do imposto a ser isento - A&B",
+                    "uuid": "2d928114-a9f5-4db1-8cbb-42c847fb12fd"
+                  },
+                  "phaseFieldId": "422751360",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751354",
+                    "id": "315062487",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337296"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578345"
+              },
+              "id": "306381447",
+              "name": "Tipo de desconto A&B != Impostos locais",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381447"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048705",
+                  "phaseField": {
+                    "id": "desconto_no_valor_vari_vel_do_saas_para_e_s",
+                    "internal_id": "422751361",
+                    "label": "Valor percentual de desconto SaaS - Categoria E&S",
+                    "uuid": "0851fd28-7ba3-46c6-98f7-6521f1fd6547"
+                  },
+                  "phaseFieldId": "422751361",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900627",
+                    "id": "315062499",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337139"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578351"
+              },
+              "id": "306381448",
+              "name": "Tipo de desconto E&S != Valor percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381448"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048726",
+                  "phaseField": {
+                    "id": "valor_do_imposto_a_ser_isento_e_s",
+                    "internal_id": "422751362",
+                    "label": "Valor percentual do imposto a ser isento - E&S",
+                    "uuid": "aa7fa10e-94cc-4d80-95f9-258768671950"
+                  },
+                  "phaseFieldId": "422751362",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900627",
+                    "id": "315062530",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337296"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578365"
+              },
+              "id": "306381456",
+              "name": "Tipo de desconto E&S != Impostos locais",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381456"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048733",
+                  "phaseField": {
+                    "id": "desconto_no_valor_vari_vel_do_saas_para_hospedagem",
+                    "internal_id": "422751363",
+                    "label": "Valor percentual de desconto SaaS - Categoria  Hospedagem",
+                    "uuid": "55219424-0008-4fa0-b304-e57acf430442"
+                  },
+                  "phaseFieldId": "422751363",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900689",
+                    "id": "315062546",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337139"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578371"
+              },
+              "id": "306381458",
+              "name": "Tipo de desconto Hospedagem != Valor percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381458"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048744",
+                  "phaseField": {
+                    "id": "valor_do_imposto_a_ser_isento_hospedagem",
+                    "internal_id": "422751364",
+                    "label": "Valor percentual do imposto a ser isento - Hospedagem",
+                    "uuid": "ccd7f0f3-7461-44d9-af27-b06e5d2386d8"
+                  },
+                  "phaseFieldId": "422751364",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900689",
+                    "id": "315062557",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337296"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578374"
+              },
+              "id": "306381461",
+              "name": "Tipo de desconto Hospedagem != Impostos locais",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381461"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327048857",
+                  "phaseField": {
+                    "id": "desconto_no_valor_vari_vel_do_saas_para_espa_os",
+                    "internal_id": "422751365",
+                    "label": "Valor percentual de desconto SaaS - Categoria Espaços",
+                    "uuid": "d95528f8-7b63-4947-b363-c801f1fdc755"
+                  },
+                  "phaseFieldId": "422751365",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900783",
+                    "id": "315062629",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337139"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578481"
+              },
+              "id": "306381500",
+              "name": "Tipo de desconto Espaços != Valor percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381500"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327049179",
+                  "phaseField": {
+                    "id": "valor_do_imposto_a_ser_isento_espa_os",
+                    "internal_id": "422751366",
+                    "label": "Valor percentual do imposto a ser isento - Espaços",
+                    "uuid": "ef64957a-4cf8-49ee-a288-dc42f3b78a3c"
+                  },
+                  "phaseFieldId": "422751366",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900783",
+                    "id": "315062737",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337296"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578602"
+              },
+              "id": "306381552",
+              "name": "Tipo de desconto Espaços != Impostos locais",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381552"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327049186",
+                  "phaseField": {
+                    "id": "desconto_no_valor_vari_vel_do_saas_para_outros",
+                    "internal_id": "422751367",
+                    "label": "Valor percentual de desconto SaaS - Categoria Outros",
+                    "uuid": "60e739db-bcb4-4386-8149-a89541740664"
+                  },
+                  "phaseFieldId": "422751367",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900785",
+                    "id": "315062756",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337139"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578644"
+              },
+              "id": "306381555",
+              "name": "Tipo de desconto Outros != Valor percentual",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381555"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327049434",
+                  "phaseField": {
+                    "id": "valor_do_imposto_a_ser_isento_outros",
+                    "internal_id": "422751368",
+                    "label": "Valor percentual do imposto a ser isento - Outros",
+                    "uuid": "4c397105-af00-4936-be74-1d950478b064"
+                  },
+                  "phaseFieldId": "422751368",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422900785",
+                    "id": "315062789",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1260337296"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578715"
+              },
+              "id": "306381575",
+              "name": "Tipo de desconto Outros != Impostos locais",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381575"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327049907",
+                  "phaseField": {
+                    "id": "data_de_in_cio_do_faturamento",
+                    "internal_id": "422901137",
+                    "label": "Data de início do faturamento deste item",
+                    "uuid": "947d4388-da43-459d-8ee7-9bb1f5714262"
+                  },
+                  "phaseFieldId": "422901137",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422790319",
+                    "id": "315063079",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1258585802"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312578943"
+              },
+              "id": "306381687",
+              "name": "Condição de início != Data específica",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381687"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327050099",
+                  "phaseField": {
+                    "id": "quantidade_de_parcelas_totais",
+                    "internal_id": "422788978",
+                    "label": "Quantidade de parcelas totais",
+                    "uuid": "b1167aa5-8db3-44f9-94db-51ca842663ee"
+                  },
+                  "phaseFieldId": "422788978",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327802338",
+                  "phaseField": {
+                    "id": "parcelas_pagas",
+                    "internal_id": "425778276",
+                    "label": "Parcelas criadas no pipe de faturas",
+                    "uuid": "f178ff08-7a40-4c2c-b1e0-98191b14cfbb"
+                  },
+                  "phaseFieldId": "425778276",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422788976",
+                    "id": "315063285",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "Parcelado"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312579105"
+              },
+              "id": "306381742",
+              "name": "Periodicidade != Parcelado",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306381742"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327797614",
+                  "phaseField": {
+                    "id": "id_backoffice_do_afiliado",
+                    "internal_id": "425777974",
+                    "label": "ID Backoffice do afiliado",
+                    "uuid": "a04f1bf5-cad9-4dc9-82a6-f6f54e1e5b89"
+                  },
+                  "phaseFieldId": "425777974",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422904895",
+                    "id": "315617704",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "1268890278"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "313092827"
+              },
+              "id": "306543045",
+              "name": "Base de cálculo != Percentual sobre base",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306543045"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327252566",
+                  "phaseField": {
+                    "id": "status",
+                    "internal_id": "424068049",
+                    "label": "Status",
+                    "uuid": "b79dc2a8-0443-4a90-b7ba-ffd136c1e339"
+                  },
+                  "phaseFieldId": "424068049",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327797615",
+                  "phaseField": {
+                    "id": "parcelas_pagas",
+                    "internal_id": "425778276",
+                    "label": "Parcelas criadas no pipe de faturas",
+                    "uuid": "f178ff08-7a40-4c2c-b1e0-98191b14cfbb"
+                  },
+                  "phaseFieldId": "425778276",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "current_phase",
+                    "id": "315213829",
+                    "operation": "blank",
+                    "structure_id": "0",
+                    "value": ""
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312719693"
+              },
+              "id": "306426669",
+              "name": "Esconder campos do form inicial",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306426669"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "show",
+                  "id": "327555766",
+                  "phaseField": {
+                    "id": "subtotal_do_item_usd",
+                    "internal_id": "425112110",
+                    "label": "Subtotal do item (USD)",
+                    "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+                  },
+                  "phaseFieldId": "425112110",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "327555767",
+                  "phaseField": {
+                    "id": "subtotal_do_item_brl",
+                    "internal_id": "425112111",
+                    "label": "Subtotal do item (BRL)",
+                    "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+                  },
+                  "phaseFieldId": "425112111",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422779536",
+                    "id": "315341349",
+                    "operation": "equals",
+                    "structure_id": "1",
+                    "value": "Fixo"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "1"
+                  ]
+                ],
+                "id": "312832597"
+              },
+              "id": "306463170",
+              "name": "Mostra subtotal quando modelo = fixo",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306463170"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "show",
+                  "id": "327419868",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_usd",
+                    "internal_id": "422904775",
+                    "label": "Valor total do item com descontos (USD)",
+                    "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+                  },
+                  "phaseFieldId": "422904775",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "327419869",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_brl",
+                    "internal_id": "422904778",
+                    "label": "Valor total do item com descontos (BRL)",
+                    "uuid": "087d66c3-ed71-4cb8-a464-6fd67bfce8f2"
+                  },
+                  "phaseFieldId": "422904778",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327713070",
+                  "phaseField": {
+                    "id": "subtotal_do_item_usd",
+                    "internal_id": "425112110",
+                    "label": "Subtotal do item (USD)",
+                    "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+                  },
+                  "phaseFieldId": "425112110",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327713071",
+                  "phaseField": {
+                    "id": "subtotal_do_item_brl",
+                    "internal_id": "425112111",
+                    "label": "Subtotal do item (BRL)",
+                    "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+                  },
+                  "phaseFieldId": "425112111",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422775097",
+                    "id": "315296048",
+                    "operation": "equals",
+                    "structure_id": "1",
+                    "value": "Ajustes de fatura"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "1"
+                  ]
+                ],
+                "id": "312791311"
+              },
+              "id": "306450894",
+              "name": "Tipo de item = Ajustes de fatura",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306450894"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327014470",
+                  "phaseField": {
+                    "id": "valor_unit_rio_usd",
+                    "internal_id": "422788842",
+                    "label": "Valor unitário (USD)",
+                    "uuid": "f6b3ca87-8ae2-4e61-a3ee-2677fa8c6865"
+                  },
+                  "phaseFieldId": "422788842",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327037066",
+                  "phaseField": {
+                    "id": "valor_nominal_a_ser_descontado_usd",
+                    "internal_id": "422869922",
+                    "label": "Valor nominal a ser descontado (USD)",
+                    "uuid": "4bad1fa1-92f0-4b8f-ae77-1de75c8e77d0"
+                  },
+                  "phaseFieldId": "422869922",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327052156",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_usd",
+                    "internal_id": "422904775",
+                    "label": "Valor total do item com descontos (USD)",
+                    "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+                  },
+                  "phaseFieldId": "422904775",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327555754",
+                  "phaseField": {
+                    "id": "subtotal_do_item_usd",
+                    "internal_id": "425112110",
+                    "label": "Subtotal do item (USD)",
+                    "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+                  },
+                  "phaseFieldId": "425112110",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751341",
+                    "id": "315025543",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "USD - $"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312544638"
+              },
+              "id": "306371329",
+              "name": "Moeda != USD",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306371329"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "hide",
+                  "id": "327014476",
+                  "phaseField": {
+                    "id": "valor_unit_rio_brl",
+                    "internal_id": "422788854",
+                    "label": "Valor unitário (BRL)",
+                    "uuid": "ce7d7629-d034-4d62-ba44-4ebe21c8d5cb"
+                  },
+                  "phaseFieldId": "422788854",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327037067",
+                  "phaseField": {
+                    "id": "valor_nominal_a_ser_descontado_brl",
+                    "internal_id": "422869959",
+                    "label": "Valor nominal a ser descontado (BRL)",
+                    "uuid": "ed987259-5f01-4467-ad17-1e65d1b06deb"
+                  },
+                  "phaseFieldId": "422869959",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327052184",
+                  "phaseField": {
+                    "id": "valor_total_do_item_com_descontos_brl",
+                    "internal_id": "422904778",
+                    "label": "Valor total do item com descontos (BRL)",
+                    "uuid": "087d66c3-ed71-4cb8-a464-6fd67bfce8f2"
+                  },
+                  "phaseFieldId": "422904778",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327555755",
+                  "phaseField": {
+                    "id": "subtotal_do_item_brl",
+                    "internal_id": "425112111",
+                    "label": "Subtotal do item (BRL)",
+                    "uuid": "a55fa536-9549-405c-b74d-a80a1e02a59a"
+                  },
+                  "phaseFieldId": "425112111",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "422751341",
+                    "id": "315025544",
+                    "operation": "not_equals",
+                    "structure_id": "0",
+                    "value": "BRL - R$"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0"
+                  ]
+                ],
+                "id": "312544639"
+              },
+              "id": "306371330",
+              "name": "Moeda != BRL",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306371330"
+            },
+            {
+              "actions": [
+                {
+                  "actionId": "show",
+                  "id": "327719551",
+                  "phaseField": {
+                    "id": "statement_a1c6f3e5_63a6_4e42_9c1f_33efe925f224",
+                    "internal_id": "425563338",
+                    "label": "Statement-a1c6f3e5-63a6-4e42-9c1f-33efe925f224",
+                    "uuid": "1266a488-1b8b-4ac1-9131-24875af9e584"
+                  },
+                  "phaseFieldId": "425563338",
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "hide",
+                  "id": "327719552",
+                  "phaseField": null,
+                  "phaseFieldId": null,
+                  "whenEvaluator": true
+                },
+                {
+                  "actionId": "show",
+                  "id": "327724749",
+                  "phaseField": {
+                    "id": "tipo_de_desconto_no_item_1",
+                    "internal_id": "425548238",
+                    "label": "Tipo de desconto no item",
+                    "uuid": "21261a13-e7b8-4f11-b2c4-03b10844656c"
+                  },
+                  "phaseFieldId": "425548238",
+                  "whenEvaluator": true
+                }
+              ],
+              "condition": {
+                "expressions": [
+                  {
+                    "field_address": "425548238",
+                    "id": "315562276",
+                    "operation": "equals",
+                    "structure_id": "0",
+                    "value": "Categorias de propostas"
+                  },
+                  {
+                    "field_address": "422904895",
+                    "id": "315562277",
+                    "operation": "not_equals",
+                    "structure_id": "1",
+                    "value": "1268890278"
+                  },
+                  {
+                    "field_address": "422779536",
+                    "id": "315562278",
+                    "operation": "not_equals",
+                    "structure_id": "2",
+                    "value": "Percentual sobre base"
+                  }
+                ],
+                "expressions_structure": [
+                  [
+                    "0",
+                    "1",
+                    "2"
+                  ]
+                ],
+                "id": "313044422"
+              },
+              "id": "306527198",
+              "name": "Tipo de desconto inválido (categoria propostas saas)",
+              "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306527198"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "rules_by_phase_id": {},
+  "start_form_rule_ids": [
+    "306371329",
+    "306371330",
+    "306374237",
+    "306374256",
+    "306374262",
+    "306378994",
+    "306378997",
+    "306378999",
+    "306381375",
+    "306381376",
+    "306381381",
+    "306381386",
+    "306381393",
+    "306381396",
+    "306381445",
+    "306381447",
+    "306381448",
+    "306381456",
+    "306381458",
+    "306381461",
+    "306381500",
+    "306381552",
+    "306381555",
+    "306381575",
+    "306381687",
+    "306381742",
+    "306384186",
+    "306384221",
+    "306426669",
+    "306431115",
+    "306450894",
+    "306463170",
+    "306527198",
+    "306543045"
+  ]
+}
