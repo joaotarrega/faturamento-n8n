@@ -1,0 +1,57 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327014750",
+          "phaseField": {
+            "id": "percentual_a_ser_aplicado_na_base",
+            "internal_id": "422780587",
+            "label": "Percentual a ser aplicado na base",
+            "uuid": "66c0c8ef-141d-4ba2-b175-11da0ea325c2"
+          },
+          "phaseFieldId": "422780587",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327060826",
+          "phaseField": {
+            "id": "base_do_c_lculo_percentual",
+            "internal_id": "422904895",
+            "label": "Base do cálculo percentual",
+            "uuid": "9da2b8a2-2193-4c97-b4dd-1a475ef7f2d0"
+          },
+          "phaseFieldId": "422904895",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422779536",
+            "id": "315039233",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Percentual sobre base"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312555689"
+      },
+      "id": "306374256",
+      "name": "Modelo != Percentual de base",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306374256"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306374256",
+    "scope": "start_form"
+  }
+}

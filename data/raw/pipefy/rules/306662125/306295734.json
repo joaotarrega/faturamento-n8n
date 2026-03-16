@@ -1,0 +1,50 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "326640659",
+          "phaseField": {
+            "id": "indique_o_motivo",
+            "internal_id": "421670011",
+            "label": "Indique o motivo",
+            "uuid": "de66f1a7-763f-4fe3-9607-d84724b239af"
+          },
+          "phaseFieldId": "421670011",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "421670007",
+            "id": "314755485",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Outro"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312302952"
+      },
+      "id": "306295734",
+      "name": "Motivo != Outro",
+      "url": "https://app.pipefy.com/pipes/306662125/settings/phases/340203253/conditionals/306295734"
+    }
+  },
+  "meta": {
+    "phase": {
+      "id": "340203253",
+      "name": "Inativo",
+      "uuid": "b9f8962c-dd20-4414-8412-302fb1be5757"
+    },
+    "pipe_id": "306662125",
+    "rule_id": "306295734",
+    "scope": "phase"
+  }
+}

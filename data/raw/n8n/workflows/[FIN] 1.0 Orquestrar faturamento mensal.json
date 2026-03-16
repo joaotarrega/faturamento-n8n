@@ -1,0 +1,1298 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "Accumulate results": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop regras",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Criar fatura FIN-03 e concluir regra": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Normalizar retorno finalizacao",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Cron (dias 1-5 07:00)": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Init Run",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Emit rule logs": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Ha rule logs?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Finalize summary": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Emit rule logs",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Ha rule logs?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Split rule logs",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Restaurar summary final",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Init Run": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Preparar regras elegiveis",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop regras": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Finalize summary",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Loop: item e rule_input?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop: item e fin04_items_ready?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Criar fatura FIN-03 e concluir regra",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop: item e item_plan?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Materializar itens FIN-04",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Loop: item e rule_input?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Preparar itens elegiveis da regra",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Init Run",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Materializar itens FIN-04": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Normalizar retorno materializacao",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Normalizar retorno finalizacao": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Accumulate results",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Normalizar retorno materializacao": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop: item e fin04_items_ready?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Normalizar retorno preparar itens": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop: item e item_plan?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Persistir fin_billing_rule_log": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Restaurar summary final",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Preparar itens elegiveis da regra": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Normalizar retorno preparar itens",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Preparar regras elegiveis": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Loop regras",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Restaurar summary final": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Run: tem erros?",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Run: tem erros?": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Run: Stop and Error",
+            "type": "main"
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "node": "Run: Success output",
+            "type": "main"
+          }
+        ]
+      ]
+    },
+    "Split rule logs": {
+      "main": [
+        [
+          {
+            "index": 0,
+            "node": "Persistir fin_billing_rule_log",
+            "type": "main"
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-03-10T18:09:35.885Z",
+  "description": null,
+  "id": "4ftO9aWCz1UBQJKg",
+  "isArchived": false,
+  "meta": null,
+  "name": "[FIN] 1.0 Orquestrar faturamento mensal",
+  "nodes": [
+    {
+      "id": "92ad26e9-05e5-47d5-8a9f-845e8b2e89cf",
+      "name": "Cron (dias 1-5 07:00)",
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "cronExpression": "0 7 1-5 * *",
+              "mode": "custom"
+            }
+          ]
+        }
+      },
+      "position": [
+        -4480,
+        512
+      ],
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1
+    },
+    {
+      "id": "5cb4b6ab-4479-4875-a390-425733217b82",
+      "name": "Manual Trigger",
+      "parameters": {},
+      "position": [
+        -4480,
+        704
+      ],
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1
+    },
+    {
+      "id": "b0944838-4e9e-4dfa-915a-454bfe623f81",
+      "name": "Init Run",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst clone = (v) => JSON.parse(JSON.stringify(v));\nconst clean = (v) => String(v ?? '').trim();\nconst isBlank = (v) => {\n  const s = clean(v).toLowerCase();\n  return s === '' || s === 'null' || s === 'undefined' || s === 'nan';\n};\nconst isIsoDate = (v) => /^\\d{4}-\\d{2}-\\d{2}$/.test(clean(v).slice(0, 10));\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out));\n};\nconst pickScalar = (f) => {\n  if (!f) return null;\n  const rv = f.report_value;\n  return (rv !== undefined && rv !== null && String(rv).trim() !== '') ? rv : f.value;\n};\nconst fieldMap = (fields) => {\n  const out = {};\n  for (const f of (fields || [])) {\n    const fid = f && f.field ? f.field.id : null;\n    if (fid) out[fid] = f;\n  }\n  return out;\n};\nconst parseNum = (v) => {\n  if (v === undefined || v === null) return 0;\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  let s = String(v).trim();\n  if (!s) return 0;\n  s = s.replace(/[^0-9,.-]/g, '');\n  if (!s) return 0;\n  if (s.includes(',') && s.includes('.')) {\n    if (s.lastIndexOf(',') > s.lastIndexOf('.')) {\n      s = s.replace(/\\./g, '').replace(',', '.');\n    } else {\n      s = s.replace(/,/g, '');\n    }\n  } else if (s.includes(',')) {\n    s = s.replace(',', '.');\n  }\n  const n = Number(s);\n  return Number.isFinite(n) ? n : 0;\n};\nconst extractIds = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    if (typeof x === 'object') {\n      if (x.id != null) out.push(String(x.id));\n      else if (x.value != null) out.push(String(x.value));\n      else if (x.label != null) out.push(String(x.label));\n    } else {\n      out.push(String(x));\n    }\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const matches = v.match(/[0-9]+/g);\n      if (matches) {\n        for (const x of matches) out.push(String(x));\n      } else if (v.trim()) {\n        out.push(v.trim());\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst extractList = (f) => {\n  if (!f) return [];\n  const out = [];\n  const push = (x) => {\n    if (x === undefined || x === null) return;\n    const s = String(x).trim();\n    if (s) out.push(s);\n  };\n  if (Array.isArray(f.array_value)) {\n    for (const x of f.array_value) push(x);\n  } else {\n    const v = pickScalar(f);\n    if (Array.isArray(v)) {\n      for (const x of v) push(x);\n    } else if (typeof v === 'string') {\n      const s = v.trim();\n      if (s.startsWith('[')) {\n        try {\n          const parsed = JSON.parse(s);\n          if (Array.isArray(parsed)) {\n            for (const x of parsed) push(x);\n          } else {\n            push(parsed);\n          }\n        } catch (_err) {\n          for (const x of s.split(',')) push(x);\n        }\n      } else {\n        for (const x of s.split(',')) push(x);\n      }\n    } else if (v != null) {\n      push(v);\n    }\n  }\n  return Array.from(new Set(out));\n};\nconst toId = (v) => {\n  if (v == null) return null;\n  const s = String(v).trim();\n  const match = s.match(/[0-9]+/);\n  return match ? match[0] : (s || null);\n};\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst ensureLogState = (ctx) => {\n  ctx.failures = Array.isArray(ctx.failures) ? ctx.failures : [];\n  ctx.entityLogs = Array.isArray(ctx.entityLogs) ? ctx.entityLogs : [];\n  ctx.graphqlLogs = Array.isArray(ctx.graphqlLogs) ? ctx.graphqlLogs : [];\n  ctx.workflowLogs = Array.isArray(ctx.workflowLogs) ? ctx.workflowLogs : [];\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0);\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0);\n  return ctx;\n};\nconst addFailure = (ctx, node, reason, ...ids) => {\n  ctx.failures.push({\n    node: String(node || 'unknown'),\n    reason: String(reason || 'unexpected_payload_shape'),\n    pipefyCardIds: collectIds(...ids),\n  });\n};\nconst nextGraphqlIndex = (ctx) => {\n  ctx.metrics.graphqlCallsTotal = Number(ctx.metrics.graphqlCallsTotal || 0) + 1;\n  return ctx.metrics.graphqlCallsTotal;\n};\nconst addGraphqlErrorLog = (ctx, payload) => {\n  ctx.metrics.graphqlErrorsTotal = Number(ctx.metrics.graphqlErrorsTotal || 0) + 1;\n  ctx.graphqlLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    operation_name: payload.operation_name,\n    pipe_id: payload.pipe_id ?? null,\n    phase_id: payload.phase_id ?? null,\n    card_id: payload.card_id ?? null,\n    entity_type: payload.entity_type ?? null,\n    entity_id: payload.entity_id ?? null,\n    request_fingerprint: payload.request_fingerprint ?? null,\n    graphql_call_index: payload.graphql_call_index ?? null,\n    requested_at: payload.requested_at ?? nowIso,\n    responded_at: nowIso,\n    duration_ms: payload.duration_ms ?? null,\n    status: payload.status ?? 'error',\n    error_code: payload.error_code ?? null,\n    error_message: payload.error_message ?? null,\n    query_excerpt: payload.query_excerpt ?? null,\n    variables_json: payload.variables_json ?? 'null',\n    response_json: payload.response_json ?? 'null',\n  });\n};\nconst addEntityLog = (ctx, payload) => {\n  ctx.entityLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    node_name: payload.node_name,\n    entity_type: payload.entity_type,\n    entity_id: payload.entity_id ?? null,\n    rule_id: payload.rule_id ?? ctx.rule?.ruleId ?? null,\n    template_item_id: payload.template_item_id ?? null,\n    fin02_parent_item_id: payload.fin02_parent_item_id ?? null,\n    invoice_id: payload.invoice_id ?? null,\n    fin04_item_id: payload.fin04_item_id ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    action: payload.action,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    dedupe_key: payload.dedupe_key ?? null,\n    graphql_calls_delta: Number(payload.graphql_calls_delta || 0),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    details_json: payload.details_json ?? 'null',\n  });\n};\nconst addWorkflowLog = (ctx, payload) => {\n  ctx.workflowLogs.push({\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    parent_execution_id: ctx.trace?.parentExecutionId ?? null,\n    workflow_name: ctx.trace?.workflowName ?? null,\n    trigger_type: ctx.run?.triggerType ?? null,\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    started_at: payload.started_at ?? ctx.startedAt ?? nowIso,\n    finished_at: payload.finished_at ?? nowIso,\n    status: payload.status,\n    failure_reason: payload.failure_reason ?? null,\n    graphql_calls_total: Number(ctx.metrics?.graphqlCallsTotal || 0),\n    rules_found: Number(payload.rules_found || 0),\n    rules_eligible: Number(payload.rules_eligible || 0),\n    rules_processed: Number(payload.rules_processed || 0),\n    rules_failed: Number(payload.rules_failed || 0),\n    items_created: Number(payload.items_created || 0),\n    items_updated: Number(payload.items_updated || 0),\n    duplicate_items_blocked: Number(payload.duplicate_items_blocked || 0),\n    invoices_created: Number(payload.invoices_created || 0),\n    duplicate_invoices_blocked: Number(payload.duplicate_invoices_blocked || 0),\n    installments_incremented: Number(payload.installments_incremented || 0),\n    parent_items_inactivated: Number(payload.parent_items_inactivated || 0),\n    summary_json: payload.summary_json ?? 'null',\n  });\n};\n\n    const tz = 'America/Sao_Paulo';\n    const now = new Date();\n    const parts = new Intl.DateTimeFormat('en-CA', {\n      timeZone: tz,\n      year: 'numeric',\n      month: '2-digit',\n      day: '2-digit',\n    }).formatToParts(now);\n    const dateParts = {};\n    for (const part of parts) dateParts[part.type] = part.value;\n    const year = Number(dateParts.year);\n    const month = Number(dateParts.month);\n    const day = Number(dateParts.day);\n    let compYear = year;\n    let compMonth = month - 1;\n    if (compMonth === 0) {\n      compMonth = 12;\n      compYear -= 1;\n    }\n    const mm = String(compMonth).padStart(2, '0');\n    const competenciaYMD = `${compYear}-${mm}-01`;\n    const daysInCompMonth = new Date(Date.UTC(compYear, compMonth, 0)).getUTCDate();\n    const compEnd = `${compYear}-${mm}-${String(daysInCompMonth).padStart(2, '0')}`;\n    const triggerType = $input.context?.sourceData?.previousNode == null\n      ? (($node['Cron (dias 1-5 07:00)']?.isExecuted === true) ? 'cron' : 'manual')\n      : 'manual';\n    const runId = `fin-billing:${String($execution.id ?? 'manual')}:${competenciaYMD}`;\n    const ctx = ensureLogState({\n      contractVersion: 'fin_v3',\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: null,\n        workflowExecutionId: String($execution.id ?? 'manual'),\n        workflowName: '[FIN] 1 Orquestrar faturamento mensal',\n      },\n      run: {\n        runId,\n        executionId: String($execution.id ?? 'manual'),\n        triggerType,\n        timezone: tz,\n        todayDay: day,\n        competenceYMD: competenciaYMD,\n        competenceStart: competenciaYMD,\n        competenceEnd: compEnd,\n        competenceDateTime: timeWithOffset(competenciaYMD),\n      },\n      metrics: {\n        rulesFound: 0,\n        rulesEligible: 0,\n        rulesProcessed: 0,\n        rulesFailed: 0,\n        itemsCreated: 0,\n        itemsUpdated: 0,\n        duplicateItemsBlocked: 0,\n        invoicesCreated: 0,\n        duplicateInvoicesBlocked: 0,\n        installmentsIncremented: 0,\n        parentItemsInactivated: 0,\n      },\n      results: [],\n    });\n    return [{ json: { runContext: ctx.run, trace: ctx.trace, orchestratorContext: ctx } }];"
+      },
+      "position": [
+        -4256,
+        608
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "9b515925-a614-4024-834a-011b671db722",
+      "name": "Preparar regras elegiveis",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "[FIN] 1.1 Preparar regras elegiveis",
+          "cachedResultUrl": "/workflow/HJNevahSs5CgzzVG",
+          "mode": "list",
+          "value": "HJNevahSs5CgzzVG"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "runContext",
+              "id": "runContext",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "trace",
+              "id": "trace",
+              "required": false,
+              "type": "object"
+            }
+          ],
+          "value": {
+            "runContext": "={{ $json.runContext }}",
+            "trace": "={{ $json.trace }}"
+          }
+        }
+      },
+      "position": [
+        -4032,
+        608
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "33b6465d-5ff8-4f95-9a3d-8cf379fdaadc",
+      "name": "Loop regras",
+      "parameters": {
+        "options": {}
+      },
+      "position": [
+        -3808,
+        608
+      ],
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3
+    },
+    {
+      "id": "3c16f714-3e2e-4d98-8746-5239a5b6d39f",
+      "name": "Loop: item e rule_input?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.itemType === 'rule_input' }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -3584,
+        608
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "alwaysOutputData": true,
+      "id": "e0cade6e-2b19-4bb3-9ec4-ebfcecfa54a7",
+      "name": "Preparar itens elegiveis da regra",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "[FIN] 1.2 Preparar itens elegiveis da regra",
+          "cachedResultUrl": "/workflow/e8exEEDF5NQXhhm1",
+          "mode": "list",
+          "value": "e8exEEDF5NQXhhm1"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "contractVersion",
+              "id": "contractVersion",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemType",
+              "id": "itemType",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "trace",
+              "id": "trace",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "run",
+              "id": "run",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule",
+              "id": "rule",
+              "required": false,
+              "type": "object"
+            }
+          ],
+          "value": {
+            "contractVersion": "={{ $json.contractVersion }}",
+            "itemType": "={{ $json.itemType }}",
+            "rule": "={{ $json.rule }}",
+            "run": "={{ $json.run }}",
+            "trace": "={{ $json.trace }}"
+          }
+        }
+      },
+      "position": [
+        -3360,
+        528
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "70ae1683-4c04-4da3-adf4-b9f6c6af977d",
+      "name": "Loop: item e item_plan?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.itemType === 'item_plan' }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2912,
+        528
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "alwaysOutputData": true,
+      "id": "06814491-fda4-4fb9-9e4b-11379110e118",
+      "name": "Materializar itens FIN-04",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "[FIN] 1.3 Materializar itens FIN-04",
+          "cachedResultUrl": "/workflow/QopNPbMmL97hjhfz",
+          "mode": "list",
+          "value": "QopNPbMmL97hjhfz"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "contractVersion",
+              "id": "contractVersion",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemType",
+              "id": "itemType",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "trace",
+              "id": "trace",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "run",
+              "id": "run",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule",
+              "id": "rule",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemPlan",
+              "id": "itemPlan",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failures",
+              "id": "failures",
+              "required": false,
+              "type": "array"
+            }
+          ],
+          "value": {
+            "contractVersion": "={{ $json.contractVersion }}",
+            "failures": "={{ $json.failures }}",
+            "itemPlan": "={{ $json.itemPlan }}",
+            "itemType": "={{ $json.itemType }}",
+            "rule": "={{ $json.rule }}",
+            "run": "={{ $json.run }}",
+            "trace": "={{ $json.trace }}"
+          }
+        }
+      },
+      "position": [
+        -2688,
+        464
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "016eefc1-11ad-49c1-9af9-c16255400f70",
+      "name": "Loop: item e fin04_items_ready?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.itemType === 'fin04_items_ready' }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2240,
+        464
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "alwaysOutputData": true,
+      "id": "ce28d957-f69d-4ee9-8fc0-49877e404195",
+      "name": "Criar fatura FIN-03 e concluir regra",
+      "parameters": {
+        "options": {},
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "[FIN] 1.4 Criar fatura FIN-03, concluir FIN-04 e atualizar FIN-02",
+          "cachedResultUrl": "/workflow/7YnO0a1MG58lexEe",
+          "mode": "list",
+          "value": "7YnO0a1MG58lexEe"
+        },
+        "workflowInputs": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "contractVersion",
+              "id": "contractVersion",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemType",
+              "id": "itemType",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "trace",
+              "id": "trace",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "run",
+              "id": "run",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule",
+              "id": "rule",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "itemPlan",
+              "id": "itemPlan",
+              "required": false,
+              "type": "object"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "createdItemIds",
+              "id": "createdItemIds",
+              "required": false,
+              "type": "array"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "parcelUpdates",
+              "id": "parcelUpdates",
+              "required": false,
+              "type": "array"
+            },
+            {
+              "canBeUsedToMatch": true,
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failures",
+              "id": "failures",
+              "required": false,
+              "type": "array"
+            }
+          ],
+          "value": {
+            "contractVersion": "={{ $json.contractVersion }}",
+            "createdItemIds": "={{ $json.createdItemIds }}",
+            "failures": "={{ $json.failures }}",
+            "itemPlan": "={{ $json.itemPlan }}",
+            "itemType": "={{ $json.itemType }}",
+            "parcelUpdates": "={{ $json.parcelUpdates }}",
+            "rule": "={{ $json.rule }}",
+            "run": "={{ $json.run }}",
+            "trace": "={{ $json.trace }}"
+          }
+        }
+      },
+      "position": [
+        -2016,
+        384
+      ],
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2
+    },
+    {
+      "id": "0f16682a-3b96-40b8-8773-4ed00b86692d",
+      "name": "Accumulate results",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst asList = (v) => Array.isArray(v) ? v : [];\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst ensureState = (ctx) => {\n  ctx.trace = asObj(ctx.trace);\n  ctx.run = asObj(ctx.run);\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.results = asList(ctx.results);\n  ctx.failures = asList(ctx.failures);\n  return ctx;\n};\nconst input = $input.all().map((item) => asObj(item.json));\nconst sd = $getWorkflowStaticData('global');\nconst executionId = String($execution.id ?? 'manual');\nsd.finBillingAcc = asObj(sd.finBillingAcc);\nif (!sd.finBillingAcc[executionId]) {\n  sd.finBillingAcc[executionId] = {\n    ctx: ensureState({\n      startedAt: nowIso,\n      trace: {\n        parentExecutionId: null,\n        workflowExecutionId: executionId,\n        workflowName: '[FIN] 1 Orquestrar faturamento mensal',\n      },\n      run: {},\n      metrics: {},\n      results: [],\n      failures: [],\n    }),\n  };\n}\nconst acc = ensureState(sd.finBillingAcc[executionId].ctx);\nif (!acc.run?.runId) {\n  const first = input.find((x) => asObj(x.run).runId || asObj(x.summary).runId || asObj(x.trace).workflowExecutionId);\n  if (first) {\n    if (asObj(first.run).runId) {\n      acc.run = clone(asObj(first.run));\n    } else if (asObj(first.summary).runId) {\n      acc.run.runId = asObj(first.summary).runId;\n    }\n  }\n}\nfor (const item of input) {\n  if (item.itemType === 'prep_summary') {\n    const prep = asObj(asObj(item.result).prepContext);\n    acc.metrics.rulesFound = Number(prep.rulesFound || prep.rulesTotal || acc.metrics.rulesFound || 0);\n    acc.metrics.rulesEligible = Number(prep.rulesEligible || prep.eligibleCount || acc.metrics.rulesEligible || 0);\n    continue;\n  }\n  if (item.itemType !== 'rule_result') continue;\n  const result = asObj(item.result);\n  const failures = asList(item.failures).length > 0 ? asList(item.failures) : asList(result.failures);\n  if (failures.length > 0) acc.failures.push(...failures);\n  const metrics = asObj(result.metricsDelta);\n  for (const [key, value] of Object.entries(metrics)) {\n    const n = Number(value);\n    if (Number.isFinite(n)) acc.metrics[key] = Number(acc.metrics[key] || 0) + n;\n  }\n  const status = clean(result.status) || 'failed';\n  acc.results.push({\n    ruleId: asObj(item.rule).ruleId ?? null,\n    ruleTitle: asObj(item.rule).ruleTitle ?? null,\n    status,\n    reason: clean(result.reason) || 'unexpected_payload_shape',\n    invoiceId: result.invoiceId ?? result.existingInvoiceId ?? null,\n    createdItemIds: asList(result.createdItemIds).map((value) => String(value)),\n    failures,\n    startedAt: clean(result.startedAt) || nowIso,\n    finishedAt: clean(result.finishedAt) || nowIso,\n  });\n  acc.metrics.rulesProcessed = Number(acc.metrics.rulesProcessed || 0) + 1;\n  if (status === 'failed') {\n    acc.metrics.rulesFailed = Number(acc.metrics.rulesFailed || 0) + 1;\n  }\n}\nreturn $input.all();"
+      },
+      "position": [
+        -1568,
+        656
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "1d7c7d8e-9d96-4e9f-89ac-463c720d60a1",
+      "name": "Finalize summary",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst asList = (v) => Array.isArray(v) ? v : [];\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst jsonString = (v) => {\n  try { return JSON.stringify(v ?? null); } catch (_err) { return 'null'; }\n};\nconst timeWithOffset = (ymd) => clean(ymd) ? `${clean(ymd)}T00:00:00-03:00` : null;\nconst uniqueStrings = (values) => {\n  const out = [];\n  const seen = new Set();\n  for (const value of (values || [])) {\n    const s = clean(value);\n    if (!s || seen.has(s)) continue;\n    seen.add(s);\n    out.push(s);\n  }\n  return out;\n};\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    if (typeof value === 'object') {\n      if (value.id != null) out.push(String(value.id).trim());\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return uniqueStrings(out);\n};\nconst ensureState = (ctx) => {\n  ctx.trace = asObj(ctx.trace);\n  ctx.run = asObj(ctx.run);\n  ctx.metrics = asObj(ctx.metrics);\n  ctx.results = asList(ctx.results);\n  ctx.failures = asList(ctx.failures);\n  return ctx;\n};\nconst buildRuleLogRows = (ctx, results, finishedAt) => results.map((result) => {\n  const failures = asList(result.failures);\n  const failedNodes = uniqueStrings(failures.map((failure) => asObj(failure).node));\n  const failedReasons = uniqueStrings(failures.map((failure) => asObj(failure).reason));\n  const pipefyCardIds = collectIds(failures.map((failure) => asObj(failure).pipefyCardIds));\n  return {\n    run_id: ctx.run?.runId ?? null,\n    workflow_execution_id: ctx.trace?.workflowExecutionId ?? String($execution.id ?? 'manual'),\n    competence_date: timeWithOffset(ctx.run?.competenceYMD),\n    rule_id: clean(result.ruleId) || null,\n    rule_title: clean(result.ruleTitle) || null,\n    status: clean(result.status) || 'failed',\n    reason: clean(result.reason) || (failedReasons[0] || 'unexpected_payload_shape'),\n    failure_count: failures.length,\n    failed_nodes: failedNodes.join(', '),\n    failed_reasons: failedReasons.join(', '),\n    pipefy_card_ids: pipefyCardIds.join(', '),\n    invoice_id: result.invoiceId ?? null,\n    created_item_ids_json: jsonString(asList(result.createdItemIds)),\n    failures_json: jsonString(failures),\n    started_at: clean(result.startedAt) || ctx.startedAt || finishedAt,\n    finished_at: clean(result.finishedAt) || finishedAt,\n  };\n});\nconst sd = $getWorkflowStaticData('global');\nconst executionId = String($execution.id ?? 'manual');\nconst state = asObj(asObj(sd.finBillingAcc)[executionId]);\nconst ctx = ensureState(clone(asObj(state.ctx)));\nconst finishedAt = nowIso;\nconst resultList = asList(ctx.results);\nconst failures = asList(ctx.failures);\nconst processed = resultList.filter((x) => clean(asObj(x).status) === 'processed').length;\nconst skipped = resultList.filter((x) => clean(asObj(x).status) === 'skipped').length;\nconst failed = resultList.filter((x) => clean(asObj(x).status) === 'failed').length;\nconst summary = {\n  runId: ctx.run?.runId ?? null,\n  competenceYMD: ctx.run?.competenceYMD ?? null,\n  startedAt: ctx.startedAt ?? null,\n  finishedAt,\n  processedRules: processed,\n  skippedRules: skipped,\n  failedRules: failed,\n  failureCount: failures.length,\n  graphqlCallsTotal: Number(ctx.metrics?.graphqlCallsTotal || 0),\n  metrics: ctx.metrics,\n  results: resultList,\n  firstFailure: failures[0] ?? null,\n};\nconst ok = failed === 0 && failures.length === 0;\nconst ruleLogRows = buildRuleLogRows(ctx, resultList, finishedAt);\nif (sd.finBillingAcc && sd.finBillingAcc[executionId]) delete sd.finBillingAcc[executionId];\nreturn [{\n  json: {\n    ok,\n    summary,\n    run: {\n      failures,\n      results: resultList,\n      metrics: ctx.metrics,\n    },\n    ruleLogRows,\n  }\n}];"
+      },
+      "position": [
+        -3584,
+        96
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "ee718943-e836-4157-a9cf-694e5ea6c869",
+      "name": "Emit rule logs",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fafa7065-437d-4990-8f21-70ba180b736b",
+              "name": "ruleLogRows",
+              "type": "json",
+              "value": "={{ $json.ruleLogRows }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -3360,
+        96
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "1a15a0d6-5ad4-4b52-9c59-408b869281c4",
+      "name": "Split rule logs",
+      "parameters": {
+        "fieldToSplitOut": "ruleLogRows",
+        "options": {}
+      },
+      "position": [
+        -2912,
+        32
+      ],
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1
+    },
+    {
+      "continueOnFail": true,
+      "id": "88792828-088d-4c90-a82d-299f5a61ee8f",
+      "name": "Persistir fin_billing_rule_log",
+      "parameters": {
+        "columns": {
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "schema": [
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "run_id",
+              "id": "run_id",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "workflow_execution_id",
+              "id": "workflow_execution_id",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "competence_date",
+              "id": "competence_date",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "dateTime"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule_id",
+              "id": "rule_id",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "rule_title",
+              "id": "rule_title",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "status",
+              "id": "status",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "reason",
+              "id": "reason",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failure_count",
+              "id": "failure_count",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "number"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failed_nodes",
+              "id": "failed_nodes",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failed_reasons",
+              "id": "failed_reasons",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "pipefy_card_ids",
+              "id": "pipefy_card_ids",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "invoice_id",
+              "id": "invoice_id",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "created_item_ids_json",
+              "id": "created_item_ids_json",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "failures_json",
+              "id": "failures_json",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "string"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "started_at",
+              "id": "started_at",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "dateTime"
+            },
+            {
+              "defaultMatch": false,
+              "display": true,
+              "displayName": "finished_at",
+              "id": "finished_at",
+              "readOnly": false,
+              "removed": false,
+              "required": false,
+              "type": "dateTime"
+            }
+          ],
+          "value": {
+            "competence_date": "={{ $json.competence_date }}",
+            "created_item_ids_json": "={{ $json.created_item_ids_json }}",
+            "failed_nodes": "={{ $json.failed_nodes }}",
+            "failed_reasons": "={{ $json.failed_reasons }}",
+            "failure_count": "={{ $json.failure_count }}",
+            "failures_json": "={{ $json.failures_json }}",
+            "finished_at": "={{ $json.finished_at }}",
+            "invoice_id": "={{ $json.invoice_id }}",
+            "pipefy_card_ids": "={{ $json.pipefy_card_ids }}",
+            "reason": "={{ $json.reason }}",
+            "rule_id": "={{ $json.rule_id }}",
+            "rule_title": "={{ $json.rule_title }}",
+            "run_id": "={{ $json.run_id }}",
+            "started_at": "={{ $json.started_at }}",
+            "status": "={{ $json.status }}",
+            "workflow_execution_id": "={{ $json.workflow_execution_id }}"
+          }
+        },
+        "dataTableId": {
+          "__rl": true,
+          "cachedResultName": "[Logs] FIN - Regras mensais",
+          "cachedResultUrl": "/projects/MxRYCPypQDED18DI/datatables/5CPaGUez5Ex8tJHi",
+          "mode": "list",
+          "value": "5CPaGUez5Ex8tJHi"
+        },
+        "options": {}
+      },
+      "position": [
+        -2688,
+        32
+      ],
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1
+    },
+    {
+      "id": "f7e091f7-cb2e-4e0f-ab64-e7a076f35040",
+      "name": "Ha rule logs?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ Array.isArray($json.ruleLogRows) && $json.ruleLogRows.length > 0 }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -3136,
+        96
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "45d023f6-bce5-4022-93c7-9f1b41489c6e",
+      "name": "Restaurar summary final",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ddc7e7f1-09cf-4a73-b84f-4d361b9c17f7",
+              "name": "summary",
+              "type": "json",
+              "value": "={{ $('Finalize summary').first().json.summary }}"
+            },
+            {
+              "id": "1e04d94a-6492-49bf-9ec9-22857e2f400b",
+              "name": "run",
+              "type": "json",
+              "value": "={{ $('Finalize summary').first().json.run }}"
+            },
+            {
+              "id": "0dd0189a-0156-4240-879c-71e6b3fc0c9f",
+              "name": "ok",
+              "type": "boolean",
+              "value": "={{ $('Finalize summary').first().json.ok }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -2464,
+        96
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "8c633b6d-ab8e-4094-ac33-27429dbabec6",
+      "name": "Run: tem erros?",
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ok !== true }}",
+              "operator": {
+                "operation": "true",
+                "singleValue": true,
+                "type": "boolean"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          }
+        },
+        "options": {}
+      },
+      "position": [
+        -2240,
+        96
+      ],
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2
+    },
+    {
+      "id": "5979afa4-2ca4-4121-9d7e-b269bba5f5db",
+      "name": "Run: Stop and Error",
+      "parameters": {
+        "errorMessage": "={{ 'FIN billing mensal falhou. failureCount=' + String($json.summary.failureCount || 0) + ', firstFailure=' + String($json.run.failures?.[0]?.reason || 'n/a') + ', competence=' + String($json.summary.competenceYMD || 'n/a') }}"
+      },
+      "position": [
+        -2016,
+        0
+      ],
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1
+    },
+    {
+      "id": "9408cd56-15c4-4720-8dfe-8d1198456218",
+      "name": "Run: Success output",
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a24c5dd-dec8-4d04-bb39-81e02b82f33b",
+              "name": "ok",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "4e8ee943-7791-4926-b70b-32305c2f0bcc",
+              "name": "summary",
+              "type": "json",
+              "value": "={{ $json.summary }}"
+            },
+            {
+              "id": "69de60e8-712e-49dc-a7e3-58b2eaaa5995",
+              "name": "run",
+              "type": "json",
+              "value": "={{ $json.run }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "position": [
+        -2016,
+        192
+      ],
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4
+    },
+    {
+      "id": "9d23f07c-04dc-42c8-ae6d-34f4bb701f06",
+      "name": "Normalizar retorno preparar itens",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst asList = (v) => Array.isArray(v) ? v : [];\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    if (typeof value === 'object') {\n      if (value.id != null) out.push(String(value.id).trim());\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst linkedJson = (nodeName) => {\n  try {\n    return asObj($(nodeName).item.json);\n  } catch (_err) {\n    return {};\n  }\n};\nconst validTypes = new Set([\"item_plan\", \"rule_result\"]);\nconst current = asObj($json);\nconst source = linkedJson(\"Loop: item e rule_input?\");\nif (String(current.contractVersion || '') === 'fin_v3' && validTypes.has(String(current.itemType || ''))) {\n  return [{ json: current }];\n}\nconst envelope = Object.keys(source).length > 0 ? source : current;\nconst trace = clone(asObj(envelope.trace));\nconst run = clone(asObj(envelope.run));\nconst ruleIn = asObj(envelope.rule);\nconst itemPlan = asObj(envelope.itemPlan);\nconst createdItemIds = asList(envelope.createdItemIds).map((value) => String(value));\nconst rule = {\n  ruleId: ruleIn.ruleId ?? null,\n  ruleTitle: ruleIn.ruleTitle ?? null,\n  prefetchDecision: ruleIn.prefetchDecision ?? null,\n};\nconst totalsIn = asObj(itemPlan.totals);\nconst toNumber = (value) => {\n  const n = Number(value);\n  return Number.isFinite(n) ? n : 0;\n};\nconst totals = {\n  brl: toNumber(totalsIn.brl),\n  usd: toNumber(totalsIn.usd),\n};\nconst failure = {\n  node: \"Preparar itens elegiveis da regra\",\n  reason: 'child_workflow_returned_no_items',\n  pipefyCardIds: collectIds(\n    rule.ruleId,\n    ruleIn.itemTemplateIds,\n    asList(itemPlan.plannedItems).map((item) => asObj(item).templateItemId ?? null),\n    createdItemIds,\n  ),\n};\nconst failures = [...asList(envelope.failures), failure];\nconst metricsDelta = {};\nreturn [{\n  json: {\n    contractVersion: 'fin_v3',\n    itemType: 'rule_result',\n    trace,\n    run,\n    rule,\n    result: {\n      status: 'failed',\n      reason: \"failed_prepare_items_stage\",\n      invoiceId: null,\n      existingInvoiceId: null,\n      createdItemIds,\n      totals,\n      metricsDelta,\n      failures,\n      startedAt: nowIso,\n      finishedAt: nowIso,\n    },\n    failures,\n  }\n}];"
+      },
+      "position": [
+        -3136,
+        528
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "bfaf77f6-f162-41bb-8236-4da1c7ed8257",
+      "name": "Normalizar retorno materializacao",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst asList = (v) => Array.isArray(v) ? v : [];\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    if (typeof value === 'object') {\n      if (value.id != null) out.push(String(value.id).trim());\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst linkedJson = (nodeName) => {\n  try {\n    return asObj($(nodeName).item.json);\n  } catch (_err) {\n    return {};\n  }\n};\nconst validTypes = new Set([\"fin04_items_ready\", \"rule_result\"]);\nconst current = asObj($json);\nconst source = linkedJson(\"Loop: item e item_plan?\");\nif (String(current.contractVersion || '') === 'fin_v3' && validTypes.has(String(current.itemType || ''))) {\n  return [{ json: current }];\n}\nconst envelope = Object.keys(source).length > 0 ? source : current;\nconst trace = clone(asObj(envelope.trace));\nconst run = clone(asObj(envelope.run));\nconst ruleIn = asObj(envelope.rule);\nconst itemPlan = asObj(envelope.itemPlan);\nconst createdItemIds = asList(envelope.createdItemIds).map((value) => String(value));\nconst rule = {\n  ruleId: ruleIn.ruleId ?? null,\n  ruleTitle: ruleIn.ruleTitle ?? null,\n  prefetchDecision: ruleIn.prefetchDecision ?? null,\n};\nconst totalsIn = asObj(itemPlan.totals);\nconst toNumber = (value) => {\n  const n = Number(value);\n  return Number.isFinite(n) ? n : 0;\n};\nconst totals = {\n  brl: toNumber(totalsIn.brl),\n  usd: toNumber(totalsIn.usd),\n};\nconst failure = {\n  node: \"Materializar itens FIN-04\",\n  reason: 'child_workflow_returned_no_items',\n  pipefyCardIds: collectIds(\n    rule.ruleId,\n    ruleIn.itemTemplateIds,\n    asList(itemPlan.plannedItems).map((item) => asObj(item).templateItemId ?? null),\n    createdItemIds,\n  ),\n};\nconst failures = [...asList(envelope.failures), failure];\nconst metricsDelta = {};\nreturn [{\n  json: {\n    contractVersion: 'fin_v3',\n    itemType: 'rule_result',\n    trace,\n    run,\n    rule,\n    result: {\n      status: 'failed',\n      reason: \"failed_materialize_items_stage\",\n      invoiceId: null,\n      existingInvoiceId: null,\n      createdItemIds,\n      totals,\n      metricsDelta,\n      failures,\n      startedAt: nowIso,\n      finishedAt: nowIso,\n    },\n    failures,\n  }\n}];"
+      },
+      "position": [
+        -2464,
+        464
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    },
+    {
+      "id": "06bd0417-3b34-4424-9174-71bd5b1e880c",
+      "name": "Normalizar retorno finalizacao",
+      "parameters": {
+        "jsCode": "const nowIso = new Date().toISOString();\nconst asObj = (v) => (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};\nconst asList = (v) => Array.isArray(v) ? v : [];\nconst clone = (v) => JSON.parse(JSON.stringify(v ?? null));\nconst clean = (v) => String(v ?? '').trim();\nconst collectIds = (...values) => {\n  const out = [];\n  const visit = (value) => {\n    if (value === undefined || value === null) return;\n    if (Array.isArray(value)) {\n      for (const item of value) visit(item);\n      return;\n    }\n    if (typeof value === 'object') {\n      if (value.id != null) out.push(String(value.id).trim());\n      return;\n    }\n    const s = String(value).trim();\n    if (s) out.push(s);\n  };\n  for (const value of values) visit(value);\n  return Array.from(new Set(out.filter(Boolean)));\n};\nconst linkedJson = (nodeName) => {\n  try {\n    return asObj($(nodeName).item.json);\n  } catch (_err) {\n    return {};\n  }\n};\nconst validTypes = new Set([\"rule_result\"]);\nconst current = asObj($json);\nconst source = linkedJson(\"Loop: item e fin04_items_ready?\");\nif (String(current.contractVersion || '') === 'fin_v3' && validTypes.has(String(current.itemType || ''))) {\n  return [{ json: current }];\n}\nconst envelope = Object.keys(source).length > 0 ? source : current;\nconst trace = clone(asObj(envelope.trace));\nconst run = clone(asObj(envelope.run));\nconst ruleIn = asObj(envelope.rule);\nconst itemPlan = asObj(envelope.itemPlan);\nconst createdItemIds = asList(envelope.createdItemIds).map((value) => String(value));\nconst rule = {\n  ruleId: ruleIn.ruleId ?? null,\n  ruleTitle: ruleIn.ruleTitle ?? null,\n  prefetchDecision: ruleIn.prefetchDecision ?? null,\n};\nconst totalsIn = asObj(itemPlan.totals);\nconst toNumber = (value) => {\n  const n = Number(value);\n  return Number.isFinite(n) ? n : 0;\n};\nconst totals = {\n  brl: toNumber(totalsIn.brl),\n  usd: toNumber(totalsIn.usd),\n};\nconst failure = {\n  node: \"Criar fatura FIN-03 e concluir regra\",\n  reason: 'child_workflow_returned_no_items',\n  pipefyCardIds: collectIds(\n    rule.ruleId,\n    ruleIn.itemTemplateIds,\n    asList(itemPlan.plannedItems).map((item) => asObj(item).templateItemId ?? null),\n    createdItemIds,\n  ),\n};\nconst failures = [...asList(envelope.failures), failure];\nconst metricsDelta = { createItems: createdItemIds.length };\nreturn [{\n  json: {\n    contractVersion: 'fin_v3',\n    itemType: 'rule_result',\n    trace,\n    run,\n    rule,\n    result: {\n      status: 'failed',\n      reason: \"failed_invoice_stage\",\n      invoiceId: null,\n      existingInvoiceId: null,\n      createdItemIds,\n      totals,\n      metricsDelta,\n      failures,\n      startedAt: nowIso,\n      finishedAt: nowIso,\n    },\n    failures,\n  }\n}];"
+      },
+      "position": [
+        -1792,
+        384
+      ],
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "availableInMCP": false,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "mry7wCpuNRODMB5e",
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2026-03-10T18:09:35.885Z",
+      "project": {
+        "createdAt": "2025-10-27T18:38:08.229Z",
+        "creatorId": "5d6fdffe-4782-42b7-934d-8573fbfd859e",
+        "description": null,
+        "icon": null,
+        "id": "MxRYCPypQDED18DI",
+        "name": "João Tarrega <jtarrega@evnt.com.br>",
+        "type": "personal",
+        "updatedAt": "2025-10-27T18:41:32.999Z"
+      },
+      "projectId": "MxRYCPypQDED18DI",
+      "role": "workflow:owner",
+      "updatedAt": "2026-03-10T18:09:35.885Z",
+      "workflowId": "4ftO9aWCz1UBQJKg"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-03-11T21:47:51.877Z",
+  "versionCounter": 1,
+  "versionId": "b6493c66-e505-4920-b76c-620d9d4095d1"
+}

@@ -1,0 +1,81 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327014470",
+          "phaseField": {
+            "id": "valor_unit_rio_usd",
+            "internal_id": "422788842",
+            "label": "Valor unitário (USD)",
+            "uuid": "f6b3ca87-8ae2-4e61-a3ee-2677fa8c6865"
+          },
+          "phaseFieldId": "422788842",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327037066",
+          "phaseField": {
+            "id": "valor_nominal_a_ser_descontado_usd",
+            "internal_id": "422869922",
+            "label": "Valor nominal a ser descontado (USD)",
+            "uuid": "4bad1fa1-92f0-4b8f-ae77-1de75c8e77d0"
+          },
+          "phaseFieldId": "422869922",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327052156",
+          "phaseField": {
+            "id": "valor_total_do_item_com_descontos_usd",
+            "internal_id": "422904775",
+            "label": "Valor total do item com descontos (USD)",
+            "uuid": "5919799a-183f-4f8c-a4ac-d8dbc77994cf"
+          },
+          "phaseFieldId": "422904775",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327555754",
+          "phaseField": {
+            "id": "subtotal_do_item_usd",
+            "internal_id": "425112110",
+            "label": "Subtotal do item (USD)",
+            "uuid": "ed5ed96b-fe50-4c6e-b636-6f2359d2d578"
+          },
+          "phaseFieldId": "425112110",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422751341",
+            "id": "315025543",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "USD - $"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312544638"
+      },
+      "id": "306371329",
+      "name": "Moeda != USD",
+      "url": "https://app.pipefy.com/pipes/306852209/settings/form/conditionals/306371329"
+    }
+  },
+  "meta": {
+    "pipe_id": "306852209",
+    "rule_id": "306371329",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "convers_o_usd_brl",
+      "internal_id": "425629793",
+      "label": "Conversão USD -> BRL",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "19a5c5d7-adec-4950-8d83-e57f7dc1de5c"
+    }
+  },
+  "meta": {
+    "field_id": "convers_o_usd_brl",
+    "pipe_id": "306859731",
+    "scope": "start_form"
+  }
+}

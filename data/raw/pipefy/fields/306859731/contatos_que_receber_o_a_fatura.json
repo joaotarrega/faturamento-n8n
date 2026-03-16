@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": {
+        "__typename": "PublicPipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "connected_repo": {
+        "__typename": "Pipe",
+        "id": "306498227",
+        "name": "[DB-04] Contatos"
+      },
+      "description": "Contato que deve receber a fatura por email",
+      "help": "",
+      "id": "contatos_que_receber_o_a_fatura",
+      "internal_id": "422905933",
+      "label": "Contato",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "3deb1cb2-3963-40b5-aab8-f51c8f00ea3e"
+    }
+  },
+  "meta": {
+    "field_id": "contatos_que_receber_o_a_fatura",
+    "pipe_id": "306859731",
+    "scope": "start_form"
+  }
+}

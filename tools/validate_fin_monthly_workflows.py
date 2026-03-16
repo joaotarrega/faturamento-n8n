@@ -7,7 +7,7 @@ from typing import Optional
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-WORKFLOWS_DIR = ROOT / "raw" / "n8n" / "workflows"
+WORKFLOWS_DIR = ROOT / "data" / "raw" / "n8n" / "workflows"
 
 EXPECTED = [
     "[FIN] 1.0 Orquestrar faturamento mensal",
@@ -307,6 +307,15 @@ def validate_pagination_context(workflow_name: str, workflow: dict) -> None:
             assert_true(token not in js_code, f"{workflow_name}:{node_name} contains stale token {token}")
 
 
+def assert_merge_append(parameters: dict, workflow_name: str, node_name: str) -> None:
+    # n8n 3.2 merge nodes may omit `mode: append` when append is the serialized default.
+    mode = parameters.get("mode")
+    assert_true(
+        mode in (None, "append"),
+        f"{workflow_name}:{node_name} must use append mode",
+    )
+
+
 def validate_code_node_return_contracts(workflow_name: str, workflow: dict) -> None:
     if workflow_name != "[FIN] 1.1 Preparar regras elegiveis":
         return
@@ -496,25 +505,25 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         f"{workflow_name}:Merge requisitos + desconto must combine by position",
     )
     merge_guardrails = get_node(workflow, "Append guardas iniciais item_plan").get("parameters", {})
-    assert_true(merge_guardrails.get("mode") == "append", f"{workflow_name}:Append guardas iniciais item_plan must use append mode")
+    assert_merge_append(merge_guardrails, workflow_name, "Append guardas iniciais item_plan")
     assert_true(
         merge_guardrails.get("numberInputs") == 4,
         f"{workflow_name}:Append guardas iniciais item_plan must keep 4 inputs",
     )
     merge_conflicts = get_node(workflow, "Append conflitos FIN-04 item_plan").get("parameters", {})
-    assert_true(merge_conflicts.get("mode") == "append", f"{workflow_name}:Append conflitos FIN-04 item_plan must use append mode")
+    assert_merge_append(merge_conflicts, workflow_name, "Append conflitos FIN-04 item_plan")
     assert_true(
-        merge_conflicts.get("numberInputs") == 2,
+        merge_conflicts.get("numberInputs", 2) == 2,
         f"{workflow_name}:Append conflitos FIN-04 item_plan must keep 2 inputs",
     )
     merge_blocks = get_node(workflow, "Append bloqueios de inicio item_plan").get("parameters", {})
-    assert_true(merge_blocks.get("mode") == "append", f"{workflow_name}:Append bloqueios de inicio item_plan must use append mode")
+    assert_merge_append(merge_blocks, workflow_name, "Append bloqueios de inicio item_plan")
     assert_true(
         merge_blocks.get("numberInputs") == 4,
         f"{workflow_name}:Append bloqueios de inicio item_plan must keep 4 inputs",
     )
     merge_append = get_node(workflow, "Append decisões item_plan").get("parameters", {})
-    assert_true(merge_append.get("mode") == "append", f"{workflow_name}:Append decisões item_plan must use append mode")
+    assert_merge_append(merge_append, workflow_name, "Append decisões item_plan")
     assert_true(
         merge_append.get("numberInputs") == 4,
         f"{workflow_name}:Append decisões item_plan must keep 4 inputs",
@@ -549,7 +558,10 @@ def validate_item_prep_pipeline(workflow_name: str, workflow: dict) -> None:
         rules = ((params.get("rules") or {}).get("values")) or []
         options = params.get("options") or {}
         branches = (connections.get(node_name) or {}).get("main") or []
-        assert_true(params.get("mode") == "rules", f"{workflow_name}:{node_name} must use Switch rules mode")
+        assert_true(
+            params.get("mode") in (None, "rules"),
+            f"{workflow_name}:{node_name} must use Switch rules mode",
+        )
         assert_true("output" not in params, f"{workflow_name}:{node_name} must not include expression-mode output")
         assert_true("numberOutputs" not in params, f"{workflow_name}:{node_name} must not include expression-mode numberOutputs")
         assert_true(options.get("ignoreCase") is False, f"{workflow_name}:{node_name} must keep ignoreCase=false")

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "oSEdXvjs",
+        "name": "Tipos de desconto para categorias SaaS"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "oSEdXvjs",
+        "name": "Tipos de desconto para categorias SaaS"
+      },
+      "description": "",
+      "help": "",
+      "id": "tipo_de_desconto_espa_os",
+      "internal_id": "422909780",
+      "label": "Tipo de desconto - Espaços",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "a66d554e-1ea9-4e39-b55e-788fba1002a3"
+    }
+  },
+  "meta": {
+    "field_id": "tipo_de_desconto_espa_os",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

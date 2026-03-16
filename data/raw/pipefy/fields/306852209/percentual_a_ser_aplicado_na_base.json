@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "- Utilize sempre ponto (e não vírgula).\n- Até 3 casas decimais.\n- Valores sempre entre 0 e 100, indicando a porcentagem.\n\nExemplo: para indicar 5% de cobrança, basta inserir 5.",
+      "help": "",
+      "id": "percentual_a_ser_aplicado_na_base",
+      "internal_id": "422780587",
+      "label": "Percentual a ser aplicado na base",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "66c0c8ef-141d-4ba2-b175-11da0ea325c2"
+    }
+  },
+  "meta": {
+    "field_id": "percentual_a_ser_aplicado_na_base",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

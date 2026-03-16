@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": false,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "zVQcD_kh",
+        "name": "Produtos"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "zVQcD_kh",
+        "name": "Produtos"
+      },
+      "description": "",
+      "help": "",
+      "id": "produto",
+      "internal_id": "422909753",
+      "label": "Produto",
+      "options": [],
+      "required": true,
+      "type": "connector",
+      "uuid": "38be9f42-762d-4b01-ac05-9dc8101ccf5e"
+    }
+  },
+  "meta": {
+    "field_id": "produto",
+    "pipe_id": "306859915",
+    "scope": "start_form"
+  }
+}

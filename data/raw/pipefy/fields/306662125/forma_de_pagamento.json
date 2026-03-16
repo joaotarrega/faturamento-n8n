@@ -1,0 +1,29 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "forma_de_pagamento",
+      "internal_id": "421667044",
+      "label": "Condições de pagamento",
+      "options": [
+        "PIX",
+        "Boleto",
+        "Cartão de crédito"
+      ],
+      "required": true,
+      "type": "checklist_horizontal",
+      "uuid": "6c7c80e1-9de3-4f2e-915a-c3e556bb21e6"
+    }
+  },
+  "meta": {
+    "field_id": "forma_de_pagamento",
+    "pipe_id": "306662125",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327288530",
+          "phaseField": {
+            "id": "auto_historico_de_clientes",
+            "internal_id": "424230965",
+            "label": "[Auto] Historico de clientes",
+            "uuid": "305b9a9b-2b69-4e14-9a85-00b84d4bd7b2"
+          },
+          "phaseFieldId": "424230965",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327288531",
+          "phaseField": {
+            "id": "auto_historico_de_redes",
+            "internal_id": "424230967",
+            "label": "[Auto] Historico de redes",
+            "uuid": "f4102de1-fcd5-4f62-8450-4a9b2a1e662b"
+          },
+          "phaseFieldId": "424230967",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [],
+        "expressions_structure": [],
+        "id": "312747693"
+      },
+      "id": "306434699",
+      "name": "Escondidos",
+      "url": "https://app.pipefy.com/pipes/306662125/settings/form/conditionals/306434699"
+    }
+  },
+  "meta": {
+    "pipe_id": "306662125",
+    "rule_id": "306434699",
+    "scope": "start_form"
+  }
+}

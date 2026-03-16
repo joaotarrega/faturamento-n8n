@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": null,
+      "id": "parcelas_pagas",
+      "internal_id": "425778276",
+      "label": "Parcelas criadas no pipe de faturas",
+      "options": [],
+      "required": false,
+      "type": "number",
+      "uuid": "f178ff08-7a40-4c2c-b1e0-98191b14cfbb"
+    }
+  },
+  "meta": {
+    "field_id": "parcelas_pagas",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

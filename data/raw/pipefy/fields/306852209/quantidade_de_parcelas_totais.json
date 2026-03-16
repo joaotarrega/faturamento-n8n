@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "",
+      "help": "",
+      "id": "quantidade_de_parcelas_totais",
+      "internal_id": "422788978",
+      "label": "Quantidade de parcelas totais",
+      "options": [],
+      "required": true,
+      "type": "number",
+      "uuid": "b1167aa5-8db3-44f9-94db-51ca842663ee"
+    }
+  },
+  "meta": {
+    "field_id": "quantidade_de_parcelas_totais",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": true,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": false,
+      "connectedRepo": {
+        "__typename": "PublicTable",
+        "id": "KsEXACBL",
+        "name": "Condições exigidas para faturamento"
+      },
+      "connected_repo": {
+        "__typename": "Table",
+        "id": "KsEXACBL",
+        "name": "Condições exigidas para faturamento"
+      },
+      "description": "",
+      "help": "",
+      "id": "condi_es_exigidas_para_iniciar_o_faturamento_do_item",
+      "internal_id": "422790319",
+      "label": "Condições exigidas para iniciar o faturamento do item",
+      "options": [],
+      "required": false,
+      "type": "connector",
+      "uuid": "dfded7e9-4b8c-4894-b729-02a8e74d7cd2"
+    }
+  },
+  "meta": {
+    "field_id": "condi_es_exigidas_para_iniciar_o_faturamento_do_item",
+    "pipe_id": "306852209",
+    "scope": "start_form"
+  }
+}

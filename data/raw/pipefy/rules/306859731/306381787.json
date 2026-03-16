@@ -1,0 +1,45 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327050251",
+          "phaseField": {
+            "id": "rede_na_fatura",
+            "internal_id": "422905931",
+            "label": "Rede na fatura",
+            "uuid": "a535bd8d-977e-49a1-86c4-3636edbfd7b3"
+          },
+          "phaseFieldId": "422905931",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422905927",
+            "id": "315063431",
+            "operation": "not_equals",
+            "structure_id": "0",
+            "value": "Rede"
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312579267"
+      },
+      "id": "306381787",
+      "name": "Tipo de cliente != Rede",
+      "url": "https://app.pipefy.com/pipes/306859731/settings/form/conditionals/306381787"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859731",
+    "rule_id": "306381787",
+    "scope": "start_form"
+  }
+}

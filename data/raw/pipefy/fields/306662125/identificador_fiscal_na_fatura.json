@@ -1,0 +1,25 @@
+{
+  "data": {
+    "field": {
+      "canConnectExisting": false,
+      "canConnectMultiples": true,
+      "canCreateNewConnected": true,
+      "connectedRepo": null,
+      "connected_repo": null,
+      "description": "CNPJ (e outros identificadores para outros países).",
+      "help": "- Brasil — CNPJ numérico (00.000.000/0000-00 ou 14 dígitos) e também o CNPJ alfanumérico (primeiras 12 posições alfanuméricas + 2 dígitos verificadores), com ou sem máscara.\n\n- Argentina — CUIT/CUIL (11 dígitos) com prefixos 20/23/24/27/30/33/34, com ou sem hífens (##-########-#).\n\n- México — RFC (12 ou 13) no padrão letras + data (YYMMDD) + homoclave (3).\n\n- Chile — RUT (7–8 dígitos + DV), com ou sem pontos e com DV 0-9 ou K.\n\n- Colômbia — NIT com DV (hífen obrigatório na regex), aceitando com/sem separador de milhar.\n\n- Peru — RUC (11 dígitos) começando com 10/15/17/20 (heurística comum).\n\n- Equador — RUC (13 dígitos), província 01–24, 3º dígito compatível (0–5/6/9) e sufixo 001.\n\n- Uruguai — RUT no formato ##-######-###-# (12 dígitos agrupados).\n\n- Guatemala — NIT no formato 3–11 dígitos + hífen + DV (0-9 ou K).\n\n- Paraguai — RUC no formato 3–8 dígitos + hífen + DV.\n\n- Venezuela — RIF letra (V/E/J/G/P/I) + 8 dígitos + DV, com ou sem hífens.",
+      "id": "identificador_fiscal_na_fatura",
+      "internal_id": "421662483",
+      "label": "Identificador fiscal na fatura",
+      "options": [],
+      "required": true,
+      "type": "short_text",
+      "uuid": "cae51982-1ee7-4236-ad48-4815e7af5e8d"
+    }
+  },
+  "meta": {
+    "field_id": "identificador_fiscal_na_fatura",
+    "pipe_id": "306662125",
+    "scope": "start_form"
+  }
+}

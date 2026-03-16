@@ -1,0 +1,57 @@
+{
+  "data": {
+    "rule": {
+      "actions": [
+        {
+          "actionId": "hide",
+          "id": "327554956",
+          "phaseField": {
+            "id": "modelo_de_cobran_a",
+            "internal_id": "422909757",
+            "label": "Modelo de cobrança",
+            "uuid": "94cefeaa-fd35-43f3-a510-58c748a8c3d5"
+          },
+          "phaseFieldId": "422909757",
+          "whenEvaluator": true
+        },
+        {
+          "actionId": "hide",
+          "id": "327554957",
+          "phaseField": {
+            "id": "h_algum_desconto_nesse_item",
+            "internal_id": "422909769",
+            "label": "Há algum desconto nesse item?",
+            "uuid": "e4748158-05f2-4537-8756-803a52eea57e"
+          },
+          "phaseFieldId": "422909769",
+          "whenEvaluator": true
+        }
+      ],
+      "condition": {
+        "expressions": [
+          {
+            "field_address": "422909753",
+            "id": "315437338",
+            "operation": "blank",
+            "structure_id": "0",
+            "value": ""
+          }
+        ],
+        "expressions_structure": [
+          [
+            "0"
+          ]
+        ],
+        "id": "312934502"
+      },
+      "id": "306491682",
+      "name": "Produto está vazio",
+      "url": "https://app.pipefy.com/pipes/306859915/settings/form/conditionals/306491682"
+    }
+  },
+  "meta": {
+    "pipe_id": "306859915",
+    "rule_id": "306491682",
+    "scope": "start_form"
+  }
+}
