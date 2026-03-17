@@ -795,6 +795,114 @@ def validate_rule_log_contract(workflow_name: str, workflow: dict) -> None:
         assert_contains(finalize_js, "failures_json", f"{workflow_name}:Finalize summary missing failures_json aggregation")
 
 
+def validate_fin04_webhook_auxiliary() -> None:
+    workflow_name = "Webhooks FIN-02 e 04"
+    workflow = load_workflow(workflow_name)
+    assert_true(workflow["name"] == workflow_name, f"{workflow_name} has unexpected name {workflow['name']}")
+    validate_expression_syntax(workflow_name, workflow)
+
+    context_text = json.dumps(get_node(workflow, "Contexto cálculo"), ensure_ascii=False)
+    assert_contains(context_text, "1260337244", f"{workflow_name}:Contexto cálculo must accept subtype 1260337244")
+    assert_contains(
+        context_text,
+        "Esperado: 1260337139, 1260337244 ou 1260337296.",
+        f"{workflow_name}:Contexto cálculo must list all valid category subtype ids",
+    )
+
+    switch_node = get_node(workflow, "Tipo de ajuste da categoria")
+    switch_text = json.dumps(switch_node, ensure_ascii=False)
+    for token in ["1260337139", "1260337244", "1260337296"]:
+        assert_contains(switch_text, token, f"{workflow_name}:Tipo de ajuste da categoria missing subtype {token}")
+    rules = switch_node.get("parameters", {}).get("rules", {}).get("values", [])
+    assert_true(len(rules) == 3, f"{workflow_name}:Tipo de ajuste da categoria must keep exactly 3 category branches")
+
+    no_op_node = get_node(workflow, "Manter base para isenção de backoffice na categoria")
+    no_op_text = json.dumps(no_op_node, ensure_ascii=False)
+    assert_contains(
+        no_op_text,
+        "Number($json.calcBaseValue || 0)",
+        f"{workflow_name}:backoffice no-op branch must preserve calcBaseValue",
+    )
+    for forbidden in ["categoryBaseValue", "categoryDiscountPercent", "categoryTaxPercent"]:
+        assert_true(
+            forbidden not in no_op_text,
+            f"{workflow_name}:backoffice no-op branch must not depend on {forbidden}",
+        )
+
+    connections = workflow.get("connections", {})
+
+    def branch_targets(node_name: str, branch_index: int = 0) -> list[str]:
+        branches = (connections.get(node_name) or {}).get("main") or []
+        branch = branches[branch_index] if len(branches) > branch_index else []
+        return [item.get("node") for item in branch]
+
+    assert_true(
+        branch_targets("Subtipo do desconto por categoria é válido?", 0) == ["Tipo de ajuste da categoria"],
+        f"{workflow_name}:Subtipo do desconto por categoria é válido? true branch must flow into Tipo de ajuste da categoria",
+    )
+    assert_true(
+        branch_targets("Subtipo do desconto por categoria é válido?", 1) == ["Erro subtipo do desconto por categoria"],
+        f"{workflow_name}:Subtipo do desconto por categoria é válido? false branch must flow into Erro subtipo do desconto por categoria",
+    )
+    assert_true(
+        branch_targets("Tipo de ajuste da categoria", 0) == ["Aplicar desconto percentual na base da categoria"],
+        f"{workflow_name}:Tipo de ajuste da categoria first branch must flow into Aplicar desconto percentual na base da categoria",
+    )
+    assert_true(
+        branch_targets("Tipo de ajuste da categoria", 1) == ["Manter base para isenção de backoffice na categoria"],
+        f"{workflow_name}:Tipo de ajuste da categoria second branch must flow into Manter base para isenção de backoffice na categoria",
+    )
+    assert_true(
+        branch_targets("Tipo de ajuste da categoria", 2) == ["Aplicar isenção de imposto na base da categoria"],
+        f"{workflow_name}:Tipo de ajuste da categoria third branch must flow into Aplicar isenção de imposto na base da categoria",
+    )
+    for node_name in [
+        "Aplicar desconto percentual na base da categoria",
+        "Manter base para isenção de backoffice na categoria",
+        "Aplicar isenção de imposto na base da categoria",
+    ]:
+        assert_true(
+            branch_targets(node_name) == ["Calcular subtotal percentual SaaS"],
+            f"{workflow_name}:{node_name} must flow into Calcular subtotal percentual SaaS",
+        )
+
+
+def validate_fin_seed_scenario_coverage() -> None:
+    workflow_name = "Gerar cenarios FIN-01 + FIN-02"
+    workflow = load_workflow(workflow_name)
+    js_code = next(
+        (
+            node.get("parameters", {}).get("jsCode", "")
+            for node in workflow.get("nodes", [])
+            if "FROZEN_MANIFEST" in node.get("parameters", {}).get("jsCode", "")
+        ),
+        "",
+    )
+    assert_true(js_code != "", f"{workflow_name} missing FROZEN_MANIFEST scenario source")
+
+    assert_contains(js_code, '"scenario_id":"S194"', f"{workflow_name} missing scenario S194")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337139"', f"{workflow_name} missing subtype 1260337139 scenario")
+    assert_contains(
+        js_code,
+        '"desconto_no_valor_vari_vel_do_saas_para_espa_os"',
+        f"{workflow_name} missing percentual category field coverage",
+    )
+
+    assert_contains(js_code, '"scenario_id":"S195"', f"{workflow_name} missing scenario S195")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337244"', f"{workflow_name} missing subtype 1260337244 scenario")
+
+    assert_contains(js_code, '"scenario_id":"S196"', f"{workflow_name} missing scenario S196")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337296"', f"{workflow_name} missing subtype 1260337296 scenario")
+    assert_contains(
+        js_code,
+        '"valor_do_imposto_a_ser_isento_espa_os"',
+        f"{workflow_name} missing local tax exemption field coverage",
+    )
+
+    assert_contains(js_code, '"scenario_id":"S198"', f"{workflow_name} missing scenario S198")
+    assert_contains(js_code, '"tipo_de_desconto_outros":"1260337244"', f"{workflow_name} missing subtype 1260337244 coverage for Outros")
+
+
 def main() -> None:
     validate_expected_exports()
     for workflow_name in EXPECTED:
@@ -810,6 +918,8 @@ def main() -> None:
         validate_rule_log_contract(workflow_name, workflow)
         if workflow_name == "[FIN] 1.0 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
+    validate_fin04_webhook_auxiliary()
+    validate_fin_seed_scenario_coverage()
     print("fin_monthly_workflows_ok")
 
 
