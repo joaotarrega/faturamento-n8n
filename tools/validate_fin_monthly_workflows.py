@@ -100,6 +100,11 @@ def assert_contains(text: str, token: str, message: str) -> None:
     assert_true(token in text, message)
 
 
+def assert_almost_equal(actual: float, expected: float, message: str, tolerance: float = 1e-9) -> None:
+    if abs(float(actual) - float(expected)) > tolerance:
+        fail(f"{message}: expected {expected}, got {actual}")
+
+
 def compile_js(js_code: str, label: str) -> None:
     wrapped = "new Function(" + json.dumps(js_code) + ");\n"
     with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tmp:
@@ -124,6 +129,44 @@ def compile_expression(expression: str, label: str) -> None:
         tmp_path.unlink(missing_ok=True)
     if proc.returncode != 0:
         fail(f"expression syntax invalid for {label}: {proc.stderr.strip()}")
+
+
+def evaluate_expression(expression: str, payload: dict, label: str):
+    wrapped = (
+        "const $json = "
+        + json.dumps(payload, ensure_ascii=False)
+        + ";\nconst result = ("
+        + expression
+        + ");\nprocess.stdout.write(JSON.stringify(result));\n"
+    )
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tmp:
+        tmp.write(wrapped)
+        tmp_path = pathlib.Path(tmp.name)
+    try:
+        proc = subprocess.run(["node", str(tmp_path)], capture_output=True, text=True)
+    finally:
+        tmp_path.unlink(missing_ok=True)
+    if proc.returncode != 0:
+        fail(f"expression execution failed for {label}: {proc.stderr.strip()}")
+    try:
+        return json.loads(proc.stdout or "null")
+    except json.JSONDecodeError as exc:
+        fail(f"expression execution returned invalid JSON for {label}: {exc}")
+
+
+def get_assignment_expression(workflow: dict, node_name: str, assignment_name: str) -> str:
+    node = get_node(workflow, node_name)
+    assignments = node.get("parameters", {}).get("assignments", {}).get("assignments", [])
+    for assignment in assignments:
+        if assignment.get("name") != assignment_name:
+            continue
+        value = assignment.get("value")
+        assert_true(
+            isinstance(value, str) and value.startswith("={{") and value.endswith("}}"),
+            f"{workflow['name']}:{node_name}:{assignment_name} must remain an expression assignment",
+        )
+        return value[3:-2]
+    fail(f"{workflow['name']}:{node_name} missing assignment {assignment_name}")
 
 
 def iter_expressions(value, path: str = ""):
@@ -795,6 +838,594 @@ def validate_rule_log_contract(workflow_name: str, workflow: dict) -> None:
         assert_contains(finalize_js, "failures_json", f"{workflow_name}:Finalize summary missing failures_json aggregation")
 
 
+def validate_fin04_webhook_auxiliary() -> None:
+    workflow_name = "Webhooks FIN-02 e 04"
+    workflow = load_workflow(workflow_name)
+    assert_true(workflow["name"] == workflow_name, f"{workflow_name} has unexpected name {workflow['name']}")
+    validate_expression_syntax(workflow_name, workflow)
+
+    context_text = json.dumps(get_node(workflow, "Contexto cálculo"), ensure_ascii=False)
+    assert_contains(context_text, "categoryEntries", f"{workflow_name}:Contexto cálculo must expose categoryEntries")
+    assert_contains(context_text, "1260337244", f"{workflow_name}:Contexto cálculo must accept subtype 1260337244")
+    assert_contains(context_text, "selectedCategories", f"{workflow_name}:Contexto cálculo must expose selectedCategories")
+    assert_contains(context_text, "selectedCategorySubtypes", f"{workflow_name}:Contexto cálculo must expose selectedCategorySubtypes")
+    assert_contains(
+        context_text,
+        "Valor base SaaS ausente ou inválido",
+        f"{workflow_name}:Contexto cálculo must validate required base values",
+    )
+    assert_contains(
+        context_text,
+        "Percentual de desconto da categoria ausente ou inválido",
+        f"{workflow_name}:Contexto cálculo must validate required category discount values",
+    )
+    assert_contains(
+        context_text,
+        "Percentual de isenção de imposto da categoria ausente ou inválido",
+        f"{workflow_name}:Contexto cálculo must validate required category tax values",
+    )
+    assert_true(
+        "Seleção múltipla de categorias SaaS não é suportada" not in context_text,
+        f"{workflow_name}:Contexto cálculo must no longer fail closed for multiple selected categories",
+    )
+    assert_true(
+        "Seleção múltipla de subtipos de desconto por categoria não é suportada" not in context_text,
+        f"{workflow_name}:Contexto cálculo must no longer fail closed for multiple selected category subtypes",
+    )
+    assert_contains(
+        context_text,
+        "Esperado: 1260337139, 1260337244 ou 1260337296.",
+        f"{workflow_name}:Contexto cálculo must list all valid category subtype ids",
+    )
+
+    split_node = get_node(workflow, "Split Out categorias de desconto")
+    assert_true(
+        split_node.get("type") == "n8n-nodes-base.splitOut",
+        f"{workflow_name}:Split Out categorias de desconto must use splitOut",
+    )
+    assert_true(
+        split_node.get("parameters", {}).get("fieldToSplitOut") == "categoryEntries",
+        f"{workflow_name}:Split Out categorias de desconto must split categoryEntries",
+    )
+
+    aggregate_node = get_node(workflow, "Aggregate descontos por categoria")
+    aggregate_text = json.dumps(aggregate_node, ensure_ascii=False)
+    assert_true(
+        aggregate_node.get("type") == "n8n-nodes-base.aggregate",
+        f"{workflow_name}:Aggregate descontos por categoria must use aggregate",
+    )
+    for token in ["categoryDiscountAmount", "categoryDiscountTrace", "categoryBackofficePlaceholder"]:
+        assert_contains(
+            aggregate_text,
+            token,
+            f"{workflow_name}:Aggregate descontos por categoria must aggregate {token}",
+        )
+
+    no_op_node = get_node(workflow, "Manter base para isenção de backoffice na categoria")
+    no_op_text = json.dumps(no_op_node, ensure_ascii=False)
+    assert_contains(
+        no_op_text,
+        "external_backoffice_pending",
+        f"{workflow_name}:backoffice placeholder branch must keep the pending marker",
+    )
+    assert_contains(no_op_text, "1260337244", f"{workflow_name}:backoffice placeholder branch must tag subtype 1260337244")
+
+    connections = workflow.get("connections", {})
+
+    def branch_targets(node_name: str, branch_index: int = 0) -> list[str]:
+        branches = (connections.get(node_name) or {}).get("main") or []
+        branch = branches[branch_index] if len(branches) > branch_index else []
+        return [item.get("node") for item in branch]
+
+    def branch_targets_with_indexes(node_name: str, branch_index: int = 0) -> list[tuple[str, int]]:
+        branches = (connections.get(node_name) or {}).get("main") or []
+        branch = branches[branch_index] if len(branches) > branch_index else []
+        return [(str(item.get("node")), int(item.get("index", 0))) for item in branch]
+
+    assert_true(
+        sorted(branch_targets_with_indexes("Contexto do desconto por categoria", 0))
+        == sorted(
+            [
+                ("Subtipo do desconto por categoria é válido?", 0),
+                ("Merge contexto + desconto por categoria", 0),
+            ]
+        ),
+        f"{workflow_name}:Contexto do desconto por categoria must feed validation and the merge context",
+    )
+    assert_true(
+        branch_targets("Subtipo do desconto por categoria é válido?", 0) == ["Split Out categorias de desconto"],
+        f"{workflow_name}:Subtipo do desconto por categoria é válido? true branch must flow into Split Out categorias de desconto",
+    )
+    assert_true(
+        branch_targets("Subtipo do desconto por categoria é válido?", 1) == ["Erro subtipo do desconto por categoria"],
+        f"{workflow_name}:Subtipo do desconto por categoria é válido? false branch must flow into Erro subtipo do desconto por categoria",
+    )
+    assert_true(
+        sorted(branch_targets("Split Out categorias de desconto", 0))
+        == sorted(
+            [
+                "Categoria inclui valor percentual?",
+                "Categoria inclui backoffice?",
+                "Categoria inclui impostos locais?",
+            ]
+        ),
+        f"{workflow_name}:Split Out categorias de desconto must fan out into the three subtype checks",
+    )
+    assert_true(
+        branch_targets("Categoria inclui valor percentual?", 0) == ["Aplicar desconto percentual na base da categoria"],
+        f"{workflow_name}:Categoria inclui valor percentual? true branch must flow into Aplicar desconto percentual na base da categoria",
+    )
+    assert_true(
+        branch_targets("Categoria inclui backoffice?", 0) == ["Manter base para isenção de backoffice na categoria"],
+        f"{workflow_name}:Categoria inclui backoffice? true branch must flow into Manter base para isenção de backoffice na categoria",
+    )
+    assert_true(
+        branch_targets("Categoria inclui impostos locais?", 0) == ["Aplicar isenção de imposto na base da categoria"],
+        f"{workflow_name}:Categoria inclui impostos locais? true branch must flow into Aplicar isenção de imposto na base da categoria",
+    )
+    assert_true(
+        branch_targets_with_indexes("Aplicar desconto percentual na base da categoria", 0) == [("Append descontos por categoria", 0)],
+        f"{workflow_name}:Aplicar desconto percentual na base da categoria must feed the append merge at input 0",
+    )
+    assert_true(
+        branch_targets_with_indexes("Manter base para isenção de backoffice na categoria", 0)
+        == [("Append descontos por categoria", 1)],
+        f"{workflow_name}:Manter base para isenção de backoffice na categoria must feed the append merge at input 1",
+    )
+    assert_true(
+        branch_targets_with_indexes("Aplicar isenção de imposto na base da categoria", 0)
+        == [("Append descontos por categoria", 2)],
+        f"{workflow_name}:Aplicar isenção de imposto na base da categoria must feed the append merge at input 2",
+    )
+    assert_true(
+        branch_targets("Append descontos por categoria", 0) == ["Aggregate descontos por categoria"],
+        f"{workflow_name}:Append descontos por categoria must flow into Aggregate descontos por categoria",
+    )
+    assert_true(
+        branch_targets("Aggregate descontos por categoria", 0) == ["Consolidar desconto por categoria"],
+        f"{workflow_name}:Aggregate descontos por categoria must flow into Consolidar desconto por categoria",
+    )
+    assert_true(
+        branch_targets_with_indexes("Consolidar desconto por categoria", 0) == [("Merge contexto + desconto por categoria", 1)],
+        f"{workflow_name}:Consolidar desconto por categoria must feed Merge contexto + desconto por categoria at input 1",
+    )
+    assert_true(
+        branch_targets("Merge contexto + desconto por categoria", 0) == ["Aplicar descontos agregados das categorias"],
+        f"{workflow_name}:Merge contexto + desconto por categoria must flow into Aplicar descontos agregados das categorias",
+    )
+    assert_true(
+        branch_targets("Aplicar descontos agregados das categorias", 0) == ["Calcular subtotal percentual SaaS"],
+        f"{workflow_name}:Aplicar descontos agregados das categorias must flow into Calcular subtotal percentual SaaS",
+    )
+
+    context_expression = get_assignment_expression(workflow, "Contexto cálculo", "calcContext")
+    percentual_category_expression = get_assignment_expression(
+        workflow,
+        "Aplicar desconto percentual na base da categoria",
+        "categoryDiscountAmount",
+    )
+    local_tax_expression = get_assignment_expression(
+        workflow,
+        "Aplicar isenção de imposto na base da categoria",
+        "categoryDiscountAmount",
+    )
+    backoffice_amount_expression = get_assignment_expression(
+        workflow,
+        "Manter base para isenção de backoffice na categoria",
+        "categoryDiscountAmount",
+    )
+    backoffice_marker_expression = get_assignment_expression(
+        workflow,
+        "Manter base para isenção de backoffice na categoria",
+        "categoryBackofficePlaceholder",
+    )
+    category_total_expression = get_assignment_expression(
+        workflow,
+        "Consolidar desconto por categoria",
+        "categoryDiscountTotal",
+    )
+    category_base_apply_expression = get_assignment_expression(
+        workflow,
+        "Aplicar descontos agregados das categorias",
+        "calcBaseValue",
+    )
+    subtotal_expression = get_assignment_expression(workflow, "Calcular subtotal percentual SaaS", "calcSubtotal")
+    final_init_expression = get_assignment_expression(
+        workflow,
+        "Inicializar total final pelo subtotal",
+        "calcFinalTotal",
+    )
+    nominal_expression = get_assignment_expression(
+        workflow,
+        "Aplicar desconto nominal pós-subtotal",
+        "calcFinalTotal",
+    )
+    percentual_expression = get_assignment_expression(
+        workflow,
+        "Aplicar desconto percentual pós-subtotal",
+        "calcFinalTotal",
+    )
+
+    def field(field_id: str, *, report_value=None, value=None, native_value=None, array_value=None, connected_repo_items=None) -> dict:
+        return {
+            "field": {"id": field_id},
+            "report_value": report_value,
+            "value": value,
+            "native_value": native_value,
+            "array_value": array_value if array_value is not None else [],
+            "connectedRepoItems": connected_repo_items if connected_repo_items is not None else [],
+        }
+
+    category_type_field_map = {
+        "A&B": "tipo_de_desconto_a_b_1",
+        "E&S": "tipo_de_desconto_e_s",
+        "Hospedagem": "tipo_de_desconto_hospedagem",
+        "Espaços": "tipo_de_desconto_espa_os",
+        "Outros": "tipo_de_desconto_outros",
+    }
+    category_suffix_map = {
+        "A&B": "a_b",
+        "E&S": "e_s",
+        "Hospedagem": "hospedagem",
+        "Espaços": "espa_os",
+        "Outros": "outros",
+    }
+
+    def build_context_payload(
+        category_subtypes_by_category: dict,
+        *,
+        discount_types: Optional[list[str]] = None,
+        category_values: Optional[dict] = None,
+        percentual_base: str = "10",
+        percentual_desconto: str = "0",
+        nominal_discount: str = "0",
+    ) -> dict:
+        values = {
+            category: {"base": "0", "discount": "0", "tax": "0"}
+            for category in category_suffix_map
+        }
+        for category, overrides in (category_values or {}).items():
+            values.setdefault(category, {"base": "0", "discount": "0", "tax": "0"})
+            values[category].update({key: str(value) for key, value in overrides.items()})
+
+        fields = [
+            field("tipo_de_item", report_value="Produto"),
+            field("moeda_da_fatura", report_value="BRL - R$"),
+            field("modelo_de_cobran_a", report_value="Percentual sobre base"),
+            field("base_do_c_lculo_percentual", array_value=["1268890278"]),
+            field("percentual_a_ser_aplicado_na_base", report_value=percentual_base),
+            field("percentual_de_desconto_a_ser_aplicado", report_value=percentual_desconto),
+            field("h_algum_desconto_nesse_item", report_value="Sim"),
+            field(
+                "tipo_de_desconto_no_item",
+                array_value=discount_types if discount_types is not None else ["Categorias de propostas"],
+            ),
+            field(
+                "categorias_do_saas_isentas_ou_com_desconto",
+                array_value=list(category_subtypes_by_category.keys()),
+            ),
+            field("valor_de_base_brl", report_value="0"),
+            field("valor_total_do_item_brl", report_value="0"),
+            field("valor_total_do_item_com_descontos_brl", report_value="0"),
+            field("valor_unit_rio_brl", report_value="0"),
+            field("valor_nominal_a_ser_descontado_brl", report_value=nominal_discount),
+        ]
+
+        for category, field_id in category_type_field_map.items():
+            fields.append(field(field_id, array_value=category_subtypes_by_category.get(category, [])))
+
+        for category, suffix in category_suffix_map.items():
+            category_value = values.get(category, {"base": "0", "discount": "0", "tax": "0"})
+            fields.extend(
+                [
+                    field(f"valor_base_saas_categoria_{suffix}_brl", report_value=category_value.get("base", "0")),
+                    field(
+                        f"desconto_no_valor_vari_vel_do_saas_para_{suffix}",
+                        report_value=category_value.get("discount", "0"),
+                    ),
+                    field(
+                        f"valor_do_imposto_a_ser_isento_{suffix}",
+                        report_value=category_value.get("tax", "0"),
+                    ),
+                ]
+            )
+
+        return {
+            "data": {
+                "card": {
+                    "id": "123456",
+                    "pipe": {"id": "306859915"},
+                    "fields": fields,
+                }
+            }
+        }
+
+    def simulate_discount_flow(context_payload: dict, label: str) -> dict:
+        category_amounts = []
+        backoffice_markers = []
+
+        for entry in context_payload.get("categoryEntries", []):
+            selected_subtypes = entry.get("selectedSubtypes", [])
+            if "1260337139" in selected_subtypes:
+                category_amounts.append(
+                    float(
+                        evaluate_expression(
+                            percentual_category_expression,
+                            entry,
+                            f"{label}:percentual-category",
+                        )
+                    )
+                )
+            if "1260337244" in selected_subtypes:
+                category_amounts.append(
+                    float(
+                        evaluate_expression(
+                            backoffice_amount_expression,
+                            entry,
+                            f"{label}:backoffice-category",
+                        )
+                    )
+                )
+                backoffice_markers.append(
+                    str(
+                        evaluate_expression(
+                            backoffice_marker_expression,
+                            entry,
+                            f"{label}:backoffice-marker",
+                        )
+                    )
+                )
+            if "1260337296" in selected_subtypes:
+                category_amounts.append(
+                    float(
+                        evaluate_expression(
+                            local_tax_expression,
+                            entry,
+                            f"{label}:local-tax-category",
+                        )
+                    )
+                )
+
+        category_discount_total = float(
+            evaluate_expression(
+                category_total_expression,
+                {"categoryDiscountAmount": category_amounts},
+                f"{label}:category-discount-total",
+            )
+        )
+        base_after_categories = float(
+            evaluate_expression(
+                category_base_apply_expression,
+                {
+                    "calcBaseValue": context_payload.get("saasBaseSum", 0),
+                    "categoryDiscountTotal": category_discount_total,
+                },
+                f"{label}:base-after-categories",
+            )
+        )
+        subtotal = float(
+            evaluate_expression(
+                subtotal_expression,
+                {"calcBaseValue": base_after_categories, "calcContext": context_payload},
+                f"{label}:subtotal",
+            )
+        )
+        final_total = float(
+            evaluate_expression(
+                final_init_expression,
+                {"calcSubtotal": subtotal},
+                f"{label}:final-init",
+            )
+        )
+
+        if context_payload.get("hasNominalDiscount") is True:
+            final_total = float(
+                evaluate_expression(
+                    nominal_expression,
+                    {"calcFinalTotal": final_total, "calcContext": context_payload},
+                    f"{label}:nominal",
+                )
+            )
+        if context_payload.get("hasPercentualDiscount") is True:
+            final_total = float(
+                evaluate_expression(
+                    percentual_expression,
+                    {"calcFinalTotal": final_total, "calcContext": context_payload},
+                    f"{label}:percentual",
+                )
+            )
+
+        return {
+            "category_amounts": category_amounts,
+            "category_discount_total": category_discount_total,
+            "base_after_categories": base_after_categories,
+            "subtotal": subtotal,
+            "final_total": final_total,
+            "backoffice_markers": backoffice_markers,
+        }
+
+    two_categories = evaluate_expression(
+        context_expression,
+        build_context_payload(
+            {
+                "Espaços": ["1260337139"],
+                "Outros": ["1260337296"],
+            },
+            category_values={
+                "Espaços": {"base": "100", "discount": "15", "tax": "0"},
+                "Outros": {"base": "50", "discount": "0", "tax": "8"},
+            },
+        ),
+        f"{workflow_name}:Contexto cálculo two-categories payload",
+    )
+    assert_true(
+        two_categories.get("categoryDiscountValidationErrorMessage") == "",
+        f"{workflow_name}:two-categories payload must not set categoryDiscountValidationErrorMessage",
+    )
+    assert_true(
+        two_categories.get("selectedCategories") == ["Espaços", "Outros"],
+        f"{workflow_name}:two-categories payload must preserve both selected categories",
+    )
+    assert_true(
+        len(two_categories.get("categoryEntries") or []) == 2,
+        f"{workflow_name}:two-categories payload must expose 2 category entries",
+    )
+    two_categories_result = simulate_discount_flow(two_categories, f"{workflow_name}:two-categories flow")
+    assert_almost_equal(
+        two_categories_result["category_discount_total"],
+        19,
+        f"{workflow_name}:two-categories payload must sum category discounts across categories",
+    )
+    assert_almost_equal(
+        two_categories_result["base_after_categories"],
+        131,
+        f"{workflow_name}:two-categories payload must subtract the aggregated category discount once from calcBaseValue",
+    )
+    assert_almost_equal(
+        two_categories_result["subtotal"],
+        13.1,
+        f"{workflow_name}:two-categories payload must calculate subtotal after category aggregation",
+    )
+
+    multiple_category_subtypes = evaluate_expression(
+        context_expression,
+        build_context_payload(
+            {"Espaços": ["1260337139", "1260337296"]},
+            category_values={"Espaços": {"base": "100", "discount": "15", "tax": "7"}},
+        ),
+        f"{workflow_name}:Contexto cálculo multiple-category-subtypes payload",
+    )
+    assert_true(
+        multiple_category_subtypes.get("categoryDiscountValidationErrorMessage") == "",
+        f"{workflow_name}:multiple-category-subtypes payload must now be accepted",
+    )
+    assert_true(
+        multiple_category_subtypes.get("selectedCategorySubtypes") == ["1260337139", "1260337296"],
+        f"{workflow_name}:multiple-category-subtypes payload must preserve both selected subtypes",
+    )
+    multiple_category_subtypes_result = simulate_discount_flow(
+        multiple_category_subtypes,
+        f"{workflow_name}:multiple-category-subtypes flow",
+    )
+    assert_almost_equal(
+        multiple_category_subtypes_result["category_discount_total"],
+        22,
+        f"{workflow_name}:multiple-category-subtypes payload must sum both subtype paths for the same category",
+    )
+    assert_true(
+        not multiple_category_subtypes_result["backoffice_markers"],
+        f"{workflow_name}:multiple-category-subtypes payload should not produce backoffice markers without subtype 1260337244",
+    )
+
+    backoffice_placeholder = evaluate_expression(
+        context_expression,
+        build_context_payload(
+            {"Outros": ["1260337244"]},
+            category_values={"Outros": {"base": "50", "discount": "0", "tax": "0"}},
+        ),
+        f"{workflow_name}:Contexto cálculo backoffice placeholder payload",
+    )
+    assert_true(
+        backoffice_placeholder.get("categoryDiscountValidationErrorMessage") == "",
+        f"{workflow_name}:backoffice placeholder payload must not fail validation",
+    )
+    backoffice_placeholder_result = simulate_discount_flow(
+        backoffice_placeholder,
+        f"{workflow_name}:backoffice placeholder flow",
+    )
+    assert_almost_equal(
+        backoffice_placeholder_result["category_discount_total"],
+        0,
+        f"{workflow_name}:backoffice placeholder payload must keep category discount at zero",
+    )
+    assert_true(
+        backoffice_placeholder_result["backoffice_markers"] == ["external_backoffice_pending|Outros|1260337244"],
+        f"{workflow_name}:backoffice placeholder payload must keep the placeholder marker",
+    )
+
+    combined_discounts = evaluate_expression(
+        context_expression,
+        build_context_payload(
+            {"Espaços": ["1260337139", "1260337296"]},
+            discount_types=["Categorias de propostas", "Nominal", "Percentual"],
+            category_values={"Espaços": {"base": "100", "discount": "15", "tax": "5"}},
+            percentual_base="20",
+            nominal_discount="3",
+            percentual_desconto="10",
+        ),
+        f"{workflow_name}:Contexto cálculo combined-discounts payload",
+    )
+    combined_discounts_result = simulate_discount_flow(
+        combined_discounts,
+        f"{workflow_name}:combined-discounts flow",
+    )
+    assert_almost_equal(
+        combined_discounts_result["category_discount_total"],
+        20,
+        f"{workflow_name}:combined-discounts payload must sum all category subtype discounts before subtotal",
+    )
+    assert_almost_equal(
+        combined_discounts_result["subtotal"],
+        16,
+        f"{workflow_name}:combined-discounts payload must calculate subtotal after category aggregation",
+    )
+    assert_almost_equal(
+        combined_discounts_result["final_total"],
+        11.7,
+        f"{workflow_name}:combined-discounts payload must preserve the order categoria -> subtotal -> nominal -> percentual",
+    )
+
+    missing_required_base = evaluate_expression(
+        context_expression,
+        build_context_payload(
+            {"Espaços": ["1260337139"]},
+            category_values={"Espaços": {"base": "", "discount": "15", "tax": "0"}},
+        ),
+        f"{workflow_name}:Contexto cálculo missing-base payload",
+    )
+    assert_contains(
+        str(missing_required_base.get("categoryDiscountValidationErrorMessage") or ""),
+        "Valor base SaaS ausente ou inválido",
+        f"{workflow_name}:missing-base payload must fail when a required numeric category base is missing",
+    )
+
+
+def validate_fin_seed_scenario_coverage() -> None:
+    workflow_name = "Gerar cenarios FIN-01 + FIN-02"
+    workflow = load_workflow(workflow_name)
+    js_code = next(
+        (
+            node.get("parameters", {}).get("jsCode", "")
+            for node in workflow.get("nodes", [])
+            if "FROZEN_MANIFEST" in node.get("parameters", {}).get("jsCode", "")
+        ),
+        "",
+    )
+    assert_true(js_code != "", f"{workflow_name} missing FROZEN_MANIFEST scenario source")
+
+    assert_contains(js_code, '"scenario_id":"S194"', f"{workflow_name} missing scenario S194")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337139"', f"{workflow_name} missing subtype 1260337139 scenario")
+    assert_contains(
+        js_code,
+        '"desconto_no_valor_vari_vel_do_saas_para_espa_os"',
+        f"{workflow_name} missing percentual category field coverage",
+    )
+
+    assert_contains(js_code, '"scenario_id":"S195"', f"{workflow_name} missing scenario S195")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337244"', f"{workflow_name} missing subtype 1260337244 scenario")
+
+    assert_contains(js_code, '"scenario_id":"S196"', f"{workflow_name} missing scenario S196")
+    assert_contains(js_code, '"tipo_de_desconto_espa_os":"1260337296"', f"{workflow_name} missing subtype 1260337296 scenario")
+    assert_contains(
+        js_code,
+        '"valor_do_imposto_a_ser_isento_espa_os"',
+        f"{workflow_name} missing local tax exemption field coverage",
+    )
+
+    assert_contains(js_code, '"scenario_id":"S198"', f"{workflow_name} missing scenario S198")
+    assert_contains(js_code, '"tipo_de_desconto_outros":"1260337244"', f"{workflow_name} missing subtype 1260337244 coverage for Outros")
+
+
 def main() -> None:
     validate_expected_exports()
     for workflow_name in EXPECTED:
@@ -810,6 +1441,8 @@ def main() -> None:
         validate_rule_log_contract(workflow_name, workflow)
         if workflow_name == "[FIN] 1.0 Orquestrar faturamento mensal":
             validate_orchestrator(workflow)
+    validate_fin04_webhook_auxiliary()
+    validate_fin_seed_scenario_coverage()
     print("fin_monthly_workflows_ok")
 
 
