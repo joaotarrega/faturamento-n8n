@@ -110,7 +110,7 @@
                 "conditions": [
                   {
                     "id": "86c4ea64-c07b-4c67-b90b-c3eb8f3f7efb",
-                    "leftValue": "={{ String($json.pipeSuid || '') === '306859915' && String($json.updatedField || '') === 'moeda_da_fatura' ? 'yes' : 'no' }}",
+                    "leftValue": "={{ String($json.updatedField || '') === 'moeda_da_fatura' ? 'yes' : 'no' }}",
                     "operator": {
                       "operation": "equals",
                       "type": "string"
