@@ -126,6 +126,44 @@ def compile_expression(expression: str, label: str) -> None:
         fail(f"expression syntax invalid for {label}: {proc.stderr.strip()}")
 
 
+def evaluate_expression(expression: str, payload: dict, label: str):
+    wrapped = (
+        "const $json = "
+        + json.dumps(payload, ensure_ascii=False)
+        + ";\nconst result = ("
+        + expression
+        + ");\nprocess.stdout.write(JSON.stringify(result));\n"
+    )
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tmp:
+        tmp.write(wrapped)
+        tmp_path = pathlib.Path(tmp.name)
+    try:
+        proc = subprocess.run(["node", str(tmp_path)], capture_output=True, text=True)
+    finally:
+        tmp_path.unlink(missing_ok=True)
+    if proc.returncode != 0:
+        fail(f"expression execution failed for {label}: {proc.stderr.strip()}")
+    try:
+        return json.loads(proc.stdout or "null")
+    except json.JSONDecodeError as exc:
+        fail(f"expression execution returned invalid JSON for {label}: {exc}")
+
+
+def get_assignment_expression(workflow: dict, node_name: str, assignment_name: str) -> str:
+    node = get_node(workflow, node_name)
+    assignments = node.get("parameters", {}).get("assignments", {}).get("assignments", [])
+    for assignment in assignments:
+        if assignment.get("name") != assignment_name:
+            continue
+        value = assignment.get("value")
+        assert_true(
+            isinstance(value, str) and value.startswith("={{") and value.endswith("}}"),
+            f"{workflow['name']}:{node_name}:{assignment_name} must remain an expression assignment",
+        )
+        return value[3:-2]
+    fail(f"{workflow['name']}:{node_name} missing assignment {assignment_name}")
+
+
 def iter_expressions(value, path: str = ""):
     if isinstance(value, dict):
         for key, nested in value.items():
@@ -803,6 +841,18 @@ def validate_fin04_webhook_auxiliary() -> None:
 
     context_text = json.dumps(get_node(workflow, "Contexto cálculo"), ensure_ascii=False)
     assert_contains(context_text, "1260337244", f"{workflow_name}:Contexto cálculo must accept subtype 1260337244")
+    assert_contains(context_text, "selectedCategories", f"{workflow_name}:Contexto cálculo must expose selectedCategories")
+    assert_contains(context_text, "selectedCategorySubtypes", f"{workflow_name}:Contexto cálculo must expose selectedCategorySubtypes")
+    assert_contains(
+        context_text,
+        "Seleção múltipla de categorias SaaS não é suportada",
+        f"{workflow_name}:Contexto cálculo must fail closed for multiple selected categories",
+    )
+    assert_contains(
+        context_text,
+        "Seleção múltipla de subtipos de desconto por categoria não é suportada",
+        f"{workflow_name}:Contexto cálculo must fail closed for multiple selected category subtypes",
+    )
     assert_contains(
         context_text,
         "Esperado: 1260337139, 1260337244 ou 1260337296.",
@@ -865,6 +915,116 @@ def validate_fin04_webhook_auxiliary() -> None:
             branch_targets(node_name) == ["Calcular subtotal percentual SaaS"],
             f"{workflow_name}:{node_name} must flow into Calcular subtotal percentual SaaS",
         )
+
+    context_expression = get_assignment_expression(workflow, "Contexto cálculo", "calcContext")
+
+    def field(field_id: str, *, report_value=None, value=None, native_value=None, array_value=None, connected_repo_items=None) -> dict:
+        return {
+            "field": {"id": field_id},
+            "report_value": report_value,
+            "value": value,
+            "native_value": native_value,
+            "array_value": array_value if array_value is not None else [],
+            "connectedRepoItems": connected_repo_items if connected_repo_items is not None else [],
+        }
+
+    def build_context_payload(categories: list[str], category_subtypes: list[str]) -> dict:
+        return {
+            "data": {
+                "card": {
+                    "id": "123456",
+                    "pipe": {"id": "306859915"},
+                    "fields": [
+                        field("tipo_de_item", report_value="Produto"),
+                        field("moeda_da_fatura", report_value="BRL - R$"),
+                        field("modelo_de_cobran_a", report_value="Percentual sobre base"),
+                        field("base_do_c_lculo_percentual", array_value=["1268890278"]),
+                        field("percentual_a_ser_aplicado_na_base", report_value="10"),
+                        field("percentual_de_desconto_a_ser_aplicado", report_value="0"),
+                        field("h_algum_desconto_nesse_item", report_value="Sim"),
+                        field("tipo_de_desconto_no_item", array_value=["Categorias de propostas"]),
+                        field("categorias_do_saas_isentas_ou_com_desconto", array_value=categories),
+                        field("tipo_de_desconto_espa_os", array_value=category_subtypes),
+                        field("valor_de_base_brl", report_value="0"),
+                        field("valor_total_do_item_brl", report_value="0"),
+                        field("valor_total_do_item_com_descontos_brl", report_value="0"),
+                        field("valor_unit_rio_brl", report_value="0"),
+                        field("valor_nominal_a_ser_descontado_brl", report_value="0"),
+                        field("valor_base_saas_categoria_a_b_brl", report_value="0"),
+                        field("valor_base_saas_categoria_e_s_brl", report_value="0"),
+                        field("valor_base_saas_categoria_espa_os_brl", report_value="100"),
+                        field("valor_base_saas_categoria_hospedagem_brl", report_value="0"),
+                        field("valor_base_saas_categoria_outros_brl", report_value="0"),
+                        field("desconto_no_valor_vari_vel_do_saas_para_espa_os", report_value="15"),
+                        field("valor_do_imposto_a_ser_isento_espa_os", report_value="7"),
+                    ],
+                }
+            }
+        }
+
+    single_category = evaluate_expression(
+        context_expression,
+        build_context_payload(["Espaços"], ["1260337139"]),
+        f"{workflow_name}:Contexto cálculo single-category payload",
+    )
+    assert_true(
+        single_category.get("categoryDiscountValidationErrorMessage") == "",
+        f"{workflow_name}:single-category payload must not set categoryDiscountValidationErrorMessage",
+    )
+    assert_true(
+        single_category.get("selectedCategories") == ["Espaços"],
+        f"{workflow_name}:single-category payload must preserve selectedCategories but found {single_category.get('selectedCategories')}",
+    )
+    assert_true(
+        single_category.get("selectedCategorySubtypes") == ["1260337139"],
+        f"{workflow_name}:single-category payload must preserve selectedCategorySubtypes but found {single_category.get('selectedCategorySubtypes')}",
+    )
+    assert_true(
+        single_category.get("selectedCategory") == "Espaços",
+        f"{workflow_name}:single-category payload must resolve selectedCategory but found {single_category.get('selectedCategory')}",
+    )
+    assert_true(
+        single_category.get("selectedCategorySubtype") == "1260337139",
+        f"{workflow_name}:single-category payload must resolve selectedCategorySubtype but found {single_category.get('selectedCategorySubtype')}",
+    )
+
+    multiple_categories = evaluate_expression(
+        context_expression,
+        build_context_payload(["Espaços", "Outros"], []),
+        f"{workflow_name}:Contexto cálculo multiple-categories payload",
+    )
+    assert_contains(
+        str(multiple_categories.get("categoryDiscountValidationErrorMessage") or ""),
+        "Seleção múltipla de categorias SaaS não é suportada",
+        f"{workflow_name}:multiple-categories payload must fail closed with explicit message",
+    )
+    assert_true(
+        multiple_categories.get("selectedCategory") == "",
+        f"{workflow_name}:multiple-categories payload must not resolve selectedCategory",
+    )
+    assert_true(
+        multiple_categories.get("selectedCategorySubtype") == "",
+        f"{workflow_name}:multiple-categories payload must not resolve selectedCategorySubtype",
+    )
+
+    multiple_category_subtypes = evaluate_expression(
+        context_expression,
+        build_context_payload(["Espaços"], ["1260337139", "1260337244"]),
+        f"{workflow_name}:Contexto cálculo multiple-category-subtypes payload",
+    )
+    assert_contains(
+        str(multiple_category_subtypes.get("categoryDiscountValidationErrorMessage") or ""),
+        "Seleção múltipla de subtipos de desconto por categoria não é suportada",
+        f"{workflow_name}:multiple-category-subtypes payload must fail closed with explicit message",
+    )
+    assert_true(
+        multiple_category_subtypes.get("selectedCategory") == "",
+        f"{workflow_name}:multiple-category-subtypes payload must not resolve selectedCategory",
+    )
+    assert_true(
+        multiple_category_subtypes.get("selectedCategorySubtype") == "",
+        f"{workflow_name}:multiple-category-subtypes payload must not resolve selectedCategorySubtype",
+    )
 
 
 def validate_fin_seed_scenario_coverage() -> None:
